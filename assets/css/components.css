@@ -112,113 +112,180 @@
 }
 
 /* --------------------------------------------------------------------------
-   2. كارت الهيرو (Hero Card) - اللوجو على الشمال كصورة بروفايل والترحيب على اليمين
+/* --------------------------------------------------------------------------
+   2. كارت الهيرو (Hero Card) - الشعار والاسم باليمين والأزرار باليسار (RTL متناسق)
    -------------------------------------------------------------------------- */
 .hero-card {
   position: relative;
   background: var(--gradient-hero);
-  border-radius: var(--radius-sheet);
-  padding: 22px 24px;
+  border-radius: 26px;
+  padding: 20px 22px;
   color: #FFFFFF;
-  min-height: 200px;
+  min-height: 165px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  box-shadow: 0 16px 36px rgba(10, 108, 255, 0.25);
+  box-shadow: 0 14px 34px rgba(10, 108, 255, 0.28);
   margin-bottom: var(--gap);
 }
 
 .hero-watermark {
   position: absolute;
-  right: 15%;
+  left: -25px;
   bottom: -35px;
-  width: 230px;
-  height: 230px;
-  opacity: 0.12;
+  width: 175px;
+  height: 175px;
+  opacity: 0.08;
   pointer-events: none;
-  transform: rotate(-10deg);
 }
 
-/* السطر العلوي للهيرو: الأزرار على اليمين وصورة البروفايل/اللوجو على الشمال */
+/* السطر العلوي للهيرو: الشعار والاسم على اليمين وأزرار الإجراءات على اليسار */
 .hero-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
   z-index: 2;
+  width: 100%;
 }
 
-/* كارت/صورة اللوجو على الشمال مثل صورة الملف الشخصي */
-.hero-profile-avatar-wrap {
-  position: relative;
+/* الشعار والاسم الموحد على اليمين */
+.hero-brand-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-decoration: none;
-  color: inherit;
-  transition: transform var(--transition-fast);
+  color: #FFFFFF;
 }
 
-.hero-profile-avatar-wrap:active {
-  transform: scale(0.94);
-}
-
-.hero-profile-box {
-  width: 52px;
-  height: 52px;
+.hero-brand-logo {
+  width: 44px;
+  height: 44px;
   background: #FFFFFF;
-  border-radius: 18px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0B4FA8;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-  border: none;
-  position: relative;
+  color: var(--primary);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
 }
 
+.hero-brand-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.hero-brand-name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.hero-brand-tagline {
+  font-size: 0.72rem;
+  opacity: 0.88;
+  font-weight: 500;
+}
+
+/* التوافق مع الكلاسات السابقة */
+.hero-profile-avatar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #FFFFFF;
+}
+.hero-profile-box {
+  width: 44px;
+  height: 44px;
+  background: #FFFFFF;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
 .hero-avatar-badge {
-  position: absolute;
-  bottom: -3px;
-  right: -3px;
-  width: 18px;
-  height: 18px;
-  background: #22C55E;
-  border-radius: 50%;
-  border: 2px solid #FFFFFF;
+  display: none;
 }
-
 .hero-brand-title {
-  font-size: 1.45rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #FFFFFF;
 }
 
 .hero-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
-/* الترحيب والسيارة على اليمين */
+.btn-icon-glass {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-icon-glass:active {
+  transform: scale(0.92);
+}
+
+@media (hover: hover) {
+  .btn-icon-glass:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+}
+
+/* الترحيب واسم السيارة على اليمين */
 .hero-content {
-  margin-top: 24px;
+  margin-top: 16px;
   text-align: right;
   position: relative;
   z-index: 2;
 }
 
 .hero-title {
-  font-size: 1.9rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  line-height: 1.25;
-  margin-bottom: 4px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.hero-vehicle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .hero-subtitle {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
 }
 
@@ -233,36 +300,38 @@
 .search-bar-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .search-pill {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 12px;
-  height: 54px;
-  padding: 0 18px;
+  gap: 10px;
+  height: 52px;
+  padding: 0 14px;
   border-radius: var(--radius-pill);
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
   transition: all var(--transition-fast);
 }
 
 .search-pill:focus-within {
   border-color: var(--primary);
   box-shadow: 0 6px 20px rgba(10, 108, 255, 0.14);
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.96);
 }
 
 .search-icon-right {
-  color: var(--text-muted);
+  color: var(--primary);
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  cursor: pointer;
+  padding: 2px;
 }
 
 .search-input {
@@ -272,17 +341,38 @@
   background: transparent;
   border: none;
   outline: none;
+  direction: rtl;
+  text-align: right;
+  font-family: inherit;
 }
 
 .search-input::placeholder {
   color: var(--text-muted);
 }
 
+.search-scan-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.search-scan-btn:active {
+  transform: scale(0.92);
+}
+
 .btn-scan-box {
-  width: 54px;
-  height: 54px;
-  min-width: 54px;
-  border-radius: 18px;
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -290,7 +380,7 @@
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
   color: var(--primary);
   text-decoration: none;
   cursor: pointer;
@@ -304,8 +394,7 @@
 @media (hover: hover) {
   .btn-scan-box:hover {
     background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(255, 255, 255, 0.95);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow);
   }
 }
 
@@ -436,8 +525,8 @@
 .categories-grid-two-rows {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px 14px;
-  margin-bottom: 28px;
+  gap: 16px 12px;
+  margin-bottom: 24px;
   width: 100%;
 }
 
@@ -445,7 +534,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
   text-decoration: none;
   transition: transform var(--transition-fast);
@@ -455,11 +544,11 @@
   transform: scale(0.92);
 }
 
-/* تكبير كروت الأيقونات لتكون واضحة وجذابة جداً */
+/* مقاس منسق لكروت الأيقونات لتظهر كاملة على الهاتف دون قطع */
 .category-tile-box-lg {
-  width: 82px;
-  height: 82px;
-  border-radius: var(--radius-tile);
+  width: 74px;
+  height: 74px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -469,9 +558,16 @@
 }
 
 .category-tile-box-lg svg {
-  width: 40px;
-  height: 40px;
-  stroke-width: 2.2;
+  width: 36px;
+  height: 36px;
+  stroke-width: 2.1;
+}
+
+.category-name-lg {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
 }
 
 @media (hover: hover) {
@@ -642,11 +738,11 @@
 }
 
 /* --------------------------------------------------------------------------
-   7. شريط التنقل السفلي - يظهر بالأسفل مع خيار "المكتبة" بدل الملف الشخصي
+   7. شريط التنقل السفلي - مظهر كبسولي عائم فائق النقاء والانسيابية
    -------------------------------------------------------------------------- */
 .bottom-nav-wrap {
   position: fixed;
-  bottom: 14px;
+  bottom: 12px;
   left: 0;
   right: 0;
   z-index: 100;
@@ -660,17 +756,17 @@
   pointer-events: auto;
   width: 100%;
   max-width: 440px;
-  height: 68px;
+  height: 62px;
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 12px 36px rgba(45, 52, 95, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 6px 10px;
+  justify-content: space-between;
+  padding: 0 14px;
 }
 
 .nav-tab {
@@ -679,17 +775,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
-  color: var(--text-muted);
-  border-radius: var(--radius-pill);
+  width: 44px;
+  height: 44px;
+  color: #8A8D99;
+  border-radius: 50%;
   transition: all var(--transition-fast);
   text-decoration: none;
 }
 
 .nav-tab svg {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   stroke-width: 2;
   transition: transform var(--transition-fast), color var(--transition-fast);
 }
@@ -699,20 +795,21 @@
 }
 
 .nav-tab.active {
-  color: #111418;
+  color: var(--primary);
   background: #FFFFFF;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 14px rgba(10, 108, 255, 0.18), 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .nav-tab.active svg {
-  stroke-width: 2.2;
+  stroke: var(--primary);
+  stroke-width: 2.3;
 }
 
 /* شارة عدد السلة */
 .badge-count {
   position: absolute;
-  top: 6px;
-  left: 8px; /* في RTL تكون باليسار */
+  top: 4px;
+  left: 4px; /* في RTL تكون باليسار */
   background: var(--danger);
   color: #FFFFFF;
   font-size: 0.68rem;
@@ -1061,25 +1158,26 @@
    9. شاشة الحساب والعناوين والمدخلات (Account & Form Controls)
    -------------------------------------------------------------------------- */
 .profile-card {
-  padding: 20px 22px;
-  border-radius: 28px;
+  padding: 18px 20px;
+  border-radius: 24px;
   background: #FFFFFF !important;
   border: 1.5px solid #E2E8F0 !important;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
+  gap: 16px;
+  margin-bottom: 22px;
 }
 
 .profile-avatar-wrap {
   position: relative;
   display: inline-block;
+  flex-shrink: 0;
 }
 
 .profile-avatar {
-  width: 68px;
-  height: 68px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background: #DCEAFE;
   color: var(--primary);
@@ -1093,8 +1191,8 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--primary);
   color: #FFFFFF;
@@ -1108,28 +1206,33 @@
 .profile-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: flex-start;
+  text-align: right;
+  gap: 3px;
   flex: 1;
-  margin-right: 16px;
+  margin-right: 0;
 }
 
 .profile-name {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--text);
+  line-height: 1.3;
 }
 
 .profile-email {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
+  direction: ltr;
+  text-align: right;
 }
 
 .profile-device-tag {
-  font-size: 0.75rem;
+  font-size: 0.74rem;
   color: #15803D;
   background: #DCFCE7;
-  padding: 2px 8px;
-  border-radius: 6px;
+  padding: 3px 10px;
+  border-radius: 8px;
   font-weight: 700;
   margin-top: 4px;
   display: inline-flex;
@@ -1140,13 +1243,13 @@
 .account-menu-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 24px;
 }
 
 .account-menu-row {
-  height: 66px;
-  border-radius: 20px;
+  height: 64px;
+  border-radius: 18px;
   border: 1.5px solid #E2E8F0 !important;
   background: #FFFFFF !important;
   padding: 0 16px;

@@ -21,7 +21,7 @@ const KafuApp = {
     check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
   },
 
-  // بناء شريط التنقل السفلي - تبويب "الملف الشخصي" في أقصى اليسار تماماً كاللقطة
+  // بناء شريط التنقل السفلي - الترتيب من اليمين لليسار: الرئيسية، البحث، المفضلة، السلة، الملف الشخصي
   renderBottomNav(activeTab = 'home') {
     const cartCount = KafuStore.getCartCount();
     const badgeHtml = cartCount > 0 ? `<span class="badge-count" id="cartBadgeCount">${cartCount}</span>` : `<span class="badge-count" id="cartBadgeCount" style="display:none">0</span>`;
@@ -29,26 +29,26 @@ const KafuApp = {
     const navHtml = `
       <div class="bottom-nav-wrap">
         <nav class="bottom-nav" aria-label="التنقل الرئيسي">
-          <!-- 5. الملف الشخصي (حسابي) -->
-          <a href="account.html" class="nav-tab ${activeTab === 'account' || activeTab === 'profile' ? 'active' : ''}" title="الملف الشخصي">
-            ${this.ICONS.user}
+          <!-- 1. الرئيسية (أقصى اليمين في RTL) -->
+          <a href="index.html" class="nav-tab ${activeTab === 'home' ? 'active' : ''}" title="الرئيسية">
+            ${this.ICONS.home}
+          </a>
+          <!-- 2. البحث -->
+          <a href="search.html" class="nav-tab ${activeTab === 'search' ? 'active' : ''}" title="البحث">
+            ${this.ICONS.search}
+          </a>
+          <!-- 3. المفضلة -->
+          <a href="account.html?modal=favorites" class="nav-tab ${activeTab === 'favorites' || activeTab === 'star' ? 'active' : ''}" title="المفضلة">
+            ${this.ICONS.star}
           </a>
           <!-- 4. السلة -->
           <a href="cart.html" class="nav-tab ${activeTab === 'cart' ? 'active' : ''}" title="السلة" style="position: relative;">
             ${badgeHtml}
             ${this.ICONS.cart}
           </a>
-          <!-- 3. المفضلة -->
-          <a href="account.html?modal=favorites" class="nav-tab ${activeTab === 'favorites' || activeTab === 'star' ? 'active' : ''}" title="المفضلة">
-            ${this.ICONS.star}
-          </a>
-          <!-- 2. البحث -->
-          <a href="search.html" class="nav-tab ${activeTab === 'search' ? 'active' : ''}" title="البحث">
-            ${this.ICONS.search}
-          </a>
-          <!-- 1. الرئيسية -->
-          <a href="index.html" class="nav-tab ${activeTab === 'home' ? 'active' : ''}" title="الرئيسية">
-            ${this.ICONS.home}
+          <!-- 5. الملف الشخصي (أقصى اليسار في RTL) -->
+          <a href="account.html" class="nav-tab ${activeTab === 'account' || activeTab === 'profile' ? 'active' : ''}" title="الملف الشخصي">
+            ${this.ICONS.user}
           </a>
         </nav>
       </div>

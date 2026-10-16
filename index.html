@@ -19,7 +19,7 @@
 
   <div class="app-container">
 
-    <!-- 1. Hero Card: اللوجو على الشمال كصورة بروفايل والترحيب والسيارة على اليمين -->
+    <!-- 1. Hero Card: الشعار والاسم على اليمين وأزرار الإجراءات على اليسار (RTL متناسق) -->
     <header class="hero-card">
       <svg class="hero-watermark" viewBox="0 0 100 100" fill="currentColor">
         <path d="M50 35a15 15 0 1 0 0 30 15 15 0 0 0 0-30zm0 10a5 5 0 1 1 0 10 5 5 0 0 1 0-10z"/>
@@ -28,68 +28,75 @@
 
       <!-- الشريط العلوي داخل الهيرو -->
       <div class="hero-top-bar">
-        <!-- أزرار الإشعارات واللغة على اليمين -->
+        <!-- الشعار والاسم على اليمين في RTL -->
+        <a href="index.html" class="hero-brand-group" title="كفو - قطع غيار السيارات">
+          <div class="hero-brand-logo">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </div>
+          <div class="hero-brand-info">
+            <span class="hero-brand-name">كـفـو</span>
+            <span class="hero-brand-tagline">قطع غيار أصلية</span>
+          </div>
+        </a>
+
+        <!-- أزرار الإشعارات واللغة والبروفايل على اليسار -->
         <div class="hero-actions">
           <button class="btn-icon-glass" id="btnNotifications" title="الإشعارات" aria-label="الإشعارات">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
               <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
             </svg>
           </button>
+          <a href="account.html" class="btn-icon-glass" title="الملف الشخصي" aria-label="الملف الشخصي">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
           <button class="btn-icon-glass" id="btnLanguage" title="تغيير اللغة" aria-label="تغيير اللغة">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"/>
               <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
               <path d="M2 12h20"/>
             </svg>
           </button>
         </div>
-
-        <!-- اللوجو على الشمال: كفو على أقصى اليسار وبجانبها أيقونة كفو البيضاء تماماً كاللقطة -->
-        <a href="account.html" class="hero-profile-avatar-wrap" title="الملف الشخصي والحساب">
-          <div class="hero-profile-box">
-            <!-- ترس ومفك كفو -->
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B4FA8" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-            </svg>
-            <span class="hero-avatar-badge" title="متصل"></span>
-          </div>
-          <span class="hero-brand-title">كفو</span>
-        </a>
       </div>
 
-      <!-- الترحيب واسم السيارة على اليمين كما بالصورة تماماً -->
+      <!-- الترحيب والسيارة -->
       <div class="hero-content">
         <h1 class="hero-title">أهلاً بك</h1>
-        <p class="hero-subtitle" id="heroSubtitle">Toyota Camry 2025</p>
+        <div class="hero-vehicle-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/>
+          </svg>
+          <span id="heroSubtitle">Toyota Camry 2025</span>
+        </div>
       </div>
     </header>
 
-    <!-- 2. شريط البحث: "ابحث باسم القطعة أو رقم الهيكل" مع زر الفحص المستقل -->
+    <!-- 2. شريط البحث الموحد: "ابحث باسم القطعة أو رقم الهيكل" مع زر الفحص بالصورة -->
     <div class="search-bar-wrap">
-      <div class="search-bar-row">
-        <div class="search-pill glass">
-          <button id="btnHomeSearch" class="search-icon-right" style="cursor: pointer; padding: 4px; display: flex; align-items: center; color: var(--primary);" title="بحث">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="m21 21-4.3-4.3"/>
-            </svg>
-          </button>
-          <input 
-            type="text" 
-            id="mainSearchInput" 
-            class="search-input" 
-            placeholder="ابحث باسم القطعة أو رقم الهيكل" 
-            autocomplete="off"
-          >
-        </div>
-        <a href="image-search.html" class="btn-scan-box glass" title="البحث بالصورة" aria-label="البحث بالصورة">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
-            <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
-            <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
-            <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+      <div class="search-pill glass">
+        <button id="btnHomeSearch" class="search-icon-right" title="بحث" aria-label="بحث">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
+          </svg>
+        </button>
+        <input 
+          type="text" 
+          id="mainSearchInput" 
+          class="search-input" 
+          placeholder="ابحث باسم القطعة أو رقم الهيكل" 
+          autocomplete="off"
+        >
+        <a href="image-search.html" class="search-scan-btn" title="البحث بالصورة" aria-label="البحث بالصورة">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
           </svg>
         </a>
       </div>
