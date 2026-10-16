@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>كفو | سلتك</title>
+  <meta name="description" content="عربة التسوق في كفو - راجع قطع الغيار وتابع إلى الشحن وتأكيد الطلب.">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+  <!-- الدوائر الملونة الناعمة في الخلفية -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- رأس الصفحة -->
+    <header class="page-header">
+      <h1 class="page-title">سلتك</h1>
+      <button id="btnClearAllCart" style="font-size: 0.85rem; color: var(--danger); font-weight: 600; display: none;">
+        تفريغ السلة
+      </button>
+    </header>
+
+    <!-- قائمة عناصر السلة -->
+    <div id="cartItemsContainer">
+      <!-- يتم توليد العناصر ديناميكياً لتطابق لقطة الشاشة 2 -->
+    </div>
+
+    <!-- كارت ملخص الطلب -->
+    <div class="summary-card glass" id="orderSummaryCard">
+      <div class="summary-row">
+        <span>إجمالي القطع</span>
+        <span id="summarySubtotal">١٬٤٤٠ ر.س</span>
+      </div>
+      <div class="summary-row">
+        <span>ضريبة القيمة المضافة</span>
+        <span id="summaryVat">٢١٦ ر.س</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-total-row">
+        <span>الإجمالي</span>
+        <span id="summaryTotal" style="color: var(--text);">١٬٦٥٦ ر.س</span>
+      </div>
+    </div>
+
+    <!-- زر متابعة إلى الشحن -->
+    <div id="checkoutBtnWrapper" style="margin-top: 6px;">
+      <button class="btn-primary" id="btnProceedToCheckout">
+        <span>متابعة إلى الشحن</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Empty State إذا كانت السلة فارغة -->
+    <div id="emptyCartView" class="glass" style="display: none; padding: 40px 20px; text-align: center; border-radius: var(--radius-sheet); margin-top: 20px;">
+      <div style="width: 72px; height: 72px; border-radius: 50%; background: #DCEAFE; color: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
+      </div>
+      <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 6px;">سلتك فارغة</h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">تصفح القطع المتوافقة مع سيارتك وأضفها إلى السلة بسهولة.</p>
+      <a href="index.html" class="btn-primary" style="display: inline-flex; width: auto; padding: 0 32px;">
+        تصفح القطع
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Bottom Sheet الشحن المطابق للقطة الشاشة 4 -->
+  <div class="sheet-backdrop" id="checkoutSheet">
+    <div class="bottom-sheet">
+      <div class="sheet-header">
+        <div class="sheet-title-col">
+          <h2 class="sheet-title">بيانات الشحن</h2>
+          <p class="sheet-subtitle">اختر عنوان التوصيل وطريقة الدفع لإتمام طلبك.</p>
+        </div>
+        <button class="btn-close-sheet" id="btnCloseCheckout" aria-label="إغلاق">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- قسم عنوان الشحن -->
+      <div class="sheet-section">
+        <h3 class="sheet-section-title">عنوان الشحن</h3>
+        <div id="addressDisplayBox">
+          <button class="address-select-btn" id="btnAddNewAddressSheet">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>إضافة عنوان جديد</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- قسم طريقة الدفع -->
+      <div class="sheet-section">
+        <h3 class="sheet-section-title">طريقة الدفع</h3>
+        <div class="payment-options-grid">
+          <div class="payment-card-option active" id="payOptionCod" onclick="selectPayment('cod')">
+            <span class="option-icon" style="color: #059669; font-weight: 700; font-size: 1.4rem;">$</span>
+            <span class="option-name">الدفع عند الاستلام</span>
+          </div>
+
+          <div class="payment-card-option" id="payOptionWallet" onclick="selectPayment('wallet')">
+            <span class="option-icon" style="color: #0A6CFF; display: flex; align-items: center; justify-content: center;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+              </svg>
+            </span>
+            <span class="option-name">الدفع من المحفظة</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sheet-total-bar">
+        <span>الإجمالي</span>
+        <span id="sheetTotalAmount">١٬٦٥٦ ر.س</span>
+      </div>
+
+      <button class="btn-primary" id="btnConfirmOrder">
+        تأكيد الطلب
+      </button>
+    </div>
+  </div>
+
+  <!-- نافذة نجاح الطلب -->
+  <div class="sheet-backdrop" id="orderSuccessModal">
+    <div class="bottom-sheet" style="text-align: center; padding: 36px 24px;">
+      <div style="width: 76px; height: 76px; border-radius: 50%; background: #DDF5E4; color: #16A34A; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px;">
+        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h2 style="font-size: 1.45rem; font-weight: 700; margin-bottom: 8px;">تم تأكيد طلبك بنجاح!</h2>
+      <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 20px;" id="orderSuccessDetails">
+        رقم الطلب: KAFU-849201<br>
+        سيتم تجهيز القطع وشحنها إلى عنوانك فوراً مع فحص التوافق.
+      </p>
+      <button class="btn-primary" onclick="window.location.href='index.html'">
+        العودة للرئيسية
+      </button>
+    </div>
+  </div>
+
+  <!-- سكربتات التطبيق -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    let selectedPaymentMethod = 'cod';
+
+    function selectPayment(method) {
+      selectedPaymentMethod = method;
+      document.getElementById('payOptionCod').classList.toggle('active', method === 'cod');
+      document.getElementById('payOptionWallet').classList.toggle('active', method === 'wallet');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // شريط التنقل السفلي مع تفعيل تبويب 'cart'
+      KafuApp.renderBottomNav('cart');
+
+      const itemsContainer = document.getElementById('cartItemsContainer');
+      const summaryCard = document.getElementById('orderSummaryCard');
+      const checkoutWrapper = document.getElementById('checkoutBtnWrapper');
+      const emptyView = document.getElementById('emptyCartView');
+      const clearBtn = document.getElementById('btnClearAllCart');
+
+      const checkoutSheet = document.getElementById('checkoutSheet');
+      const btnOpenCheckout = document.getElementById('btnProceedToCheckout');
+      const btnCloseCheckout = document.getElementById('btnCloseCheckout');
+      const btnConfirmOrder = document.getElementById('btnConfirmOrder');
+
+      function renderCart() {
+        const cart = KafuStore.getCart();
+        const totals = KafuStore.getCartTotals();
+
+        if (cart.length === 0) {
+          itemsContainer.innerHTML = '';
+          summaryCard.style.display = 'none';
+          checkoutWrapper.style.display = 'none';
+          clearBtn.style.display = 'none';
+          emptyView.style.display = 'block';
+          return;
+        }
+
+        emptyView.style.display = 'none';
+        summaryCard.style.display = 'flex';
+        checkoutWrapper.style.display = 'block';
+        clearBtn.style.display = 'block';
+
+        itemsContainer.innerHTML = cart.map(item => `
+          <div class="cart-item-card glass">
+            <div class="cart-img-box">
+              <img src="${item.image}" alt="${item.name}" style="max-width: 80%; max-height: 80%; object-fit: contain;">
+            </div>
+            <div class="cart-item-details">
+              <h3 class="cart-item-title">${item.name}</h3>
+              <span class="cart-item-seller">${item.seller || 'متجر كفو للقطع'}</span>
+              <span class="cart-item-price">${KafuStore.formatPrice(item.price)}</span>
+            </div>
+            <div class="stepper-vertical">
+              <button class="stepper-btn" onclick="KafuStore.updateQuantity('${item.id}', 1)" title="زيادة الكمية">
+                +
+              </button>
+              <span class="stepper-val">${KafuStore.formatNumber(item.quantity)}</span>
+              <button class="stepper-btn" onclick="KafuStore.updateQuantity('${item.id}', -1)" title="إنقاص الكمية">
+                −
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+        document.getElementById('summarySubtotal').textContent = KafuStore.formatPrice(totals.subtotal);
+        document.getElementById('summaryVat').textContent = KafuStore.formatPrice(totals.vat);
+        document.getElementById('summaryTotal').textContent = KafuStore.formatPrice(totals.total);
+        document.getElementById('sheetTotalAmount').textContent = KafuStore.formatPrice(totals.total);
+      }
+
+      function renderShippingAddressInSheet() {
+        const addresses = KafuStore.getAddresses();
+        const addressBox = document.getElementById('addressDisplayBox');
+        if (addresses.length > 0) {
+          const def = addresses.find(a => a.isDefault) || addresses[0];
+          addressBox.innerHTML = `
+            <div style="background: rgba(10, 108, 255, 0.08); border: 1.5px solid var(--primary); border-radius: var(--radius-md); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <div style="font-weight: 700; color: var(--text); font-size: 0.95rem;">${def.tag} - ${def.fullName}</div>
+                <div style="font-size: 0.82rem; color: var(--text-muted);">${def.city}، ${def.district}، ${def.street}</div>
+              </div>
+              <a href="addresses.html" style="font-size: 0.82rem; font-weight: 700; color: var(--primary);">تغيير</a>
+            </div>
+          `;
+        } else {
+          addressBox.innerHTML = `
+            <a href="addresses.html" class="address-select-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>إضافة عنوان جديد</span>
+            </a>
+          `;
+        }
+      }
+
+      renderCart();
+
+      window.addEventListener('kafu_store_update', (e) => {
+        if (e.detail.key === 'cart') renderCart();
+      });
+
+      clearBtn.addEventListener('click', () => {
+        if (confirm('هل أنت متأكد من رغبتك في تفريغ السلة؟')) {
+          KafuStore.clearCart();
+          KafuApp.showToast('تم تفريغ السلة');
+        }
+      });
+
+      btnOpenCheckout.addEventListener('click', () => {
+        renderShippingAddressInSheet();
+        checkoutSheet.classList.add('active');
+      });
+
+      btnCloseCheckout.addEventListener('click', () => {
+        checkoutSheet.classList.remove('active');
+      });
+
+      checkoutSheet.addEventListener('click', (e) => {
+        if (e.target === checkoutSheet) checkoutSheet.classList.remove('active');
+      });
+
+      btnConfirmOrder.addEventListener('click', () => {
+        const addresses = KafuStore.getAddresses();
+        const address = addresses.length > 0 ? (addresses.find(a => a.isDefault) || addresses[0]) : { tag: 'الافتراضي', city: 'الرياض' };
+
+        const order = KafuStore.createOrder({
+          shippingAddress: address,
+          paymentMethod: selectedPaymentMethod === 'cod' ? 'الدفع عند الاستلام' : 'المحفظة'
+        });
+
+        checkoutSheet.classList.remove('active');
+
+        const successModal = document.getElementById('orderSuccessModal');
+        document.getElementById('orderSuccessDetails').innerHTML = `
+          رقم الطلب: <strong>${order.id}</strong><br>
+          طريقة الدفع: ${order.paymentMethod}<br>
+          التوصيل إلى: ${address.city || 'الرياض'} (${address.district || ''})
+        `;
+        successModal.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

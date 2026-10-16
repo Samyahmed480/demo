@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>كفو | عنوان التاجر وموقع المتجر</title>
+  <meta name="description" content="إدارة وتحديث عنوان متجر ومستودع التاجر في كفو لشحن وتسليم قطع الغيار.">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+  <!-- الدوائر الملونة الناعمة في الخلفية -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app-container" style="padding-bottom: 90px;">
+
+    <!-- Header بسيط مع سهم الرجوع لليمين (RTL) -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-top: 6px;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <a href="account.html" class="btn-icon-glass" style="background: #FFFFFF; color: var(--text); border: 1.5px solid #E2E8F0;" title="رجوع" aria-label="رجوع">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <h1 class="page-title" style="font-size: 1.3rem; margin: 0;">عنوان التاجر وموقع المتجر</h1>
+      </div>
+    </div>
+
+    <!-- كارت عنوان المتجر الرئيسي المعتمد (أبيض صلب غير شفاف) -->
+    <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 24px; padding: 22px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05); margin-bottom: 20px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1.5px solid #F1F5F9;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 42px; height: 42px; border-radius: 12px; background: #DCEAFE; color: var(--primary); display: flex; align-items: center; justify-content: center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <h2 id="viewStoreName" style="font-size: 1.05rem; font-weight: 700; color: var(--text);">متجر كفو للقطع · الرياض</h2>
+            <span style="font-size: 0.74rem; color: #15803D; font-weight: 700;">موقع معتمد للاستلام والشحن</span>
+          </div>
+        </div>
+        <span style="font-size: 0.75rem; background: #DCFCE7; color: #15803D; font-weight: 700; padding: 4px 10px; border-radius: 999px;">نشط</span>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.88rem;">
+        <div>
+          <span style="color: var(--text-muted); display: block; font-size: 0.76rem;">المدينة والمنطقة الصناعية:</span>
+          <strong id="viewStoreRegion" style="color: var(--text);">الرياض · صناعية الدائري الشرقي - مخرج 18</strong>
+        </div>
+
+        <div>
+          <span style="color: var(--text-muted); display: block; font-size: 0.76rem;">العنوان التفصيلي للمستودع:</span>
+          <strong id="viewStoreStreet" style="color: var(--text);">شارع بلال بن رباح - مجمع قطع الغيار - مستودع 14</strong>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 6px; border-top: 1px solid #EDF2F7;">
+          <div>
+            <span style="color: var(--text-muted); display: block; font-size: 0.76rem;">هاتف المستودع:</span>
+            <strong id="viewStorePhone" class="ltr" style="color: var(--primary); font-family: monospace; text-align: right; display: block;">0501234567</strong>
+          </div>
+          <div>
+            <span style="color: var(--text-muted); display: block; font-size: 0.76rem;">أوقات العمل:</span>
+            <strong id="viewStoreHours" style="color: var(--text); font-size: 0.82rem;">السبت - الخميس (8 ص - 10 م)</strong>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="openEditStoreModal()" style="margin-top: 18px; width: 100%;">
+        تحديث وتعديل عنوان المتجر
+      </button>
+    </div>
+
+  </div>
+
+  <!-- مودال تعديل عنوان المتجر (Bottom Sheet) -->
+  <div class="sheet-backdrop" id="storeModal">
+    <div class="bottom-sheet">
+      <div class="sheet-header">
+        <div class="sheet-title-col">
+          <h2 class="sheet-title">تعديل عنوان المتجر</h2>
+          <p class="sheet-subtitle">أدخل تفاصيل موقع مستودعك بدقة لضمان سرعة استلام شركات الشحن.</p>
+        </div>
+        <button class="btn-close-sheet" onclick="closeStoreModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form id="storeForm" onsubmit="handleSaveStore(event)" style="display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <label style="font-size: 0.84rem; font-weight: 700; display: block; margin-bottom: 6px;">اسم المتجر التجاري</label>
+          <input type="text" id="editName" required value="متجر كفو للقطع · الرياض" class="form-input">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 0.84rem; font-weight: 700; display: block; margin-bottom: 6px;">المدينة</label>
+            <input type="text" id="editCity" required value="الرياض" class="form-input">
+          </div>
+          <div>
+            <label style="font-size: 0.84rem; font-weight: 700; display: block; margin-bottom: 6px;">المنطقة الصناعية</label>
+            <input type="text" id="editDistrict" required value="صناعية الدائري - مخرج 18" class="form-input">
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 0.84rem; font-weight: 700; display: block; margin-bottom: 6px;">الشارع ورقم المستودع</label>
+          <input type="text" id="editStreet" required value="شارع بلال بن رباح - مجمع قطع الغيار - مستودع 14" class="form-input">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 0.84rem; font-weight: 700; display: block; margin-bottom: 6px;">رقم هاتف التواصل</label>
+            <input type="tel" id="editPhone" required value="0501234567" class="form-input ltr" style="text-align: right;">
+          </div>
+          <div>
+            <label style="font-size: 0.84rem; font-weight: 700; display: block; margin-bottom: 6px;">ساعات العمل والتسليم</label>
+            <input type="text" id="editHours" required value="السبت - الخميس (8 ص - 10 م)" class="form-input">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top: 8px;">
+          حفظ التعديلات بنجاح
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- سكربتات التطبيق -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    const modalBackdrop = document.getElementById('storeModal');
+
+    function openEditStoreModal() {
+      modalBackdrop.classList.add('active');
+    }
+
+    function closeStoreModal() {
+      modalBackdrop.classList.remove('active');
+    }
+
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeStoreModal();
+    });
+
+    function loadStoreDetails() {
+      const data = JSON.parse(localStorage.getItem('kafu_merchant_store') || '{}');
+      if (data.name) document.getElementById('viewStoreName').textContent = data.name;
+      if (data.city || data.district) document.getElementById('viewStoreRegion').textContent = `${data.city || 'الرياض'} · ${data.district || 'صناعية الدائري'}`;
+      if (data.street) document.getElementById('viewStoreStreet').textContent = data.street;
+      if (data.phone) document.getElementById('viewStorePhone').textContent = data.phone;
+      if (data.hours) document.getElementById('viewStoreHours').textContent = data.hours;
+    }
+
+    function handleSaveStore(e) {
+      e.preventDefault();
+      const storeData = {
+        name: document.getElementById('editName').value.trim(),
+        city: document.getElementById('editCity').value.trim(),
+        district: document.getElementById('editDistrict').value.trim(),
+        street: document.getElementById('editStreet').value.trim(),
+        phone: document.getElementById('editPhone').value.trim(),
+        hours: document.getElementById('editHours').value.trim()
+      };
+      localStorage.setItem('kafu_merchant_store', JSON.stringify(storeData));
+      closeStoreModal();
+      KafuApp.showToast('تم تحديث عنوان المتجر بنجاح ✓');
+      loadStoreDetails();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadStoreDetails();
+    });
+  </script>
+</body>
+</html>

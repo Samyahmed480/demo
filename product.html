@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>كفو | تفاصيل القطعة</title>
+  <meta name="description" content="مواصفات وتوافق قطعة الغيار الأصلية في متجر كفو.">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+  <!-- الدوائر الملونة الناعمة في الخلفية -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app-container" style="padding-bottom: 90px;">
+
+    <!-- الشريط العلوي مع زر الرجوع -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+      <a href="javascript:history.back()" class="btn-icon-glass" style="background: rgba(255,255,255,0.7); color: var(--text);" title="رجوع" aria-label="رجوع">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+      <span style="font-size: 1.05rem; font-weight: 700; color: var(--text);">تفاصيل القطعة</span>
+      <button class="btn-icon-glass" id="btnShareProduct" style="background: rgba(255,255,255,0.7); color: var(--text);" title="مشاركة" aria-label="مشاركة">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- 1. كارت صورة المنتج Hero Card مع زر المفضلة (خلفية بيضاء صلبة غير شفافة) -->
+    <div class="product-detail-hero">
+      <img id="detailImg" class="product-detail-img" src="" alt="صورة القطعة">
+      <button class="btn-fav-toggle" id="btnToggleFavorite" title="إضافة للمفضلة" aria-label="إضافة للمفضلة">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- 2. كارت معلومات ومواصفات المنتج (خلفية بيضاء صلبة غير شفافة) -->
+    <div class="product-info-sheet">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+        <span class="product-brand" id="detailBrand" style="font-size: 0.95rem;">Akebono OEM</span>
+        <div style="display: flex; align-items: center; gap: 4px; font-size: 0.85rem; color: #EAB308; font-weight: 700;">
+          <span>★</span>
+          <span id="detailRating" style="color: var(--text);">4.8</span>
+          <span id="detailReviews" style="color: var(--text-muted); font-size: 0.78rem;">(29 تقييم)</span>
+        </div>
+      </div>
+
+      <h1 id="detailName" style="font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.35;">
+        طقم فحمات فرامل أمامية سيراميك
+      </h1>
+      <p id="detailDesc" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+        فحمات سيراميك هادئة تمنح استجابة فورية بدون غبار أسود وبدون صوت صفير مع أداء حراري ممتاز.
+      </p>
+
+      <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 16px;">
+        <span id="detailPrice" style="font-size: 1.85rem; font-weight: 700; color: var(--text);">١٩٥</span>
+        <span style="font-size: 1rem; color: var(--text-muted); font-weight: 600;">ر.س</span>
+      </div>
+
+      <!-- جدول مواصفات وبيانات القطعة المضافة من التاجر -->
+      <div class="merchant-specs-card">
+        <div class="merchant-specs-header">
+          <div class="merchant-specs-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+            </svg>
+            <span>بيانات ومواصفات القطعة</span>
+          </div>
+          <span class="merchant-badge">المسجلة من التاجر</span>
+        </div>
+
+        <div class="merchant-spec-list">
+          <!-- 1. القطعة -->
+          <div class="merchant-spec-item">
+            <span class="merchant-spec-key">
+              <span class="spec-dot"></span>القطعة:
+            </span>
+            <span class="merchant-spec-val ar-val" id="specPartName">فحمات / قماشات الفرامل (Brake Pad)</span>
+          </div>
+
+          <!-- 2. رقم الهيكل -->
+          <div class="merchant-spec-item">
+            <span class="merchant-spec-key">
+              <span class="spec-dot"></span>رقم الهيكل:
+            </span>
+            <span class="merchant-spec-val ar-val" id="specVinNumber">.............. إن وجد</span>
+          </div>
+
+          <!-- 3. رقم القطعة الأصلي (OEM) -->
+          <div class="merchant-spec-item">
+            <span class="merchant-spec-key">
+              <span class="spec-dot"></span>رقم القطعة الأصلي (OEM):
+            </span>
+            <span class="merchant-spec-val" id="specOemNumber" style="color: var(--primary); font-family: monospace;">OP010-13101</span>
+          </div>
+
+          <!-- 4. نوع المركبة -->
+          <div class="merchant-spec-item">
+            <span class="merchant-spec-key">
+              <span class="spec-dot"></span>نوع المركبة:
+            </span>
+            <span class="merchant-spec-val ar-val" id="specVehicleMake">تويوتا (Toyota)</span>
+          </div>
+
+          <!-- 5. الموديل -->
+          <div class="merchant-spec-item">
+            <span class="merchant-spec-key">
+              <span class="spec-dot"></span>الموديل:
+            </span>
+            <span class="merchant-spec-val ar-val" id="specVehicleModel">كامري (Camry)</span>
+          </div>
+
+          <!-- 6. سنة الصنع -->
+          <div class="merchant-spec-item">
+            <span class="merchant-spec-key">
+              <span class="spec-dot"></span>سنة الصنع:
+            </span>
+            <span class="merchant-spec-val" id="specYearsRange">2021 – 2023</span>
+          </div>
+
+          <!-- 7. المحرك -->
+          <div class="merchant-spec-item">
+            <span class="merchant-spec-key">
+              <span class="spec-dot"></span>المحرك:
+            </span>
+            <span class="merchant-spec-val ar-val" id="specEngine">2.5 ليتر (2.5L)</span>
+          </div>
+
+          <!-- 8. الموقع -->
+          <div class="merchant-spec-item">
+            <span class="merchant-spec-key">
+              <span class="spec-dot"></span>الموقع:
+            </span>
+            <span class="merchant-spec-val ar-val" id="specPosition">أمامي (Front)</span>
+          </div>
+
+          <!-- 9. التوافق -->
+          <div class="merchant-spec-item">
+            <span class="merchant-spec-key">
+              <span class="spec-dot"></span>التوافق:
+            </span>
+            <span class="merchant-spec-val confirmed" id="specCompatibility">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>مؤكد (Confirmed)</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- التحقق والمطابقة مع سيارة العميل الحالية -->
+      <div class="spec-row-item" id="specCompatibilityRow" style="cursor: pointer; margin-top: 14px; background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="spec-icon-box" style="background: #DCEAFE; color: var(--primary);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size: 0.74rem; color: var(--text-muted); font-weight: 600;">التحقق من سيارتك المحددة</div>
+            <div id="detailCompatibility" style="font-size: 0.92rem; font-weight: 700; color: #15803D;">✓ متوافق مع سيارتك</div>
+          </div>
+        </div>
+        <button type="button" class="btn-check-car-pill">فحص وتغيير</button>
+      </div>
+
+      <!-- تفاصيل إضافية: البائع ومعلومات المصنع -->
+      <div style="margin-top: 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px; padding: 14px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="spec-icon-box" style="background: var(--tile-teal); color: var(--tile-teal-icon); width: 34px; height: 34px; border-radius: 10px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size: 0.74rem; color: var(--text-muted);">البائع المعتمد</div>
+              <div id="detailSeller" style="font-size: 0.88rem; font-weight: 700; color: var(--text);">متجر كفو للقطع · الرياض</div>
+            </div>
+          </div>
+          <span style="font-size: 0.75rem; background: #DCFCE7; color: #15803D; font-weight: 700; padding: 2px 8px; border-radius: 6px;">موثق</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.82rem; padding-top: 8px; border-top: 1px solid #EDF2F7;">
+          <div><span style="color:var(--text-muted);">بلد المنشأ:</span> <strong id="specOrigin">اليابان</strong></div>
+          <div><span style="color:var(--text-muted);">الضمان:</span> <strong id="specWarranty">سنة كاملة</strong></div>
+          <div><span style="color:var(--text-muted);">الوزن:</span> <strong id="specWeight">2.4 كجم</strong></div>
+          <div><span style="color:var(--text-muted);">الحالة:</span> <strong style="color:#16A34A;">جديد أصلي 100%</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. شريط الأمان والضمان (خلفية صلبة غير شفافة) -->
+    <div class="security-trust-badge">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>
+      </svg>
+      <span>الدفع آمن وتأكيد التوافق التام قبل الشحن</span>
+    </div>
+
+    <!-- 4. شريط الإجراءات الثابت في الأسفل (خلفية صلبة بيضاء) -->
+    <div class="sticky-bottom-actions">
+      <button class="btn-primary" id="btnBuyNow" style="flex: 1.4;">
+        <span>اشترِ الآن</span>
+      </button>
+
+      <button class="btn-secondary" id="btnAddToCart" style="flex: 1;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
+        <span>أضف للسلة</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- سكربتات التطبيق -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const prodId = urlParams.get('id') || 'prod-3';
+      const product = PRODUCTS.find(p => p.id === prodId) || PRODUCTS[0];
+
+      document.getElementById('detailImg').src = product.image;
+      document.getElementById('detailBrand').textContent = product.brand;
+      document.getElementById('detailName').textContent = product.name;
+      document.getElementById('detailDesc').textContent = product.description;
+      document.getElementById('detailPrice').textContent = KafuStore.formatNumber(product.price);
+      document.getElementById('detailSeller').textContent = product.seller;
+      document.getElementById('detailRating').textContent = product.rating;
+      document.getElementById('detailReviews').textContent = `(${product.reviewsCount} تقييم)`;
+
+      // تعبئة البيانات والمواصفات الـ 9 المضافة من التاجر
+      const ms = product.merchantSpecs || {};
+      document.getElementById('specPartName').textContent = ms.partName || product.name;
+      document.getElementById('specVinNumber').textContent = ms.vinNumber || '.............. إن وجد';
+      document.getElementById('specOemNumber').textContent = ms.oemNumber || product.oem;
+      document.getElementById('specVehicleMake').textContent = ms.vehicleMake || 'تويوتا (Toyota)';
+      document.getElementById('specVehicleModel').textContent = ms.vehicleModel || 'كامري (Camry)';
+      document.getElementById('specYearsRange').textContent = ms.yearsRange || '2021 – 2023';
+      document.getElementById('specEngine').textContent = ms.engine || '2.5 ليتر (2.5L)';
+      document.getElementById('specPosition').textContent = ms.position || 'أمامي (Front)';
+      
+      const compValEl = document.getElementById('specCompatibility');
+      if (ms.compatibility) {
+        compValEl.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>${ms.compatibility}</span>
+        `;
+      }
+
+      if (product.specs) {
+        document.getElementById('specOrigin').textContent = product.specs.origin || 'اليابان';
+        document.getElementById('specWarranty').textContent = product.specs.warranty || 'سنة كاملة';
+        document.getElementById('specWeight').textContent = product.specs.weight || '1.8 كجم';
+      }
+
+      const favBtn = document.getElementById('btnToggleFavorite');
+      const updateFavState = () => {
+        favBtn.classList.toggle('active', KafuStore.isFavorite(product.id));
+      };
+      updateFavState();
+
+      favBtn.addEventListener('click', () => {
+        const isFav = KafuStore.toggleFavorite(product.id);
+        updateFavState();
+        KafuApp.showToast(isFav ? 'تمت إضافة القطعة للمفضلة ♥' : 'تمت إزالة القطعة من المفضلة');
+      });
+
+      const compLabel = document.getElementById('detailCompatibility');
+      const updateCompatibility = () => {
+        const car = KafuStore.getSelectedCar();
+        const comp = checkCompatibility(product, car);
+        compLabel.textContent = comp.text;
+        if (comp.status === 'compatible') {
+          compLabel.style.color = '#15803D';
+        } else if (comp.status === 'incompatible') {
+          compLabel.style.color = '#B91C1C';
+        } else {
+          compLabel.style.color = 'var(--primary)';
+        }
+      };
+      updateCompatibility();
+
+      document.getElementById('specCompatibilityRow').addEventListener('click', () => {
+        KafuApp.openVehicleModal();
+      });
+
+      window.addEventListener('kafu_store_update', (e) => {
+        if (e.detail.key === 'car') updateCompatibility();
+      });
+
+      document.getElementById('btnAddToCart').addEventListener('click', () => {
+        KafuStore.addToCart(product, 1);
+        KafuApp.showToast(`تمت إضافة ${product.name} إلى السلة ✓`);
+      });
+
+      document.getElementById('btnBuyNow').addEventListener('click', () => {
+        KafuStore.addToCart(product, 1);
+        window.location.href = 'cart.html';
+      });
+
+      document.getElementById('btnShareProduct').addEventListener('click', () => {
+        if (navigator.share) {
+          navigator.share({
+            title: product.name,
+            text: `اطلع على ${product.name} في كفو لقطع الغيار`,
+            url: window.location.href
+          }).catch(() => {});
+        } else {
+          navigator.clipboard.writeText(window.location.href);
+          KafuApp.showToast('تم نسخ رابط القطعة للحافظة');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

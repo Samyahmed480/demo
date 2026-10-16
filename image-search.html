@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>كفو | ابحث بصورة القطعة</title>
+  <meta name="description" content="ابحث عن قطع غيار السيارات بمجرد التقاط صورة للقطعة أو رفعها.">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+  <!-- الدوائر الملونة الناعمة في الخلفية -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- شريط علوي أنيق مع زر الرجوع -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-top: 4px;">
+      <a href="index.html" class="btn-icon-glass" style="background: rgba(255,255,255,0.75); color: var(--text);" title="رجوع للرئيسية" aria-label="رجوع للرئيسية">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+      <span style="font-size: 1.05rem; font-weight: 700; color: var(--text);">البحث بالصورة</span>
+      <div style="width: 44px;"></div>
+    </div>
+
+    <!-- 1. الكارت العلوي المطابق للقطة الشاشة الأصلية -->
+    <div class="scan-hero-card glass">
+      <div class="scan-icon-circle">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+          <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+          <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+          <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+        </svg>
+      </div>
+
+      <h1 class="scan-hero-title">ابحث بصورة القطعة</h1>
+      <p class="scan-hero-desc">
+        صوّر القطعة أو اختر صورتها. راجع النتيجة قبل الشراء.
+      </p>
+    </div>
+
+    <!-- 2. منطقة المعاينة Dropzone المطابقة للصورة -->
+    <div class="scan-dropzone glass" id="scanDropzone">
+      <div class="scan-beam" id="scanBeam"></div>
+
+      <div id="dropzoneEmpty">
+        <div style="width: 60px; height: 60px; margin: 0 auto 12px; color: #94A3B8; display: flex; align-items: center; justify-content: center;">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+            <circle cx="9" cy="9" r="2"/>
+            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+          </svg>
+        </div>
+        <span style="font-size: 0.95rem; color: var(--text-muted); font-weight: 500;">لم تختر صورة بعد</span>
+      </div>
+
+      <div id="dropzonePreview" style="display: none; width: 100%; text-align: center;">
+        <img id="previewImg" class="scan-dropzone-img" src="" alt="صورة القطعة">
+        <div id="scanStatusText" style="font-size: 0.88rem; font-weight: 600; color: var(--primary); margin-top: 12px;">
+          جاري تحليل الصورة والتعرف على القطعة ورقم OEM...
+        </div>
+      </div>
+
+      <!-- Input للملفات مع دعم الكاميرا المباشرة -->
+      <input type="file" id="fileInput" accept="image/*" capture="environment" style="display: none;">
+    </div>
+
+    <!-- 3. زر اختيار الصورة المطابق للقطة الشاشة -->
+    <button class="btn-primary" id="btnTriggerScan" style="margin-bottom: 22px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+        <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+        <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+        <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+      </svg>
+      <span>اختر صورة القطعة</span>
+    </button>
+
+    <!-- عينات تجريبية سريعة -->
+    <div style="margin-bottom: 20px;">
+      <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; text-align: center;">
+        أو جرب البحث بهذه النماذج الجاهزة:
+      </div>
+      <div id="samplePartsGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+        <!-- يتم ملؤها ديناميكياً بواسطة جافاسكريبت -->
+      </div>
+    </div>
+
+    <!-- نتائج التعرف بالصورة -->
+    <div id="scanResultsSection" style="display: none; margin-top: 24px;">
+      <div class="section-header">
+        <h2 class="section-title">نتائج التعرف على الصورة</h2>
+      </div>
+      <div id="scanResultsList"></div>
+    </div>
+
+  </div>
+
+  <!-- سكربتات التطبيق -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const dropzone = document.getElementById('scanDropzone');
+    const dropEmpty = document.getElementById('dropzoneEmpty');
+    const dropPreview = document.getElementById('dropzonePreview');
+    const previewImg = document.getElementById('previewImg');
+    const scanBeam = document.getElementById('scanBeam');
+    const statusText = document.getElementById('scanStatusText');
+    const resultsSection = document.getElementById('scanResultsSection');
+    const resultsList = document.getElementById('scanResultsList');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // شريط التنقل السفلي الموحد
+      KafuApp.renderBottomNav('');
+
+      // تعبئة نماذج البحث بالصور
+      const samplesGrid = document.getElementById('samplePartsGrid');
+      if (samplesGrid) {
+        samplesGrid.innerHTML = `
+          <button class="sample-part-btn glass" onclick="simulateSample('prod-1')">
+            <img src="${PRODUCTS[0].image}" alt="مكبس">
+            <span class="sample-part-name">مكبس محرك</span>
+          </button>
+          <button class="sample-part-btn glass" onclick="simulateSample('prod-4')">
+            <img src="${PRODUCTS[3].image}" alt="فلتر زيت">
+            <span class="sample-part-name">فلتر زيت</span>
+          </button>
+          <button class="sample-part-btn glass" onclick="simulateSample('prod-2')">
+            <img src="${PRODUCTS[1].image}" alt="فحمات فرامل">
+            <span class="sample-part-name">فحمات فرامل</span>
+          </button>
+        `;
+      }
+
+      document.getElementById('btnTriggerScan').addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      dropzone.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+          reader.onload = (re) => {
+            startAnalysis(re.target.result, 'prod-1');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      ['dragenter', 'dragover'].forEach(name => {
+        dropzone.addEventListener(name, (e) => {
+          e.preventDefault();
+          dropzone.classList.add('dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(name => {
+        dropzone.addEventListener(name, (e) => {
+          e.preventDefault();
+          dropzone.classList.remove('dragover');
+        });
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          const file = e.dataTransfer.files[0];
+          const reader = new FileReader();
+          reader.onload = (re) => {
+            startAnalysis(re.target.result, 'prod-1');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    });
+
+    function simulateSample(productId) {
+      const prod = PRODUCTS.find(p => p.id === productId);
+      if (prod) {
+        startAnalysis(prod.image, prod.id);
+      }
+    }
+
+    function startAnalysis(imgSrc, matchedId) {
+      dropEmpty.style.display = 'none';
+      dropPreview.style.display = 'block';
+      previewImg.src = imgSrc;
+      scanBeam.style.display = 'block';
+      statusText.textContent = 'جاري مسح القطعة وتحديد رقم OEM والمطابقة...';
+      resultsSection.style.display = 'none';
+
+      setTimeout(() => {
+        scanBeam.style.display = 'none';
+        statusText.innerHTML = '<span style="color: #16A34A;">✓ تم التعرف على القطعة بنجاح!</span>';
+        showMatchedResults(matchedId);
+      }, 1400);
+    }
+
+    function showMatchedResults(targetId) {
+      const matched = PRODUCTS.find(p => p.id === targetId) || PRODUCTS[0];
+      const alternatives = PRODUCTS.filter(p => p.id !== matched.id).slice(0, 2);
+      const allResults = [matched, ...alternatives];
+
+      resultsList.innerHTML = allResults.map((p, idx) => {
+        const score = idx === 0 ? '97% تطابق مؤكد' : (idx === 1 ? '84% بديل متوافق' : '72% بديل مقترح');
+        return `
+          <div class="product-card glass" style="margin-bottom: 12px; border: ${idx === 0 ? '1.5px solid var(--primary)' : '1px solid var(--glass-border)'};">
+            <div class="product-img-box">
+              <img src="${p.image}" alt="${p.name}">
+            </div>
+            <div class="product-info-col">
+              <div class="product-top-row">
+                <span class="product-brand">${p.brand}</span>
+                <span style="font-size:0.75rem; color:${idx === 0 ? '#16A34A' : 'var(--text-muted)'}; font-weight:700;">${score}</span>
+              </div>
+              <h3 class="product-title">${p.name}</h3>
+              <div class="product-oem-row">
+                <span>رقم القطعة:</span>
+                <span class="oem-code ltr">${p.oem}</span>
+              </div>
+              <div class="product-bottom-row">
+                <span class="product-price">${KafuStore.formatPrice(p.price)}</span>
+                <div style="display:flex; gap:8px;">
+                  <a href="product.html?id=${p.id}" class="btn-secondary" style="height:36px; padding:0 12px; font-size:0.82rem;">التفاصيل</a>
+                  <button class="btn-primary" style="height:36px; padding:0 14px; font-size:0.82rem; width:auto;" onclick="KafuStore.addToCart(PRODUCTS.find(x => x.id === '${p.id}')); KafuApp.showToast('تمت إضافة ${p.name} للسلة ✓');">
+                    شراء
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      resultsSection.style.display = 'block';
+      resultsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

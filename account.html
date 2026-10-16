@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>كفو | حساب التاجر</title>
+  <meta name="description" content="لوحة تحكم وحساب التاجر في كفو: إدارة المبيعات، عنوان المتجر، وتسجيل وتسعير قطع الغيار.">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+  <!-- الدوائر الملونة الناعمة في الخلفية -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app-container" style="padding-bottom: 96px;">
+
+    <!-- 1. كارت بروفايل التاجر (خلفية صلبة بيضاء غير شفافة) -->
+    <div class="profile-card">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="avatar-cam-badge" title="تغيير شعار المتجر">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+            <circle cx="12" cy="13" r="3"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="profile-info">
+        <h2 class="profile-name" id="merchantName">Mohamed Ahmed</h2>
+        <span class="profile-email ltr" id="merchantEmail" style="text-align: right;">webmax.ceo.1@gmail.com</span>
+        <span class="profile-device-tag">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="margin-left: 4px;"><polyline points="20 6 9 17 4 12"/></svg>
+          تاجر معتمد · متجر كفو للقطع
+        </span>
+      </div>
+    </div>
+
+    <!-- 2. عنوان لوحة تحكم التاجر -->
+    <div class="section-header" style="margin-bottom: 14px;">
+      <h1 class="section-title" style="font-size: 1.25rem;">لوحة تحكم التاجر</h1>
+    </div>
+
+    <!-- 3. قائمة خيارات التاجر المصممة خصيصاً وفق طبيعة عمل التاجر -->
+    <div class="account-menu-list">
+
+      <!-- 1. طلبات العملاء الواردة (بدلاً من طلباتي) -->
+      <div class="account-menu-row" onclick="openIncomingOrdersModal()">
+        <div class="menu-row-info">
+          <div class="menu-icon-box" style="background: var(--tile-peach); color: var(--tile-peach-icon);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <div>
+            <span class="menu-row-title" style="display: block;">طلبات العملاء الواردة</span>
+            <span style="font-size: 0.76rem; color: var(--text-muted);">متابعة وتجهيز مبيعات المتجر</span>
+          </div>
+        </div>
+        <span class="menu-row-chevron">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </span>
+      </div>
+
+      <!-- 2. عنوان التاجر وموقع المتجر (بدلاً من عناوين الشحن) -->
+      <div class="account-menu-row" onclick="openMerchantAddressModal()">
+        <div class="menu-row-info">
+          <div class="menu-icon-box" style="background: var(--tile-teal); color: var(--tile-teal-icon);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <span class="menu-row-title" style="display: block;">عنوان التاجر وموقع المتجر</span>
+            <span style="font-size: 0.76rem; color: var(--text-muted);">مقر المستودع ونقطة تسليم وشحن القطع</span>
+          </div>
+        </div>
+        <span class="menu-row-chevron">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </span>
+      </div>
+
+      <!-- 3. إضافة قطعة وتحديد السعر (بدلاً من طلب تسعير قطعة) -->
+      <div class="account-menu-row" onclick="openAddProductPriceModal()">
+        <div class="menu-row-info">
+          <div class="menu-icon-box" style="background: #DCEAFE; color: var(--primary);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+          </div>
+          <div>
+            <span class="menu-row-title" style="display: block;">إضافة قطعة وتحديد السعر</span>
+            <span style="font-size: 0.76rem; color: var(--text-muted);">تسجيل قطعة جديدة بالمواصفات الـ 9 وكتابة سعرك</span>
+          </div>
+        </div>
+        <span class="menu-row-chevron">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </span>
+      </div>
+
+      <!-- 4. طلبات تسعير العملاء الواردة (بدلاً من عروض الأسعار) -->
+      <div class="account-menu-row" onclick="openMerchantQuoteRepliesModal()">
+        <div class="menu-row-info">
+          <div class="menu-icon-box" style="background: var(--tile-peach); color: var(--tile-peach-icon);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m20.59 13.41-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+              <line x1="7" y1="7" x2="7.01" y2="7"/>
+            </svg>
+          </div>
+          <div>
+            <span class="menu-row-title" style="display: block;">طلبات تسعير العملاء الواردة</span>
+            <span style="font-size: 0.76rem; color: var(--text-muted);">تسعير استفسارات القطع الواردة من العملاء</span>
+          </div>
+        </div>
+        <span class="menu-row-chevron">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </span>
+      </div>
+
+      <!-- 5. محفظة التاجر وأرباح المبيعات -->
+      <div class="account-menu-row" onclick="openMerchantWalletModal()">
+        <div class="menu-row-info">
+          <div class="menu-icon-box" style="background: #CBEAE7; color: #0F766E;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="20" height="14" rx="2"/>
+              <line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+          </div>
+          <div>
+            <span class="menu-row-title" style="display: block;">محفظة التاجر والأرباح</span>
+            <span style="font-size: 0.76rem; color: var(--text-muted);">عائدات المبيعات وسحب الأرباح البنكية</span>
+          </div>
+        </div>
+        <span class="menu-row-chevron">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </span>
+      </div>
+
+      <!-- 6. قطع المتجر والمخزون المعروض -->
+      <div class="account-menu-row" onclick="openInventoryModal()">
+        <div class="menu-row-info">
+          <div class="menu-icon-box" style="background: var(--tile-lavender); color: var(--tile-lavender-icon);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <div>
+            <span class="menu-row-title" style="display: block;">قطع المتجر والمخزون</span>
+            <span style="font-size: 0.76rem; color: var(--text-muted);">إدارة الأسعار وتحديث توفر القطع</span>
+          </div>
+        </div>
+        <span class="menu-row-chevron">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </span>
+      </div>
+
+      <!-- 7. مساعد كفو للتاجر (فاحص VIN و OEM) -->
+      <div class="account-menu-row" onclick="openAssistantModal()">
+        <div class="menu-row-info">
+          <div class="menu-icon-box" style="background: #FEEAD1; color: #EA580C;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div>
+            <span class="menu-row-title" style="display: block;">مساعد كفو للتاجر</span>
+            <span style="font-size: 0.76rem; color: var(--text-muted);">مطابقة أرقام الشاسيه والبدائل المتوافقة</span>
+          </div>
+        </div>
+        <span class="menu-row-chevron">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </span>
+      </div>
+
+      <!-- 8. المكتبة وكتالوجات الوكالة -->
+      <a href="library.html" class="account-menu-row">
+        <div class="menu-row-info">
+          <div class="menu-icon-box" style="background: var(--tile-blue); color: var(--tile-blue-icon);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/><rect width="20" height="2" x="2" y="20" rx="1"/>
+            </svg>
+          </div>
+          <div>
+            <span class="menu-row-title" style="display: block;">المكتبة وكتالوجات الوكالة</span>
+            <span style="font-size: 0.76rem; color: var(--text-muted);">المخططات الفنية الرسمية لسيارات تويوتا وغيرها</span>
+          </div>
+        </div>
+        <span class="menu-row-chevron">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- 9. إعدادات المتجر -->
+      <div class="account-menu-row" onclick="openSettingsModal()">
+        <div class="menu-row-info">
+          <div class="menu-icon-box" style="background: #F1F5F9; color: #475569;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </div>
+          <div>
+            <span class="menu-row-title" style="display: block;">إعدادات المتجر</span>
+            <span style="font-size: 0.76rem; color: var(--text-muted);">الرقم الضريبي وتنسيق الأسعار</span>
+          </div>
+        </div>
+        <span class="menu-row-chevron">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </span>
+      </div>
+
+    </div>
+
+    <!-- زر تسجيل الخروج -->
+    <button class="btn-logout-row" id="btnLogout">
+      تسجيل الخروج من حساب التاجر
+    </button>
+
+  </div>
+
+  <!-- مودال عام للخيارات التفاعلية بخلفية بيضاء صلبة -->
+  <div class="sheet-backdrop" id="accountActionModal">
+    <div class="bottom-sheet" id="accountActionSheet">
+      <div class="sheet-header">
+        <div class="sheet-title-col">
+          <h2 class="sheet-title" id="actionModalTitle">عنوان</h2>
+          <p class="sheet-subtitle" id="actionModalDesc">وصف</p>
+        </div>
+        <button class="btn-close-sheet" onclick="closeActionModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div id="actionModalBody"></div>
+    </div>
+  </div>
+
+  <!-- سكربتات التطبيق -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    const modalBackdrop = document.getElementById('accountActionModal');
+    const modalTitle = document.getElementById('actionModalTitle');
+    const modalDesc = document.getElementById('actionModalDesc');
+    const modalBody = document.getElementById('actionModalBody');
+
+    function openModalWith(title, desc, contentHtml) {
+      modalTitle.textContent = title;
+      modalDesc.textContent = desc;
+      modalBody.innerHTML = contentHtml;
+      modalBackdrop.classList.add('active');
+    }
+
+    function closeActionModal() {
+      modalBackdrop.classList.remove('active');
+    }
+
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeActionModal();
+    });
+
+    // 1. طلبات العملاء الواردة للتاجر (بدلاً من طلباتي)
+    function openIncomingOrdersModal() {
+      const incomingOrders = [
+        {
+          id: 'ORD-8921',
+          customer: 'عبدالله السبيعي',
+          phone: '055****128',
+          car: 'تويوتا كامري 2023',
+          part: 'فحمات / قماشات الفرامل (Brake Pad)',
+          oem: '04465-33480',
+          amount: 195,
+          status: 'قيد التجهيز',
+          statusColor: '#D97706',
+          statusBg: '#FEF3C7'
+        },
+        {
+          id: 'ORD-8918',
+          customer: 'سالم الشمري',
+          phone: '050****845',
+          car: 'تويوتا كامري 2022',
+          part: 'طقم مكبس محرك كامل',
+          oem: 'OP010-13101',
+          amount: 480,
+          status: 'جاهز للشحن',
+          statusColor: '#2563EB',
+          statusBg: '#EFF6FF'
+        },
+        {
+          id: 'ORD-8890',
+          customer: 'فهد القحطاني',
+          phone: '054****332',
+          car: 'تويوتا كورولا 2021',
+          part: 'فلتر زيت أصلي',
+          oem: 'YZZD1-90915',
+          amount: 38,
+          status: 'تم التسليم لشركة الشحن',
+          statusColor: '#15803D',
+          statusBg: '#DCFCE7'
+        }
+      ];
+
+      const html = incomingOrders.map(o => `
+        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px; margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <strong style="color: var(--text); font-size: 0.95rem;">طلب رقم: ${o.id}</strong>
+            <span style="color: ${o.statusColor}; background: ${o.statusBg}; padding: 3px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;">${o.status}</span>
+          </div>
+          <div style="font-size: 0.85rem; color: #475569; margin-bottom: 4px;">العميل: <strong>${o.customer}</strong> (${o.phone})</div>
+          <div style="font-size: 0.84rem; color: #475569; margin-bottom: 4px;">القطعة المطلوبة: <strong>${o.part}</strong></div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace;">OEM: ${o.oem} | السيارة: ${o.car}</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #EDF2F7;">
+            <span style="font-size: 0.95rem; font-weight: 700; color: var(--primary);">${o.amount} ر.س</span>
+            <button class="btn-primary" style="height: 34px; padding: 0 14px; font-size: 0.8rem; width: auto;" onclick="KafuApp.showToast('تم تحديث حالة الطلب إلى: جاهز للتسليم ✓'); closeActionModal();">
+              تحديث الحالة
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      openModalWith('طلبات العملاء الواردة', 'قائمة بطلبات الشراء المستلمة من العملاء عبر المتجر', `
+        <div style="max-height: 65vh; overflow-y: auto;">
+          ${html}
+        </div>
+      `);
+    }
+
+    // 2. عنوان التاجر وموقع المتجر (بدلاً من عناوين الشحن)
+    function openMerchantAddressModal() {
+      const savedStore = JSON.parse(localStorage.getItem('kafu_merchant_store') || '{}');
+      const storeName = savedStore.name || 'متجر كفو للقطع · الرياض';
+      const city = savedStore.city || 'الرياض';
+      const district = savedStore.district || 'صناعية الدائري الشرقي - مخرج 18';
+      const street = savedStore.street || 'شارع بلال بن رباح - مجمع قطع الغيار - مستودع 14';
+      const phone = savedStore.phone || '0501234567';
+      const hours = savedStore.hours || 'السبت - الخميس: 8:00 صباحاً – 10:00 مساءً';
+
+      openModalWith('عنوان التاجر وموقع المتجر', 'موقع مستودعك المعتمد لاستلام وشحن القطع للعملاء', `
+        <form onsubmit="saveMerchantAddress(event)" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">اسم المتجر التجاري</label>
+            <input type="text" id="storeNameInput" required value="${storeName}" class="form-input">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">المدينة</label>
+              <input type="text" id="storeCityInput" required value="${city}" class="form-input">
+            </div>
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">الحي / المنطقة الصناعية</label>
+              <input type="text" id="storeDistrictInput" required value="${district}" class="form-input">
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">العنوان التفصيلي / المستودع</label>
+            <input type="text" id="storeStreetInput" required value="${street}" class="form-input">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">هاتف التواصل والمستودع</label>
+              <input type="tel" id="storePhoneInput" required value="${phone}" class="form-input ltr" style="text-align: right;">
+            </div>
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">ساعات العمل والتسليم</label>
+              <input type="text" id="storeHoursInput" required value="${hours}" class="form-input">
+            </div>
+          </div>
+
+          <div style="margin-top: 10px;">
+            <button type="submit" class="btn-primary" style="width: 100%;">
+              حفظ وتحديث عنوان المتجر
+            </button>
+          </div>
+        </form>
+      `);
+    }
+
+    function saveMerchantAddress(e) {
+      e.preventDefault();
+      const storeData = {
+        name: document.getElementById('storeNameInput').value,
+        city: document.getElementById('storeCityInput').value,
+        district: document.getElementById('storeDistrictInput').value,
+        street: document.getElementById('storeStreetInput').value,
+        phone: document.getElementById('storePhoneInput').value,
+        hours: document.getElementById('storeHoursInput').value
+      };
+      localStorage.setItem('kafu_merchant_store', JSON.stringify(storeData));
+      KafuApp.showToast('تم حفظ وتحديث بيانات وعنوان المتجر بنجاح ✓');
+      closeActionModal();
+    }
+
+    // 3. إضافة قطعة وتحديد السعر (بدلاً من طلب تسعير قطعة)
+    function openAddProductPriceModal() {
+      openModalWith('إضافة قطعة وتحديد السعر', 'أدخل بيانات القطعة والمواصفات الـ 9 واكتب سعرك للعميل', `
+        <form onsubmit="handleAddProductSubmit(event)" style="display: flex; flex-direction: column; gap: 12px; max-height: 68vh; overflow-y: auto; padding-left: 2px;">
+          <!-- 1. القطعة -->
+          <div>
+            <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">1. اسم القطعة وتصنيفها</label>
+            <input type="text" id="newPartName" required placeholder="مثال: فحمات / قماشات الفرامل (Brake Pad)" value="فحمات / قماشات الفرامل (Brake Pad)" class="form-input">
+          </div>
+
+          <!-- 2. رقم الهيكل -->
+          <div>
+            <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">2. رقم الهيكل المتطابق (VIN إن وجد)</label>
+            <input type="text" id="newVin" placeholder="4T1B21HK5MU...... (إن وجد)" value="4T1B21HK5MU...... (إن وجد)" class="form-input ltr" style="text-align: right;">
+          </div>
+
+          <!-- 3. OEM & السعر -->
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px;">
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">3. رقم القطعة الأصلي (OEM)</label>
+              <input type="text" id="newOem" required placeholder="مثال: 04465-33480" value="04465-33480" class="form-input ltr" style="text-align: right; font-family: monospace;">
+            </div>
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 4px;">السعر للعميل (ر.س) *</label>
+              <input type="number" id="newPrice" required min="1" placeholder="195" value="195" class="form-input" style="font-weight: 700; font-size: 1.05rem; color: var(--primary);">
+            </div>
+          </div>
+
+          <!-- 4. نوع المركبة والموديل -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">4. نوع المركبة (الماركة)</label>
+              <input type="text" id="newMake" required placeholder="تويوتا (Toyota)" value="تويوتا (Toyota)" class="form-input">
+            </div>
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">5. الموديل</label>
+              <input type="text" id="newModel" required placeholder="كامري (Camry)" value="كامري (Camry)" class="form-input">
+            </div>
+          </div>
+
+          <!-- 6. سنة الصنع & المحرك -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">6. سنة الصنع</label>
+              <input type="text" id="newYears" required placeholder="2021 – 2023" value="2021 – 2023" class="form-input">
+            </div>
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">7. المحرك</label>
+              <input type="text" id="newEngine" required placeholder="2.5 ليتر (2.5L)" value="2.5 ليتر (2.5L)" class="form-input">
+            </div>
+          </div>
+
+          <!-- 8. الموقع & 9. التوافق -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">8. الموقع</label>
+              <select id="newPosition" class="form-input" style="height: 48px;">
+                <option value="أمامي (Front)" selected>أمامي (Front)</option>
+                <option value="خلفي (Rear)">خلفي (Rear)</option>
+                <option value="يمين (Right)">يمين (Right)</option>
+                <option value="يسار (Left)">يسار (Left)</option>
+                <option value="داخل المحرك (Internal Engine)">داخل المحرك</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">9. التوافق</label>
+              <select id="newCompatibility" class="form-input" style="height: 48px; color: #15803D; font-weight: 700;">
+                <option value="مؤكد (Confirmed)" selected>✓ مؤكد (Confirmed)</option>
+                <option value="مشروط بمطابقة VIN">مشروط بمطابقة VIN</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px;">
+            <button type="submit" class="btn-primary" style="width: 100%;">
+              حفظ وإدراج القطعة للبيع بالمتجر
+            </button>
+          </div>
+        </form>
+      `);
+    }
+
+    function handleAddProductSubmit(e) {
+      e.preventDefault();
+      const partName = document.getElementById('newPartName').value;
+      const price = document.getElementById('newPrice').value;
+      const oem = document.getElementById('newOem').value;
+
+      KafuApp.showToast(`تمت إضافة ${partName} بسعر ${price} ر.س إلى المتجر بنجاح ✓`);
+      closeActionModal();
+    }
+
+    // 4. طلبات تسعير العملاء الواردة (بدلاً من عروض الأسعار)
+    function openMerchantQuoteRepliesModal() {
+      const quoteInquiries = [
+        {
+          id: 'RFQ-401',
+          customer: 'ماجد العتيبي',
+          car: 'تويوتا كامري 2024',
+          vin: '4T1B21HK9RU381920',
+          requestedPart: 'مقص أمامي سفلي أصلي مع الجلب',
+          date: 'اليوم · 11:30 ص'
+        },
+        {
+          id: 'RFQ-398',
+          customer: 'خالد الغامدي',
+          car: 'لكزس ES350 2022',
+          vin: 'JTHB11HK5NU109281',
+          requestedPart: 'طقم بواجي ليزر إيريديوم أصلية (6 حبات)',
+          date: 'أمس · 04:15 م'
+        }
+      ];
+
+      const html = quoteInquiries.map(q => `
+        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px; margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <strong style="color: var(--text); font-size: 0.92rem;">طلب تسعير #${q.id}</strong>
+            <span style="font-size: 0.74rem; color: var(--text-muted);">${q.date}</span>
+          </div>
+          <div style="font-size: 0.85rem; color: #334155; margin-bottom: 4px;">العميل: <strong>${q.customer}</strong></div>
+          <div style="font-size: 0.86rem; color: var(--primary-dark); font-weight: 700; margin-bottom: 4px;">القطعة المطلوبة: ${q.requestedPart}</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); font-family: monospace; margin-bottom: 10px;">السيارة: ${q.car} | شاسيه: ${q.vin}</div>
+          
+          <div style="display: flex; gap: 8px;">
+            <input type="number" placeholder="اكتب سعرك (ر.س)" style="flex: 1; height: 38px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 12px; font-weight: 700; color: var(--primary); background: #FFF;">
+            <button class="btn-primary" style="width: auto; height: 38px; padding: 0 16px; font-size: 0.82rem;" onclick="KafuApp.showToast('تم إرسال عرض سعرك إلى العميل بنجاح ✓'); closeActionModal();">
+              إرسال السعر
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      openModalWith('طلبات تسعير العملاء الواردة', 'عملاء يبحثون عن قطع محددة - أدخل سعرك وتواصل معهم', `
+        <div style="max-height: 65vh; overflow-y: auto;">
+          ${html}
+        </div>
+      `);
+    }
+
+    // 5. محفظة التاجر والأرباح
+    function openMerchantWalletModal() {
+      openModalWith('محفظة التاجر والأرباح', 'عائدات المبيعات وسجل التحويلات البنكية للمتجر', `
+        <div style="text-align: center; padding: 16px 0;">
+          <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 4px;">الرصيد المتاح للسحب الآن</div>
+          <div style="font-size: 2.2rem; font-weight: 700; color: #15803D; margin-bottom: 18px;">
+            ٨٬٤٥٠ <span style="font-size: 1.1rem; color: var(--text-muted);">ر.س</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; text-align: right;">
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 12px;">
+              <span style="font-size: 0.76rem; color: var(--text-muted); display: block;">مبيعات هذا الشهر</span>
+              <strong style="font-size: 1rem; color: var(--text);">١٤٬٢٨٠ ر.س</strong>
+            </div>
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 12px;">
+              <span style="font-size: 0.76rem; color: var(--text-muted); display: block;">الطلبات المنجزة</span>
+              <strong style="font-size: 1rem; color: var(--text);">٣٢ طلب ناجح</strong>
+            </div>
+          </div>
+
+          <button class="btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="KafuApp.showToast('تم تقديم طلب التحويل لحسابك البنكي بنجاح ✓'); closeActionModal();">
+            سحب الرصيد إلى الحساب البنكي (IBAN)
+          </button>
+        </div>
+      `);
+    }
+
+    // 6. قطع المتجر والمخزون المعروض
+    function openInventoryModal() {
+      const html = PRODUCTS.map(p => `
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; margin-bottom: 10px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img src="${p.image}" style="width: 44px; height: 44px; object-fit: contain; border-radius: 8px; background: #FFF; padding: 4px; border: 1px solid #EDF2F7;">
+            <div>
+              <div style="font-size: 0.88rem; font-weight: 700; color: var(--text);">${p.name}</div>
+              <div style="font-size: 0.76rem; color: var(--text-muted); font-family: monospace;">OEM: ${p.oem}</div>
+            </div>
+          </div>
+          <div style="text-align: left;">
+            <div style="font-size: 0.95rem; font-weight: 700; color: var(--primary);">${KafuStore.formatPrice(p.price)}</div>
+            <span style="font-size: 0.72rem; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">متوفر (10+)</span>
+          </div>
+        </div>
+      `).join('');
+
+      openModalWith('قطع المتجر والمخزون المعروض', 'قائمة القطع المعروضة من متجرك في كفو وتعديل الأسعار', `
+        <div style="max-height: 65vh; overflow-y: auto;">
+          ${html}
+        </div>
+      `);
+    }
+
+    // 7. مساعد التاجر
+    function openAssistantModal() {
+      openModalWith('مساعد كفو للتاجر', 'فاحص أرقام الهيكل (VIN) ومطابقة قطع الغيار', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: var(--primary-light); padding: 12px; border-radius: var(--radius-md); font-size: 0.86rem; color: var(--primary-dark);">
+            مرحباً بك يا كابتن محمد! أدخل رقم الشاسيه أو كود OEM للتأكد من مطابقة القطعة مع كتالوج الوكالة الرسمي.
+          </div>
+          <input type="text" placeholder="أدخل رقم الهيكل (17 رمزاً) أو كود OEM" class="form-input ltr" style="text-align: right;">
+          <button class="btn-primary" onclick="KafuApp.showToast('تم التحقق: القطعة متوافقة 100% مع مواصفات المصنع ✓'); closeActionModal();">
+            فحص المطابقة الفورية
+          </button>
+        </div>
+      `);
+    }
+
+    // 8. إعدادات المتجر
+    function openSettingsModal() {
+      const isHindi = localStorage.getItem(KafuStore.KEYS.USE_HINDI_NUMS) !== 'false';
+      openModalWith('إعدادات المتجر والتاجر', 'خيارات العرض وتنسيق الأسعار والبيانات التجارية', `
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #EDF2F7;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.92rem;">الرقم الضريبي للمتجر (VAT ID)</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-family: monospace;">302918294800003</div>
+            </div>
+            <span style="font-size: 0.75rem; color: #15803D; background: #DCFCE7; padding: 3px 8px; border-radius: 6px; font-weight: 700;">مفعل وموثق</span>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #EDF2F7;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.92rem;">الأرقام العربية المشرقية (١٢٣)</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">تنسيق الأرقام والأسعار في المتجر</div>
+            </div>
+            <input type="checkbox" id="toggleHindiNums" ${isHindi ? 'checked' : ''} style="width: 20px; height: 20px;" onchange="localStorage.setItem(KafuStore.KEYS.USE_HINDI_NUMS, this.checked ? 'true' : 'false'); KafuApp.showToast('تم تحديث تنسيق الأرقام'); setTimeout(() => location.reload(), 600);">
+          </div>
+
+          <div style="padding-top: 8px;">
+            <button class="btn-secondary" style="width: 100%; color: var(--danger); border-color: rgba(255,59,48,0.3);" onclick="localStorage.clear(); KafuStore.init(); KafuApp.showToast('تمت إعادة ضبط البيانات الافتراضية'); setTimeout(() => location.reload(), 800);">
+              إعادة ضبط البيانات الافتراضية
+            </button>
+          </div>
+        </div>
+      `);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // تفعيل تبويب الملف الشخصي في شريط التنقل السفلي
+      KafuApp.renderBottomNav('account');
+
+      document.getElementById('btnLogout').addEventListener('click', () => {
+        if (confirm('هل ترغب بتسجيل الخروج من حساب التاجر؟')) {
+          KafuApp.showToast('تم تسجيل الخروج بنجاح');
+          setTimeout(() => window.location.href = 'index.html', 700);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

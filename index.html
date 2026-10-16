@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>كفو | متجر قطع غيار السيارات</title>
+  <meta name="description" content="متجر كفو لقطع غيار السيارات الأصلية مع مطابقة دقيقة لسيارتك وتوصيل سريع.">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+  <!-- الدوائر الملونة الناعمة في الخلفية -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- 1. Hero Card: اللوجو على الشمال كصورة بروفايل والترحيب والسيارة على اليمين -->
+    <header class="hero-card">
+      <svg class="hero-watermark" viewBox="0 0 100 100" fill="currentColor">
+        <path d="M50 35a15 15 0 1 0 0 30 15 15 0 0 0 0-30zm0 10a5 5 0 1 1 0 10 5 5 0 0 1 0-10z"/>
+        <path d="M85 45h-6.2a34.8 34.8 0 0 0-4-9.6l4.4-4.4a3 3 0 0 0 0-4.2l-7-7a3 3 0 0 0-4.2 0l-4.4 4.4a34.8 34.8 0 0 0-9.6-4V15a3 3 0 0 0-3-3h-10a3 3 0 0 0-3 3v6.2a34.8 34.8 0 0 0-9.6 4l-4.4-4.4a3 3 0 0 0-4.2 0l-7 7a3 3 0 0 0 0 4.2l4.4 4.4a34.8 34.8 0 0 0-4 9.6H15a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h6.2a34.8 34.8 0 0 0 4 9.6l-4.4 4.4a3 3 0 0 0 0 4.2l7 7a3 3 0 0 0 4.2 0l4.4-4.4a34.8 34.8 0 0 0 9.6 4V85a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-6.2a34.8 34.8 0 0 0 9.6-4l4.4 4.4a3 3 0 0 0 4.2 0l7-7a3 3 0 0 0 0-4.2l-4.4-4.4a34.8 34.8 0 0 0 4-9.6H85a3 3 0 0 0 3-3V48a3 3 0 0 0-3-3z"/>
+      </svg>
+
+      <!-- الشريط العلوي داخل الهيرو -->
+      <div class="hero-top-bar">
+        <!-- أزرار الإشعارات واللغة على اليمين -->
+        <div class="hero-actions">
+          <button class="btn-icon-glass" id="btnNotifications" title="الإشعارات" aria-label="الإشعارات">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+            </svg>
+          </button>
+          <button class="btn-icon-glass" id="btnLanguage" title="تغيير اللغة" aria-label="تغيير اللغة">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+              <path d="M2 12h20"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- اللوجو على الشمال: كفو على أقصى اليسار وبجانبها أيقونة كفو البيضاء تماماً كاللقطة -->
+        <a href="account.html" class="hero-profile-avatar-wrap" title="الملف الشخصي والحساب">
+          <div class="hero-profile-box">
+            <!-- ترس ومفك كفو -->
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B4FA8" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span class="hero-avatar-badge" title="متصل"></span>
+          </div>
+          <span class="hero-brand-title">كفو</span>
+        </a>
+      </div>
+
+      <!-- الترحيب واسم السيارة على اليمين كما بالصورة تماماً -->
+      <div class="hero-content">
+        <h1 class="hero-title">أهلاً بك</h1>
+        <p class="hero-subtitle" id="heroSubtitle">Toyota Camry 2025</p>
+      </div>
+    </header>
+
+    <!-- 2. شريط البحث: "ابحث باسم القطعة أو رقم الهيكل" مع زر الفحص المستقل -->
+    <div class="search-bar-wrap">
+      <div class="search-bar-row">
+        <div class="search-pill glass">
+          <button id="btnHomeSearch" class="search-icon-right" style="cursor: pointer; padding: 4px; display: flex; align-items: center; color: var(--primary);" title="بحث">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.3-4.3"/>
+            </svg>
+          </button>
+          <input 
+            type="text" 
+            id="mainSearchInput" 
+            class="search-input" 
+            placeholder="ابحث باسم القطعة أو رقم الهيكل" 
+            autocomplete="off"
+          >
+        </div>
+        <a href="image-search.html" class="btn-scan-box glass" title="البحث بالصورة" aria-label="البحث بالصورة">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+            <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+            <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+            <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- 3. كارت سيارة المطابقة -->
+    <div class="vehicle-match-card glass glass-card-interactive" id="homeVehicleCard">
+      <div class="vehicle-match-info">
+        <div class="vehicle-icon-box">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
+            <path d="M15 18H9"/>
+            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
+            <circle cx="17" cy="18.5" r="2.5"/>
+            <circle cx="7" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <div class="vehicle-text-col">
+          <span class="vehicle-meta-label">سيارة المطابقة</span>
+          <span class="vehicle-active-name">Toyota Camry 2025</span>
+        </div>
+      </div>
+      <span class="vehicle-chevron">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+      </span>
+    </div>
+
+    <!-- 4. تصفح حسب الفئة - الأيقونات مكبرة وموزعة في صفين متوازيين 3 بالصف الأول و 3 بالصف الثاني -->
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">تصفح حسب الفئة</h2>
+      </div>
+
+      <div class="categories-grid-two-rows">
+        <!-- الصف الأول: 3 عناصر -->
+        <!-- 1. المحرك -->
+        <a href="search.html?category=engine" class="category-item">
+          <div class="category-tile-box-lg tile-engine">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="6" width="16" height="12" rx="2"/>
+              <path d="M2 10h2"/>
+              <path d="M20 10h2"/>
+              <path d="M8 2v4"/>
+              <path d="M16 2v4"/>
+              <circle cx="12" cy="12" r="2"/>
+            </svg>
+          </div>
+          <span class="category-name-lg">المحرك</span>
+        </a>
+
+        <!-- 2. الفرامل -->
+        <a href="search.html?category=brakes" class="category-item">
+          <div class="category-tile-box-lg tile-brakes">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 3a9 9 0 0 1 9 9"/>
+            </svg>
+          </div>
+          <span class="category-name-lg">الفرامل</span>
+        </a>
+
+        <!-- 3. الكهرباء -->
+        <a href="search.html?category=electrical" class="category-item">
+          <div class="category-tile-box-lg tile-electrical">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="13" rx="2"/>
+              <path d="M6 3v4"/>
+              <path d="M18 3v4"/>
+              <line x1="7" y1="12" x2="11" y2="12"/>
+              <line x1="13" y1="12" x2="17" y2="12"/>
+              <line x1="15" y1="10" x2="15" y2="14"/>
+            </svg>
+          </div>
+          <span class="category-name-lg">الكهرباء</span>
+        </a>
+
+        <!-- الصف الثاني: 3 عناصر -->
+        <!-- 4. الزيوت والفلاتر -->
+        <a href="search.html?category=oils" class="category-item">
+          <div class="category-tile-box-lg tile-oils">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v4"/>
+              <path d="m4.93 10.93 2.83-2.83"/>
+              <path d="M2 18h4"/>
+              <path d="M20 18h2"/>
+              <path d="m19.07 10.93-2.83-2.83"/>
+              <circle cx="12" cy="17" r="5"/>
+            </svg>
+          </div>
+          <span class="category-name-lg">الزيوت والفلاتر</span>
+        </a>
+
+        <!-- 5. التعليق -->
+        <a href="search.html?category=suspension" class="category-item">
+          <div class="category-tile-box-lg tile-suspension">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v5"/>
+              <path d="m8 7 8 2-8 2 8 2-8 2 8 2-8 2"/>
+              <path d="M12 21v1"/>
+            </svg>
+          </div>
+          <span class="category-name-lg">التعليق</span>
+        </a>
+
+        <!-- 6. الإضاءة -->
+        <a href="search.html?category=lighting" class="category-item">
+          <div class="category-tile-box-lg tile-lighting">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"/>
+              <line x1="9" y1="21" x2="15" y2="21"/>
+            </svg>
+          </div>
+          <span class="category-name-lg">الإضاءة</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 5. قسم مختارة لك (مع ظهور زر عرض الكل كاملاً دون أن يغطيه الشريط) -->
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">مختارة لك</h2>
+        <a href="search.html" class="section-link">
+          <span>عرض الكل</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="products-list" id="featuredProductsList">
+        <!-- يتم ملؤها ديناميكياً بواسطة جافاسكريبت -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- سكربتات التطبيق -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. تثبيت شريط التنقل السفلي مع تحديد تبويب 'home'
+      KafuApp.renderBottomNav('home');
+
+      // 2. ربط كارت سيارة المطابقة
+      const vehicleCard = document.getElementById('homeVehicleCard');
+      KafuApp.bindVehicleCard(vehicleCard);
+
+      // تحديث سطر الهيرو عند اختيار سيارة
+      const updateHeroCar = () => {
+        const car = KafuStore.getSelectedCar();
+        const heroSub = document.getElementById('heroSubtitle');
+        if (heroSub) {
+          if (car && car.displayName) {
+            heroSub.textContent = car.displayName;
+          } else if (car && car.make) {
+            heroSub.textContent = `${car.make} ${car.model} ${car.year}`;
+          } else {
+            heroSub.textContent = 'Toyota Camry 2025';
+          }
+        }
+      };
+      updateHeroCar();
+      window.addEventListener('kafu_store_update', (e) => {
+        if (e.detail.key === 'car') updateHeroCar();
+      });
+
+      // 3. بحث باسم القطعة أو برقم الهيكل
+      const searchInput = document.getElementById('mainSearchInput');
+      const homeLensBtn = document.getElementById('btnHomeSearch');
+      const executeHomeSearch = () => {
+        const val = searchInput.value.trim();
+        window.location.href = val ? `search.html?q=${encodeURIComponent(val)}` : 'search.html';
+      };
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') executeHomeSearch();
+      });
+      if (homeLensBtn) homeLensBtn.addEventListener('click', executeHomeSearch);
+
+      // 4. عرض منتجات "مختارة لك"
+      const container = document.getElementById('featuredProductsList');
+      const renderProducts = () => {
+        const car = KafuStore.getSelectedCar();
+        container.innerHTML = PRODUCTS.slice(0, 4).map(p => {
+          const comp = checkCompatibility(p, car);
+          const compBadge = comp.status === 'compatible' 
+            ? `<span style="font-size:0.74rem; color:#15803D; font-weight:700;">✓ متوافق مع سيارتك</span>` 
+            : '';
+
+          return `
+            <div class="product-card glass glass-card-interactive" onclick="window.location.href='product.html?id=${p.id}'">
+              <div class="product-img-box">
+                <img src="${p.image}" alt="${p.name}" loading="lazy">
+              </div>
+              <div class="product-info-col">
+                <div class="product-top-row">
+                  <span class="product-brand">${p.brand}</span>
+                  <span class="badge-available">متوفر</span>
+                </div>
+                <h3 class="product-title">${p.name}</h3>
+                <div class="product-oem-row">
+                  <span>رقم القطعة</span>
+                  <span class="oem-code ltr">${p.oem}</span>
+                </div>
+                ${compBadge}
+                <div class="product-bottom-row">
+                  <span class="product-price">${KafuStore.formatPrice(p.price)}</span>
+                  <button 
+                    class="btn-add-cart-mini" 
+                    title="أضف إلى السلة" 
+                    aria-label="أضف إلى السلة"
+                    onclick="event.stopPropagation(); KafuStore.addToCart(PRODUCTS.find(x => x.id === '${p.id}')); KafuApp.showToast('تمت إضافة ${p.name} للسلة ✓');"
+                  >
+                    ${KafuApp.ICONS.plus}
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      };
+
+      renderProducts();
+      window.addEventListener('kafu_store_update', (e) => {
+        if (e.detail.key === 'car') renderProducts();
+      });
+
+      // أزرار الهيرو
+      document.getElementById('btnNotifications')?.addEventListener('click', () => {
+        KafuApp.showToast('لا توجد إشعارات جديدة حالياً');
+      });
+      document.getElementById('btnLanguage')?.addEventListener('click', () => {
+        KafuApp.showToast('اللغة الحالية: العربية (السعودية)');
+      });
+    });
+  </script>
+</body>
+</html>

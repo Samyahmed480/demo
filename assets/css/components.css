@@ -1,0 +1,1587 @@
+/* ==========================================================================
+   كفو (Kafu) - UI Components Styles
+   Updated layout: Large 2-row categories, left profile avatar/logo, 
+   chassis search, and 'المكتبة' (Library) navigation
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. أزرار (Buttons)
+   -------------------------------------------------------------------------- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 52px;
+  padding: 0 24px;
+  background: var(--gradient-btn);
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 8px 24px rgba(10, 108, 255, 0.28);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+@media (hover: hover) {
+  .btn-primary:hover {
+    background: var(--gradient-btn-hover);
+    box-shadow: 0 12px 28px rgba(10, 108, 255, 0.36);
+  }
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 20px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+@media (hover: hover) {
+  .btn-secondary:hover {
+    background: #FFFFFF;
+    box-shadow: var(--shadow);
+  }
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 18px;
+  background: transparent;
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.btn-outline:hover {
+  background: var(--primary-light);
+}
+
+.btn-icon-glass {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  cursor: pointer;
+}
+
+.btn-icon-glass:active {
+  transform: scale(0.92);
+}
+
+@media (hover: hover) {
+  .btn-icon-glass:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. كارت الهيرو (Hero Card) - اللوجو على الشمال كصورة بروفايل والترحيب على اليمين
+   -------------------------------------------------------------------------- */
+.hero-card {
+  position: relative;
+  background: var(--gradient-hero);
+  border-radius: var(--radius-sheet);
+  padding: 22px 24px;
+  color: #FFFFFF;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(10, 108, 255, 0.25);
+  margin-bottom: var(--gap);
+}
+
+.hero-watermark {
+  position: absolute;
+  right: 15%;
+  bottom: -35px;
+  width: 230px;
+  height: 230px;
+  opacity: 0.12;
+  pointer-events: none;
+  transform: rotate(-10deg);
+}
+
+/* السطر العلوي للهيرو: الأزرار على اليمين وصورة البروفايل/اللوجو على الشمال */
+.hero-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+/* كارت/صورة اللوجو على الشمال مثل صورة الملف الشخصي */
+.hero-profile-avatar-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--transition-fast);
+}
+
+.hero-profile-avatar-wrap:active {
+  transform: scale(0.94);
+}
+
+.hero-profile-box {
+  width: 52px;
+  height: 52px;
+  background: #FFFFFF;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0B4FA8;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  border: none;
+  position: relative;
+}
+
+.hero-avatar-badge {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 18px;
+  height: 18px;
+  background: #22C55E;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+}
+
+.hero-brand-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* الترحيب والسيارة على اليمين */
+.hero-content {
+  margin-top: 24px;
+  text-align: right;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+
+.hero-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   3. شريط البحث (Search Bar) - ابحث باسم القطعة أو رقم الهيكل
+   -------------------------------------------------------------------------- */
+.search-bar-wrap {
+  position: relative;
+  margin-bottom: var(--gap);
+}
+
+.search-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-pill {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 54px;
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  transition: all var(--transition-fast);
+}
+
+.search-pill:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 6px 20px rgba(10, 108, 255, 0.14);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.search-icon-right {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.btn-scan-box {
+  width: 54px;
+  height: 54px;
+  min-width: 54px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  color: var(--primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-scan-box:active {
+  transform: scale(0.92);
+}
+
+@media (hover: hover) {
+  .btn-scan-box:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+/* التوافق مع الكلاس القديم */
+.search-bar-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 54px;
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  transition: all var(--transition-fast);
+}
+
+.search-bar-card:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 6px 20px rgba(10, 108, 255, 0.14);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.btn-scan-trigger {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  background: var(--primary-light);
+  border: none;
+  transition: all var(--transition-fast);
+}
+
+.btn-scan-trigger:active {
+  transform: scale(0.92);
+}
+
+/* --------------------------------------------------------------------------
+   4. كارت سيارة المطابقة (Vehicle Matching Card)
+   -------------------------------------------------------------------------- */
+.vehicle-match-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-radius: var(--radius-card);
+  margin-bottom: 22px;
+  cursor: pointer;
+}
+
+.vehicle-match-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.vehicle-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: #DCEAFE;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vehicle-text-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.vehicle-meta-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.vehicle-active-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.vehicle-chevron {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   5. تصفح حسب الفئة - أيقونات أكبر وموزعة في صفين متوازيين (3 أعمدة في صفين)
+   -------------------------------------------------------------------------- */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.section-link {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity var(--transition-fast);
+}
+
+.section-link:hover {
+  opacity: 0.8;
+}
+
+/* شبكة الفئات: صفان متوازيان تحت بعض دائماً (3 فئات بالصف الأول و3 بالصف الثاني) */
+.categories-grid-two-rows {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 14px;
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--transition-fast);
+}
+
+.category-item:active {
+  transform: scale(0.92);
+}
+
+/* تكبير كروت الأيقونات لتكون واضحة وجذابة جداً */
+.category-tile-box-lg {
+  width: 82px;
+  height: 82px;
+  border-radius: var(--radius-tile);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  border: none;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.category-tile-box-lg svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 2.2;
+}
+
+@media (hover: hover) {
+  .category-item:hover .category-tile-box-lg {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.09);
+  }
+}
+
+.category-name-lg {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ألوان الفئات الباستيل */
+.tile-engine { background: var(--tile-blue); color: var(--tile-blue-icon); }
+.tile-brakes { background: var(--tile-peach); color: var(--tile-peach-icon); }
+.tile-electrical { background: var(--tile-lavender); color: var(--tile-lavender-icon); }
+.tile-oils { background: var(--tile-teal); color: var(--tile-teal-icon); }
+.tile-suspension { background: var(--tile-orange); color: var(--tile-orange-icon); }
+.tile-lighting { background: var(--tile-yellow); color: var(--tile-yellow-icon); }
+
+/* --------------------------------------------------------------------------
+   6. كروت المنتجات (Product Cards)
+   -------------------------------------------------------------------------- */
+.products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.product-card {
+  display: flex;
+  align-items: center;
+  padding: 14px;
+  border-radius: var(--radius-card);
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+
+.product-img-box {
+  width: 90px;
+  height: 90px;
+  min-width: 90px;
+  border-radius: 18px;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  position: relative;
+}
+
+.product-img-box img {
+  width: 76%;
+  height: 76%;
+  object-fit: contain;
+  transition: transform var(--transition-fast);
+}
+
+.product-card:hover .product-img-box img {
+  transform: scale(1.06);
+}
+
+.product-info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.product-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.product-brand {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.badge-available {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #15803D;
+  background: var(--success-bg);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.badge-available::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: #22C55E;
+  border-radius: 50%;
+}
+
+.product-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-oem-row {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.oem-code {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-family: monospace;
+}
+
+.product-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.product-price {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.btn-add-cart-mini {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast), background var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(10, 108, 255, 0.25);
+}
+
+.btn-add-cart-mini:active {
+  transform: scale(0.9);
+}
+
+.btn-add-cart-mini:hover {
+  background: var(--primary-dark);
+}
+
+/* --------------------------------------------------------------------------
+   7. شريط التنقل السفلي - يظهر بالأسفل مع خيار "المكتبة" بدل الملف الشخصي
+   -------------------------------------------------------------------------- */
+.bottom-nav-wrap {
+  position: fixed;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+.bottom-nav {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 440px;
+  height: 68px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 36px rgba(45, 52, 95, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 6px 10px;
+}
+
+.nav-tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  color: var(--text-muted);
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.nav-tab svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.nav-tab:active {
+  transform: scale(0.92);
+}
+
+.nav-tab.active {
+  color: #111418;
+  background: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.nav-tab.active svg {
+  stroke-width: 2.2;
+}
+
+/* شارة عدد السلة */
+.badge-count {
+  position: absolute;
+  top: 6px;
+  left: 8px; /* في RTL تكون باليسار */
+  background: var(--danger);
+  color: #FFFFFF;
+  font-size: 0.68rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 6px rgba(255, 59, 48, 0.35);
+  animation: badgePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes badgePop {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   8. المكونات الأخرى (السلة، الشحن، البحث، الحساب، التفاصيل)
+   -------------------------------------------------------------------------- */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-top: 6px;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.cart-item-card {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-radius: var(--radius-card);
+  gap: 14px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.cart-img-box {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  box-shadow: var(--shadow-sm);
+}
+
+.cart-item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cart-item-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.cart-item-seller {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.cart-item-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 4px;
+}
+
+/* Vertical Stepper */
+.stepper-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 38px;
+  height: 84px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 14px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+  padding: 4px;
+}
+
+.stepper-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: background var(--transition-fast);
+}
+
+.stepper-btn:active {
+  background: var(--primary-light);
+}
+
+.stepper-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* الملخص */
+.summary-card {
+  padding: 20px;
+  border-radius: var(--radius-card);
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.summary-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.06);
+  margin: 4px 0;
+}
+
+.summary-total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Bottom Sheet & Modals - تصميم غير شفاف تماماً لمنع ظهور الدوائر الخلفية والشفافية */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.72) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000 !important;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sheet-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bottom-sheet {
+  width: 100%;
+  max-width: 500px;
+  background: #FFFFFF !important;
+  border-top-left-radius: 32px !important;
+  border-top-right-radius: 32px !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-bottom: none !important;
+  padding: 24px;
+  padding-bottom: 36px;
+  box-shadow: 0 -16px 50px rgba(15, 23, 42, 0.25) !important;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+  opacity: 1 !important;
+}
+
+.sheet-backdrop.active .bottom-sheet {
+  transform: translateY(0);
+}
+
+.sheet-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.sheet-title-col {
+  flex: 1;
+}
+
+.sheet-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.sheet-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.btn-close-sheet {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  transition: background var(--transition-fast);
+}
+
+.btn-close-sheet:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.sheet-section {
+  margin-bottom: 18px;
+}
+
+.sheet-section-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.address-select-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  border: 1.5px solid var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.payment-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.payment-card-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 12px;
+  border-radius: var(--radius-md);
+  background: #FFFFFF;
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.payment-card-option.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.sheet-total-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background: #DCEAFE;
+  margin-bottom: 18px;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+/* Toast */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 12px 22px;
+  background: #111418;
+  color: #FFFFFF;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1), toastOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) 2.7s forwards;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(-20px) scale(0.95); }
+}
+
+/* --------------------------------------------------------------------------
+   9. شاشة الحساب والعناوين والمدخلات (Account & Form Controls)
+   -------------------------------------------------------------------------- */
+.profile-card {
+  padding: 20px 22px;
+  border-radius: 28px;
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.profile-avatar-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #DCEAFE;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.avatar-cam-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  margin-right: 16px;
+}
+
+.profile-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.profile-email {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.profile-device-tag {
+  font-size: 0.75rem;
+  color: #15803D;
+  background: #DCFCE7;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.account-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.account-menu-row {
+  height: 66px;
+  border-radius: 20px;
+  border: 1.5px solid #E2E8F0 !important;
+  background: #FFFFFF !important;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  transition: all var(--transition-fast);
+}
+
+.account-menu-row:active {
+  transform: scale(0.985);
+}
+
+@media (hover: hover) {
+  .account-menu-row:hover {
+    background: #F8FAFC !important;
+    border-color: #CBD5E1 !important;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+    transform: translateY(-1px);
+  }
+}
+
+.btn-logout-row {
+  width: 100%;
+  height: 52px;
+  border-radius: 18px;
+  background: #FFFFFF !important;
+  border: 1.5px solid rgba(255, 59, 48, 0.25) !important;
+  color: var(--danger);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(255, 59, 48, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-logout-row:hover {
+  background: #FEF2F2 !important;
+  border-color: var(--danger) !important;
+}
+
+.menu-row-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.menu-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.menu-row-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.menu-row-chevron {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+}
+
+.btn-logout-row {
+  height: 52px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 59, 48, 0.25);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: var(--glass-blur);
+  color: var(--danger);
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-logout-row:hover {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+}
+
+/* حقول الإدخال المحسنة (Form Controls) لمنع الحواف القاسية */
+.form-input {
+  width: 100%;
+  height: 48px;
+  border: 1px solid rgba(195, 205, 225, 0.7);
+  border-radius: 14px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.95);
+  font-size: 0.95rem;
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(10, 108, 255, 0.12);
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   10. شاشة البحث بالصورة (Image Search Screen) - مطابقة 100% للتطبيق الأصلي
+   -------------------------------------------------------------------------- */
+.scan-hero-card {
+  text-align: center;
+  padding: 30px 20px 24px;
+  border-radius: 28px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scan-icon-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #E8E5FA;
+  color: #7B5CFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 16px rgba(123, 92, 255, 0.18);
+}
+
+.scan-dropzone {
+  min-height: 250px;
+  border-radius: 28px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  padding: 30px 20px;
+  transition: all var(--transition-fast);
+}
+
+.scan-dropzone:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--shadow-lg);
+}
+
+.scan-dropzone:active {
+  transform: scale(0.99);
+}
+
+.scan-dropzone-img {
+  max-width: 85%;
+  max-height: 180px;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.scan-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, #7B5CFF 50%, transparent 100%);
+  box-shadow: 0 0 15px #7B5CFF;
+  display: none;
+  animation: scanMove 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes scanMove {
+  0% { top: 12px; }
+  100% { top: 92%; }
+}
+
+.sample-part-btn {
+  padding: 12px 10px;
+  border-radius: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sample-part-btn:active {
+  transform: scale(0.95);
+}
+
+.sample-part-btn img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.sample-part-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   10. كروت تفاصيل القطعة غير الشفافة وجدول مواصفات التاجر (Solid Product Page & Merchant Specs)
+   -------------------------------------------------------------------------- */
+.product-detail-hero {
+  background: #FFFFFF !important;
+  border-radius: 28px;
+  border: 1.5px solid #E2E8F0;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  padding: 30px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.product-detail-img {
+  max-height: 180px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.08));
+}
+
+.product-info-sheet {
+  background: #FFFFFF !important;
+  border-radius: 28px;
+  border: 1.5px solid #E2E8F0;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  padding: 24px 20px;
+  margin-bottom: 16px;
+}
+
+.security-trust-badge {
+  background: #FFFFFF !important;
+  border: 1.5px solid #D1FAE5;
+  border-radius: 20px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #065F46;
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.08);
+}
+
+/* كارت جدول مواصفات وبيانات القطعة المضافة من التاجر */
+.merchant-specs-card {
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 22px;
+  padding: 18px 16px;
+  margin: 18px 0;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+}
+
+.merchant-specs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px solid #F1F5F9;
+}
+
+.merchant-specs-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #0F172A;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.merchant-badge {
+  font-size: 0.74rem;
+  background: #EFF6FF;
+  color: var(--primary);
+  border: 1px solid #BFDBFE;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.merchant-spec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.merchant-spec-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: #F8FAFC;
+  border: 1px solid #EDF2F7;
+  gap: 12px;
+  transition: background var(--transition-fast);
+}
+
+.merchant-spec-item:nth-child(even) {
+  background: #FFFFFF;
+  border-color: #E2E8F0;
+}
+
+.merchant-spec-key {
+  font-size: 0.84rem;
+  color: #475569;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.spec-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: inline-block;
+}
+
+.merchant-spec-val {
+  font-size: 0.9rem;
+  color: #0F172A;
+  font-weight: 700;
+  text-align: left;
+  direction: ltr;
+  unicode-bidi: embed;
+}
+
+.merchant-spec-val.ar-val {
+  direction: rtl;
+  text-align: right;
+}
+
+.merchant-spec-val.confirmed {
+  direction: rtl;
+  color: #15803D;
+  background: #DCFCE7;
+  border: 1px solid #BBF7D0;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-check-car-pill {
+  padding: 6px 14px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid #BFDBFE;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-check-car-pill:hover {
+  background: var(--primary);
+  color: #FFFFFF;
+}
+
+/* شريط الشراء الثابت بأسفل تفاصيل القطعة مع خلفية بيضاء صلبة */
+.sticky-bottom-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 150;
+  background: #FFFFFF !important;
+  border-top: 1.5px solid #E2E8F0;
+  box-shadow: 0 -8px 25px rgba(15, 23, 42, 0.08);
+  padding: 12px 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* تخصيص قوائم الاختيار داخل المودال لتكون واضحة وغير شفافة تماماً */
+.bottom-sheet select,
+.bottom-sheet input {
+  background: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #0F172A !important;
+  opacity: 1 !important;
+}
+
+.bottom-sheet select:focus,
+.bottom-sheet input:focus {
+  border-color: var(--primary) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(10, 108, 255, 0.12) !important;
+}
+
