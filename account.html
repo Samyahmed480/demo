@@ -7,7 +7,7 @@
   <!-- خطوط عربية فائقة الوضوح والجمال من Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/components.css">
 </head>
@@ -68,9 +68,9 @@
     <div id="roleStatsContainer"></div>
 
     <!-- 2. عنوان لوحة التحكم المتغير -->
-    <div class="section-header" style="margin-bottom: 14px;">
+    <div class="section-header" style="margin-bottom: 14px; align-items: center;">
       <h1 class="section-title" id="dashboardSectionTitle" style="font-size: 1.25rem;">لوحة تحكم التاجر</h1>
-      <span style="font-size: 0.78rem; color: var(--text-muted);" id="dashboardSubtitle">خدمات وعمليات الحساب</span>
+      <span style="font-size: 0.78rem; font-weight: 600; color: #475569; background: rgba(15, 23, 42, 0.05); padding: 4px 12px; border-radius: var(--radius-pill);" id="dashboardSubtitle">خدمات وعمليات الحساب</span>
     </div>
 
     <!-- 3. قائمة خيارات لوحة التحكم المخصصة وفق الدور الحالي -->
@@ -258,7 +258,7 @@
         items = [
           {
             title: 'طلبات العملاء الواردة',
-            desc: 'متابعة وتجهيز مبيعات المتجر وتأكيد الشحن',
+            desc: 'متابعة مبيعات المتجر وتأكيد الشحن والتجهيز',
             iconBg: 'var(--tile-peach)',
             iconColor: 'var(--tile-peach-icon)',
             icon: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>`,
@@ -266,15 +266,15 @@
           },
           {
             title: 'عنوان المستودع وموقع المتجر',
-            desc: 'مقر المستودع ونقطة تسليم وشحن القطع للكباتن',
+            desc: 'مقر المستودع ونقطة تسليم شحنات الكباتن',
             iconBg: 'var(--tile-teal)',
             iconColor: 'var(--tile-teal-icon)',
             icon: `<path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/>`,
             action: 'openMerchantAddressModal()'
           },
           {
-            title: roleId === 'merchant_scrap' ? 'إضافة سيارة تشليح أو قطعة مستعملة' : 'إضافة قطعة وتحديد السعر',
-            desc: 'تسجيل قطعة جديدة بمواصفات كفو الـ 9 وكتابة سعرك',
+            title: roleId === 'merchant_scrap' ? 'إضافة سيارة تشليح أو سكراب' : 'إضافة قطعة وتحديد السعر',
+            desc: roleId === 'merchant_scrap' ? 'تسجيل مركبة سكراب وتفكيك القطع بالأسعار' : 'تسجيل قطعة جديدة بمواصفات كفو وتحديد السعر',
             iconBg: '#DCEAFE',
             iconColor: 'var(--primary)',
             icon: `<path d="M12 5v14M5 12h14"/>`,
@@ -282,7 +282,7 @@
           },
           {
             title: 'طلبات تسعير العملاء الواردة',
-            desc: 'تسعير استفسارات أرقام الهيكل VIN الواردة من العملاء',
+            desc: 'تسعير استفسارات أرقام الهيكل VIN للعملاء',
             iconBg: 'var(--tile-peach)',
             iconColor: 'var(--tile-peach-icon)',
             icon: `<path d="m20.59 13.41-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>`,
@@ -290,7 +290,7 @@
           },
           {
             title: 'محفظة التاجر والأرباح',
-            desc: 'عائدات المبيعات وسحب الأرباح البنكية الفورية',
+            desc: 'عائدات المبيعات وسحب الأرباح البنكية الفوري',
             iconBg: '#CBEAE7',
             iconColor: '#0F766E',
             icon: `<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>`,
@@ -298,15 +298,15 @@
           },
           {
             title: roleId === 'merchant_scrap' ? 'قطع التشليح وسيارات السكراب' : 'قطع المتجر والمخزون المعروض',
-            desc: 'إدارة الأسعار وتحديث توفر القطع بالمستودع',
+            desc: 'إدارة الأسعار وتحديث توفر قطع الغيار',
             iconBg: 'var(--tile-lavender)',
             iconColor: 'var(--tile-lavender-icon)',
             icon: `<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>`,
             action: 'openInventoryModal()'
           },
           {
-            title: 'مساعد كفو للتاجر ومطابقة VIN',
-            desc: 'فاحص أرقام الشاسيه ومطابقة كتالوجات المصنع الرسمية',
+            title: 'مساعد كفو ومطابقة VIN',
+            desc: 'فحص رقم الهيكل ومطابقة كتالوجات المصنع',
             iconBg: 'var(--tile-orange)',
             iconColor: 'var(--tile-orange-icon)',
             icon: `<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>`,
@@ -314,10 +314,10 @@
           },
           {
             title: 'إعدادات المتجر والرقم الضريبي',
-            desc: 'الرقم الضريبي VAT ID وتنسيق الأسعار والبيانات',
+            desc: 'الرقم الضريبي ZATCA وتفضيلات الحساب',
             iconBg: 'var(--tile-yellow)',
             iconColor: 'var(--tile-yellow-icon)',
-            icon: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`,
+            icon: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`,
             action: 'openSettingsModal()'
           }
         ];
@@ -596,9 +596,9 @@
                 ${item.icon}
               </svg>
             </div>
-            <div>
-              <span class="menu-row-title" style="display: block;">${item.title}</span>
-              <span style="font-size: 0.76rem; color: var(--text-muted);">${item.desc}</span>
+            <div class="menu-row-text">
+              <span class="menu-row-title">${item.title}</span>
+              <span class="menu-row-desc">${item.desc}</span>
             </div>
           </div>
           <span class="menu-row-chevron">
