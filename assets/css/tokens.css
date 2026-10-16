@@ -78,7 +78,7 @@
   --transition-slow: 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 
   /* الخطوط */
-  --font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family: 'IBM Plex Sans Arabic', 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Arabic', sans-serif;
 }
 
 /* Reset وتأسيس عام */
@@ -93,6 +93,10 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body {
@@ -102,10 +106,17 @@ body {
   direction: rtl;
   text-align: right;
   min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
   position: relative;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  touch-action: pan-y;
+}
+
+body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, a, label {
+  font-family: var(--font-family);
 }
 
 /* الدوائر الملونة الناعمة في الخلفية (Blobs) */
@@ -215,6 +226,9 @@ body {
   flex-direction: column;
   position: relative;
   border: none;
+  min-width: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 /* نصوص واتجاهات خاصة */
