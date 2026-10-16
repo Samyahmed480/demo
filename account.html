@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>كفو | حساب التاجر</title>
+  <title>كفو | لوحة التحكم والحساب المخصص</title>
   <!-- خطوط عربية فائقة الوضوح والجمال من Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,16 +22,31 @@
 
   <div class="app-container">
 
-    <!-- 1. كارت بروفايل التاجر (خلفية صلبة بيضاء غير شفافة) -->
+    <!-- شريط التبديل السريع بين الأدوار والواجهات -->
+    <div class="role-switch-top-bar" onclick="openRoleSwitcherModal()" title="انقر لتجربة وتبديل أدوار التطبيق">
+      <div class="role-switch-current">
+        <span id="roleIconPill" style="font-size: 1.15rem;">🏬</span>
+        <div>
+          <span id="roleCurrentTitle" style="display: block; font-size: 0.88rem; font-weight: 700; color: var(--text);">لوحة تحكم التاجر</span>
+          <span id="roleSubText" style="font-size: 0.72rem; color: var(--text-muted);">انقر لتبديل الدور (تاجر / مندوب / مهندس ورشة / توصيل / عميل)</span>
+        </div>
+      </div>
+      <div class="role-switch-action">
+        <span>تبديل</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+
+    <!-- 1. كارت بروفايل المستخدم المخصص للدور الحالي -->
     <div class="profile-card">
       <div class="profile-avatar-wrap">
-        <div class="profile-avatar">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <div class="profile-avatar" id="profileAvatarBox">
+          <svg id="profileAvatarSvg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
             <circle cx="12" cy="7" r="4"/>
           </svg>
         </div>
-        <div class="avatar-cam-badge" title="تغيير شعار المتجر">
+        <div class="avatar-cam-badge" title="تعديل الصورة الرمزية">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
             <circle cx="12" cy="13" r="3"/>
@@ -40,218 +55,30 @@
       </div>
 
       <div class="profile-info">
-        <h2 class="profile-name" id="merchantName">Mohamed Ahmed</h2>
-        <span class="profile-email" id="merchantEmail">webmax.ceo.1@gmail.com</span>
-        <span class="profile-device-tag">
+        <h2 class="profile-name" id="profileName">Mohamed Ahmed</h2>
+        <span class="profile-email" id="profileEmail">webmax.ceo.1@gmail.com</span>
+        <span class="profile-device-tag" id="profileBadgeTag">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="margin-left: 4px;"><polyline points="20 6 9 17 4 12"/></svg>
-          تاجر معتمد · متجر كفو للقطع
+          <span id="profileBadgeText">تاجر معتمد · متجر كفو للقطع</span>
         </span>
       </div>
     </div>
 
-    <!-- 2. عنوان لوحة تحكم التاجر -->
+    <!-- كارت الإحصائيات أو المميزات المخصصة للدور الحالي -->
+    <div id="roleStatsContainer"></div>
+
+    <!-- 2. عنوان لوحة التحكم المتغير -->
     <div class="section-header" style="margin-bottom: 14px;">
-      <h1 class="section-title" style="font-size: 1.25rem;">لوحة تحكم التاجر</h1>
+      <h1 class="section-title" id="dashboardSectionTitle" style="font-size: 1.25rem;">لوحة تحكم التاجر</h1>
+      <span style="font-size: 0.78rem; color: var(--text-muted);" id="dashboardSubtitle">خدمات وعمليات الحساب</span>
     </div>
 
-    <!-- 3. قائمة خيارات التاجر المصممة خصيصاً وفق طبيعة عمل التاجر -->
-    <div class="account-menu-list">
+    <!-- 3. قائمة خيارات لوحة التحكم المخصصة وفق الدور الحالي -->
+    <div class="account-menu-list" id="accountMenuList"></div>
 
-      <!-- 1. طلبات العملاء الواردة (بدلاً من طلباتي) -->
-      <div class="account-menu-row" onclick="openIncomingOrdersModal()">
-        <div class="menu-row-info">
-          <div class="menu-icon-box" style="background: var(--tile-peach); color: var(--tile-peach-icon);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
-            </svg>
-          </div>
-          <div>
-            <span class="menu-row-title" style="display: block;">طلبات العملاء الواردة</span>
-            <span style="font-size: 0.76rem; color: var(--text-muted);">متابعة وتجهيز مبيعات المتجر</span>
-          </div>
-        </div>
-        <span class="menu-row-chevron">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </span>
-      </div>
-
-      <!-- 2. عنوان التاجر وموقع المتجر (بدلاً من عناوين الشحن) -->
-      <div class="account-menu-row" onclick="openMerchantAddressModal()">
-        <div class="menu-row-info">
-          <div class="menu-icon-box" style="background: var(--tile-teal); color: var(--tile-teal-icon);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-          </div>
-          <div>
-            <span class="menu-row-title" style="display: block;">عنوان التاجر وموقع المتجر</span>
-            <span style="font-size: 0.76rem; color: var(--text-muted);">مقر المستودع ونقطة تسليم وشحن القطع</span>
-          </div>
-        </div>
-        <span class="menu-row-chevron">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </span>
-      </div>
-
-      <!-- 3. إضافة قطعة وتحديد السعر (بدلاً من طلب تسعير قطعة) -->
-      <div class="account-menu-row" onclick="openAddProductPriceModal()">
-        <div class="menu-row-info">
-          <div class="menu-icon-box" style="background: #DCEAFE; color: var(--primary);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </div>
-          <div>
-            <span class="menu-row-title" style="display: block;">إضافة قطعة وتحديد السعر</span>
-            <span style="font-size: 0.76rem; color: var(--text-muted);">تسجيل قطعة جديدة بالمواصفات الـ 9 وكتابة سعرك</span>
-          </div>
-        </div>
-        <span class="menu-row-chevron">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </span>
-      </div>
-
-      <!-- 4. طلبات تسعير العملاء الواردة (بدلاً من عروض الأسعار) -->
-      <div class="account-menu-row" onclick="openMerchantQuoteRepliesModal()">
-        <div class="menu-row-info">
-          <div class="menu-icon-box" style="background: var(--tile-peach); color: var(--tile-peach-icon);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m20.59 13.41-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-              <line x1="7" y1="7" x2="7.01" y2="7"/>
-            </svg>
-          </div>
-          <div>
-            <span class="menu-row-title" style="display: block;">طلبات تسعير العملاء الواردة</span>
-            <span style="font-size: 0.76rem; color: var(--text-muted);">تسعير استفسارات القطع الواردة من العملاء</span>
-          </div>
-        </div>
-        <span class="menu-row-chevron">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </span>
-      </div>
-
-      <!-- 5. محفظة التاجر وأرباح المبيعات -->
-      <div class="account-menu-row" onclick="openMerchantWalletModal()">
-        <div class="menu-row-info">
-          <div class="menu-icon-box" style="background: #CBEAE7; color: #0F766E;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="5" width="20" height="14" rx="2"/>
-              <line x1="2" y1="10" x2="22" y2="10"/>
-            </svg>
-          </div>
-          <div>
-            <span class="menu-row-title" style="display: block;">محفظة التاجر والأرباح</span>
-            <span style="font-size: 0.76rem; color: var(--text-muted);">عائدات المبيعات وسحب الأرباح البنكية</span>
-          </div>
-        </div>
-        <span class="menu-row-chevron">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </span>
-      </div>
-
-      <!-- 6. قطع المتجر والمخزون المعروض -->
-      <div class="account-menu-row" onclick="openInventoryModal()">
-        <div class="menu-row-info">
-          <div class="menu-icon-box" style="background: var(--tile-lavender); color: var(--tile-lavender-icon);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-              <line x1="12" y1="22.08" x2="12" y2="12"/>
-            </svg>
-          </div>
-          <div>
-            <span class="menu-row-title" style="display: block;">قطع المتجر والمخزون</span>
-            <span style="font-size: 0.76rem; color: var(--text-muted);">إدارة الأسعار وتحديث توفر القطع</span>
-          </div>
-        </div>
-        <span class="menu-row-chevron">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </span>
-      </div>
-
-      <!-- 7. مساعد كفو للتاجر (فاحص VIN و OEM) -->
-      <div class="account-menu-row" onclick="openAssistantModal()">
-        <div class="menu-row-info">
-          <div class="menu-icon-box" style="background: #FEEAD1; color: #EA580C;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-            </svg>
-          </div>
-          <div>
-            <span class="menu-row-title" style="display: block;">مساعد كفو للتاجر</span>
-            <span style="font-size: 0.76rem; color: var(--text-muted);">مطابقة أرقام الشاسيه والبدائل المتوافقة</span>
-          </div>
-        </div>
-        <span class="menu-row-chevron">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </span>
-      </div>
-
-      <!-- 8. المكتبة وكتالوجات الوكالة -->
-      <a href="library.html" class="account-menu-row">
-        <div class="menu-row-info">
-          <div class="menu-icon-box" style="background: var(--tile-blue); color: var(--tile-blue-icon);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/><rect width="20" height="2" x="2" y="20" rx="1"/>
-            </svg>
-          </div>
-          <div>
-            <span class="menu-row-title" style="display: block;">المكتبة وكتالوجات الوكالة</span>
-            <span style="font-size: 0.76rem; color: var(--text-muted);">المخططات الفنية الرسمية لسيارات تويوتا وغيرها</span>
-          </div>
-        </div>
-        <span class="menu-row-chevron">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </span>
-      </a>
-
-      <!-- 9. إعدادات المتجر -->
-      <div class="account-menu-row" onclick="openSettingsModal()">
-        <div class="menu-row-info">
-          <div class="menu-icon-box" style="background: #F1F5F9; color: #475569;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-            </svg>
-          </div>
-          <div>
-            <span class="menu-row-title" style="display: block;">إعدادات المتجر</span>
-            <span style="font-size: 0.76rem; color: var(--text-muted);">الرقم الضريبي وتنسيق الأسعار</span>
-          </div>
-        </div>
-        <span class="menu-row-chevron">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </span>
-      </div>
-
-    </div>
-
-    <!-- زر تسجيل الخروج -->
+    <!-- زر تسجيل الخروج والتبديل -->
     <button class="btn-logout-row" id="btnLogout">
-      تسجيل الخروج من حساب التاجر
+      تبديل الحساب أو تسجيل الخروج
     </button>
 
   </div>
@@ -297,7 +124,1007 @@
       if (e.target === modalBackdrop) closeActionModal();
     });
 
-    // 1. طلبات العملاء الواردة للتاجر (بدلاً من طلباتي)
+    // =========================================================================
+    // نظام العرض الديناميكي للوحات التحكم حسب الدور المختار
+    // =========================================================================
+
+    function renderActiveRoleDashboard() {
+      const roleId = KafuStore.getRole();
+      const role = KafuStore.getRoleData(roleId);
+
+      // 1. تحديث شريط التبديل العلوي
+      const iconMap = {
+        merchant_new: '🏬',
+        merchant_scrap: '🚜',
+        rep_oem: '📦',
+        rep_scrap: '🛠️',
+        workshop: '🔧',
+        courier: '🚚',
+        customer: '👤'
+      };
+      document.getElementById('roleIconPill').textContent = iconMap[roleId] || '🏬';
+      document.getElementById('roleCurrentTitle').textContent = role.title;
+      document.getElementById('dashboardSectionTitle').textContent = role.dashboardTitle;
+
+      // 2. تحديث كارت البروفايل
+      document.getElementById('profileName').textContent = role.name;
+      document.getElementById('profileEmail').textContent = role.email;
+      document.getElementById('profileBadgeText').textContent = role.badge;
+
+      // 3. كارت الإحصائيات أو كارت المميزات
+      renderStatsOrPerksCard(roleId, role);
+
+      // 4. عناصر قائمة الخيارات المخصصة
+      renderRoleMenuList(roleId);
+    }
+
+    // عرض الإحصائيات أو المميزات
+    function renderStatsOrPerksCard(roleId, role) {
+      const container = document.getElementById('roleStatsContainer');
+      container.innerHTML = '';
+
+      if (roleId === 'workshop') {
+        // كارت خاص لمهندس الورشة: خصم 15% + رصيد النقاط + البونص
+        container.innerHTML = `
+          <div class="workshop-perks-card">
+            <div class="workshop-perks-header">
+              <div>
+                <span class="workshop-badge-gold">⭐ المستوى الذهبي المعتمد</span>
+                <span style="font-size: 0.82rem; font-weight: 700; color: #92400E; margin-right: 6px;">خصم 15% ورش مفعل تلقائياً</span>
+              </div>
+              <button class="btn-primary" style="padding: 4px 12px; font-size: 0.78rem; background: #D97706; border-radius: var(--radius-pill);" onclick="openWorkshopPointsModal()">
+                استبدال النقاط
+              </button>
+            </div>
+            
+            <div class="workshop-points-row">
+              <div>
+                <div style="font-size: 0.78rem; color: #92400E;">رصيد كفو بوينتس (كاش باك)</div>
+                <div class="workshop-points-num font-num">1,850 <span style="font-size: 0.9rem; font-weight: 600;">نقطة (= 185 ر.س)</span></div>
+              </div>
+              <div style="text-align: left;">
+                <div style="font-size: 0.78rem; color: #92400E;">البونص الشهري المكتسب</div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #B45309;" class="font-num">420 ر.س</div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: #92400E; margin-bottom: 4px;">
+                <span>تارجت صيانة الشهر: 15 / 20 سيارة</span>
+                <span>باقي 5 سيارات للحصول على 500 ر.س بونص إضافي!</span>
+              </div>
+              <div class="workshop-bonus-progress">
+                <div class="workshop-bonus-bar" style="width: 75%;"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (roleId === 'courier') {
+        // كارت خاص بمندوب التوصيل: حالة الكابتن + أرباح اليوم
+        container.innerHTML = `
+          <div class="courier-status-card">
+            <div class="courier-status-info">
+              <div class="courier-status-dot" id="courierStatusDot"></div>
+              <div>
+                <strong id="courierStatusText" style="font-size: 0.95rem; color: #15803D;">كابتن متصل وجاهز للاستلام</strong>
+                <div style="font-size: 0.76rem; color: var(--text-muted);">نطاق التغطية: صناعية الشمال والرياض</div>
+              </div>
+            </div>
+            <button class="courier-toggle-btn online" id="btnCourierStatusToggle" onclick="toggleCourierOnlineStatus()">
+              متصل 🟢
+            </button>
+          </div>
+
+          <div class="role-stats-grid">
+            <div class="role-stat-box">
+              <span class="role-stat-val font-num">210 ر.س</span>
+              <span class="role-stat-label">أرباح مشاوير اليوم</span>
+            </div>
+            <div class="role-stat-box">
+              <span class="role-stat-val font-num">7 شحنات</span>
+              <span class="role-stat-label">تم تسليمها بنجاح</span>
+            </div>
+            <div class="role-stat-box">
+              <span class="role-stat-val font-num" style="color: #D97706;">2 طلب</span>
+              <span class="role-stat-label">شحنات قيد التوصيل</span>
+            </div>
+          </div>
+        `;
+      } else {
+        // الكارت القياسي للـ Stats Grid (التاجر ومندوب المبيعات والعميل)
+        const stats = role.stats || [];
+        container.innerHTML = `
+          <div class="role-stats-grid">
+            ${stats.map(s => `
+              <div class="role-stat-box">
+                <span class="role-stat-val font-num">${s.val}</span>
+                <span class="role-stat-label">${s.label}</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+    }
+
+    // عرض قائمة الخيارات المخصصة للدور
+    function renderRoleMenuList(roleId) {
+      const menuContainer = document.getElementById('accountMenuList');
+      menuContainer.innerHTML = '';
+
+      let items = [];
+
+      if (roleId === 'merchant_new' || roleId === 'merchant_scrap') {
+        // لوحة تحكم التاجر (قطع جديدة أو تشاليح)
+        items = [
+          {
+            title: 'طلبات العملاء الواردة',
+            desc: 'متابعة وتجهيز مبيعات المتجر وتأكيد الشحن',
+            iconBg: 'var(--tile-peach)',
+            iconColor: 'var(--tile-peach-icon)',
+            icon: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>`,
+            action: 'openIncomingOrdersModal()'
+          },
+          {
+            title: 'عنوان المستودع وموقع المتجر',
+            desc: 'مقر المستودع ونقطة تسليم وشحن القطع للكباتن',
+            iconBg: 'var(--tile-teal)',
+            iconColor: 'var(--tile-teal-icon)',
+            icon: `<path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/>`,
+            action: 'openMerchantAddressModal()'
+          },
+          {
+            title: roleId === 'merchant_scrap' ? 'إضافة سيارة تشليح أو قطعة مستعملة' : 'إضافة قطعة وتحديد السعر',
+            desc: 'تسجيل قطعة جديدة بمواصفات كفو الـ 9 وكتابة سعرك',
+            iconBg: '#DCEAFE',
+            iconColor: 'var(--primary)',
+            icon: `<path d="M12 5v14M5 12h14"/>`,
+            action: 'openAddProductPriceModal()'
+          },
+          {
+            title: 'طلبات تسعير العملاء الواردة',
+            desc: 'تسعير استفسارات أرقام الهيكل VIN الواردة من العملاء',
+            iconBg: 'var(--tile-peach)',
+            iconColor: 'var(--tile-peach-icon)',
+            icon: `<path d="m20.59 13.41-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>`,
+            action: 'openMerchantQuoteRepliesModal()'
+          },
+          {
+            title: 'محفظة التاجر والأرباح',
+            desc: 'عائدات المبيعات وسحب الأرباح البنكية الفورية',
+            iconBg: '#CBEAE7',
+            iconColor: '#0F766E',
+            icon: `<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>`,
+            action: 'openMerchantWalletModal()'
+          },
+          {
+            title: roleId === 'merchant_scrap' ? 'قطع التشليح وسيارات السكراب' : 'قطع المتجر والمخزون المعروض',
+            desc: 'إدارة الأسعار وتحديث توفر القطع بالمستودع',
+            iconBg: 'var(--tile-lavender)',
+            iconColor: 'var(--tile-lavender-icon)',
+            icon: `<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>`,
+            action: 'openInventoryModal()'
+          },
+          {
+            title: 'مساعد كفو للتاجر ومطابقة VIN',
+            desc: 'فاحص أرقام الشاسيه ومطابقة كتالوجات المصنع الرسمية',
+            iconBg: 'var(--tile-orange)',
+            iconColor: 'var(--tile-orange-icon)',
+            icon: `<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>`,
+            action: 'openAssistantModal()'
+          },
+          {
+            title: 'إعدادات المتجر والرقم الضريبي',
+            desc: 'الرقم الضريبي VAT ID وتنسيق الأسعار والبيانات',
+            iconBg: 'var(--tile-yellow)',
+            iconColor: 'var(--tile-yellow-icon)',
+            icon: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`,
+            action: 'openSettingsModal()'
+          }
+        ];
+      } else if (roleId === 'rep_oem' || roleId === 'rep_scrap') {
+        // لوحة تحكم مندوب المبيعات (زى واجهة التاجر)
+        items = [
+          {
+            title: 'طلبات العملاء والورش المسندة',
+            desc: 'متابعة وتجهيز طلبيات الورش والعملاء وإتمام البيع',
+            iconBg: 'var(--tile-peach)',
+            iconColor: 'var(--tile-peach-icon)',
+            icon: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>`,
+            action: 'openRepAssignedOrdersModal()'
+          },
+          {
+            title: 'تقديم عروض الأسعار والعمولات',
+            desc: 'تسعير القطع للعملاء بنسبة عمولتك المباشرة',
+            iconBg: '#DCEAFE',
+            iconColor: 'var(--primary)',
+            icon: `<path d="m20.59 13.41-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>`,
+            action: 'openRepQuotesModal()'
+          },
+          {
+            title: 'إضافة قطع وتحديث أسعار الموردين',
+            desc: 'ربط قطع الوكلاء والمستودعات الشريكة في كفو',
+            iconBg: 'var(--tile-teal)',
+            iconColor: 'var(--tile-teal-icon)',
+            icon: `<path d="M12 5v14M5 12h14"/>`,
+            action: 'openAddProductPriceModal()'
+          },
+          {
+            title: 'محفظة عمولات المبيعات',
+            desc: 'عائدات العمولات المباشرة وسحب الرصيد البنكي',
+            iconBg: '#CBEAE7',
+            iconColor: '#0F766E',
+            icon: `<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>`,
+            action: 'openRepWalletModal()'
+          },
+          {
+            title: 'شبكة الورش ومراكز الصيانة التابعة',
+            desc: '19 ورشة معتمدة تطلب قطعها عبر حسابك المندوب',
+            iconBg: 'var(--tile-lavender)',
+            iconColor: 'var(--tile-lavender-icon)',
+            icon: `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`,
+            action: 'openRepWorkshopsModal()'
+          },
+          {
+            title: 'مسار الزيارات الميدانية للورش',
+            desc: 'تنظيم جولاتك اليومية على المناطق الصناعية والتشاليح',
+            iconBg: 'var(--tile-orange)',
+            iconColor: 'var(--tile-orange-icon)',
+            icon: `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/>`,
+            action: 'openRepFieldVisitsModal()'
+          },
+          {
+            title: 'فاحص VIN وكتالوجات الوكالة',
+            desc: 'مطابقة رقم الشاسيه والتأكد من توافق القطعة قبل البيع',
+            iconBg: 'var(--tile-blue)',
+            iconColor: 'var(--tile-blue-icon)',
+            icon: `<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>`,
+            action: 'openAssistantModal()'
+          },
+          {
+            title: 'إعدادات حساب المندوب',
+            desc: 'بيانات الحساب البنكي لتحويل العمولات ونطاق العمل',
+            iconBg: 'var(--tile-yellow)',
+            iconColor: 'var(--tile-yellow-icon)',
+            icon: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`,
+            action: 'openSettingsModal()'
+          }
+        ];
+      } else if (roleId === 'workshop') {
+        // لوحة تحكم مهندس الورشة (يطلب مثل العميل ومميز ببونص وخصم ونقاط)
+        items = [
+          {
+            title: 'محفظة النقاط والبونص والمكافآت',
+            desc: 'رصيد 1,850 نقطة كاش باك + 420 ر.س بونص الورشة',
+            iconBg: 'linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)',
+            iconColor: '#B45309',
+            icon: `<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>`,
+            action: 'openWorkshopPointsModal()'
+          },
+          {
+            title: 'طلبات قطع سيارات الورشة الحالية',
+            desc: 'متابعة الشحنات المستعجلة الواصلة لسيارات الصيانة بالورشة',
+            iconBg: 'var(--tile-peach)',
+            iconColor: 'var(--tile-peach-icon)',
+            icon: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>`,
+            action: 'openWorkshopOrdersModal()'
+          },
+          {
+            title: 'طلب تسعير فوري لسيارة عميل (بخصم 15%)',
+            desc: 'أدخل رقم الشاسيه لتصلك عروض فورية بأسعار الورش الخاصة',
+            iconBg: '#DCEAFE',
+            iconColor: 'var(--primary)',
+            icon: `<path d="m20.59 13.41-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>`,
+            action: 'openWorkshopInstantQuoteModal()'
+          },
+          {
+            title: 'سيارات الورشة قيد العمل الحالية',
+            desc: '5 سيارات داخل الورشة مسجل لها قطع غيار وصيانة',
+            iconBg: 'var(--tile-teal)',
+            iconColor: 'var(--tile-teal-icon)',
+            icon: `<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/>`,
+            action: 'openWorkshopCarsModal()'
+          },
+          {
+            title: 'طلب توصيل فوري مستعجل (45 دقيقة)',
+            desc: 'توصيل شاحنة كفو السريعة مباشرة إلى باب الورشة',
+            iconBg: '#DCFCE7',
+            iconColor: '#15803D',
+            icon: `<rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>`,
+            action: 'openWorkshopExpressDeliveryModal()'
+          },
+          {
+            title: 'الفواتير الضريبية المعتمدة للورشة',
+            desc: 'تحميل فواتير ZATCA الضريبية المعتمدة بخصم الورشة',
+            iconBg: 'var(--tile-lavender)',
+            iconColor: 'var(--tile-lavender-icon)',
+            icon: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>`,
+            action: 'openWorkshopTaxInvoicesModal()'
+          },
+          {
+            title: 'فاحص VIN وكتالوجات الصيانة المعتمدة',
+            desc: 'تطابق فوري لكود القطعة OEM مع كتالوج المصنع الرسمي',
+            iconBg: 'var(--tile-orange)',
+            iconColor: 'var(--tile-orange-icon)',
+            icon: `<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>`,
+            action: 'openAssistantModal()'
+          },
+          {
+            title: 'عقد الورشة المعتمدة والضمان',
+            desc: 'شهادة الاعتماد الذهبي وبيانات الورشة المسجلة',
+            iconBg: 'var(--tile-yellow)',
+            iconColor: 'var(--tile-yellow-icon)',
+            icon: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`,
+            action: 'openSettingsModal()'
+          }
+        ];
+      } else if (roleId === 'courier') {
+        // لوحة تحكم مندوب التوصيل
+        items = [
+          {
+            title: 'شحنات متاحة للاستلام الآن',
+            desc: 'طلبيات جاهزة في متاجر القطع القريبة بانتظار استلامك',
+            iconBg: '#DCFCE7',
+            iconColor: '#16A34A',
+            icon: `<rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>`,
+            action: 'openCourierAvailableShipmentsModal()'
+          },
+          {
+            title: 'شحنات قيد التوصيل الحالية',
+            desc: 'طلبين قيد النقل: ملاحة GPS، الاتصال بالورشة، وتأكيد التسليم',
+            iconBg: '#DCEAFE',
+            iconColor: 'var(--primary)',
+            icon: `<path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/>`,
+            action: 'openCourierActiveShipmentsModal()'
+          },
+          {
+            title: 'محفظة أرباح التوصيل والمشاوير',
+            desc: 'أرباح اليوم 210 ر.س مع سحب فوري للحساب البنكي',
+            iconBg: '#CBEAE7',
+            iconColor: '#0F766E',
+            icon: `<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>`,
+            action: 'openCourierWalletModal()'
+          },
+          {
+            title: 'مسح باركود الشحنة (QR / Barcode)',
+            desc: 'تأكيد استلام وتسليم القطعة إلكترونياً بمسح الكود',
+            iconBg: 'var(--tile-lavender)',
+            iconColor: 'var(--tile-lavender-icon)',
+            icon: `<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/>`,
+            action: 'openCourierBarcodeScanModal()'
+          },
+          {
+            title: 'سجل المشاوير المكتملة',
+            desc: 'أرشيف الشحنات المسلمة مع تقييمات التجار والورش',
+            iconBg: 'var(--tile-peach)',
+            iconColor: 'var(--tile-peach-icon)',
+            icon: `<polyline points="20 6 9 17 4 12"/>`,
+            action: 'openCourierCompletedTripsModal()'
+          },
+          {
+            title: 'مناطق التغطية ونطاق الاستلام المفضل',
+            desc: 'الصناعية القديمة، صناعية الدائري، وأم الحمام بالرياض',
+            iconBg: 'var(--tile-teal)',
+            iconColor: 'var(--tile-teal-icon)',
+            icon: `<circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/>`,
+            action: 'openCourierZonesModal()'
+          },
+          {
+            title: 'خط طوارئ ومساعد كباتن كفو',
+            desc: 'دعم مباشر على الطريق ومساعدة مشاكل الاستلام',
+            iconBg: 'var(--tile-orange)',
+            iconColor: 'var(--tile-orange-icon)',
+            icon: `<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>`,
+            action: 'openAssistantModal()'
+          },
+          {
+            title: 'إعدادات الكابتن والمركبة',
+            desc: 'بيانات رخصة القيادة، استمارة السيارة، والحساب البنكي',
+            iconBg: 'var(--tile-yellow)',
+            iconColor: 'var(--tile-yellow-icon)',
+            icon: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`,
+            action: 'openSettingsModal()'
+          }
+        ];
+      } else {
+        // لوحة تحكم العميل العادي / الزائر
+        items = [
+          {
+            title: 'طلباتي ومتابعة الشحنات',
+            desc: 'طلب نشط قيد التوصيل لسيارتك كامري 2025',
+            iconBg: 'var(--tile-peach)',
+            iconColor: 'var(--tile-peach-icon)',
+            icon: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>`,
+            action: 'openCustomerOrdersModal()'
+          },
+          {
+            title: 'كراج سياراتي المحفوظة',
+            desc: 'تويوتا كامري 2025 (VIN: 4T1B11HK5SU)',
+            iconBg: 'var(--tile-blue)',
+            iconColor: 'var(--tile-blue-icon)',
+            icon: `<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/>`,
+            action: 'openCustomerGarageModal()'
+          },
+          {
+            title: 'عناوين التوصيل والاستلام',
+            desc: 'إدارة وتحديد موقعك الدقيق لاستلام قطع الغيار',
+            iconBg: 'var(--tile-teal)',
+            iconColor: 'var(--tile-teal-icon)',
+            icon: `<path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/>`,
+            action: 'openMerchantAddressModal()'
+          },
+          {
+            title: 'طلبات تسعير القطع السابقة',
+            desc: 'عروض الأسعار الواردة من المتاجر والتشاليح',
+            iconBg: '#DCEAFE',
+            iconColor: 'var(--primary)',
+            icon: `<path d="m20.59 13.41-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>`,
+            action: 'openCustomerQuotesModal()'
+          },
+          {
+            title: 'محفظة كفو ورصيد المسترد',
+            desc: 'رصيد 250 ر.س لاستخدامه في مشترياتك القادمة',
+            iconBg: '#CBEAE7',
+            iconColor: '#0F766E',
+            icon: `<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>`,
+            action: 'openMerchantWalletModal()'
+          },
+          {
+            title: 'فاحص أرقام الهيكل VIN ومطابقة التوافق',
+            desc: 'تأكد من مطابقة أي قطعة لسيارتك قبل الشراء',
+            iconBg: 'var(--tile-orange)',
+            iconColor: 'var(--tile-orange-icon)',
+            icon: `<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>`,
+            action: 'openAssistantModal()'
+          },
+          {
+            title: 'إعدادات الحساب وتفضيلات التطبيق',
+            desc: 'تنسيق الأسعار واللغة والإشعارات',
+            iconBg: 'var(--tile-yellow)',
+            iconColor: 'var(--tile-yellow-icon)',
+            icon: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`,
+            action: 'openSettingsModal()'
+          }
+        ];
+      }
+
+      // حقن العناصر في الـ DOM
+      menuContainer.innerHTML = items.map(item => `
+        <div class="account-menu-row" onclick="${item.action}">
+          <div class="menu-row-info">
+            <div class="menu-icon-box" style="background: ${item.iconBg}; color: ${item.iconColor};">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                ${item.icon}
+              </svg>
+            </div>
+            <div>
+              <span class="menu-row-title" style="display: block;">${item.title}</span>
+              <span style="font-size: 0.76rem; color: var(--text-muted);">${item.desc}</span>
+            </div>
+          </div>
+          <span class="menu-row-chevron">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+          </span>
+        </div>
+      `).join('');
+    }
+
+    // =========================================================================
+    // مودال تبديل الدور السريع (Quick Role Switcher)
+    // =========================================================================
+    function openRoleSwitcherModal() {
+      const activeId = KafuStore.getRole();
+      const rolesList = [
+        { id: 'merchant_new', title: 'تاجر متجر قطع غيار جديدة', group: 'تاجر', icon: '🏬', badge: 'متجر معتمد' },
+        { id: 'merchant_scrap', title: 'تاجر تشاليح ومستعمل', group: 'تاجر', icon: '🚜', badge: 'تشاليح مفحوصة' },
+        { id: 'rep_oem', title: 'مندوب مبيعات قطع أصلية', group: 'مندوب مبيعات', icon: '📦', badge: 'عمولات مباشرة' },
+        { id: 'rep_scrap', title: 'مندوب مبيعات تشاليح ومستعمل', group: 'مندوب مبيعات', icon: '🛠️', badge: 'تشاليح ميداني' },
+        { id: 'workshop', title: 'مهندس ورشة ومركز صيانة', group: 'ورشة صيانة', icon: '🔧', badge: 'خصم 15% + بونص ونقاط' },
+        { id: 'courier', title: 'مندوب توصيل وكابتن شحن', group: 'توصيل', icon: '🚚', badge: 'أرباح مشاوير يومية' },
+        { id: 'customer', title: 'عميل عادي / زائر', group: 'عميل', icon: '👤', badge: 'تسوق فوري' }
+      ];
+
+      const html = `
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 4px;">
+            اختر أي دور من الأدوار الـ 7 لتجربة لوحة التحكم المخصصة الخاصة به فوراً:
+          </div>
+          ${rolesList.map(r => `
+            <div onclick="applyRoleSwitch('${r.id}')" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 16px; border: 1.5px solid ${r.id === activeId ? 'var(--primary)' : '#E2E8F0'}; background: ${r.id === activeId ? '#EFF6FF' : '#FFFFFF'}; cursor: pointer; transition: all 0.2s ease;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 1.4rem;">${r.icon}</span>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem; color: var(--text);">${r.title}</div>
+                  <div style="font-size: 0.76rem; color: var(--text-muted);">${r.group} · <span style="color: ${r.id === activeId ? 'var(--primary)' : '#15803D'}; font-weight: 700;">${r.badge}</span></div>
+                </div>
+              </div>
+              <div>
+                ${r.id === activeId 
+                  ? `<span style="width: 26px; height: 26px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700;">✓</span>`
+                  : `<span style="font-size: 0.8rem; color: var(--primary); font-weight: 700;">تفعيل</span>`
+                }
+              </div>
+            </div>
+          `).join('')}
+
+          <div style="padding-top: 10px; border-top: 1px solid #E2E8F0; margin-top: 6px;">
+            <a href="auth.html" style="display: block; text-align: center; font-size: 0.88rem; font-weight: 700; color: var(--primary); padding: 8px;">
+              الذهاب إلى واجهة البداية وتسجيل الدخول المكتملة ←
+            </a>
+          </div>
+        </div>
+      `;
+
+      openModalWith('تبديل نوع الحساب والدور', 'اختر الواجهة التي ترغب في استعراضها والعمل بها', html);
+    }
+
+    function applyRoleSwitch(roleId) {
+      KafuStore.setRole(roleId);
+      closeActionModal();
+      renderActiveRoleDashboard();
+      KafuApp.showToast(`تم تفعيل واجهة: ${KafuStore.ROLES[roleId].shortTitle}`);
+    }
+
+    function toggleCourierOnlineStatus() {
+      const btn = document.getElementById('btnCourierStatusToggle');
+      const text = document.getElementById('courierStatusText');
+      const dot = document.getElementById('courierStatusDot');
+      const isOnline = btn.classList.contains('online');
+
+      if (isOnline) {
+        btn.classList.remove('online');
+        btn.textContent = 'غير متصل 🔴';
+        btn.style.background = '#FEE2E2';
+        btn.style.color = '#B91C1C';
+        btn.style.borderColor = '#FCA5A5';
+        text.textContent = 'أنت الآن في وضع غير متاح لاستلام الشحنات';
+        text.style.color = 'var(--text-muted)';
+        dot.style.background = '#EF4444';
+        dot.style.boxShadow = 'none';
+        KafuApp.showToast('تم إيقاف استقبال الطلبات مؤقتاً');
+      } else {
+        btn.classList.add('online');
+        btn.textContent = 'متصل 🟢';
+        btn.style.background = '#DCFCE7';
+        btn.style.color = '#15803D';
+        btn.style.borderColor = '#86EFAC';
+        text.textContent = 'كابتن متصل وجاهز للاستلام';
+        text.style.color = '#15803D';
+        dot.style.background = '#22C55E';
+        dot.style.boxShadow = '0 0 0 4px rgba(34, 197, 94, 0.2)';
+        KafuApp.showToast('أنت الآن متصل وتستقبل طلبات الشحن!');
+      }
+    }
+
+    // =========================================================================
+    // مودالات مهندس الورشة (Workshop Engineer Modals)
+    // =========================================================================
+
+    function openWorkshopPointsModal() {
+      openModalWith('محفظة النقاط وبونص الورشة', 'استبدل كفو بوينتس بخصم كاش أو رصيد بنكي فوري', `
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%); border: 1.5px solid #FCD34D; border-radius: 18px; padding: 18px; text-align: center;">
+            <div style="font-size: 0.82rem; color: #92400E; font-weight: 700;">رصيدك القابل للاستبدال</div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: #B45309;" class="font-num">1,850 <span style="font-size: 1rem;">نقطة</span></div>
+            <div style="font-size: 0.95rem; font-weight: 700; color: #15803D; margin-top: 2px;">تساوي 185.00 ر.س رصيد مشتريات مجاني</div>
+          </div>
+
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px;">
+            <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">خيارات الاستبدال السريع:</div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <button class="btn-primary" style="padding: 10px; font-size: 0.88rem;" onclick="KafuApp.showToast('تم تطبيق خصم 185 ر.س على سلتك الشرائية بنجاح ✓'); closeActionModal();">
+                تحويل النقاط لكوبون خصم 185 ر.س للسلة
+              </button>
+              <button class="btn-secondary" style="padding: 10px; font-size: 0.88rem;" onclick="KafuApp.showToast('تم تقديم طلب سحب 185 ر.س لحساب الورشة البنكي بنجاح'); closeActionModal();">
+                سحب كاش باك لحساب الورشة البنكي (IBAN)
+              </button>
+            </div>
+          </div>
+
+          <div style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.5;">
+            * تحصل الورش المعتمدة على 50 نقطة كفو عن كل 100 ر.س مشتريات لسيارات الصيانة، بالإضافة إلى بونص شهري عند تحقيق تارجت 20 سيارة.
+          </div>
+        </div>
+      `);
+    }
+
+    function openWorkshopOrdersModal() {
+      openModalWith('طلبات قطع سيارات الورشة', 'متابعة القطع المطلوبة لسيارات الزبائن قيد الصيانة', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="color: var(--text);">طلب ورشة #W-4102</strong>
+              <span style="background: #DCFCE7; color: #15803D; padding: 3px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;">في الطريق مع الكابتن</span>
+            </div>
+            <div style="font-size: 0.85rem; color: #475569;">سيارة الزبون: <strong>لكزس ES350 (2022)</strong></div>
+            <div style="font-size: 0.85rem; color: #475569;">القطع: مساعدات أمامية أصلية + مسامير توازن</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #EDF2F7;">
+              <span style="font-weight: 800; color: var(--primary);">820 ر.س (خصم ورشة 15%)</span>
+              <button class="btn-primary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="KafuApp.showToast('الكابتن على بُعد 10 دقائق من موقع الورشة');">تتبع الكابتن 🚚</button>
+            </div>
+          </div>
+
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="color: var(--text);">طلب ورشة #W-4098</strong>
+              <span style="background: #FEF3C7; color: #D97706; padding: 3px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;">قيد التجهيز في المستودع</span>
+            </div>
+            <div style="font-size: 0.85rem; color: #475569;">سيارة الزبون: <strong>تويوتا كامري (2025)</strong></div>
+            <div style="font-size: 0.85rem; color: #475569;">القطع: طقم مكبس محرك كامل + قشاط سير</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #EDF2F7;">
+              <span style="font-weight: 800; color: var(--primary);">1,407 ر.س (مخصوم)</span>
+              <span style="font-size: 0.78rem; color: var(--text-muted);">تسليم اليوم 4:00 م</span>
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    function openWorkshopInstantQuoteModal() {
+      openModalWith('طلب تسعير فوري لسيارة عميل', 'أدخل رقم الشاسيه لتصلك عروض فورية من مستودعات كفو بخصم 15%', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">رقم الهيكل الشاسيه (17 رمزاً)</label>
+            <input type="text" placeholder="مثال: 4T1B11HK5SU..." class="form-input ltr" style="text-align: right;" value="4T1B11HK5SU89201">
+          </div>
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">القطع المطلوبة لسيارة الصيانة</label>
+            <textarea class="form-input" rows="3" placeholder="اكتب أسماء القطع المطلوبة (مثال: طرمبة ماء، طقم ربلات، دينمو شحن...)"></textarea>
+          </div>
+          <div style="background: #DCFCE7; border: 1px solid #86EFAC; border-radius: 12px; padding: 10px; font-size: 0.82rem; color: #15803D;">
+            ✓ سيتم تفعيل خصم الورش المعتمدة الذهبي (15%) واحتساب نقاط كفو بوينتس فور تأكيد الطلب.
+          </div>
+          <button class="btn-primary" onclick="KafuApp.showToast('تم إرسال طلب التسعير إلى مستودعات كفو! ستصلك العروض خلال 15 دقيقة.'); closeActionModal();">
+            إرسال طلب التسعير الفوري للمستودعات
+          </button>
+        </div>
+      `);
+    }
+
+    function openWorkshopCarsModal() {
+      openModalWith('سيارات الورشة قيد الصيانة', 'سجل المركبات المتواجدة حالياً داخل ورشتك لمطابقة قطعها', `
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.92rem;">تويوتا كامري 2025</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">لوحة: أ ب ج 1234 · توضيب محرك</div>
+            </div>
+            <span style="color: #2563EB; font-weight: 700; font-size: 0.82rem;">القطع واصلة ✓</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.92rem;">لكزس ES350 2022</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">لوحة: د هـ و 9876 · صيانة فرامل ومساعدات</div>
+            </div>
+            <span style="color: #D97706; font-weight: 700; font-size: 0.82rem;">بانتظار الشحن ⏳</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.92rem;">هيونداي سوناتا 2023</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">لوحة: ر ز س 4567 · سير ومشدات</div>
+            </div>
+            <span style="color: #15803D; font-weight: 700; font-size: 0.82rem;">تم الإصلاح والتسليم ✓</span>
+          </div>
+        </div>
+      `);
+    }
+
+    function openWorkshopExpressDeliveryModal() {
+      openModalWith('طلب شاحنة كفو السريعة (45 دقيقة)', 'توصيل مستعجل ومباشر من أقرب مستودع إلى باب الورشة', `
+        <div style="display: flex; flex-direction: column; gap: 14px; text-align: center;">
+          <div style="width: 68px; height: 68px; border-radius: 50%; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 4px;">خدمة الإسعاف السريع لقطع الورش</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+              لا تعطل رافعة الصيانة! شاحنات كفو السريعة مخصصة للمناطق الصناعية لضمان وصول القطعة لورشتك خلال 45 دقيقة كحد أقصى.
+            </p>
+          </div>
+          <button class="btn-primary" style="height: 48px;" onclick="KafuApp.showToast('تم حجز كابتن شحن سريع للورشة! سيصل خلال 35 دقيقة.'); closeActionModal();">
+            طلب كابتن توصيل فوري الآن 🚀
+          </button>
+        </div>
+      `);
+    }
+
+    function openWorkshopTaxInvoicesModal() {
+      openModalWith('الفواتير الضريبية المعتمدة (ZATCA)', 'فواتير نظامية موثقة باسم ورشتك لمطالبات التأمين والعملاء', `
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">فاتورة #INV-2026-0891</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">التاريخ: 16-10-2026 · لكزس ES350</div>
+            </div>
+            <div style="text-align: left;">
+              <div style="font-weight: 800; color: var(--primary);">820 ر.س</div>
+              <button style="font-size: 0.75rem; color: var(--primary); text-decoration: underline;" onclick="KafuApp.showToast('جاري تحميل ملف PDF الفاتورة...');">تحميل PDF</button>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">فاتورة #INV-2026-0870</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">التاريخ: 12-10-2026 · كامري 2025</div>
+            </div>
+            <div style="text-align: left;">
+              <div style="font-weight: 800; color: var(--primary);">1,407 ر.س</div>
+              <button style="font-size: 0.75rem; color: var(--primary); text-decoration: underline;" onclick="KafuApp.showToast('جاري تحميل ملف PDF الفاتورة...');">تحميل PDF</button>
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    // =========================================================================
+    // مودالات مندوب التوصيل (Courier Modals)
+    // =========================================================================
+
+    function openCourierAvailableShipmentsModal() {
+      openModalWith('شحنات متاحة للاستلام الآن', 'اختر الشحنات المناسبة لمسارك واقبل المشوار فوراً', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="color: var(--text); font-size: 0.95rem;">شحنة كفو #SH-992</strong>
+              <span style="background: #DCFCE7; color: #15803D; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 800;">أجر المشوار: 45 ر.س</span>
+            </div>
+            <div style="font-size: 0.85rem; color: #475569; margin-bottom: 4px;">المستودع: <strong>متجر كفو للقطع - الصناعية القديمة</strong></div>
+            <div style="font-size: 0.85rem; color: #475569; margin-bottom: 6px;">الوجهة: <strong>مركز صيانة الأمل - حي اليرموك</strong> (14 كم)</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">محتوى الطرد: فحمات فرامل وبواجي (وزن خفيف 3 كجم)</div>
+            <button class="btn-primary" style="width: 100%; padding: 8px;" onclick="KafuApp.showToast('تم قبول المشوار! افتح الشحنات قيد التوصيل للملاحة.'); closeActionModal();">
+              قبول الشحنة والبدء بالاستلام ✓
+            </button>
+          </div>
+
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="color: var(--text); font-size: 0.95rem;">شحنة كفو #SH-988</strong>
+              <span style="background: #DCFCE7; color: #15803D; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 800;">أجر المشوار: 60 ر.س</span>
+            </div>
+            <div style="font-size: 0.85rem; color: #475569; margin-bottom: 4px;">المستودع: <strong>تشاليح الحائر - أبو فهد للقطع</strong></div>
+            <div style="font-size: 0.85rem; color: #475569; margin-bottom: 6px;">الوجهة: <strong>ورشة الخليج - حي السلي</strong> (18 كم)</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">محتوى الطرد: رفرف ومساعدات سيارة مستعملة</div>
+            <button class="btn-primary" style="width: 100%; padding: 8px;" onclick="KafuApp.showToast('تم قبول المشوار!'); closeActionModal();">
+              قبول الشحنة والبدء بالاستلام ✓
+            </button>
+          </div>
+        </div>
+      `);
+    }
+
+    function openCourierActiveShipmentsModal() {
+      openModalWith('شحنات قيد التوصيل الحالية', 'معلومات العميل، موقع التسليم، وملاحة الخريطة', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: 16px; padding: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="color: #1E40AF; font-size: 0.95rem;">شحنة نشطة #ACT-104</strong>
+              <span style="background: #DBEAFE; color: #1D4ED8; padding: 3px 8px; border-radius: 6px; font-size: 0.76rem; font-weight: 700;">في حوزة الكابتن</span>
+            </div>
+            <div style="font-size: 0.86rem; color: #1E293B; margin-bottom: 4px;">المستلم: <strong>م. سامي أحمد (مركز صيانة كفو)</strong></div>
+            <div style="font-size: 0.84rem; color: #475569; margin-bottom: 8px;">العنوان: مخرج 17 - شارع الجمعية، ورشة 14</div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-primary" style="flex: 1; padding: 8px; font-size: 0.82rem;" onclick="KafuApp.showToast('جاري فتح خرائط Google للملاحة...');">
+                🗺️ ملاحة GPS
+              </button>
+              <button class="btn-secondary" style="flex: 1; padding: 8px; font-size: 0.82rem;" onclick="KafuApp.showToast('جاري الاتصال بالمستلم: 0501234567');">
+                📞 اتصال
+              </button>
+            </div>
+            <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #BFDBFE;">
+              <button class="btn-primary" style="width: 100%; background: #16A34A; padding: 8px; font-size: 0.86rem;" onclick="KafuApp.showToast('تم تأكيد تسليم الشحنة وإيداع 45 ر.س في محفظتك ✓'); closeActionModal();">
+                تأكيد التسليم بنجاح ✓ (إدخال رمز OTP)
+              </button>
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    function openCourierWalletModal() {
+      openModalWith('محفظة الكابتن وأرباح المشاوير', 'سحب فوري لحسابك البنكي بدون رسوم', `
+        <div style="display: flex; flex-direction: column; gap: 14px; text-align: center;">
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 18px; padding: 18px;">
+            <div style="font-size: 0.82rem; color: var(--text-muted);">رصيد أرباحك الجاهز للسحب</div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: #15803D; margin: 4px 0;" class="font-num">210.00 <span style="font-size: 1rem;">ر.س</span></div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">أرباح 7 مشاوير منجزة اليوم</div>
+          </div>
+
+          <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 12px; text-align: right;">
+            <div style="font-size: 0.82rem; color: var(--text-muted);">الحساب البنكي المسجل للتحويل:</div>
+            <div style="font-weight: 700; font-size: 0.92rem; font-family: monospace;">SA49 8000 0123 4567 8901 2345</div>
+            <div style="font-size: 0.76rem; color: #15803D; font-weight: 700; margin-top: 2px;">مصرف الراجحي · كابتن عبدالله الشمري</div>
+          </div>
+
+          <button class="btn-primary" style="height: 48px; background: #16A34A;" onclick="KafuApp.showToast('تم إرسال طلب التحويل السريع! سيصل الرصيد لحسابك خلال دقائق.'); closeActionModal();">
+            تحويل الأرباح لحسابي البنكي الآن (سحب 210 ر.س)
+          </button>
+        </div>
+      `);
+    }
+
+    function openCourierBarcodeScanModal() {
+      openModalWith('مسح باركود الشحنة (Barcode / QR)', 'وجّه الكاميرا نحو باركود كرتون القطعة لتأكيد الاستلام', `
+        <div style="display: flex; flex-direction: column; gap: 14px; text-align: center;">
+          <div style="width: 200px; height: 200px; border: 2px dashed var(--primary); border-radius: 20px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #F8FAFC; position: relative;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+            <span style="font-size: 0.78rem; color: var(--text-muted); margin-top: 8px;">محدد المسح الضوئي</span>
+          </div>
+          <button class="btn-primary" onclick="KafuApp.showToast('تم مسح الباركود بنجاح: قطعة مطابقة #YZZD1-90915 ✓'); closeActionModal();">
+            محاكاة المسح الناجح للباركود
+          </button>
+        </div>
+      `);
+    }
+
+    function openCourierCompletedTripsModal() {
+      openModalWith('سجل المشاوير المكتملة', 'أرشيف التوصيلات اليومية السابقة', `
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">توصيل #SH-901 · فلتر ومساعدات</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">التسليم: ورشة الوفاء · 1:30 م · تقييم 5 ⭐</div>
+            </div>
+            <div style="font-weight: 800; color: #15803D;">+35 ر.س</div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">توصيل #SH-895 · دينمو كامري</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">التسليم: مركز التخصصي · 11:15 ص · تقييم 5 ⭐</div>
+            </div>
+            <div style="font-weight: 800; color: #15803D;">+50 ر.س</div>
+          </div>
+        </div>
+      `);
+    }
+
+    function openCourierZonesModal() {
+      openModalWith('مناطق التغطية ونطاق الاستلام', 'حدد المناطق الصناعية التي ترغب في استقبال طلبات منها', `
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; cursor: pointer;">
+            <div>
+              <div style="font-weight: 700;">منطقة الصناعية القديمة بالرياض</div>
+              <div style="font-size: 0.76rem; color: var(--text-muted);">أعلى كثافة طلبات لقطع الغيار والموزعين</div>
+            </div>
+            <input type="checkbox" checked style="width: 20px; height: 20px;">
+          </label>
+          <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; cursor: pointer;">
+            <div>
+              <div style="font-weight: 700;">منطقة تشاليح الحائر</div>
+              <div style="font-size: 0.76rem; color: var(--text-muted);">طلبيات قطع التشليح والسكراب</div>
+            </div>
+            <input type="checkbox" checked style="width: 20px; height: 20px;">
+          </label>
+          <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; cursor: pointer;">
+            <div>
+              <div style="font-weight: 700;">صناعية الشمال وأم الحمام</div>
+              <div style="font-size: 0.76rem; color: var(--text-muted);">توصيل مراكز الصيانة الراقية والوكالات</div>
+            </div>
+            <input type="checkbox" checked style="width: 20px; height: 20px;">
+          </label>
+          <button class="btn-primary" style="margin-top: 6px;" onclick="KafuApp.showToast('تم حفظ نطاق التغطية المفضل'); closeActionModal();">
+            حفظ وتحديث مناطق التغطية
+          </button>
+        </div>
+      `);
+    }
+
+    // =========================================================================
+    // مودالات مندوب المبيعات (Sales Rep Modals)
+    // =========================================================================
+
+    function openRepAssignedOrdersModal() {
+      openModalWith('طلبات العملاء والورش المسندة', 'قائمة العملاء الذين اختاروك مندوباً لهم لإتمام البيع', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="color: var(--text);">طلب عميل #REP-320</strong>
+              <span style="background: #EFF6FF; color: #2563EB; padding: 3px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;">عمولتك: 85 ر.س</span>
+            </div>
+            <div style="font-size: 0.85rem; color: #475569;">العميل: ورشة الدقة الألمانية (مهندس ماجد)</div>
+            <div style="font-size: 0.85rem; color: #475569;">القطع: طقم فحمات + هوبات مرسيدس C200</div>
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+              <button class="btn-primary" style="flex: 1; padding: 6px;" onclick="KafuApp.showToast('تم تأكيد توريد القطعة واحتساب عمولتك'); closeActionModal();">تأكيد البيع وتوريد الطلب</button>
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    function openRepQuotesModal() {
+      openModalWith('عروض الأسعار والعمولات', 'تحديد سعر القطعة ونسبة عمولتك المباشرة', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">القطعة المطلوبة من الزبون</label>
+            <input type="text" class="form-input" value="طرمبة بنزين أصلية - تاهو 2021" readonly style="background: #F8FAFC;">
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <div style="flex: 1;">
+              <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">سعر المستودع (ر.س)</label>
+              <input type="number" id="costPrice" class="form-input font-num" value="750" oninput="calcRepCommission()">
+            </div>
+            <div style="flex: 1;">
+              <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">سعر العرض للعميل (ر.س)</label>
+              <input type="number" id="salePrice" class="form-input font-num" value="890" oninput="calcRepCommission()">
+            </div>
+          </div>
+          <div style="background: #EDE9FE; border: 1px solid #C4B5FD; border-radius: 12px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 700; color: #6D28D9;">صافي عمولة المندوب:</span>
+            <span style="font-size: 1.25rem; font-weight: 800; color: #6D28D9;" id="repCommissionDisplay">140 ر.س</span>
+          </div>
+          <button class="btn-primary" onclick="KafuApp.showToast('تم إرسال عرض السعر للعميل مع اعتماد عمولتك ✓'); closeActionModal();">
+            إرسال العرض للعميل فوراً
+          </button>
+        </div>
+      `);
+    }
+
+    function calcRepCommission() {
+      const cost = parseFloat(document.getElementById('costPrice').value) || 0;
+      const sale = parseFloat(document.getElementById('salePrice').value) || 0;
+      const comm = Math.max(0, sale - cost);
+      document.getElementById('repCommissionDisplay').textContent = `${comm} ر.س`;
+    }
+
+    function openRepWalletModal() {
+      openModalWith('محفظة عمولات المبيعات', 'أرباح العمولات وسحب الرصيد البنكي', `
+        <div style="display: flex; flex-direction: column; gap: 14px; text-align: center;">
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 18px; padding: 18px;">
+            <div style="font-size: 0.82rem; color: var(--text-muted);">رصيد عمولات المبيعات الجاهز للسحب</div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: #7B5CFF; margin: 4px 0;" class="font-num">3,840.00 <span style="font-size: 1rem;">ر.س</span></div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">عن إتمام بيع 34 طلباً للورش والزبائن</div>
+          </div>
+          <button class="btn-primary" style="height: 48px; background: #7B5CFF;" onclick="KafuApp.showToast('تم إرسال طلب سحب العمولات لحسابك البنكي!'); closeActionModal();">
+            سحب العمولات لحسابي البنكي الآن (3,840 ر.س)
+          </button>
+        </div>
+      `);
+    }
+
+    function openRepWorkshopsModal() {
+      openModalWith('شبكة الورش التابعة للمندوب', 'الورش والمراكز التي تطلب القطع برمزك الترويجي', `
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 700;">مركز الأمل لصيانة السيارات</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">حي اليرموك · 14 طلباً هذا الشهر</div>
+            </div>
+            <span style="color: #7B5CFF; font-weight: 700; font-size: 0.84rem;">عمولات: 1,120 ر.س</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 700;">ورشة المحرك الذهبي</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">الصناعية القديمة · 9 طلبات</div>
+            </div>
+            <span style="color: #7B5CFF; font-weight: 700; font-size: 0.84rem;">عمولات: 780 ر.س</span>
+          </div>
+        </div>
+      `);
+    }
+
+    function openRepFieldVisitsModal() {
+      openModalWith('جدول الزيارات الميدانية للورش', 'تنظيم جولاتك اليومية على المناطق الصناعية والتشاليح', `
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div style="font-weight: 700; margin-bottom: 2px;">زيارة 1: مجمع ورش صناعية الدائري (10:00 ص)</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">عرض كتالوج بواجي وفلاتر كفو المعتمدة وفتح حسابات ورش جديدة</div>
+          </div>
+          <div style="padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div style="font-weight: 700; margin-bottom: 2px;">زيارة 2: تشاليح الحائر (2:30 م)</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">تصوير وفحص 4 سيارات تشليح جديدة وإضافتها للمتجر</div>
+          </div>
+          <button class="btn-primary" onclick="KafuApp.showToast('تمت إضافة جولة ميدانية جديدة'); closeActionModal();">
+            + إضافة موعد زيارة ميدانية جديدة
+          </button>
+        </div>
+      `);
+    }
+
+    // =========================================================================
+    // مودالات التاجر القياسية (Merchant Modals)
+    // =========================================================================
+
     function openIncomingOrdersModal() {
       const incomingOrders = [
         {
@@ -323,18 +1150,6 @@
           status: 'جاهز للشحن',
           statusColor: '#2563EB',
           statusBg: '#EFF6FF'
-        },
-        {
-          id: 'ORD-8890',
-          customer: 'فهد القحطاني',
-          phone: '054****332',
-          car: 'تويوتا كورولا 2021',
-          part: 'فلتر زيت أصلي',
-          oem: 'YZZD1-90915',
-          amount: 38,
-          status: 'تم التسليم لشركة الشحن',
-          statusColor: '#15803D',
-          statusBg: '#DCFCE7'
         }
       ];
 
@@ -348,303 +1163,206 @@
           <div style="font-size: 0.84rem; color: #475569; margin-bottom: 4px;">القطعة المطلوبة: <strong>${o.part}</strong></div>
           <div style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace;">OEM: ${o.oem} | السيارة: ${o.car}</div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #EDF2F7;">
-            <span style="font-size: 0.95rem; font-weight: 700; color: var(--primary);">${o.amount} ر.س</span>
-            <button class="btn-primary" style="height: 34px; padding: 0 14px; font-size: 0.8rem; width: auto;" onclick="KafuApp.showToast('تم تحديث حالة الطلب إلى: جاهز للتسليم ✓'); closeActionModal();">
-              تحديث الحالة
+            <span style="font-weight: 800; color: var(--primary); font-size: 1rem;">${o.amount} ر.س</span>
+            <button class="btn-primary" style="padding: 6px 14px; font-size: 0.82rem;" onclick="KafuApp.showToast('تم تأكيد تجهيز الطلب وإرسال إشعار للكابتن'); closeActionModal();">
+              تأكيد وتجهيز الشحنة
             </button>
           </div>
         </div>
       `).join('');
 
-      openModalWith('طلبات العملاء الواردة', 'قائمة بطلبات الشراء المستلمة من العملاء عبر المتجر', `
-        <div style="max-height: 65vh; overflow-y: auto;">
-          ${html}
-        </div>
-      `);
+      openModalWith('طلبات العملاء الواردة', 'قائمة الطلبات الجديدة لمتجرك', html);
     }
 
-    // 2. عنوان التاجر وموقع المتجر (بدلاً من عناوين الشحن)
     function openMerchantAddressModal() {
-      const savedStore = JSON.parse(localStorage.getItem('kafu_merchant_store') || '{}');
-      const storeName = savedStore.name || 'متجر كفو للقطع · الرياض';
-      const city = savedStore.city || 'الرياض';
-      const district = savedStore.district || 'صناعية الدائري الشرقي - مخرج 18';
-      const street = savedStore.street || 'شارع بلال بن رباح - مجمع قطع الغيار - مستودع 14';
-      const phone = savedStore.phone || '0501234567';
-      const hours = savedStore.hours || 'السبت - الخميس: 8:00 صباحاً – 10:00 مساءً';
-
-      openModalWith('عنوان التاجر وموقع المتجر', 'موقع مستودعك المعتمد لاستلام وشحن القطع للعملاء', `
-        <form onsubmit="saveMerchantAddress(event)" style="display: flex; flex-direction: column; gap: 14px;">
+      openModalWith('عنوان المستودع وموقع المتجر', 'مقر تسليم الشحنات لكباتن التوصيل', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
           <div>
-            <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">اسم المتجر التجاري</label>
-            <input type="text" id="storeNameInput" required value="${storeName}" class="form-input">
+            <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">المدينة والحي</label>
+            <input type="text" value="الرياض - الصناعية القديمة" class="form-input">
           </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">المدينة</label>
-              <input type="text" id="storeCityInput" required value="${city}" class="form-input">
-            </div>
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">الحي / المنطقة الصناعية</label>
-              <input type="text" id="storeDistrictInput" required value="${district}" class="form-input">
-            </div>
-          </div>
-
           <div>
-            <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">العنوان التفصيلي / المستودع</label>
-            <input type="text" id="storeStreetInput" required value="${street}" class="form-input">
+            <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">الشارع ورقم المستودع</label>
+            <input type="text" value="شارع الجمعية، مستودع رقم 42" class="form-input">
           </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">هاتف التواصل والمستودع</label>
-              <input type="tel" id="storePhoneInput" required value="${phone}" class="form-input ltr" style="text-align: right;">
-            </div>
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 6px;">ساعات العمل والتسليم</label>
-              <input type="text" id="storeHoursInput" required value="${hours}" class="form-input">
-            </div>
-          </div>
-
-          <div style="margin-top: 10px;">
-            <button type="submit" class="btn-primary" style="width: 100%;">
-              حفظ وتحديث عنوان المتجر
-            </button>
-          </div>
-        </form>
-      `);
-    }
-
-    function saveMerchantAddress(e) {
-      e.preventDefault();
-      const storeData = {
-        name: document.getElementById('storeNameInput').value,
-        city: document.getElementById('storeCityInput').value,
-        district: document.getElementById('storeDistrictInput').value,
-        street: document.getElementById('storeStreetInput').value,
-        phone: document.getElementById('storePhoneInput').value,
-        hours: document.getElementById('storeHoursInput').value
-      };
-      localStorage.setItem('kafu_merchant_store', JSON.stringify(storeData));
-      KafuApp.showToast('تم حفظ وتحديث بيانات وعنوان المتجر بنجاح ✓');
-      closeActionModal();
-    }
-
-    // 3. إضافة قطعة وتحديد السعر (بدلاً من طلب تسعير قطعة)
-    function openAddProductPriceModal() {
-      openModalWith('إضافة قطعة وتحديد السعر', 'أدخل بيانات القطعة والمواصفات الـ 9 واكتب سعرك للعميل', `
-        <form onsubmit="handleAddProductSubmit(event)" style="display: flex; flex-direction: column; gap: 12px; max-height: 68vh; overflow-y: auto; padding-left: 2px;">
-          <!-- 1. القطعة -->
           <div>
-            <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">1. اسم القطعة وتصنيفها</label>
-            <input type="text" id="newPartName" required placeholder="مثال: فحمات / قماشات الفرامل (Brake Pad)" value="فحمات / قماشات الفرامل (Brake Pad)" class="form-input">
+            <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">رقم هاتف مسؤول التسليم بالمستودع</label>
+            <input type="tel" value="0501234567" class="form-input ltr" style="text-align: right;">
           </div>
-
-          <!-- 2. رقم الهيكل -->
-          <div>
-            <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">2. رقم الهيكل المتطابق (VIN إن وجد)</label>
-            <input type="text" id="newVin" placeholder="4T1B21HK5MU...... (إن وجد)" value="4T1B21HK5MU...... (إن وجد)" class="form-input ltr" style="text-align: right;">
-          </div>
-
-          <!-- 3. OEM & السعر -->
-          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px;">
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">3. رقم القطعة الأصلي (OEM)</label>
-              <input type="text" id="newOem" required placeholder="مثال: 04465-33480" value="04465-33480" class="form-input ltr" style="text-align: right; font-family: monospace;">
-            </div>
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 4px;">السعر للعميل (ر.س) *</label>
-              <input type="number" id="newPrice" required min="1" placeholder="195" value="195" class="form-input" style="font-weight: 700; font-size: 1.05rem; color: var(--primary);">
-            </div>
-          </div>
-
-          <!-- 4. نوع المركبة والموديل -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">4. نوع المركبة (الماركة)</label>
-              <input type="text" id="newMake" required placeholder="تويوتا (Toyota)" value="تويوتا (Toyota)" class="form-input">
-            </div>
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">5. الموديل</label>
-              <input type="text" id="newModel" required placeholder="كامري (Camry)" value="كامري (Camry)" class="form-input">
-            </div>
-          </div>
-
-          <!-- 6. سنة الصنع & المحرك -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">6. سنة الصنع</label>
-              <input type="text" id="newYears" required placeholder="2021 – 2023" value="2021 – 2023" class="form-input">
-            </div>
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">7. المحرك</label>
-              <input type="text" id="newEngine" required placeholder="2.5 ليتر (2.5L)" value="2.5 ليتر (2.5L)" class="form-input">
-            </div>
-          </div>
-
-          <!-- 8. الموقع & 9. التوافق -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">8. الموقع</label>
-              <select id="newPosition" class="form-input" style="height: 48px;">
-                <option value="أمامي (Front)" selected>أمامي (Front)</option>
-                <option value="خلفي (Rear)">خلفي (Rear)</option>
-                <option value="يمين (Right)">يمين (Right)</option>
-                <option value="يسار (Left)">يسار (Left)</option>
-                <option value="داخل المحرك (Internal Engine)">داخل المحرك</option>
-              </select>
-            </div>
-            <div>
-              <label style="font-size: 0.84rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 4px;">9. التوافق</label>
-              <select id="newCompatibility" class="form-input" style="height: 48px; color: #15803D; font-weight: 700;">
-                <option value="مؤكد (Confirmed)" selected>✓ مؤكد (Confirmed)</option>
-                <option value="مشروط بمطابقة VIN">مشروط بمطابقة VIN</option>
-              </select>
-            </div>
-          </div>
-
-          <div style="margin-top: 10px;">
-            <button type="submit" class="btn-primary" style="width: 100%;">
-              حفظ وإدراج القطعة للبيع بالمتجر
-            </button>
-          </div>
-        </form>
-      `);
-    }
-
-    function handleAddProductSubmit(e) {
-      e.preventDefault();
-      const partName = document.getElementById('newPartName').value;
-      const price = document.getElementById('newPrice').value;
-      const oem = document.getElementById('newOem').value;
-
-      KafuApp.showToast(`تمت إضافة ${partName} بسعر ${price} ر.س إلى المتجر بنجاح ✓`);
-      closeActionModal();
-    }
-
-    // 4. طلبات تسعير العملاء الواردة (بدلاً من عروض الأسعار)
-    function openMerchantQuoteRepliesModal() {
-      const quoteInquiries = [
-        {
-          id: 'RFQ-401',
-          customer: 'ماجد العتيبي',
-          car: 'تويوتا كامري 2024',
-          vin: '4T1B21HK9RU381920',
-          requestedPart: 'مقص أمامي سفلي أصلي مع الجلب',
-          date: 'اليوم · 11:30 ص'
-        },
-        {
-          id: 'RFQ-398',
-          customer: 'خالد الغامدي',
-          car: 'لكزس ES350 2022',
-          vin: 'JTHB11HK5NU109281',
-          requestedPart: 'طقم بواجي ليزر إيريديوم أصلية (6 حبات)',
-          date: 'أمس · 04:15 م'
-        }
-      ];
-
-      const html = quoteInquiries.map(q => `
-        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px; margin-bottom: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <strong style="color: var(--text); font-size: 0.92rem;">طلب تسعير #${q.id}</strong>
-            <span style="font-size: 0.74rem; color: var(--text-muted);">${q.date}</span>
-          </div>
-          <div style="font-size: 0.85rem; color: #334155; margin-bottom: 4px;">العميل: <strong>${q.customer}</strong></div>
-          <div style="font-size: 0.86rem; color: var(--primary-dark); font-weight: 700; margin-bottom: 4px;">القطعة المطلوبة: ${q.requestedPart}</div>
-          <div style="font-size: 0.78rem; color: var(--text-muted); font-family: monospace; margin-bottom: 10px;">السيارة: ${q.car} | شاسيه: ${q.vin}</div>
-          
-          <div style="display: flex; gap: 8px;">
-            <input type="number" placeholder="اكتب سعرك (ر.س)" style="flex: 1; height: 38px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 12px; font-weight: 700; color: var(--primary); background: #FFF;">
-            <button class="btn-primary" style="width: auto; height: 38px; padding: 0 16px; font-size: 0.82rem;" onclick="KafuApp.showToast('تم إرسال عرض سعرك إلى العميل بنجاح ✓'); closeActionModal();">
-              إرسال السعر
-            </button>
-          </div>
-        </div>
-      `).join('');
-
-      openModalWith('طلبات تسعير العملاء الواردة', 'عملاء يبحثون عن قطع محددة - أدخل سعرك وتواصل معهم', `
-        <div style="max-height: 65vh; overflow-y: auto;">
-          ${html}
-        </div>
-      `);
-    }
-
-    // 5. محفظة التاجر والأرباح
-    function openMerchantWalletModal() {
-      openModalWith('محفظة التاجر والأرباح', 'عائدات المبيعات وسجل التحويلات البنكية للمتجر', `
-        <div style="text-align: center; padding: 16px 0;">
-          <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 4px;">الرصيد المتاح للسحب الآن</div>
-          <div style="font-size: 2.2rem; font-weight: 700; color: #15803D; margin-bottom: 18px;">
-            ٨٬٤٥٠ <span style="font-size: 1.1rem; color: var(--text-muted);">ر.س</span>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; text-align: right;">
-            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 12px;">
-              <span style="font-size: 0.76rem; color: var(--text-muted); display: block;">مبيعات هذا الشهر</span>
-              <strong style="font-size: 1rem; color: var(--text);">١٤٬٢٨٠ ر.س</strong>
-            </div>
-            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 12px;">
-              <span style="font-size: 0.76rem; color: var(--text-muted); display: block;">الطلبات المنجزة</span>
-              <strong style="font-size: 1rem; color: var(--text);">٣٢ طلب ناجح</strong>
-            </div>
-          </div>
-
-          <button class="btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="KafuApp.showToast('تم تقديم طلب التحويل لحسابك البنكي بنجاح ✓'); closeActionModal();">
-            سحب الرصيد إلى الحساب البنكي (IBAN)
+          <button class="btn-primary" onclick="KafuApp.showToast('تم تحديث عنوان المستودع بنجاح ✓'); closeActionModal();">
+            حفظ وتحديث الموقع
           </button>
         </div>
       `);
     }
 
-    // 6. قطع المتجر والمخزون المعروض
-    function openInventoryModal() {
-      const html = PRODUCTS.map(p => `
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; margin-bottom: 10px;">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <img src="${p.image}" style="width: 44px; height: 44px; object-fit: contain; border-radius: 8px; background: #FFF; padding: 4px; border: 1px solid #EDF2F7;">
-            <div>
-              <div style="font-size: 0.88rem; font-weight: 700; color: var(--text);">${p.name}</div>
-              <div style="font-size: 0.76rem; color: var(--text-muted); font-family: monospace;">OEM: ${p.oem}</div>
+    function openAddProductPriceModal() {
+      openModalWith('إضافة قطعة جديدة وتحديد السعر', 'أدخل بيانات القطعة والمواصفات الـ 9 الخاصة بكفو', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">اسم القطعة</label>
+            <input type="text" placeholder="مثال: فحمات فرامل أمامية أصلية" class="form-input" id="newPartName">
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <div style="flex: 1;">
+              <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">كود المصنع (OEM)</label>
+              <input type="text" placeholder="04465-33480" class="form-input ltr" style="text-align: right;">
+            </div>
+            <div style="flex: 1;">
+              <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">سعر البيع (ر.س)</label>
+              <input type="number" placeholder="180" class="form-input font-num">
             </div>
           </div>
-          <div style="text-align: left;">
-            <div style="font-size: 0.95rem; font-weight: 700; color: var(--primary);">${KafuStore.formatPrice(p.price)}</div>
-            <span style="font-size: 0.72rem; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">متوفر (10+)</span>
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">حالة وتصنيف القطعة</label>
+            <select class="form-input" style="width: 100%;">
+              <option>أصلي وكالة (Genuine OEM)</option>
+              <option>تجاري معتمد درجة أولى (Certified Tier-1)</option>
+              <option>تشليح ومستعمل مفحوص (Used Guaranteed)</option>
+            </select>
           </div>
-        </div>
-      `).join('');
-
-      openModalWith('قطع المتجر والمخزون المعروض', 'قائمة القطع المعروضة من متجرك في كفو وتعديل الأسعار', `
-        <div style="max-height: 65vh; overflow-y: auto;">
-          ${html}
+          <button class="btn-primary" onclick="KafuApp.showToast('تم تسجيل القطعة بنجاح وإضافتها للمتجر ✓'); closeActionModal();">
+            إضافة القطعة وعرضها للعملاء
+          </button>
         </div>
       `);
     }
 
-    // 7. مساعد التاجر
+    function openMerchantQuoteRepliesModal() {
+      openModalWith('طلبات تسعير العملاء الواردة', 'استفسارات أرقام الهيكل VIN الواردة لتسعيرها', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <strong style="font-size: 0.9rem;">طلب تسعير #Q-702</strong>
+              <span style="font-size: 0.76rem; color: #D97706; background: #FEF3C7; padding: 2px 8px; border-radius: 6px; font-weight: 700;">بانتظار سعرك</span>
+            </div>
+            <div style="font-size: 0.84rem; color: #475569;">سيارة: <strong>تويوتا لاندكروزر 2023</strong></div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace;">VIN: JTMHY7AJ6M4029182</div>
+            <div style="font-size: 0.84rem; color: #475569; margin: 4px 0;">المطلوب: <strong>دينمو شحن أصلي</strong></div>
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <input type="number" placeholder="سعرك (ر.س)" class="form-input font-num" style="width: 120px;">
+              <button class="btn-primary" style="flex: 1; padding: 6px;" onclick="KafuApp.showToast('تم إرسال عرض السعر للعميل بنجاح'); closeActionModal();">إرسال العرض</button>
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    function openMerchantWalletModal() {
+      openModalWith('محفظة التاجر والأرباح', 'عائدات المبيعات وسحب الأرباح البنكية', `
+        <div style="display: flex; flex-direction: column; gap: 14px; text-align: center;">
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 18px; padding: 18px;">
+            <div style="font-size: 0.82rem; color: var(--text-muted);">الرصيد المتاح للسحب</div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: #0F766E; margin: 4px 0;" class="font-num">4,280.00 <span style="font-size: 1rem;">ر.س</span></div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">صافي أرباح مبيعاتك المحصلة</div>
+          </div>
+          <button class="btn-primary" style="height: 48px; background: #0F766E;" onclick="KafuApp.showToast('تم تقديم طلب التحويل البنكي! سيصل إلى حسابك خلال 24 ساعة.'); closeActionModal();">
+            طلب سحب الرصيد للحساب البنكي (4,280 ر.س)
+          </button>
+        </div>
+      `);
+    }
+
+    function openInventoryModal() {
+      openModalWith('قطع المتجر والمخزون المعروض', 'إدارة أسعار القطع وتحديث الكميات', `
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.92rem;">طقم مكبس محرك كامل</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">الكمية: 14 طقم · OEM: OP010-13101</div>
+            </div>
+            <div style="text-align: left;">
+              <div style="font-weight: 800; color: var(--primary);">480 ر.س</div>
+              <span style="font-size: 0.72rem; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">متوفر</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.92rem;">فحمات فرامل أمامية أصلية</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">الكمية: 28 طقم · OEM: 04465-33480</div>
+            </div>
+            <div style="text-align: left;">
+              <div style="font-weight: 800; color: var(--primary);">195 ر.س</div>
+              <span style="font-size: 0.72rem; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">متوفر</span>
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    // =========================================================================
+    // مودالات العميل العادي (Customer Modals)
+    // =========================================================================
+
+    function openCustomerOrdersModal() {
+      openModalWith('طلباتي ومتابعة الشحنات', 'سجل مشترياتك وتتبع الشحن', `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="color: var(--text);">طلب #KAFU-89210</strong>
+              <span style="background: #DCFCE7; color: #15803D; padding: 3px 8px; border-radius: 6px; font-size: 0.76rem; font-weight: 700;">في الطريق مع الكابتن</span>
+            </div>
+            <div style="font-size: 0.85rem; color: #475569;">طقم مكبس محرك كامل (3 قطع)</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">تويوتا كامري 2025 · الشحن لحي الياسمين</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #EDF2F7;">
+              <span style="font-weight: 800; color: var(--primary);">1,656 ر.س</span>
+              <button class="btn-primary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="KafuApp.showToast('كابتن كفو على مسافة 15 دقيقة من موقعك');">تتبع الشحنة 🚚</button>
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    function openCustomerGarageModal() {
+      openModalWith('كراج سياراتي المحفوظة', 'سياراتك المسجلة للبحث السريع عن قطعها المطابقة', `
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: 16px;">
+            <div>
+              <div style="font-weight: 800; font-size: 1rem; color: #1E40AF;">Toyota Camry 2025</div>
+              <div style="font-size: 0.78rem; color: #475569; font-family: monospace;">VIN: 4T1B11HK5SU89201</div>
+            </div>
+            <span style="background: var(--primary); color: #fff; padding: 4px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;">السيارة النشطة ✓</span>
+          </div>
+          <button class="btn-secondary" style="padding: 10px;" onclick="KafuApp.openVehicleSelector(); closeActionModal();">
+            + إضافة سيارة جديدة للكراج
+          </button>
+        </div>
+      `);
+    }
+
+    function openCustomerQuotesModal() {
+      openModalWith('طلبات التسعير الخاصة بي', 'عروض الأسعار الواردة من المتاجر والتشاليح', `
+        <div style="padding: 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; text-align: center; color: var(--text-muted); font-size: 0.88rem;">
+          لا توجد استفسارات تسعير معلقة حالياً. يمكنك استخدام زر البحث بالصورة أو VIN لطلب تسعير جديد.
+        </div>
+      `);
+    }
+
+    // =========================================================================
+    // المودالات العامة (مساعد كفو وإعدادات المتجر)
+    // =========================================================================
+
     function openAssistantModal() {
-      openModalWith('مساعد كفو للتاجر', 'فاحص أرقام الهيكل (VIN) ومطابقة قطع الغيار', `
+      openModalWith('مساعد كفو وفاحص الهيكل (VIN)', 'تأكيد مطابقة القطعة مع كتالوج الوكالة الرسمي', `
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <div style="background: var(--primary-light); padding: 12px; border-radius: var(--radius-md); font-size: 0.86rem; color: var(--primary-dark);">
-            مرحباً بك يا كابتن محمد! أدخل رقم الشاسيه أو كود OEM للتأكد من مطابقة القطعة مع كتالوج الوكالة الرسمي.
+            أدخل رقم الشاسيه (17 رمزاً) أو كود OEM للتأكد من مطابقة القطعة مع كتالوج الوكالة بدقة 100%.
           </div>
-          <input type="text" placeholder="أدخل رقم الهيكل (17 رمزاً) أو كود OEM" class="form-input ltr" style="text-align: right;">
+          <input type="text" placeholder="أدخل رقم الهيكل (VIN) أو كود القطعة" class="form-input ltr" style="text-align: right;" value="4T1B11HK5SU89201">
           <button class="btn-primary" onclick="KafuApp.showToast('تم التحقق: القطعة متوافقة 100% مع مواصفات المصنع ✓'); closeActionModal();">
-            فحص المطابقة الفورية
+            فحص المطابقة الفورية الآن
           </button>
         </div>
       `);
     }
 
-    // 8. إعدادات المتجر
     function openSettingsModal() {
       const isHindi = localStorage.getItem(KafuStore.KEYS.USE_HINDI_NUMS) !== 'false';
-      openModalWith('إعدادات المتجر والتاجر', 'خيارات العرض وتنسيق الأسعار والبيانات التجارية', `
+      openModalWith('إعدادات الحساب وتنسيق البيانات', 'خيارات العرض وتنسيق الأسعار والبيانات التجارية', `
         <div style="display: flex; flex-direction: column; gap: 14px;">
           <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #EDF2F7;">
             <div>
-              <div style="font-weight: 700; font-size: 0.92rem;">الرقم الضريبي للمتجر (VAT ID)</div>
+              <div style="font-weight: 700; font-size: 0.92rem;">الرقم الضريبي المعتمد (VAT ID)</div>
               <div style="font-size: 0.78rem; color: var(--text-muted); font-family: monospace;">302918294800003</div>
             </div>
             <span style="font-size: 0.75rem; color: #15803D; background: #DCFCE7; padding: 3px 8px; border-radius: 6px; font-weight: 700;">مفعل وموثق</span>
@@ -667,14 +1385,20 @@
       `);
     }
 
+    // =========================================================================
+    // التهيئة عند تحميل الصفحة
+    // =========================================================================
     document.addEventListener('DOMContentLoaded', () => {
-      // تفعيل تبويب الملف الشخصي في شريط التنقل السفلي
+      // 1. تفعيل تبويب الملف الشخصي في شريط التنقل السفلي
       KafuApp.renderBottomNav('account');
 
+      // 2. رسم لوحة التحكم الحالية حسب الدور
+      renderActiveRoleDashboard();
+
+      // 3. زر تسجيل الخروج / التبديل
       document.getElementById('btnLogout').addEventListener('click', () => {
-        if (confirm('هل ترغب بتسجيل الخروج من حساب التاجر؟')) {
-          KafuApp.showToast('تم تسجيل الخروج بنجاح');
-          setTimeout(() => window.location.href = 'index.html', 700);
+        if (confirm('هل ترغب بتسجيل الخروج واختيار نوع حساب آخر؟')) {
+          window.location.href = 'auth.html';
         }
       });
     });

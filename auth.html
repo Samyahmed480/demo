@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>كفو | تسجيل الدخول واختيار نوع الحساب</title>
+  <meta name="description" content="سجل دخولك في كفو واختر نوع حسابك كتاجر، مندوب مبيعات، مهندس ورشة، مندوب توصيل أو عميل عادي.">
+  <!-- خطوط Google Fonts فائقة الوضوح -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <style>
+    .auth-top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .auth-back-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      transition: all var(--transition-fast);
+    }
+    .auth-back-btn:hover {
+      background: #F8FAFC;
+      transform: translateX(2px);
+    }
+    .auth-hero-banner {
+      background: linear-gradient(135deg, #094ca7 0%, #0A6CFF 55%, #2d7df7 100%);
+      border-radius: 24px;
+      padding: 26px 20px;
+      color: #FFFFFF;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 12px 32px rgba(10, 108, 255, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-hero-banner::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .auth-badge-icon {
+      width: 56px;
+      height: 56px;
+      background: #FFFFFF;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      margin: 0 auto 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    }
+    .auth-form-card {
+      background: #FFFFFF;
+      border-radius: 22px;
+      padding: 20px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .auth-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .auth-input-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+    .auth-field-wrap {
+      display: flex;
+      align-items: center;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 0 14px;
+      height: 50px;
+      transition: all var(--transition-fast);
+    }
+    .auth-field-wrap:focus-within {
+      background: #FFFFFF;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(10, 108, 255, 0.12);
+    }
+    .auth-field-wrap input {
+      flex: 1;
+      height: 100%;
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+    .auth-field-icon {
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الدوائر الملونة الناعمة في الخلفية -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- شريط علوي مع زر الرجوع للتطبيق -->
+    <div class="auth-top-nav">
+      <a href="index.html" class="auth-back-btn" title="تخطي والعودة للرئيسية">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"/>
+        </svg>
+      </a>
+      <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">بوابة كفو الموحّدة</span>
+      <a href="index.html" style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">تخطي كزائر</a>
+    </div>
+
+    <!-- كارت الهيرو الأزرق المتغير ديناميكياً مع نوع الحساب المختار -->
+    <div class="auth-hero-banner" id="authHeroBanner">
+      <div class="auth-badge-icon" id="authHeroIcon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </div>
+      <div style="font-size: 0.95rem; font-weight: 700; opacity: 0.9; margin-bottom: 2px;">كفو لقطع الغيار</div>
+      <h1 id="heroAccountTitle" style="font-size: 1.45rem; font-weight: 800; margin-bottom: 6px;">حساب تاجر متجر قطع غيار</h1>
+      <p id="heroAccountDesc" style="font-size: 0.84rem; opacity: 0.9; max-width: 320px; margin: 0 auto; line-height: 1.5;">
+        سجل الدخول لإدارة مبيعاتك، عروض أسعار القطع، ولوحة تحكم التاجر المتخصصة.
+      </p>
+    </div>
+
+    <!-- شريط التبديل بين إنشاء حساب وتسجيل الدخول -->
+    <div class="auth-tab-switch">
+      <button class="auth-tab-btn active" id="tabRegister" onclick="switchAuthMode('register')">إنشاء حساب جديد</button>
+      <button class="auth-tab-btn" id="tabLogin" onclick="switchAuthMode('login')">تسجيل الدخول</button>
+    </div>
+
+    <!-- قسم اختيار نوع الحساب الرئيسي والأدوار الفرعية -->
+    <div class="section-header" style="margin-bottom: 12px;">
+      <h2 class="section-title" style="font-size: 1.15rem;">اختر نوع الحساب</h2>
+      <span style="font-size: 0.78rem; color: var(--text-muted);">أزرار مخصصة بعرض الشاشة</span>
+    </div>
+
+    <div class="role-cards-list">
+
+      <!-- 1. الزر الأول: تاجر (وجواها متجر قطع غيار أو تاجر تشاليح) -->
+      <div class="role-select-card active expanded" id="cardMerchant" onclick="toggleRoleCard('merchant')">
+        <div class="role-card-header">
+          <div class="role-card-main">
+            <div class="role-icon-box" style="background: var(--tile-peach); color: var(--tile-peach-icon);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <div class="role-card-text">
+              <span class="role-card-title">تاجر ومورد قطع</span>
+              <span class="role-card-desc">محلات ومستودعات القطع الجديدة والتشاليح</span>
+            </div>
+          </div>
+          <span class="role-card-chevron">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+          </span>
+        </div>
+
+        <!-- الاختيارات الفرعية للتاجر -->
+        <div class="role-sub-container" onclick="event.stopPropagation()">
+          <div class="role-sub-pill active" id="sub_merchant_new" onclick="selectFinalRole('merchant_new')">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.1rem;">🏬</span>
+              <span>متجر قطع غيار جديدة</span>
+            </div>
+            <span class="sub-badge">وكالة وتجاري معتمد</span>
+          </div>
+
+          <div class="role-sub-pill" id="sub_merchant_scrap" onclick="selectFinalRole('merchant_scrap')">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.1rem;">🚜</span>
+              <span>تاجر تشاليح ومستعمل</span>
+            </div>
+            <span class="sub-badge">قطع مفحوصة ومضمونة</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. الزر الثاني: مندوب مبيعات (وجواها مندوب قطع اصلية أو مندوب تشاليح) -->
+      <div class="role-select-card" id="cardRep" onclick="toggleRoleCard('rep')">
+        <div class="role-card-header">
+          <div class="role-card-main">
+            <div class="role-icon-box" style="background: var(--tile-lavender); color: var(--tile-lavender-icon);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+            </div>
+            <div class="role-card-text">
+              <span class="role-card-title">مندوب مبيعات وتسويق</span>
+              <span class="role-card-desc">مندوب ميداني مسند للبيع للورش والعملاء بنظام العمولة</span>
+            </div>
+          </div>
+          <span class="role-card-chevron">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+          </span>
+        </div>
+
+        <!-- الاختيارات الفرعية لمندوب المبيعات -->
+        <div class="role-sub-container" onclick="event.stopPropagation()">
+          <div class="role-sub-pill" id="sub_rep_oem" onclick="selectFinalRole('rep_oem')">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.1rem;">📦</span>
+              <span>مندوب مبيعات قطع أصلية</span>
+            </div>
+            <span class="sub-badge">وكالات وموردين كفو</span>
+          </div>
+
+          <div class="role-sub-pill" id="sub_rep_scrap" onclick="selectFinalRole('rep_scrap')">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.1rem;">🛠️</span>
+              <span>مندوب مبيعات تشاليح ومستعمل</span>
+            </div>
+            <span class="sub-badge">تشاليح الحائر والصناعية</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. الزر الثالث: مهندس ورشة (يطلب ومميز ببونص وخصم ونقاط) -->
+      <div class="role-select-card" id="cardWorkshop" onclick="selectFinalRole('workshop')">
+        <div class="role-card-header">
+          <div class="role-card-main">
+            <div class="role-icon-box" style="background: var(--tile-blue); color: var(--tile-blue-icon);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+              </svg>
+            </div>
+            <div class="role-card-text">
+              <span class="role-card-title">مهندس ورشة ومركز صيانة</span>
+              <span class="role-card-desc">طلب فوري للورش مع خصم 15% حصري + بونص ونقاط مكافآت</span>
+            </div>
+          </div>
+          <span style="font-size: 0.72rem; background: #DCFCE7; color: #15803D; padding: 4px 10px; border-radius: 8px; font-weight: 700;">
+            خصم 15% + بونص
+          </span>
+        </div>
+      </div>
+
+      <!-- 4. الزر الرابع: مندوب توصيل (كابتن شحن واستلام القطع) -->
+      <div class="role-select-card" id="cardCourier" onclick="selectFinalRole('courier')">
+        <div class="role-card-header">
+          <div class="role-card-main">
+            <div class="role-icon-box" style="background: #DCFCE7; color: #16A34A;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13"/>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/>
+                <circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+            </div>
+            <div class="role-card-text">
+              <span class="role-card-title">مندوب توصيل وكابتن شحن</span>
+              <span class="role-card-desc">استلام القطع من المتاجر وتوصيلها للورش والعملاء وأرباح يومية</span>
+            </div>
+          </div>
+          <span style="font-size: 0.72rem; background: #DCFCE7; color: #15803D; padding: 4px 10px; border-radius: 8px; font-weight: 700;">
+            كابتن كفو
+          </span>
+        </div>
+      </div>
+
+      <!-- 5. الزر الخامس: زائر / عميل عادي يدخل علطول -->
+      <div class="role-select-card" id="cardCustomer" onclick="selectFinalRole('customer')">
+        <div class="role-card-header">
+          <div class="role-card-main">
+            <div class="role-icon-box" style="background: #EBF2FF; color: var(--primary);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div class="role-card-text">
+              <span class="role-card-title">عميل عادي / زائر</span>
+              <span class="role-card-desc">تصفح وطلب قطع الغيار لسيارتك مباشرة — دخول فوري</span>
+            </div>
+          </div>
+          <button class="btn-primary" style="padding: 6px 14px; font-size: 0.82rem; border-radius: var(--radius-pill);" onclick="event.stopPropagation(); enterAsVisitor();">
+            دخول فوري ←
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- نموذج التسجيل وإكمال الدخول -->
+    <div class="auth-form-card" id="authFormSection">
+      
+      <div style="font-weight: 700; font-size: 0.95rem; color: var(--text); border-bottom: 1px solid #F1F5F9; padding-bottom: 8px;">
+        بيانات حساب: <span id="formRoleDisplay" style="color: var(--primary);">متجر قطع غيار جديدة</span>
+      </div>
+
+      <div class="auth-input-group" id="groupName">
+        <label class="auth-input-label" id="labelFullName">الاسم التجاري أو اسم المسؤول</label>
+        <div class="auth-field-wrap">
+          <input type="text" id="inputName" placeholder="أدخل اسم المتجر أو اسمك الكامل" value="Mohamed Ahmed">
+          <span class="auth-field-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <div class="auth-input-group">
+        <label class="auth-input-label">البريد الإلكتروني أو رقم الجوال</label>
+        <div class="auth-field-wrap">
+          <input type="email" id="inputEmail" placeholder="example@kafu.sa" value="webmax.ceo.1@gmail.com" class="ltr" style="text-align: right;">
+          <span class="auth-field-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <div class="auth-input-group">
+        <label class="auth-input-label">كلمة المرور</label>
+        <div class="auth-field-wrap">
+          <input type="password" id="inputPassword" placeholder="••••••••" value="12345678">
+          <span class="auth-field-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- زر المتابعة وتأكيد الدخول للوحة التحكم -->
+      <button class="btn-primary" id="btnSubmitAuth" style="width: 100%; height: 50px; font-size: 1rem; border-radius: var(--radius-md); margin-top: 6px;" onclick="submitRoleAuth()">
+        متابعة وتأكيد الدخول للوحة التحكم
+      </button>
+
+      <button class="btn-secondary" style="width: 100%; height: 46px; border-radius: var(--radius-md); font-size: 0.88rem; color: var(--text-secondary);" onclick="enterAsVisitor()">
+        الدخول السريع كزائر بدون تسجيل
+      </button>
+
+    </div>
+
+  </div>
+
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    let currentSelectedRole = 'merchant_new';
+    let currentAuthMode = 'register';
+
+    const roleMetaMap = {
+      merchant_new: {
+        title: 'حساب تاجر متجر قطع غيار جديدة',
+        desc: 'سجل الدخول لإدارة مبيعاتك، عروض أسعار القطع، ولوحة تحكم التاجر المتخصصة.',
+        badge: 'تاجر معتمد · متجر قطع جديدة',
+        labelName: 'اسم المتجر أو التاجر المسؤول',
+        defaultName: 'Mohamed Ahmed',
+        defaultEmail: 'webmax.ceo.1@gmail.com'
+      },
+      merchant_scrap: {
+        title: 'حساب تاجر تشاليح ومستعمل',
+        desc: 'سجل الدخول لعرض سيارات التشليح، تسعير طلبات العملاء الفورية، وسحب أرباحك.',
+        badge: 'تاجر تشاليح معتمد · ضمان كفو',
+        labelName: 'اسم تشليح ومستودع السكراب',
+        defaultName: 'أبو فهد للتشاليح',
+        defaultEmail: 'tashlih.abu-fahad@gmail.com'
+      },
+      rep_oem: {
+        title: 'حساب مندوب مبيعات قطع أصلية',
+        desc: 'لوحة تحكم متابعة طلبات العملاء والورش وإتمام البيع وتحصيل العمولات المباشرة.',
+        badge: 'مندوب معتمد · موردين معتمدين',
+        labelName: 'اسم مندوب المبيعات',
+        defaultName: 'فهد العتيبي',
+        defaultEmail: 'fahad.rep@kafu.sa'
+      },
+      rep_scrap: {
+        title: 'حساب مندوب مبيعات تشاليح ومستعمل',
+        desc: 'تسعير القطع المستعملة لزبائنك وتغطية مناطق التشاليح مع عمولات مبيعات يومية.',
+        badge: 'مندوب ميداني · تشاليح الحائر',
+        labelName: 'اسم مندوب التشاليح',
+        defaultName: 'خالد الدوسري',
+        defaultEmail: 'khaled.tashlih@kafu.sa'
+      },
+      workshop: {
+        title: 'حساب مهندس ورشة ومركز صيانة',
+        desc: 'اطلب قطع الصيانة لسيارات الورشة مع خصم 15% حصري، رصيد نقاط، وبونص تراكمي.',
+        badge: 'مركز صيانة معتمد · فئة ذهبية (خصم 15%)',
+        labelName: 'اسم الورشة / المهندس المشرف',
+        defaultName: 'م. سامي أحمد',
+        defaultEmail: 'engineer.samy@kafu-workshop.com'
+      },
+      courier: {
+        title: 'حساب مندوب توصيل وكابتن شحن',
+        desc: 'استلم شحنات القطع من المتاجر، سلمها للورش والعملاء، وحصل أرباح التوصيل الفورية.',
+        badge: 'كابتن سريع · تقييم 4.9 ⭐',
+        labelName: 'اسم الكابتن ورقم المركبة',
+        defaultName: 'كابتن عبدالله الشمري',
+        defaultEmail: 'captain.abdullah@kafu.sa'
+      },
+      customer: {
+        title: 'حساب عميل عادي / زائر',
+        desc: 'تصفح آلاف القطع الأصلية والمطابقة، وتابع طلباتك بكل سهولة وأمان.',
+        badge: 'عميل كفو المميّز',
+        labelName: 'الاسم الكامل',
+        defaultName: 'يوسف أحمد',
+        defaultEmail: 'youssef@example.com'
+      }
+    };
+
+    function toggleRoleCard(groupId) {
+      const cardMerchant = document.getElementById('cardMerchant');
+      const cardRep = document.getElementById('cardRep');
+      
+      if (groupId === 'merchant') {
+        const isExp = cardMerchant.classList.contains('expanded');
+        cardMerchant.classList.toggle('expanded', !isExp);
+        cardRep.classList.remove('expanded');
+        if (!isExp) selectFinalRole('merchant_new');
+      } else if (groupId === 'rep') {
+        const isExp = cardRep.classList.contains('expanded');
+        cardRep.classList.toggle('expanded', !isExp);
+        cardMerchant.classList.remove('expanded');
+        if (!isExp) selectFinalRole('rep_oem');
+      }
+    }
+
+    function selectFinalRole(roleId) {
+      currentSelectedRole = roleId;
+      
+      // إزالة active من كافة البطاقات
+      document.querySelectorAll('.role-select-card').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.role-sub-pill').forEach(p => p.classList.remove('active'));
+
+      if (roleId.startsWith('merchant_')) {
+        document.getElementById('cardMerchant').classList.add('active');
+        document.getElementById('cardMerchant').classList.add('expanded');
+        document.getElementById('sub_' + roleId)?.classList.add('active');
+      } else if (roleId.startsWith('rep_')) {
+        document.getElementById('cardRep').classList.add('active');
+        document.getElementById('cardRep').classList.add('expanded');
+        document.getElementById('sub_' + roleId)?.classList.add('active');
+      } else if (roleId === 'workshop') {
+        document.getElementById('cardWorkshop').classList.add('active');
+      } else if (roleId === 'courier') {
+        document.getElementById('cardCourier').classList.add('active');
+      } else if (roleId === 'customer') {
+        document.getElementById('cardCustomer').classList.add('active');
+      }
+
+      // تحديث البانر والنموذج
+      updateHeroAndForm(roleId);
+    }
+
+    function updateHeroAndForm(roleId) {
+      const meta = roleMetaMap[roleId] || roleMetaMap.merchant_new;
+      const roleData = KafuStore.ROLES[roleId] || KafuStore.ROLES.merchant_new;
+
+      document.getElementById('heroAccountTitle').textContent = meta.title;
+      document.getElementById('heroAccountDesc').textContent = meta.desc;
+      document.getElementById('formRoleDisplay').textContent = roleData.title;
+      document.getElementById('labelFullName').textContent = meta.labelName;
+      document.getElementById('inputName').value = meta.defaultName;
+      document.getElementById('inputEmail').value = meta.defaultEmail;
+
+      // ضبط لون أو خلفية الهيرو حسب نوع الدور
+      const hero = document.getElementById('authHeroBanner');
+      if (roleId === 'workshop') {
+        hero.style.background = 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)';
+      } else if (roleId === 'courier') {
+        hero.style.background = 'linear-gradient(135deg, #15803D 0%, #16A34A 100%)';
+      } else if (roleId.startsWith('rep_')) {
+        hero.style.background = 'linear-gradient(135deg, #6366F1 0%, #7B5CFF 100%)';
+      } else if (roleId === 'merchant_scrap') {
+        hero.style.background = 'linear-gradient(135deg, #D97706 0%, #B45309 100%)';
+      } else {
+        hero.style.background = 'linear-gradient(135deg, #094ca7 0%, #0A6CFF 55%, #2d7df7 100%)';
+      }
+    }
+
+    function switchAuthMode(mode) {
+      currentAuthMode = mode;
+      document.getElementById('tabRegister').classList.toggle('active', mode === 'register');
+      document.getElementById('tabLogin').classList.toggle('active', mode === 'login');
+      
+      const btn = document.getElementById('btnSubmitAuth');
+      if (mode === 'login') {
+        btn.textContent = 'تسجيل الدخول للوحة التحكم';
+        document.getElementById('groupName').style.display = 'none';
+      } else {
+        btn.textContent = 'إنشاء الحساب والمتابعة للوحة التحكم';
+        document.getElementById('groupName').style.display = 'flex';
+      }
+    }
+
+    function submitRoleAuth() {
+      const name = document.getElementById('inputName').value.trim() || 'المستخدم';
+      const email = document.getElementById('inputEmail').value.trim() || 'user@kafu.sa';
+      
+      // حفظ الدور في المتجر
+      KafuStore.setRole(currentSelectedRole);
+      
+      // تحديث بيانات الملف الشخصي
+      const roleObj = KafuStore.ROLES[currentSelectedRole];
+      roleObj.name = name;
+      roleObj.email = email;
+      
+      KafuApp.showToast(`مرحباً بك! تم تفعيل ${roleObj.title}`);
+      
+      setTimeout(() => {
+        if (currentSelectedRole === 'customer') {
+          window.location.href = 'index.html';
+        } else {
+          window.location.href = 'account.html';
+        }
+      }, 700);
+    }
+
+    function enterAsVisitor() {
+      KafuStore.setRole('customer');
+      KafuApp.showToast('مرحباً بك زائرنا الكريم في متجر كفو');
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // قراءة الدور السابق إن وُجد
+      const savedRole = KafuStore.getRole();
+      selectFinalRole(savedRole || 'merchant_new');
+    });
+  </script>
+</body>
+</html>
