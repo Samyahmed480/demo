@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>كفو | اختيار نوع الحساب وتسجيل الدخول</title>
-  <meta name="description" content="بوابة كفو الذكية لاختيار نوع الحساب: تاجر قطع غيار، مندوب مبيعات، مهندس ورشة، مندوب توصيل، أو عميل عادي.">
+  <title>كفو | بوابة الحساب والدخول - 3 مراحل</title>
+  <meta name="description" content="بوابة كفو المكونة من 3 مراحل: اختيار الفئة الرئيسية، ثم نوع النشاط، ثم بيانات الدخول.">
   <!-- Google Fonts: IBM Plex Sans Arabic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,30 +12,31 @@
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <style>
-    /* أنماط وتنسيقات عالمية فائقة الجمال (World-Class Clean Mobile UI) */
-    .auth-page-wrap {
+    .wizard-container {
       width: 100%;
       max-width: 440px;
       margin: 0 auto;
       padding: 16px;
-      padding-bottom: 80px;
+      padding-bottom: 60px;
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    .auth-top-bar {
+    /* الشريط العلوي */
+    .wizard-top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 48px;
-      margin-bottom: 14px;
+      height: 44px;
+      margin-bottom: 12px;
     }
 
-    .auth-circle-btn {
-      width: 42px;
-      height: 42px;
+    .wizard-nav-btn {
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: #FFFFFF;
       border: 1px solid rgba(15, 23, 42, 0.08);
@@ -43,212 +44,224 @@
       align-items: center;
       justify-content: center;
       color: #0F172A;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
       cursor: pointer;
       transition: all var(--transition-fast);
       flex-shrink: 0;
     }
 
-    .auth-circle-btn:hover {
+    .wizard-nav-btn:hover {
       background: #F8FAFC;
       border-color: #CBD5E1;
       transform: translateX(2px);
     }
 
-    .auth-top-title {
-      font-size: 0.92rem;
+    .wizard-nav-title {
+      font-size: 0.9rem;
       font-weight: 700;
       color: #64748B;
-      letter-spacing: -0.2px;
     }
 
-    .auth-skip-link {
-      font-size: 0.88rem;
+    .wizard-skip-btn {
+      font-size: 0.86rem;
       font-weight: 700;
       color: var(--primary);
       text-decoration: none;
-      padding: 6px 12px;
+      padding: 5px 12px;
       border-radius: var(--radius-pill);
-      background: rgba(10, 108, 255, 0.06);
+      background: rgba(10, 108, 255, 0.08);
       transition: all var(--transition-fast);
     }
 
-    .auth-skip-link:hover {
-      background: rgba(10, 108, 255, 0.12);
+    .wizard-skip-btn:hover {
+      background: rgba(10, 108, 255, 0.14);
     }
 
-    /* كارت الهيرو العصري */
-    .auth-hero-card {
+    /* شريط المراحل الثلاث العالمي (3-Step Progress Bar) */
+    .wizard-progress-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 20px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .progress-indicators-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .progress-step-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #94A3B8;
+      transition: all var(--transition-fast);
+    }
+
+    .progress-step-item.active {
+      color: var(--primary);
+    }
+
+    .progress-step-item.completed {
+      color: #15803D;
+    }
+
+    .progress-step-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #F1F5F9;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.76rem;
+      font-weight: 800;
+      transition: all var(--transition-fast);
+    }
+
+    .progress-step-item.active .progress-step-circle {
+      background: var(--primary);
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(10, 108, 255, 0.35);
+    }
+
+    .progress-step-item.completed .progress-step-circle {
+      background: #DCFCE7;
+      color: #15803D;
+    }
+
+    .progress-track-bg {
+      width: 100%;
+      height: 6px;
+      background: #F1F5F9;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-track-fill {
+      height: 100%;
+      background: var(--gradient-btn);
+      border-radius: 999px;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* كارت الهيرو الترحيبي بالمرحلة */
+    .step-hero-card {
       background: linear-gradient(135deg, #094ca7 0%, #0A6CFF 55%, #2d7df7 100%);
-      border-radius: 26px;
-      padding: 24px 20px;
+      border-radius: 24px;
+      padding: 22px 18px;
       color: #FFFFFF;
       text-align: center;
       margin-bottom: 18px;
-      box-shadow: 0 14px 34px rgba(10, 108, 255, 0.22);
+      box-shadow: 0 12px 30px rgba(10, 108, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: background var(--transition-normal);
     }
 
-    .auth-hero-card::before {
-      content: '';
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .auth-hero-icon-pill {
-      width: 58px;
-      height: 58px;
-      background: #FFFFFF;
-      border-radius: 20px;
+    .step-hero-badge {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      color: var(--primary);
-      margin-bottom: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
-    }
-
-    .auth-hero-app-name {
-      font-size: 0.88rem;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      font-size: 0.78rem;
       font-weight: 700;
-      opacity: 0.88;
-      margin-bottom: 4px;
+      margin-bottom: 8px;
+      backdrop-filter: blur(8px);
     }
 
-    .auth-hero-title {
-      font-size: 1.38rem;
+    .step-hero-title {
+      font-size: 1.35rem;
       font-weight: 800;
-      line-height: 1.3;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       letter-spacing: -0.3px;
     }
 
-    .auth-hero-desc {
+    .step-hero-desc {
       font-size: 0.84rem;
-      opacity: 0.9;
+      opacity: 0.92;
       line-height: 1.5;
       max-width: 320px;
       margin: 0 auto;
     }
 
-    /* سويتش نوع العملية (إنشاء حساب / تسجيل دخول) */
-    .auth-mode-switch {
-      display: flex;
-      background: #E2E8F0;
-      padding: 4px;
-      border-radius: var(--radius-pill);
-      gap: 4px;
-      margin-bottom: 18px;
+    /* الحاويات المتحركة للمراحل (Step Views) */
+    .wizard-step-view {
+      display: none;
+      flex-direction: column;
+      animation: slideInStep 0.24s cubic-bezier(0.16, 1, 0.3, 1);
       width: 100%;
-      box-sizing: border-box;
     }
 
-    .auth-mode-tab {
-      flex: 1;
-      padding: 10px 14px;
-      border-radius: var(--radius-pill);
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: #64748B;
-      text-align: center;
-      transition: all var(--transition-fast);
-      cursor: pointer;
-      border: none;
-      background: transparent;
-    }
-
-    .auth-mode-tab.active {
-      background: #FFFFFF;
-      color: #0F172A;
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
-    }
-
-    /* ترويسة اختيار الدور */
-    .roles-header {
+    .wizard-step-view.active-step {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-      padding: 0 4px;
     }
 
-    .roles-header-title {
-      font-size: 1.12rem;
-      font-weight: 800;
-      color: #0F172A;
-      letter-spacing: -0.3px;
+    @keyframes slideInStep {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .roles-header-sub {
-      font-size: 0.76rem;
-      font-weight: 600;
-      color: #64748B;
-    }
-
-    /* قائمة كروت الأدوار الخمسة بعرض الشاشة */
-    .role-cards-stack {
+    /* كروت الخيارات الكبيرة بعرض الشاشة */
+    .wizard-cards-col {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       width: 100%;
     }
 
-    .role-item-card {
+    .wizard-select-card {
       background: #FFFFFF;
       border: 1.5px solid rgba(15, 23, 42, 0.08);
       border-radius: 20px;
-      padding: 14px 16px;
+      padding: 16px;
       cursor: pointer;
       box-shadow: 0 4px 14px rgba(15, 23, 42, 0.02);
       transition: all var(--transition-normal);
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
       box-sizing: border-box;
-      position: relative;
+      gap: 12px;
     }
 
-    .role-item-card:hover {
+    .wizard-select-card:hover {
       border-color: rgba(10, 108, 255, 0.35);
       box-shadow: 0 6px 20px rgba(10, 108, 255, 0.06);
       transform: translateY(-1px);
     }
 
-    .role-item-card.active {
+    .wizard-select-card.selected {
       border-color: var(--primary) !important;
       background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 100%) !important;
       box-shadow: 0 8px 24px rgba(10, 108, 255, 0.12);
     }
 
-    .role-row-top {
+    .wizard-card-main {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      gap: 12px;
-    }
-
-    .role-row-content {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      gap: 14px;
       flex: 1;
       min-width: 0;
     }
 
-    .role-avatar-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
+    .wizard-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -256,35 +269,33 @@
       transition: transform var(--transition-fast);
     }
 
-    .role-item-card:hover .role-avatar-icon {
-      transform: scale(1.05);
+    .wizard-select-card:hover .wizard-card-icon {
+      transform: scale(1.06);
     }
 
-    .role-text-col {
+    .wizard-card-text {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
       flex: 1;
       min-width: 0;
       text-align: right;
     }
 
-    .role-main-title {
-      font-size: 0.98rem;
+    .wizard-card-title {
+      font-size: 1rem;
       font-weight: 700;
       color: #0F172A;
       line-height: 1.3;
     }
 
-    .role-main-desc {
+    .wizard-card-desc {
       font-size: 0.78rem;
       color: #64748B;
-      line-height: 1.35;
-      white-space: normal;
+      line-height: 1.4;
     }
 
-    /* مؤشر الراديو الأنيق الدائري */
-    .role-radio-circle {
+    .wizard-radio {
       width: 22px;
       height: 22px;
       border-radius: 50%;
@@ -296,13 +307,12 @@
       transition: all var(--transition-fast);
     }
 
-    .role-item-card.active .role-radio-circle {
+    .wizard-select-card.selected .wizard-radio {
       border-color: var(--primary);
       background: var(--primary);
-      color: #FFFFFF;
     }
 
-    .role-radio-inner {
+    .wizard-radio-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
@@ -310,175 +320,22 @@
       display: none;
     }
 
-    .role-item-card.active .role-radio-inner {
+    .wizard-select-card.selected .wizard-radio-dot {
       display: block;
     }
 
-    /* الشارات الملونة بجانب الأزرار */
-    .role-badge-tag {
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 4px 8px;
-      border-radius: 8px;
-      flex-shrink: 0;
-      white-space: nowrap;
-    }
-
-    /* خيارات الدور الفرعية (Clean Segmented Sub-Buttons) */
-    .role-segmented-subs {
-      display: none;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px dashed rgba(15, 23, 42, 0.1);
-      width: 100%;
-    }
-
-    .role-item-card.expanded .role-segmented-subs {
-      display: grid;
-      animation: fadeInSubs 0.2s ease-out;
-    }
-
-    @keyframes fadeInSubs {
-      from { opacity: 0; transform: translateY(-4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .sub-option-btn {
+    /* أزرار الإجراء السفلية */
+    .wizard-bottom-actions {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 8px;
-      border-radius: 14px;
-      background: #F8FAFC;
-      border: 1.5px solid #E2E8F0;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #334155;
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      text-align: center;
-      gap: 3px;
-    }
-
-    .sub-option-btn:hover {
-      background: #EFF6FF;
-      border-color: var(--primary);
-    }
-
-    .sub-option-btn.active {
-      background: var(--primary);
-      color: #FFFFFF;
-      border-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(10, 108, 255, 0.22);
-    }
-
-    .sub-option-btn .sub-hint {
-      font-size: 0.68rem;
-      font-weight: 500;
-      opacity: 0.85;
-    }
-
-    .sub-option-btn.active .sub-hint {
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    /* بطاقة النموذج والبيانات */
-    .auth-form-card {
-      background: #FFFFFF;
-      border-radius: 24px;
-      padding: 22px 20px;
-      border: 1.5px solid rgba(15, 23, 42, 0.08);
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      box-sizing: border-box;
+      gap: 10px;
+      margin-top: auto;
       width: 100%;
     }
 
-    .form-role-banner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #F1F5F9;
-    }
-
-    .form-role-label {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #64748B;
-    }
-
-    .form-role-badge {
-      font-size: 0.86rem;
-      font-weight: 800;
-      color: var(--primary);
-      background: #EFF6FF;
-      padding: 3px 10px;
-      border-radius: 8px;
-    }
-
-    .form-field-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+    .btn-wizard-next {
       width: 100%;
-    }
-
-    .form-field-label {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #334155;
-    }
-
-    .form-input-container {
-      display: flex;
-      align-items: center;
-      background: #F8FAFC;
-      border: 1.5px solid #E2E8F0;
-      border-radius: 14px;
-      padding: 0 14px;
-      height: 48px;
-      transition: all var(--transition-fast);
-      box-sizing: border-box;
-      width: 100%;
-    }
-
-    .form-input-container:focus-within {
-      background: #FFFFFF;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3.5px rgba(10, 108, 255, 0.12);
-    }
-
-    .form-input-icon {
-      color: #94A3B8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: 10px;
-      flex-shrink: 0;
-    }
-
-    .form-input-element {
-      flex: 1;
-      height: 100%;
-      border: none;
-      outline: none;
-      background: transparent;
-      font-size: 0.94rem;
-      font-weight: 500;
-      color: #0F172A;
-      font-family: inherit;
-      width: 100%;
-    }
-
-    .btn-submit-main {
-      width: 100%;
-      height: 50px;
+      height: 52px;
       border-radius: 16px;
       background: var(--gradient-btn);
       color: #FFFFFF;
@@ -487,37 +344,177 @@
       border: none;
       cursor: pointer;
       box-shadow: 0 6px 20px rgba(10, 108, 255, 0.28);
-      transition: all var(--transition-fast);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 4px;
+      gap: 8px;
+      transition: all var(--transition-fast);
     }
 
-    .btn-submit-main:hover {
+    .btn-wizard-next:hover {
       box-shadow: 0 8px 24px rgba(10, 108, 255, 0.35);
       transform: translateY(-1px);
     }
 
-    .btn-submit-main:active {
-      transform: scale(0.985);
+    .btn-wizard-back {
+      width: 100%;
+      height: 46px;
+      border-radius: 16px;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      color: #475569;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
     }
 
-    .btn-visitor-link {
+    .btn-wizard-back:hover {
+      background: #F8FAFC;
+      border-color: #94A3B8;
+    }
+
+    /* المرحلة الثالثة: كارت ملخص الاختيار وشاشة التسجيل */
+    .role-summary-banner {
+      background: #EFF6FF;
+      border: 1.5px solid #BFDBFE;
+      border-radius: 18px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .role-summary-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .role-summary-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .role-summary-label {
+      font-size: 0.74rem;
+      color: #1E40AF;
+      font-weight: 600;
+    }
+
+    .role-summary-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #1E3A8A;
+    }
+
+    .role-summary-edit-btn {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: #FFFFFF;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid #BFDBFE;
+      cursor: pointer;
+    }
+
+    /* سويتش تسجيل الدخول / إنشاء حساب */
+    .auth-tab-pill-box {
+      display: flex;
+      background: #E2E8F0;
+      padding: 4px;
+      border-radius: var(--radius-pill);
+      gap: 4px;
+      margin-bottom: 16px;
       width: 100%;
+      box-sizing: border-box;
+    }
+
+    .auth-pill-btn {
+      flex: 1;
       padding: 10px;
-      font-size: 0.88rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.9rem;
       font-weight: 700;
       color: #64748B;
-      background: transparent;
-      border: none;
-      cursor: pointer;
       text-align: center;
-      transition: color var(--transition-fast);
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      transition: all var(--transition-fast);
     }
 
-    .btn-visitor-link:hover {
-      color: var(--primary);
+    .auth-pill-btn.active {
+      background: #FFFFFF;
+      color: #0F172A;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    }
+
+    /* حقول الإدخال للمرحلة الثالثة */
+    .step3-form-card {
+      background: #FFFFFF;
+      border: 1.5px solid rgba(15, 23, 42, 0.08);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 16px;
+    }
+
+    .field-label-text {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .field-input-box {
+      display: flex;
+      align-items: center;
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 0 14px;
+      height: 48px;
+      transition: all var(--transition-fast);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .field-input-box:focus-within {
+      background: #FFFFFF;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(10, 108, 255, 0.12);
+    }
+
+    .field-input-box input {
+      flex: 1;
+      height: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 0.94rem;
+      color: #0F172A;
+      font-family: inherit;
+    }
+
+    .field-svg-icon {
+      color: #94A3B8;
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
     }
   </style>
 </head>
@@ -530,235 +527,231 @@
     <div class="blob blob-3"></div>
   </div>
 
-  <div class="auth-page-wrap">
+  <div class="wizard-container">
 
-    <!-- 1. شريط علوي عالمي أنيق -->
-    <div class="auth-top-bar">
-      <a href="index.html" class="auth-circle-btn" title="تخطي والعودة للرئيسية">
+    <!-- شريط علوي موحد مع زر الرجوع الذكي بين المراحل -->
+    <div class="wizard-top-bar">
+      <button type="button" class="wizard-nav-btn" id="btnTopBack" onclick="handleTopBack()" title="الرجوع">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
           <path d="m9 18 6-6-6-6"/>
         </svg>
-      </a>
-      <span class="auth-top-title">بوابة كفو الموحّدة</span>
-      <a href="javascript:void(0)" onclick="enterAsVisitor()" class="auth-skip-link">تخطي كزائر</a>
+      </button>
+      <span class="wizard-nav-title" id="wizardNavTitle">المرحلة 1 من 3</span>
+      <a href="javascript:void(0)" onclick="enterAsVisitor()" class="wizard-skip-btn">تخطي كزائر</a>
     </div>
 
-    <!-- 2. كارت الهيرو العصري مع تحديث ذكي لكل دور -->
-    <div class="auth-hero-card" id="authHeroBanner">
-      <div class="auth-hero-icon-pill" id="authHeroIconBox">
-        <svg id="authHeroSvg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
+    <!-- مؤشر المراحل الثلاث العالمي (3-Step Progress Indicator) -->
+    <div class="wizard-progress-card">
+      <div class="progress-indicators-row">
+        <div class="progress-step-item active" id="progStep1">
+          <div class="progress-step-circle">1</div>
+          <span>اختيار الفئة</span>
+        </div>
+        <div class="progress-step-item" id="progStep2">
+          <div class="progress-step-circle">2</div>
+          <span>تحديد النشاط</span>
+        </div>
+        <div class="progress-step-item" id="progStep3">
+          <div class="progress-step-circle">3</div>
+          <span>بيانات الدخول</span>
+        </div>
       </div>
-      <div class="auth-hero-app-name">كفو لقطع الغيار</div>
-      <h1 class="auth-hero-title" id="heroAccountTitle">حساب تاجر متجر قطع غيار</h1>
-      <p class="auth-hero-desc" id="heroAccountDesc">
-        سجل الدخول لإدارة مبيعاتك، عروض أسعار القطع، ولوحة تحكم التاجر المتخصصة.
-      </p>
+      <div class="progress-track-bg">
+        <div class="progress-track-fill" id="progressTrackFill" style="width: 33.33%;"></div>
+      </div>
     </div>
 
-    <!-- 3. شريط التبديل بين إنشاء حساب وتسجيل الدخول -->
-    <div class="auth-mode-switch">
-      <button class="auth-mode-tab active" id="tabRegister" onclick="switchAuthMode('register')">إنشاء حساب جديد</button>
-      <button class="auth-mode-tab" id="tabLogin" onclick="switchAuthMode('login')">تسجيل الدخول</button>
+    <!-- ===================================================================
+         المرحلة الأولى: يختار الفئة الأساسية (Step 1: Choose Main Category)
+         =================================================================== -->
+    <div class="wizard-step-view active-step" id="stepView1">
+      <div class="step-hero-card" id="step1Hero">
+        <div class="step-hero-badge">المرحلة الأولى · الفئة الأساسية</div>
+        <h1 class="step-hero-title">اختر صفتك في كفو</h1>
+        <p class="step-hero-desc">
+          حدد فئتك لنخصص لك الخدمات ولوحة التحكم والأسعار المطابقة لطبيعة عملك.
+        </p>
+      </div>
+
+      <div class="wizard-cards-col">
+        <!-- 1. تاجر ومورد قطع -->
+        <div class="wizard-select-card selected" id="mainCard_merchant" onclick="selectMainCategory('merchant')">
+          <div class="wizard-card-main">
+            <div class="wizard-card-icon" style="background: #FEF3C7; color: #D97706;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div class="wizard-card-text">
+              <span class="wizard-card-title">تاجر ومورد قطع غيار</span>
+              <span class="wizard-card-desc">محلات ومستودعات القطع الجديدة والتشاليح</span>
+            </div>
+          </div>
+          <div class="wizard-radio"><div class="wizard-radio-dot"></div></div>
+        </div>
+
+        <!-- 2. مندوب مبيعات -->
+        <div class="wizard-select-card" id="mainCard_rep" onclick="selectMainCategory('rep')">
+          <div class="wizard-card-main">
+            <div class="wizard-card-icon" style="background: #EDE9FE; color: #7B5CFF;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <div class="wizard-card-text">
+              <span class="wizard-card-title">مندوب مبيعات وتسويق</span>
+              <span class="wizard-card-desc">مندوب ميداني مسند للبيع للورش والعملاء</span>
+            </div>
+          </div>
+          <div class="wizard-radio"><div class="wizard-radio-dot"></div></div>
+        </div>
+
+        <!-- 3. مهندس ورشة -->
+        <div class="wizard-select-card" id="mainCard_workshop" onclick="selectMainCategory('workshop')">
+          <div class="wizard-card-main">
+            <div class="wizard-card-icon" style="background: #E0F2FE; color: #0284C7;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <div class="wizard-card-text">
+              <span class="wizard-card-title">مهندس ورشة ومركز صيانة</span>
+              <span class="wizard-card-desc">طلب فوري للورش مع خصم 15% + بونص ونقاط</span>
+            </div>
+          </div>
+          <div class="wizard-radio"><div class="wizard-radio-dot"></div></div>
+        </div>
+
+        <!-- 4. مندوب توصيل -->
+        <div class="wizard-select-card" id="mainCard_courier" onclick="selectMainCategory('courier')">
+          <div class="wizard-card-main">
+            <div class="wizard-card-icon" style="background: #DCFCE7; color: #16A34A;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <div class="wizard-card-text">
+              <span class="wizard-card-title">مندوب توصيل وكابتن شحن</span>
+              <span class="wizard-card-desc">استلام وتوصيل الشحنات وأرباح مشاوير يومية</span>
+            </div>
+          </div>
+          <div class="wizard-radio"><div class="wizard-radio-dot"></div></div>
+        </div>
+
+        <!-- 5. عميل عادي / زائر -->
+        <div class="wizard-select-card" id="mainCard_customer" onclick="selectMainCategory('customer')">
+          <div class="wizard-card-main">
+            <div class="wizard-card-icon" style="background: #EBF2FF; color: var(--primary);">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="wizard-card-text">
+              <span class="wizard-card-title">عميل عادي / زائر</span>
+              <span class="wizard-card-desc">تصفح وطلب قطع الغيار لسيارتك مباشرة</span>
+            </div>
+          </div>
+          <div class="wizard-radio"><div class="wizard-radio-dot"></div></div>
+        </div>
+      </div>
+
+      <div class="wizard-bottom-actions">
+        <button type="button" class="btn-wizard-next" onclick="goToStep(2)">
+          <span>متابعة لاختيار التخصص (المرحلة 2)</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </button>
+      </div>
     </div>
 
-    <!-- 4. ترويسة اختيار الحساب -->
-    <div class="roles-header">
-      <h2 class="roles-header-title">اختر نوع الحساب</h2>
-      <span class="roles-header-sub">أزرار مخصصة بعرض الشاشة</span>
+
+    <!-- ===================================================================
+         المرحلة الثانية: يختار النوع والتخصص (Step 2: Choose Sub-Type)
+         =================================================================== -->
+    <div class="wizard-step-view" id="stepView2">
+      <div class="step-hero-card" id="step2Hero">
+        <div class="step-hero-badge" id="step2HeroBadge">المرحلة الثانية · تحديد التخصص</div>
+        <h2 class="step-hero-title" id="step2HeroTitle">حدد نوع نشاطك</h2>
+        <p class="step-hero-desc" id="step2HeroDesc">
+          اختر نوع وتصنيف العمل لتخصيص لوحة التحكم المناسبة.
+        </p>
+      </div>
+
+      <!-- قائمة الاختيارات الفرعية التي تتغير حسب المرحلة 1 -->
+      <div class="wizard-cards-col" id="subOptionsContainer">
+        <!-- يتم حقن الكروت ديناميكياً بواسطة جافاسكريبت -->
+      </div>
+
+      <div class="wizard-bottom-actions">
+        <button type="button" class="btn-wizard-next" onclick="goToStep(3)">
+          <span>متابعة لبيانات الدخول (المرحلة 3)</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </button>
+        <button type="button" class="btn-wizard-back" onclick="goToStep(1)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          <span>الرجوع لاختيار الفئة السابقة</span>
+        </button>
+      </div>
     </div>
 
-    <!-- 5. كروت الأدوار الخمسة بنسق عالمي متناسق بدون أي تشويه -->
-    <div class="role-cards-stack">
 
-      <!-- 1. تاجر ومورد قطع (متجر جديد / تشاليح) -->
-      <div class="role-item-card active expanded" id="cardMerchant" onclick="toggleRoleExpand('merchant')">
-        <div class="role-row-top">
-          <div class="role-row-content">
-            <div class="role-avatar-icon" style="background: #FEF3C7; color: #D97706;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                <polyline points="9 22 9 12 15 12 15 22"/>
-              </svg>
-            </div>
-            <div class="role-text-col">
-              <span class="role-main-title">تاجر ومورد قطع</span>
-              <span class="role-main-desc">محلات ومستودعات القطع الجديدة والتشاليح</span>
-            </div>
-          </div>
-          <div class="role-radio-circle">
-            <div class="role-radio-inner"></div>
-          </div>
-        </div>
-
-        <!-- تقسيم فرعي أنيق للأزرار 50/50 -->
-        <div class="role-segmented-subs" onclick="event.stopPropagation()">
-          <button type="button" class="sub-option-btn active" id="sub_merchant_new" onclick="selectRole('merchant_new')">
-            <span>🏬 متجر قطع جديدة</span>
-            <span class="sub-hint">وكالة وتجاري معتمد</span>
-          </button>
-          <button type="button" class="sub-option-btn" id="sub_merchant_scrap" onclick="selectRole('merchant_scrap')">
-            <span>🚜 تاجر تشاليح</span>
-            <span class="sub-hint">قطع مفحوصة ومضمونة</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 2. مندوب مبيعات وتسويق (قطع أصلية / تشاليح) -->
-      <div class="role-item-card" id="cardRep" onclick="toggleRoleExpand('rep')">
-        <div class="role-row-top">
-          <div class="role-row-content">
-            <div class="role-avatar-icon" style="background: #EDE9FE; color: #7B5CFF;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-              </svg>
-            </div>
-            <div class="role-text-col">
-              <span class="role-main-title">مندوب مبيعات وتسويق</span>
-              <span class="role-main-desc">مندوب ميداني مسند للبيع للورش والعملاء بنظام العمولة</span>
-            </div>
-          </div>
-          <div class="role-radio-circle">
-            <div class="role-radio-inner"></div>
-          </div>
-        </div>
-
-        <!-- تقسيم فرعي أنيق للمندوب 50/50 -->
-        <div class="role-segmented-subs" onclick="event.stopPropagation()">
-          <button type="button" class="sub-option-btn" id="sub_rep_oem" onclick="selectRole('rep_oem')">
-            <span>📦 مندوب قطع أصلية</span>
-            <span class="sub-hint">وكالات وموردين كفو</span>
-          </button>
-          <button type="button" class="sub-option-btn" id="sub_rep_scrap" onclick="selectRole('rep_scrap')">
-            <span>🛠️ مندوب تشاليح</span>
-            <span class="sub-hint">تشاليح الحائر والصناعية</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 3. مهندس ورشة ومركز صيانة -->
-      <div class="role-item-card" id="cardWorkshop" onclick="selectRole('workshop')">
-        <div class="role-row-top">
-          <div class="role-row-content">
-            <div class="role-avatar-icon" style="background: #E0F2FE; color: #0284C7;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-              </svg>
-            </div>
-            <div class="role-text-col">
-              <span class="role-main-title">مهندس ورشة ومركز صيانة</span>
-              <span class="role-main-desc">طلب فوري للورش مع خصم 15% حصري + بونص ونقاط مكافآت</span>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="role-badge-tag" style="background: #FEF3C7; color: #B45309;">خصم 15% + نقاط</span>
-            <div class="role-radio-circle">
-              <div class="role-radio-inner"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. مندوب توصيل وكابتن شحن -->
-      <div class="role-item-card" id="cardCourier" onclick="selectRole('courier')">
-        <div class="role-row-top">
-          <div class="role-row-content">
-            <div class="role-avatar-icon" style="background: #DCFCE7; color: #16A34A;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="1" y="3" width="15" height="13"/>
-                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-                <circle cx="5.5" cy="18.5" r="2.5"/>
-                <circle cx="18.5" cy="18.5" r="2.5"/>
-              </svg>
-            </div>
-            <div class="role-text-col">
-              <span class="role-main-title">مندوب توصيل وكابتن شحن</span>
-              <span class="role-main-desc">استلام القطع من المتاجر وتوصيلها للورش والعملاء بأرباح يومية</span>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="role-badge-tag" style="background: #DCFCE7; color: #15803D;">كابتن كفو</span>
-            <div class="role-radio-circle">
-              <div class="role-radio-inner"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. عميل عادي / زائر (تنسيق منظم ومطابق للبقية) -->
-      <div class="role-item-card" id="cardCustomer" onclick="selectRole('customer')">
-        <div class="role-row-top">
-          <div class="role-row-content">
-            <div class="role-avatar-icon" style="background: #EBF2FF; color: var(--primary);">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-              </svg>
-            </div>
-            <div class="role-text-col">
-              <span class="role-main-title">عميل عادي / زائر</span>
-              <span class="role-main-desc">تصفح وطلب قطع الغيار لسيارتك مباشرة — دخول فوري</span>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="role-badge-tag" style="background: #E0E7FF; color: #4338CA;">تسوق فوري</span>
-            <div class="role-radio-circle">
-              <div class="role-radio-inner"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 6. نموذج إكمال البيانات والدخول للوحة التحكم -->
-    <div class="auth-form-card" id="authFormSection">
+    <!-- ===================================================================
+         المرحلة الثالثة: بيانات الدخول (Step 3: Auth Credentials & Submit)
+         =================================================================== -->
+    <div class="wizard-step-view" id="stepView3">
       
-      <div class="form-role-banner">
-        <span class="form-role-label">الحساب المحدد حالياً:</span>
-        <span class="form-role-badge" id="formRoleDisplay">متجر قطع غيار جديدة</span>
-      </div>
-
-      <div class="form-field-group" id="groupName">
-        <label class="form-field-label" id="labelFullName">الاسم التجاري أو اسم المسؤول</label>
-        <div class="form-input-container">
-          <span class="form-input-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          </span>
-          <input type="text" id="inputName" class="form-input-element" placeholder="أدخل اسم المتجر أو اسمك" value="Mohamed Ahmed">
+      <!-- كارت ملخص الاختيارين السابقين -->
+      <div class="role-summary-banner">
+        <div class="role-summary-info">
+          <span style="font-size: 1.5rem;" id="sumRoleIcon">🏬</span>
+          <div class="role-summary-text">
+            <span class="role-summary-label">الحساب والتخصص المختار:</span>
+            <span class="role-summary-name" id="sumRoleTitle">متجر قطع غيار جديدة</span>
+          </div>
         </div>
+        <button type="button" class="role-summary-edit-btn" onclick="goToStep(1)">تعديل ✎</button>
       </div>
 
-      <div class="form-field-group">
-        <label class="form-field-label">البريد الإلكتروني أو رقم الجوال</label>
-        <div class="form-input-container">
-          <span class="form-input-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </span>
-          <input type="email" id="inputEmail" class="form-input-element ltr" style="text-align: right;" placeholder="example@kafu.sa" value="webmax.ceo.1@gmail.com">
+      <!-- سويتش إنشاء حساب / تسجيل دخول -->
+      <div class="auth-tab-pill-box">
+        <button type="button" class="auth-pill-btn active" id="tabRegisterPill" onclick="switchStep3AuthMode('register')">إنشاء حساب جديد</button>
+        <button type="button" class="auth-pill-btn" id="tabLoginPill" onclick="switchStep3AuthMode('login')">تسجيل الدخول</button>
+      </div>
+
+      <!-- بطاقة إدخال البيانات -->
+      <div class="step3-form-card">
+        
+        <div class="form-field-group" id="groupFullName">
+          <label class="field-label-text" id="labelStep3Name">الاسم التجاري أو اسم المسؤول</label>
+          <div class="field-input-box">
+            <span class="field-svg-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <input type="text" id="inputFinalName" placeholder="أدخل اسمك أو اسم المتجر" value="Mohamed Ahmed">
+          </div>
         </div>
-      </div>
 
-      <div class="form-field-group">
-        <label class="form-field-label">كلمة المرور</label>
-        <div class="form-input-container">
-          <span class="form-input-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </span>
-          <input type="password" id="inputPassword" class="form-input-element" placeholder="••••••••" value="12345678">
+        <div class="form-field-group">
+          <label class="field-label-text">البريد الإلكتروني أو رقم الجوال</label>
+          <div class="field-input-box">
+            <span class="field-svg-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+            <input type="email" id="inputFinalEmail" class="ltr" style="text-align: right;" placeholder="example@kafu.sa" value="webmax.ceo.1@gmail.com">
+          </div>
         </div>
+
+        <div class="form-field-group">
+          <label class="field-label-text">كلمة المرور</label>
+          <div class="field-input-box">
+            <span class="field-svg-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+            <input type="password" id="inputFinalPassword" placeholder="••••••••" value="12345678">
+          </div>
+        </div>
+
+        <button type="button" class="btn-wizard-next" id="btnFinalSubmit" onclick="confirmFinalAuth()">
+          <span>تأكيد والدخول للوحة التحكم 🚀</span>
+        </button>
+
       </div>
 
-      <button type="button" class="btn-submit-main" id="btnSubmitAuth" onclick="submitRoleAuth()">
-        متابعة وتأكيد الدخول للوحة التحكم
-      </button>
-
-      <button type="button" class="btn-visitor-link" onclick="enterAsVisitor()">
-        الدخول السريع كزائر بدون تسجيل ←
-      </button>
+      <div class="wizard-bottom-actions">
+        <button type="button" class="btn-wizard-back" onclick="goToStep(2)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          <span>الرجوع لتعديل نوع النشاط</span>
+        </button>
+      </div>
 
     </div>
 
@@ -768,171 +761,261 @@
   <script src="assets/js/store.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
-    let currentSelectedRole = 'merchant_new';
-    let currentAuthMode = 'register';
+    let currentStep = 1;
+    let selectedMainCategory = 'merchant';
+    let selectedFinalRoleId = 'merchant_new';
+    let authMode = 'register';
 
-    const roleMetaMap = {
-      merchant_new: {
-        title: 'حساب تاجر متجر قطع غيار جديدة',
-        desc: 'سجل الدخول لإدارة مبيعاتك، عروض أسعار القطع، ولوحة تحكم التاجر المتخصصة.',
-        labelName: 'اسم المتجر أو التاجر المسؤول',
-        defaultName: 'Mohamed Ahmed',
-        defaultEmail: 'webmax.ceo.1@gmail.com'
-      },
-      merchant_scrap: {
-        title: 'حساب تاجر تشاليح ومستعمل',
-        desc: 'سجل الدخول لعرض سيارات التشليح، تسعير طلبات العملاء الفورية، وسحب أرباحك.',
-        labelName: 'اسم تشليح ومستودع السكراب',
-        defaultName: 'أبو فهد للتشاليح',
-        defaultEmail: 'tashlih.abu-fahad@gmail.com'
-      },
-      rep_oem: {
-        title: 'حساب مندوب مبيعات قطع أصلية',
-        desc: 'لوحة تحكم متابعة طلبات العملاء والورش وإتمام البيع وتحصيل العمولات المباشرة.',
-        labelName: 'اسم مندوب المبيعات',
-        defaultName: 'فهد العتيبي',
-        defaultEmail: 'fahad.rep@kafu.sa'
-      },
-      rep_scrap: {
-        title: 'حساب مندوب مبيعات تشاليح ومستعمل',
-        desc: 'تسعير القطع المستعملة لزبائنك وتغطية مناطق التشاليح مع عمولات مبيعات يومية.',
-        labelName: 'اسم مندوب التشاليح',
-        defaultName: 'خالد الدوسري',
-        defaultEmail: 'khaled.tashlih@kafu.sa'
-      },
-      workshop: {
-        title: 'حساب مهندس ورشة ومركز صيانة',
-        desc: 'اطلب قطع الصيانة لسيارات الورشة مع خصم 15% حصري، رصيد نقاط، وبونص تراكمي.',
-        labelName: 'اسم الورشة / المهندس المشرف',
-        defaultName: 'م. سامي أحمد',
-        defaultEmail: 'engineer.samy@kafu-workshop.com'
-      },
-      courier: {
-        title: 'حساب مندوب توصيل وكابتن شحن',
-        desc: 'استلم شحنات القطع من المتاجر، سلمها للورش والعملاء، وحصل أرباح التوصيل الفورية.',
-        labelName: 'اسم الكابتن ورقم المركبة',
-        defaultName: 'كابتن عبدالله الشمري',
-        defaultEmail: 'captain.abdullah@kafu.sa'
-      },
-      customer: {
-        title: 'حساب عميل عادي / زائر',
-        desc: 'تصفح آلاف القطع الأصلية والمطابقة، وتابع طلباتك بكل سهولة وأمان.',
-        labelName: 'الاسم الكامل',
-        defaultName: 'يوسف أحمد',
-        defaultEmail: 'youssef@example.com'
-      }
+    // تعريف الاختيارات الفرعية للمرحلة الثانية
+    const subCategoriesData = {
+      merchant: [
+        {
+          id: 'merchant_new',
+          title: 'متجر قطع غيار جديدة',
+          desc: 'محلات ومستودعات القطع الأصلية والتجارية المعتمدة (جديد)',
+          icon: '🏬',
+          iconBg: '#FEF3C7',
+          iconColor: '#D97706',
+          badge: 'وكالة وتجاري معتمد',
+          defaultName: 'Mohamed Ahmed',
+          defaultEmail: 'webmax.ceo.1@gmail.com',
+          nameLabel: 'اسم متجر قطع الغيار'
+        },
+        {
+          id: 'merchant_scrap',
+          title: 'تاجر تشاليح ومستعمل',
+          desc: 'ساحات التشاليح وتفكيك سيارات السكراب والقطع المفحوصة',
+          icon: '🚜',
+          iconBg: '#FFEDD5',
+          iconColor: '#EA580C',
+          badge: 'تشاليح مفحوصة ومضمونة',
+          defaultName: 'أبو فهد للتشاليح',
+          defaultEmail: 'tashlih.abu-fahad@gmail.com',
+          nameLabel: 'اسم تشليح ومستودع السكراب'
+        }
+      ],
+      rep: [
+        {
+          id: 'rep_oem',
+          title: 'مندوب مبيعات قطع أصلية',
+          desc: 'تغطية الوكالات والمستودعات وبيع القطع المعتمدة للورش',
+          icon: '📦',
+          iconBg: '#EDE9FE',
+          iconColor: '#7B5CFF',
+          badge: 'وكالات وموردين رسميين',
+          defaultName: 'فهد العتيبي',
+          defaultEmail: 'fahad.rep@kafu.sa',
+          nameLabel: 'اسم مندوب المبيعات'
+        },
+        {
+          id: 'rep_scrap',
+          title: 'مندوب مبيعات تشاليح ومستعمل',
+          desc: 'مندوب ميداني يغطي تشاليح الحائر والصناعية وتسعير الطلبات',
+          icon: '🛠️',
+          iconBg: '#FEE2E2',
+          iconColor: '#DC2626',
+          badge: 'تشاليح الحائر والصناعية',
+          defaultName: 'خالد الدوسري',
+          defaultEmail: 'khaled.tashlih@kafu.sa',
+          nameLabel: 'اسم مندوب التشاليح'
+        }
+      ],
+      workshop: [
+        {
+          id: 'workshop',
+          title: 'مركز صيانة وميكانيكا متكامل',
+          desc: 'ورشة صيانة شاملة (توضيب، ميكانيكا، كهرباء) مع خصم 15% وبونص',
+          icon: '🔧',
+          iconBg: '#E0F2FE',
+          iconColor: '#0284C7',
+          badge: 'خصم 15% + بونص ونقاط',
+          defaultName: 'م. سامي أحمد',
+          defaultEmail: 'engineer.samy@kafu-workshop.com',
+          nameLabel: 'اسم الورشة / المهندس المشرف'
+        }
+      ],
+      courier: [
+        {
+          id: 'courier',
+          title: 'كابتن توصيل وشحن سريع',
+          desc: 'استلام القطع من المتاجر ونقلها للورش والعملاء بأرباح مشاوير يومية',
+          icon: '🚚',
+          iconBg: '#DCFCE7',
+          iconColor: '#16A34A',
+          badge: 'أرباح مشاوير فورية',
+          defaultName: 'كابتن عبدالله الشمري',
+          defaultEmail: 'captain.abdullah@kafu.sa',
+          nameLabel: 'اسم الكابتن ورقم المركبة'
+        }
+      ],
+      customer: [
+        {
+          id: 'customer',
+          title: 'عميل عادي / مالك سيارة',
+          desc: 'شراء وتصفح آلاف قطع الغيار المتوافقة مع سيارتي بدقة 100%',
+          icon: '👤',
+          iconBg: '#EBF2FF',
+          iconColor: '#0A6CFF',
+          badge: 'تسوق فوري ومضمون',
+          defaultName: 'يوسف أحمد',
+          defaultEmail: 'youssef@example.com',
+          nameLabel: 'الاسم الكامل'
+        }
+      ]
     };
 
-    function toggleRoleExpand(groupId) {
-      const cardMerchant = document.getElementById('cardMerchant');
-      const cardRep = document.getElementById('cardRep');
-      
-      if (groupId === 'merchant') {
-        const isExp = cardMerchant.classList.contains('expanded');
-        cardMerchant.classList.toggle('expanded', !isExp);
-        cardRep.classList.remove('expanded');
-        if (!isExp) selectRole('merchant_new');
-      } else if (groupId === 'rep') {
-        const isExp = cardRep.classList.contains('expanded');
-        cardRep.classList.toggle('expanded', !isExp);
-        cardMerchant.classList.remove('expanded');
-        if (!isExp) selectRole('rep_oem');
-      }
-    }
+    // الانتقال بين المراحل الثلاث
+    function goToStep(stepNum) {
+      currentStep = stepNum;
 
-    function selectRole(roleId) {
-      currentSelectedRole = roleId;
+      // 1. إظهار الشاشة المناسبة
+      document.querySelectorAll('.wizard-step-view').forEach(v => v.classList.remove('active-step'));
+      document.getElementById('stepView' + stepNum).classList.add('active-step');
 
-      // إزالة active من كافة البطاقات والأزرار الفرعية
-      document.querySelectorAll('.role-item-card').forEach(c => c.classList.remove('active'));
-      document.querySelectorAll('.sub-option-btn').forEach(b => b.classList.remove('active'));
+      // 2. تحديث مؤشر التقدم
+      const fill = document.getElementById('progressTrackFill');
+      const prog1 = document.getElementById('progStep1');
+      const prog2 = document.getElementById('progStep2');
+      const prog3 = document.getElementById('progStep3');
+      const title = document.getElementById('wizardNavTitle');
 
-      if (roleId.startsWith('merchant_')) {
-        const card = document.getElementById('cardMerchant');
-        card.classList.add('active', 'expanded');
-        document.getElementById('cardRep').classList.remove('expanded');
-        document.getElementById('sub_' + roleId)?.classList.add('active');
-      } else if (roleId.startsWith('rep_')) {
-        const card = document.getElementById('cardRep');
-        card.classList.add('active', 'expanded');
-        document.getElementById('cardMerchant').classList.remove('expanded');
-        document.getElementById('sub_' + roleId)?.classList.add('active');
-      } else if (roleId === 'workshop') {
-        document.getElementById('cardWorkshop').classList.add('active');
-        document.getElementById('cardMerchant').classList.remove('expanded');
-        document.getElementById('cardRep').classList.remove('expanded');
-      } else if (roleId === 'courier') {
-        document.getElementById('cardCourier').classList.add('active');
-        document.getElementById('cardMerchant').classList.remove('expanded');
-        document.getElementById('cardRep').classList.remove('expanded');
-      } else if (roleId === 'customer') {
-        document.getElementById('cardCustomer').classList.add('active');
-        document.getElementById('cardMerchant').classList.remove('expanded');
-        document.getElementById('cardRep').classList.remove('expanded');
+      title.textContent = `المرحلة ${stepNum} من 3`;
+
+      if (stepNum === 1) {
+        fill.style.width = '33.33%';
+        prog1.className = 'progress-step-item active';
+        prog2.className = 'progress-step-item';
+        prog3.className = 'progress-step-item';
+      } else if (stepNum === 2) {
+        fill.style.width = '66.66%';
+        prog1.className = 'progress-step-item completed';
+        prog2.className = 'progress-step-item active';
+        prog3.className = 'progress-step-item';
+        renderStep2Options();
+      } else if (stepNum === 3) {
+        fill.style.width = '100%';
+        prog1.className = 'progress-step-item completed';
+        prog2.className = 'progress-step-item completed';
+        prog3.className = 'progress-step-item active';
+        renderStep3Summary();
       }
 
-      // تحديث البانر والنموذج
-      updateHeroAndForm(roleId);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function updateHeroAndForm(roleId) {
-      const meta = roleMetaMap[roleId] || roleMetaMap.merchant_new;
-      const roleData = KafuStore.ROLES[roleId] || KafuStore.ROLES.merchant_new;
-
-      document.getElementById('heroAccountTitle').textContent = meta.title;
-      document.getElementById('heroAccountDesc').textContent = meta.desc;
-      document.getElementById('formRoleDisplay').textContent = roleData.title;
-      document.getElementById('labelFullName').textContent = meta.labelName;
-      document.getElementById('inputName').value = meta.defaultName;
-      document.getElementById('inputEmail').value = meta.defaultEmail;
-
-      // ألوان هيرو بريميوم لكل دور
-      const hero = document.getElementById('authHeroBanner');
-      if (roleId === 'workshop') {
-        hero.style.background = 'linear-gradient(135deg, #0369A1 0%, #0284C7 60%, #38BDF8 100%)';
-      } else if (roleId === 'courier') {
-        hero.style.background = 'linear-gradient(135deg, #15803D 0%, #16A34A 60%, #4ADE80 100%)';
-      } else if (roleId.startsWith('rep_')) {
-        hero.style.background = 'linear-gradient(135deg, #5B21B6 0%, #7C3AED 60%, #A78BFA 100%)';
-      } else if (roleId === 'merchant_scrap') {
-        hero.style.background = 'linear-gradient(135deg, #9A3412 0%, #D97706 60%, #FBBF24 100%)';
+    function handleTopBack() {
+      if (currentStep > 1) {
+        goToStep(currentStep - 1);
       } else {
-        hero.style.background = 'linear-gradient(135deg, #094ca7 0%, #0A6CFF 55%, #2d7df7 100%)';
+        window.location.href = 'index.html';
       }
     }
 
-    function switchAuthMode(mode) {
-      currentAuthMode = mode;
-      document.getElementById('tabRegister').classList.toggle('active', mode === 'register');
-      document.getElementById('tabLogin').classList.toggle('active', mode === 'login');
-      
-      const btn = document.getElementById('btnSubmitAuth');
+    // المرحلة الأولى: اختيار الفئة
+    function selectMainCategory(catKey) {
+      selectedMainCategory = catKey;
+      document.querySelectorAll('#stepView1 .wizard-select-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById('mainCard_' + catKey)?.classList.add('selected');
+
+      // تعيين أول دور فرعي افتراضياً
+      const subs = subCategoriesData[catKey] || [];
+      if (subs.length > 0) {
+        selectedFinalRoleId = subs[0].id;
+      }
+    }
+
+    // المرحلة الثانية: رسم خيارات النوع وتحديده
+    function renderStep2Options() {
+      const container = document.getElementById('subOptionsContainer');
+      const options = subCategoriesData[selectedMainCategory] || [];
+      const titles = {
+        merchant: 'حدد نوع المتجر والمبيعات',
+        rep: 'حدد تخصص مندوب المبيعات',
+        workshop: 'حدد خدمات ونوع الورشة',
+        courier: 'حدد نوع مركبة التوصيل',
+        customer: 'حدد رغبتك في كفو'
+      };
+      document.getElementById('step2HeroTitle').textContent = titles[selectedMainCategory] || 'حدد التخصص الدقيق';
+
+      container.innerHTML = options.map((opt, idx) => `
+        <div class="wizard-select-card ${opt.id === selectedFinalRoleId ? 'selected' : (idx === 0 && !options.some(o => o.id === selectedFinalRoleId) ? 'selected' : '')}" onclick="selectSubRole('${opt.id}')" id="subCard_${opt.id}">
+          <div class="wizard-card-main">
+            <div class="wizard-card-icon" style="background: ${opt.iconBg}; color: ${opt.iconColor}; font-size: 1.4rem;">
+              ${opt.icon}
+            </div>
+            <div class="wizard-card-text">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="wizard-card-title">${opt.title}</span>
+                <span style="font-size: 0.72rem; font-weight: 700; color: #15803D; background: #DCFCE7; padding: 2px 8px; border-radius: 6px;">${opt.badge}</span>
+              </div>
+              <span class="wizard-card-desc">${opt.desc}</span>
+            </div>
+          </div>
+          <div class="wizard-radio"><div class="wizard-radio-dot"></div></div>
+        </div>
+      `).join('');
+
+      if (!options.some(o => o.id === selectedFinalRoleId) && options.length > 0) {
+        selectedFinalRoleId = options[0].id;
+      }
+    }
+
+    function selectSubRole(subId) {
+      selectedFinalRoleId = subId;
+      document.querySelectorAll('#subOptionsContainer .wizard-select-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById('subCard_' + subId)?.classList.add('selected');
+    }
+
+    // المرحلة الثالثة: ملخص البيانات وتحديث الحقول
+    function renderStep3Summary() {
+      const role = KafuStore.ROLES[selectedFinalRoleId] || KafuStore.ROLES.merchant_new;
+      let optInfo = null;
+      for (const cat in subCategoriesData) {
+        const found = subCategoriesData[cat].find(o => o.id === selectedFinalRoleId);
+        if (found) { optInfo = found; break; }
+      }
+
+      document.getElementById('sumRoleIcon').textContent = optInfo ? optInfo.icon : '🏬';
+      document.getElementById('sumRoleTitle').textContent = role.title;
+      document.getElementById('labelStep3Name').textContent = optInfo ? optInfo.nameLabel : 'الاسم الكامل أو التجاري';
+      document.getElementById('inputFinalName').value = optInfo ? optInfo.defaultName : role.name;
+      document.getElementById('inputFinalEmail').value = optInfo ? optInfo.defaultEmail : role.email;
+    }
+
+    function switchStep3AuthMode(mode) {
+      authMode = mode;
+      document.getElementById('tabRegisterPill').classList.toggle('active', mode === 'register');
+      document.getElementById('tabLoginPill').classList.toggle('active', mode === 'login');
+
+      const btn = document.getElementById('btnFinalSubmit');
+      const nameGroup = document.getElementById('groupFullName');
       if (mode === 'login') {
-        btn.textContent = 'تسجيل الدخول للوحة التحكم';
-        document.getElementById('groupName').style.display = 'none';
+        btn.innerHTML = '<span>تسجيل الدخول للوحة التحكم 🚀</span>';
+        nameGroup.style.display = 'none';
       } else {
-        btn.textContent = 'إنشاء الحساب والمتابعة للوحة التحكم';
-        document.getElementById('groupName').style.display = 'flex';
+        btn.innerHTML = '<span>تأكيد الحساب والدخول للوحة التحكم 🚀</span>';
+        nameGroup.style.display = 'flex';
       }
     }
 
-    function submitRoleAuth() {
-      const name = document.getElementById('inputName').value.trim() || 'المستخدم';
-      const email = document.getElementById('inputEmail').value.trim() || 'user@kafu.sa';
-      
-      // حفظ الدور في المتجر
-      KafuStore.setRole(currentSelectedRole);
-      
-      const roleObj = KafuStore.ROLES[currentSelectedRole];
+    function confirmFinalAuth() {
+      const name = document.getElementById('inputFinalName').value.trim() || 'المستخدم';
+      const email = document.getElementById('inputFinalEmail').value.trim() || 'user@kafu.sa';
+
+      // 1. حفظ الدور النهائي في المتجر
+      KafuStore.setRole(selectedFinalRoleId);
+
+      // 2. تحديث البروفايل
+      const roleObj = KafuStore.ROLES[selectedFinalRoleId];
       if (roleObj) {
         roleObj.name = name;
         roleObj.email = email;
       }
-      
-      KafuApp.showToast(`مرحباً بك! تم تفعيل ${roleObj.title}`);
-      
+
+      KafuApp.showToast(`تم بنجاح! جاري فتح ${roleObj.title}`);
+
       setTimeout(() => {
-        if (currentSelectedRole === 'customer') {
+        if (selectedFinalRoleId === 'customer') {
           window.location.href = 'index.html';
         } else {
           window.location.href = 'account.html';
@@ -949,8 +1032,16 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      const savedRole = KafuStore.getRole();
-      selectRole(savedRole || 'merchant_new');
+      const saved = KafuStore.getRole();
+      if (saved) {
+        selectedFinalRoleId = saved;
+        for (const cat in subCategoriesData) {
+          if (subCategoriesData[cat].some(o => o.id === saved)) {
+            selectMainCategory(cat);
+            break;
+          }
+        }
+      }
     });
   </script>
 </body>
