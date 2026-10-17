@@ -29,10 +29,9 @@ const KafuApp = {
   // بناء شريط التنقل السفلي المطور
   // الترتيب من اليمين لليسار في RTL:
   // 1. الرئيسية
-  // 2. البحث
-  // 3. كفو AI (نجمة الذكاء الاصطناعي للبحث ومطابقة القطع)
-  // 4. الكتالوج / المكتبة (بدلاً من الملف الشخصي الذي انتقل للأعلى)
-  // * ملاحظة: السلة انتقلت للأعلى بالكامل متبقاش تحت
+  // 2. البحث بالعدسة (في المنتصف)
+  // 3. الكتالوج / المكتبة
+  // + زر علامة شات كفو AI عائم على الجنب
   renderBottomNav(activeTab = 'home') {
     const navHtml = `
       <div class="bottom-nav-wrap">
@@ -41,27 +40,36 @@ const KafuApp = {
           <a href="index.html" class="nav-tab ${activeTab === 'home' ? 'active' : ''}" title="الرئيسية" aria-label="الرئيسية">
             ${this.ICONS.home}
           </a>
-          <!-- 2. البحث -->
-          <a href="search.html" class="nav-tab ${activeTab === 'search' ? 'active' : ''}" title="البحث عن القطع" aria-label="البحث عن القطع">
+
+          <!-- 2. البحث بالعدسة (في المنتصف) -->
+          <a href="search.html" class="nav-tab ${activeTab === 'search' ? 'active' : ''}" title="البحث بالعدسة" aria-label="البحث بالعدسة">
             ${this.ICONS.search}
           </a>
-          <!-- 3. كفو AI - نجمة الذكاء الاصطناعي (البحث عن القطع بالذكاء الاصطناعي) -->
-          <button type="button" class="nav-tab nav-tab-ai ${activeTab === 'ai' ? 'active' : ''}" id="btnBottomNavAi" title="كفو AI - البحث بالذكاء الاصطناعي" aria-label="كفو AI - البحث بالذكاء الاصطناعي">
-            <span class="ai-sparkle-dot"></span>
-            ${this.ICONS.ai}
-          </button>
-          <!-- 4. الكتالوج أو المكتبة (أقصى اليسار في RTL) -->
+
+          <!-- 3. الكتالوج أو المكتبة (أقصى اليسار في RTL) -->
           <a href="library.html" class="nav-tab ${activeTab === 'library' || activeTab === 'catalog' ? 'active' : ''}" title="الكتالوج والمكتبة" aria-label="الكتالوج والمكتبة">
             ${this.ICONS.catalog}
           </a>
         </nav>
       </div>
+
+      <!-- زر علامة شات كفو AI العائم على الجنب -->
+      <button type="button" class="ai-floating-chat-btn" id="btnFloatingAiChat" title="كفو AI - البحث الذكي والمحادثة" aria-label="كفو AI - محادثة الذكاء الاصطناعي">
+        <div class="ai-floating-chat-icon">
+          <span class="ai-floating-pulse"></span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+            <path d="m12 7-1 2.5L8.5 10.5 11 11.5 12 14l1-2.5 2.5-1-2.5-1Z"/>
+          </svg>
+        </div>
+        <span class="ai-floating-label">كفو AI</span>
+      </button>
     `;
 
     document.body.insertAdjacentHTML('beforeend', navHtml);
 
-    // ربط نقرة زر AI بالنافذة الذكية
-    document.getElementById('btnBottomNavAi')?.addEventListener('click', () => {
+    // ربط نقرة زر AI العائم بالنافذة الذكية
+    document.getElementById('btnFloatingAiChat')?.addEventListener('click', () => {
       this.openAiModal();
     });
 
