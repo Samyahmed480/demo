@@ -15,8 +15,8 @@
 
   <style>
     /* ==========================================================================
-       واجهة كفو للهواتف الذكية (Mobile-First Splash & Role Selection)
-       مضبوطة بالمللي لكافة شاشات الجوال وهواتف الآيفون والأندرويد
+       واجهة كفو للهواتف الذكية (Mobile-Perfect Splash & Role Selection)
+       تجميع مدمج ومتمركز يضمن ظهور زر الزائر وكافة العناصر على أي شاشة جوال
        ========================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -26,13 +26,7 @@
       touch-action: manipulation;
     }
 
-    html {
-      width: 100%;
-      height: 100%;
-      height: 100dvh;
-    }
-
-    body {
+    html, body {
       width: 100%;
       min-height: 100%;
       min-height: 100dvh;
@@ -48,7 +42,7 @@
       align-items: center;
     }
 
-    /* إخفاء شريط التمرير لمظهر يشبه التطبيقات الأصلية */
+    /* إخفاء شريط التمرير لمظهر تطبيق أصلي ناعم */
     body::-webkit-scrollbar {
       display: none;
       width: 0;
@@ -84,38 +78,37 @@
       transform: translateX(-50%);
       width: 360px;
       height: 360px;
-      background: radial-gradient(circle, rgba(10, 108, 255, 0.14) 0%, rgba(99, 102, 241, 0.06) 50%, transparent 70%);
-      filter: blur(45px);
+      background: radial-gradient(circle, rgba(10, 108, 255, 0.12) 0%, rgba(99, 102, 241, 0.05) 50%, transparent 70%);
+      filter: blur(40px);
       z-index: 1;
       pointer-events: none;
     }
 
     /* --------------------------------------------------------------------------
-       2. الحاوية المركزية للشاشة المحسّنة للجوال (Mobile Container)
+       2. الحاوية المركزية للشاشة المحسّنة للجوال (Compact Centered Container)
        -------------------------------------------------------------------------- */
     .welcome-screen-wrap {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 414px;
-      min-height: 100dvh;
-      margin: 0 auto;
-      padding: max(16px, env(safe-area-inset-top, 14px)) 16px max(24px, env(safe-area-inset-bottom, 20px));
+      max-width: 390px;
+      margin: auto;
+      padding: max(14px, env(safe-area-inset-top, 10px)) 16px max(18px, env(safe-area-inset-bottom, 14px));
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      animation: screenFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+      justify-content: center;
+      gap: 10px;
+      animation: screenFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
     @keyframes screenFadeIn {
-      0% { opacity: 0; transform: translateY(10px); }
+      0% { opacity: 0; transform: translateY(8px); }
       100% { opacity: 1; transform: translateY(0); }
     }
 
     /* --------------------------------------------------------------------------
-       3. الشعار الرسمي والعنوان (Mobile Header)
+       3. الشعار والعنوان المدمج (Compact Mobile Header)
        -------------------------------------------------------------------------- */
     .splash-header {
       width: 100%;
@@ -123,36 +116,36 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      margin-top: 2px;
+      margin-top: 0;
+      margin-bottom: 2px;
     }
 
     .splash-logo-pod {
       position: relative;
-      width: clamp(66px, 16vw, 78px);
-      height: clamp(66px, 16vw, 78px);
-      border-radius: 24px;
+      width: 68px;
+      height: 68px;
+      border-radius: 20px;
       background: linear-gradient(145deg, #FFFFFF, #F8FAFC);
       border: 1.5px solid rgba(255, 255, 255, 0.95);
       box-shadow: 
-        0 14px 28px -6px rgba(10, 108, 255, 0.22),
+        0 12px 24px -6px rgba(10, 108, 255, 0.2),
         0 2px 8px rgba(15, 23, 42, 0.04),
         0 0 0 1px rgba(226, 232, 240, 0.75) inset;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 8px;
-      transition: transform 0.3s ease;
+      margin-bottom: 6px;
     }
 
     .splash-logo-img {
-      width: clamp(50px, 12vw, 60px);
-      height: clamp(50px, 12vw, 60px);
+      width: 52px;
+      height: 52px;
       object-fit: contain;
       filter: drop-shadow(0 3px 6px rgba(15, 23, 42, 0.12));
     }
 
     .splash-app-title {
-      font-size: clamp(1.45rem, 5vw, 1.7rem);
+      font-size: 1.55rem;
       font-weight: 800;
       color: #0F172A;
       line-height: 1.15;
@@ -161,20 +154,20 @@
     }
 
     .splash-app-subtitle {
-      font-size: clamp(0.78rem, 2.8vw, 0.85rem);
+      font-size: 0.8rem;
       font-weight: 600;
       color: #0A6CFF;
       margin-bottom: 2px;
     }
 
     .splash-app-prompt {
-      font-size: clamp(0.74rem, 2.5vw, 0.8rem);
+      font-size: 0.75rem;
       color: #64748B;
       font-weight: 500;
     }
 
     /* --------------------------------------------------------------------------
-       4. بطاقة الأدوار الأصلية المحسّنة (Touch-Optimized Role Card)
+       4. بطاقة الأدوار الأصلية المحسّنة (Compact Role Cards)
        -------------------------------------------------------------------------- */
     .roles-card-frame {
       width: 100%;
@@ -182,23 +175,23 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.9);
-      border-radius: 26px;
-      padding: clamp(10px, 3vw, 14px);
+      border-radius: 22px;
+      padding: 10px;
       box-shadow: 
-        0 18px 40px -10px rgba(15, 23, 42, 0.07),
+        0 16px 36px -10px rgba(15, 23, 42, 0.07),
         0 2px 8px rgba(15, 23, 42, 0.03);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 7px;
     }
 
     /* عنصر الدور (Button Card) */
     .role-acc-item {
-      border-radius: 16px;
+      border-radius: 14px;
       background: #FFFFFF;
       border: 1.5px solid #E2E8F0;
       overflow: hidden;
-      transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
       -webkit-user-select: none;
       user-select: none;
     }
@@ -213,15 +206,15 @@
 
     .role-acc-item.expanded {
       border-color: #0A6CFF;
-      box-shadow: 0 6px 20px rgba(10, 108, 255, 0.12);
+      box-shadow: 0 4px 16px rgba(10, 108, 255, 0.12);
       background: #FBFDFF;
     }
 
     /* الزر الرئيسي لكل دور */
     .role-main-btn {
       width: 100%;
-      height: clamp(52px, 12vw, 56px);
-      padding: 0 14px;
+      height: 48px;
+      padding: 0 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -242,21 +235,21 @@
     .role-btn-start {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex: 1;
       min-width: 0;
     }
 
     /* صناديق الأيقونات المميزة لكل دور */
     .role-icon-box {
-      width: clamp(36px, 9vw, 40px);
-      height: clamp(36px, 9vw, 40px);
-      border-radius: 12px;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: transform 0.22s ease;
+      transition: transform 0.2s ease;
     }
 
     .icon-merchant {
@@ -281,7 +274,7 @@
     }
 
     .role-title-text {
-      font-size: clamp(0.96rem, 3.2vw, 1.05rem);
+      font-size: 0.98rem;
       font-weight: 700;
       color: #0F172A;
       letter-spacing: -0.2px;
@@ -290,8 +283,8 @@
 
     /* سهم التوسيع أو الانتقال الدائري المحسن */
     .role-chevron-box, .role-arrow-box {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: #F8FAFC;
       border: 1px solid #E2E8F0;
@@ -300,7 +293,7 @@
       justify-content: center;
       color: #94A3B8;
       flex-shrink: 0;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .role-acc-item.expanded .role-chevron-box {
@@ -324,27 +317,27 @@
       max-height: 0;
       opacity: 0;
       overflow: hidden;
-      transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, padding 0.25s ease;
+      transition: max-height 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, padding 0.22s ease;
       background: #F8FAFC;
       border-top: 1px solid transparent;
-      padding: 0 10px;
+      padding: 0 8px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     .role-acc-item.expanded .role-sub-menu {
-      max-height: 140px;
+      max-height: 130px;
       opacity: 1;
-      padding: 8px 10px 10px;
+      padding: 7px 8px 8px;
       border-top-color: #E2E8F0;
     }
 
     .role-sub-btn {
       width: 100%;
-      height: clamp(42px, 10vw, 46px);
-      padding: 0 14px;
-      border-radius: 12px;
+      height: 40px;
+      padding: 0 12px;
+      border-radius: 10px;
       background: #FFFFFF;
       border: 1px solid #E2E8F0;
       font-family: inherit;
@@ -352,7 +345,7 @@
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      transition: all 0.18s ease;
+      transition: all 0.16s ease;
       text-decoration: none;
       text-align: right;
     }
@@ -364,10 +357,10 @@
     }
 
     .sub-btn-title {
-      font-size: clamp(0.86rem, 2.9vw, 0.92rem);
+      font-size: 0.88rem;
       font-weight: 700;
       color: #1E293B;
-      transition: color 0.18s ease;
+      transition: color 0.16s ease;
     }
 
     .role-sub-btn:hover .sub-btn-title,
@@ -379,7 +372,7 @@
       color: #94A3B8;
       display: flex;
       align-items: center;
-      transition: color 0.18s ease, transform 0.18s ease;
+      transition: color 0.16s ease, transform 0.16s ease;
     }
 
     .role-sub-btn:hover .sub-btn-arrow,
@@ -389,26 +382,24 @@
     }
 
     /* --------------------------------------------------------------------------
-       6. زر التصفح كعميل / زائر بالأسفل
+       6. زر التصفح كعميل / زائر - ظاهر وبارز مباشرة تحت البطاقة
        -------------------------------------------------------------------------- */
     .splash-footer {
       width: 100%;
       display: flex;
       justify-content: center;
-      padding-top: 4px;
-      margin-bottom: 2px;
+      margin-top: 2px;
     }
 
     .btn-visitor-pill {
       width: 100%;
-      max-width: 330px;
-      height: clamp(44px, 11vw, 48px);
+      height: 44px;
       border-radius: 9999px;
       background: #FFFFFF;
       border: 1.5px solid #CBD5E1;
-      color: #334155;
+      color: #1E293B;
       font-family: inherit;
-      font-size: clamp(0.86rem, 2.9vw, 0.92rem);
+      font-size: 0.9rem;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -452,8 +443,8 @@
     }
 
     .loading-spinner {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       border: 3px solid rgba(10, 108, 255, 0.15);
       border-top-color: #0A6CFF;
@@ -462,38 +453,6 @@
 
     @keyframes spin {
       to { transform: rotate(360deg); }
-    }
-
-    /* ميديا كويري للهواتف ذات الشاشات القصيرة (iPhone SE / Small Androids) */
-    @media (max-height: 680px) {
-      .welcome-screen-wrap {
-        padding-top: max(10px, env(safe-area-inset-top, 8px));
-        padding-bottom: max(12px, env(safe-area-inset-bottom, 10px));
-        gap: 8px;
-      }
-      .splash-logo-pod {
-        width: 58px;
-        height: 58px;
-        border-radius: 18px;
-        margin-bottom: 4px;
-      }
-      .splash-logo-img {
-        width: 44px;
-        height: 44px;
-      }
-      .splash-app-title {
-        font-size: 1.35rem;
-      }
-      .roles-card-frame {
-        padding: 8px;
-        gap: 6px;
-      }
-      .role-main-btn {
-        height: 48px;
-      }
-      .btn-visitor-pill {
-        height: 42px;
-      }
     }
   </style>
 </head>
@@ -572,7 +531,7 @@
         <button type="button" class="role-main-btn" onclick="toggleRoleAccordion('accMerchant')" aria-expanded="false" aria-controls="subMerchant">
           <div class="role-btn-start">
             <div class="role-icon-box icon-merchant">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
               </svg>
@@ -580,7 +539,7 @@
             <span class="role-title-text">تاجر</span>
           </div>
           <div class="role-chevron-box">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
@@ -611,7 +570,7 @@
         <button type="button" class="role-main-btn" onclick="toggleRoleAccordion('accRep')" aria-expanded="false" aria-controls="subRep">
           <div class="role-btn-start">
             <div class="role-icon-box icon-rep">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                 <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
               </svg>
@@ -619,7 +578,7 @@
             <span class="role-title-text">مندوب مبيعات</span>
           </div>
           <div class="role-chevron-box">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
@@ -650,14 +609,14 @@
         <button type="button" class="role-main-btn" onclick="selectRoleAndEnter('workshop')" title="حساب مهندس ورشة">
           <div class="role-btn-start">
             <div class="role-icon-box icon-workshop">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
               </svg>
             </div>
             <span class="role-title-text">مهندس ورشة</span>
           </div>
           <div class="role-arrow-box">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </div>
@@ -669,7 +628,7 @@
         <button type="button" class="role-main-btn" onclick="selectRoleAndEnter('courier')" title="حساب مندوب توصيل">
           <div class="role-btn-start">
             <div class="role-icon-box icon-courier">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
                 <path d="M15 18H9"></path>
                 <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
@@ -680,7 +639,7 @@
             <span class="role-title-text">مندوب توصيل</span>
           </div>
           <div class="role-arrow-box">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </div>
@@ -689,11 +648,11 @@
 
     </section>
 
-    <!-- 3. زر تصفح كعميل / زائر في الأسفل ظاهر بالكامل وبمسافة أمان كافية -->
+    <!-- 3. زر تصفح كعميل / زائر - متصل مباشرة تحت البطاقة وظاهر 100% -->
     <footer class="splash-footer">
       <button type="button" class="btn-visitor-pill" onclick="selectRoleAndEnter('customer')" title="تصفح المتجر كعميل أو زائر">
         <span>تصفح كعميل / زائر</span>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
       </button>
