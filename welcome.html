@@ -15,7 +15,7 @@
 
   <style>
     /* ==========================================================================
-       واجهة كفو للترحيب واختيار الدور - صور مفرغة شفافة وتنسيق هاتف ذكي فائق
+       واجهة كفو للترحيب واختيار الدور - هوية بصرية موحدة وأبعاد محسنة بدقة
        ========================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -28,10 +28,13 @@
     :root {
       --primary-blue: #0066FF;
       --primary-dark: #0047BA;
+      --primary-navy: #0F2D6B;
+      --primary-steel: #0284C7;
+      --primary-cobalt: #2563EB;
       --primary-light: #EFF6FF;
       --slate-title: #0A2540;
       --slate-sub: #64748B;
-      --card-border: rgba(226, 232, 240, 0.85);
+      --card-border: rgba(226, 232, 240, 0.9);
     }
 
     html, body {
@@ -72,52 +75,52 @@
       overflow: hidden;
     }
 
-    /* تموج أزرق ملكي خفيف في الزاوية العلوية اليسرى */
+    /* تموج أزرق ملكي في الزاوية العلوية اليسرى */
     .top-wave-left {
       position: absolute;
-      top: -35px;
-      left: -45px;
+      top: -45px;
+      left: -55px;
       width: 250px;
       height: 230px;
-      background: radial-gradient(circle at 25% 25%, #0062FF 0%, #1D4ED8 40%, rgba(37, 99, 235, 0.3) 75%, transparent 100%);
+      background: radial-gradient(circle at 25% 25%, #0062FF 0%, #1D4ED8 40%, rgba(37, 99, 235, 0.25) 75%, transparent 100%);
       filter: blur(2px);
       border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-      opacity: 0.92;
+      opacity: 0.9;
     }
 
     /* تموج أزرق في الزاوية العلوية اليمنى */
     .top-wave-right {
       position: absolute;
-      top: -55px;
-      right: -35px;
+      top: -65px;
+      right: -45px;
       width: 210px;
       height: 190px;
-      background: radial-gradient(circle at 75% 25%, #2563EB 0%, #3B82F6 45%, rgba(96, 165, 250, 0.22) 75%, transparent 100%);
+      background: radial-gradient(circle at 75% 25%, #2563EB 0%, #3B82F6 45%, rgba(96, 165, 250, 0.2) 75%, transparent 100%);
       filter: blur(3px);
       border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%;
-      opacity: 0.88;
+      opacity: 0.85;
     }
 
-    /* هالة إشعاعية ناصعة خلف الشعار بالمنتصف */
+    /* هالة إشعاعية ناصعة خلف الشعار والعناوين بالمنتصف لعزل تام ووضوح فائق */
     .central-glow {
       position: absolute;
-      top: 85px;
+      top: 65px;
       left: 50%;
       transform: translateX(-50%);
-      width: 320px;
-      height: 260px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(240, 246, 255, 0.85) 55%, transparent 80%);
+      width: 330px;
+      height: 290px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(240, 246, 255, 0.92) 55%, transparent 80%);
       filter: blur(12px);
       z-index: 3;
     }
 
-    /* الترس الميكانيكي المفرغ كلياً (PNG شفاف 100% بدون أي خلفية أو مربع) */
+    /* الترس الميكانيكي (يسار) - موضع جانبي علوي مستقل بعيداً عن النصوص */
     .bg-gear-asset {
       position: absolute;
-      top: 105px;
-      left: max(-15px, calc(50% - 220px));
-      width: 175px;
-      height: 175px;
+      top: 60px;
+      left: calc(50% - 245px);
+      width: 135px;
+      height: 135px;
       background-image: url('assets/images/welcome-gear.png');
       background-size: contain;
       background-repeat: no-repeat;
@@ -125,7 +128,8 @@
       z-index: 2;
       animation: gentleGearRotate 60s linear infinite;
       transform-origin: center center;
-      filter: drop-shadow(0 10px 20px rgba(0, 102, 255, 0.12));
+      filter: drop-shadow(0 8px 18px rgba(0, 102, 255, 0.12));
+      opacity: 0.88;
     }
 
     @keyframes gentleGearRotate {
@@ -133,19 +137,20 @@
       to { transform: rotate(360deg); }
     }
 
-    /* قطع الغيار (القرص والمكبس) مفرغة كلياً (PNG شفاف 100% بدون أي خلفية) */
+    /* قطع الغيار (قرص الفرامل والمكبس) (يمين) - موضع جانبي علوي مستقل تماماً عن النص */
     .bg-parts-asset {
       position: absolute;
-      top: 110px;
-      right: max(-15px, calc(50% - 215px));
-      width: 170px;
-      height: 160px;
+      top: 65px;
+      right: calc(50% - 240px);
+      width: 130px;
+      height: 130px;
       background-image: url('assets/images/welcome-parts.png');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
       z-index: 2;
-      filter: drop-shadow(0 10px 20px rgba(15, 23, 42, 0.08));
+      filter: drop-shadow(0 8px 18px rgba(15, 23, 42, 0.08));
+      opacity: 0.88;
     }
 
     /* أفق مباني المدينة المودرن في الأسفل */
@@ -177,7 +182,7 @@
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 400px;
+      max-width: 410px;
       min-height: 100vh;
       min-height: 100dvh;
       margin: 0 auto;
@@ -207,7 +212,7 @@
       border-radius: 9999px;
       background: #FFFFFF;
       border: 1px solid rgba(226, 232, 240, 0.95);
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
       display: flex;
       align-items: center;
       gap: 7px;
@@ -246,18 +251,20 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      margin-top: 0;
-      margin-bottom: 12px;
+      margin-top: 4px;
+      margin-bottom: 0;
+      position: relative;
+      z-index: 5;
     }
 
     /* صندوق الشعار المستدير (Squircle Pod) */
     .brand-logo-pod {
-      width: 82px;
-      height: 82px;
-      border-radius: 24px;
+      width: 78px;
+      height: 78px;
+      border-radius: 22px;
       background: #FFFFFF;
       box-shadow: 
-        0 12px 28px rgba(0, 102, 255, 0.16),
+        0 12px 28px rgba(0, 102, 255, 0.15),
         0 3px 8px rgba(15, 23, 42, 0.04);
       border: 2px solid #FFFFFF;
       display: flex;
@@ -268,42 +275,71 @@
     }
 
     .brand-logo-icon {
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       object-fit: contain;
     }
 
     .brand-title {
-      font-size: 2.05rem;
+      font-size: 1.95rem;
       font-weight: 900;
       color: #0A2540;
       line-height: 1.15;
-      margin-bottom: 3px;
-      letter-spacing: -0.4px;
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+
+    /* حاوية العنوان الفرعي لضمان التمركز التام والعزل عن أي صور جانبية */
+    .brand-subtitle-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 290px;
+      margin: 0 auto 4px;
     }
 
     .brand-subtitle {
-      font-size: 0.94rem;
+      font-size: 0.90rem;
       font-weight: 700;
       color: #0066FF;
-      margin-bottom: 3px;
+      line-height: 1.35;
+      text-align: center;
+      letter-spacing: -0.15px;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
     }
 
     .brand-prompt {
-      font-size: 0.82rem;
+      font-size: 0.81rem;
       font-weight: 500;
       color: #64748B;
+      margin-top: 2px;
     }
 
     /* --------------------------------------------------------------------------
-       5. كروت الأدوار الأربعة (Role Cards 100% Mobile Optimized)
+       5. قسم الإجراءات والبطاقات (فاصل رأسي واضح ومساحة تنفس بصرية)
        -------------------------------------------------------------------------- */
+    .welcome-actions-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      /* مسافة رأسية تفصل الأزرار عن العناصر العلوية وتستفيد من المساحة الشاغرة */
+      margin-top: clamp(20px, 4vh, 32px);
+      margin-bottom: clamp(14px, 2.5vh, 22px);
+      position: relative;
+      z-index: 5;
+    }
+
     .roles-list-group {
       width: 100%;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 11px;
     }
 
     .role-action-card {
@@ -311,9 +347,9 @@
       height: 68px;
       border-radius: 18px;
       background: #FFFFFF;
-      border: 1px solid rgba(226, 232, 240, 0.85);
+      border: 1px solid var(--card-border);
       box-shadow: 
-        0 4px 16px rgba(15, 23, 42, 0.05),
+        0 4px 16px rgba(15, 23, 42, 0.04),
         0 1px 3px rgba(15, 23, 42, 0.02);
       display: flex;
       align-items: center;
@@ -324,15 +360,15 @@
       font-family: inherit;
       color: inherit;
       text-align: right;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
       position: relative;
       overflow: hidden;
     }
 
     .role-action-card:hover {
-      border-color: #CBD5E1;
-      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
-      transform: translateY(-1px);
+      border-color: rgba(0, 102, 255, 0.35);
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.09);
+      transform: translateY(-2px);
     }
 
     .role-action-card:active {
@@ -344,36 +380,65 @@
     .role-content-start {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 12px;
       flex: 1;
       min-width: 0;
     }
 
-    /* البادج المربع المتدرج للأيقونة */
+    /* البادج المربع المتدرج للأيقونة - هوية كفو الزرقاء الموحدة والفاخرة */
     .role-gradient-badge {
-      width: 54px;
-      height: 54px;
+      width: 52px;
+      height: 52px;
       border-radius: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       color: #FFFFFF;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
+      background: linear-gradient(135deg, #0066FF 0%, #0047BA 100%);
+      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.22);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+      position: relative;
     }
 
-    /* تدرجات ألوان الأدوار الأربعة */
+    /* حلقة خفيفة تضفي طابعاً مستقبلياً فائق الأناقة */
+    .role-gradient-badge::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      pointer-events: none;
+    }
+
+    .role-action-card:hover .role-gradient-badge {
+      transform: scale(1.04);
+      box-shadow: 0 6px 18px rgba(0, 102, 255, 0.32);
+    }
+
+    /* درجات الأزرق الموحدة لكافة الأدوار (استبعاد البرتقالي والأخضر والبنفسجي) */
+    /* 1. تاجر: كحلي ملكي راقي يعكس الثقة والمؤسسية */
     .badge-merchant {
-      background: linear-gradient(135deg, #2563EB 0%, #0052CC 100%);
+      background: linear-gradient(135deg, #1E40AF 0%, #0F2D6B 100%);
+      box-shadow: 0 5px 16px rgba(30, 64, 175, 0.28);
     }
+
+    /* 2. مندوب مبيعات: أزرق كفو الأساسي العصري والحيوي */
     .badge-rep {
-      background: linear-gradient(135deg, #C084FC 0%, #7C3AED 100%);
+      background: linear-gradient(135deg, #0066FF 0%, #0047BA 100%);
+      box-shadow: 0 5px 16px rgba(0, 102, 255, 0.28);
     }
+
+    /* 3. مهندس ورشة: أزرق سماوي تقني يرمز للدقة والهندسة */
     .badge-workshop {
-      background: linear-gradient(135deg, #FBBF24 0%, #EA580C 100%);
+      background: linear-gradient(135deg, #0284C7 0%, #035388 100%);
+      box-shadow: 0 5px 16px rgba(2, 132, 199, 0.28);
     }
+
+    /* 4. مندوب توصيل: أزرق كوبالت سريع يرمز للحركة واللوجستيات */
     .badge-courier {
-      background: linear-gradient(135deg, #4ADE80 0%, #16A34A 100%);
+      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+      box-shadow: 0 5px 16px rgba(37, 99, 235, 0.28);
     }
 
     /* نصوص العنوان والوصف */
@@ -386,7 +451,7 @@
     }
 
     .role-card-name {
-      font-size: 1.02rem;
+      font-size: 1.01rem;
       font-weight: 800;
       color: #0F172A;
       line-height: 1.25;
@@ -394,29 +459,30 @@
     }
 
     .role-card-desc {
-      font-size: 0.78rem;
+      font-size: 0.77rem;
       font-weight: 500;
       color: #64748B;
       line-height: 1.2;
     }
 
-    /* دائرة السهم اليسرى المنسقة */
+    /* دائرة السهم اليسرى المنسقة بتدرج هادئ */
     .role-chevron-circle {
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      background: #EFF4FA;
+      background: #F0F6FF;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #0F172A;
+      color: #0066FF;
       flex-shrink: 0;
-      transition: background 0.18s ease, transform 0.18s ease;
+      transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
     }
 
     .role-action-card:hover .role-chevron-circle {
-      background: #E2E8F0;
-      transform: translateX(-2px);
+      background: #0066FF;
+      color: #FFFFFF;
+      transform: translateX(-3px);
     }
 
     /* --------------------------------------------------------------------------
@@ -427,7 +493,7 @@
       height: 50px;
       border-radius: 9999px;
       background: #FFFFFF;
-      border: 1.8px solid #0066FF;
+      border: 1.7px solid #0066FF;
       box-shadow: 0 4px 14px rgba(0, 102, 255, 0.08);
       display: flex;
       align-items: center;
@@ -438,7 +504,7 @@
       cursor: pointer;
       text-decoration: none;
       transition: all 0.2s ease;
-      margin-bottom: 10px;
+      margin-bottom: 0;
     }
 
     .visitor-btn-pill:hover {
@@ -458,13 +524,13 @@
     }
 
     .visitor-title-text {
-      font-size: 0.95rem;
+      font-size: 0.94rem;
       font-weight: 700;
       color: #0066FF;
     }
 
     /* --------------------------------------------------------------------------
-       7. تذييل الصفحة: عبارة "مع كفو ... كل قطعة في مكانها" ظاهرة وبارزة 100%
+       7. تذييل الصفحة: عبارة "مع كفو ... كل قطعة في مكانها"
        -------------------------------------------------------------------------- */
     .welcome-footer-wrap {
       width: 100%;
@@ -473,7 +539,7 @@
       align-items: center;
       justify-content: center;
       margin-top: auto;
-      padding-top: 6px;
+      padding-top: 8px;
       padding-bottom: max(10px, env(safe-area-inset-bottom, 10px));
       position: relative;
       z-index: 20;
@@ -494,7 +560,7 @@
     }
 
     .tagline-label {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 800;
       color: #0066FF;
       white-space: nowrap;
@@ -695,33 +761,60 @@
     }
 
     /* --------------------------------------------------------------------------
-       10. استجابة ذكية ومثالية للهواتف الذكية (Mobile Perfect Fit)
+       10. استجابة ذكية ومثالية للهواتف الذكية والشاشات الصغيرة (Responsive Mobile Fit)
        -------------------------------------------------------------------------- */
+    @media (max-width: 400px) {
+      .bg-gear-asset {
+        width: 115px;
+        height: 115px;
+        top: 55px;
+        left: -40px;
+      }
+      .bg-parts-asset {
+        width: 115px;
+        height: 115px;
+        top: 60px;
+        right: -40px;
+      }
+      .brand-subtitle-wrap {
+        max-width: 260px;
+      }
+      .brand-subtitle {
+        font-size: 0.84rem;
+        padding: 2px 8px;
+      }
+    }
+
     @media (max-height: 760px) {
       .mobile-screen-container {
         padding-top: 8px;
         padding-bottom: 8px;
       }
       .brand-logo-pod {
-        width: 68px;
-        height: 68px;
+        width: 66px;
+        height: 66px;
         border-radius: 18px;
         margin-bottom: 4px;
       }
       .brand-logo-icon {
-        width: 46px;
-        height: 46px;
+        width: 44px;
+        height: 44px;
       }
       .brand-title {
         font-size: 1.7rem;
-        margin-bottom: 1px;
+        margin-bottom: 2px;
       }
       .brand-subtitle {
-        font-size: 0.84rem;
+        font-size: 0.82rem;
         margin-bottom: 2px;
+        padding: 2px 8px;
       }
       .brand-prompt {
         font-size: 0.74rem;
+      }
+      .welcome-actions-section {
+        margin-top: 14px;
+        margin-bottom: 10px;
       }
       .roles-list-group {
         gap: 8px;
@@ -733,15 +826,15 @@
         padding: 5px 8px 5px 12px;
       }
       .role-gradient-badge {
-        width: 48px;
-        height: 48px;
+        width: 46px;
+        height: 46px;
         border-radius: 12px;
       }
       .role-card-name {
-        font-size: 0.96rem;
+        font-size: 0.94rem;
       }
       .role-card-desc {
-        font-size: 0.74rem;
+        font-size: 0.73rem;
       }
       .role-chevron-circle {
         width: 30px;
@@ -749,21 +842,23 @@
       }
       .visitor-btn-pill {
         height: 46px;
-        margin-bottom: 6px;
+        margin-bottom: 0;
       }
       .tagline-label {
         font-size: 0.82rem;
         padding: 3px 12px;
       }
       .bg-gear-asset {
-        width: 135px;
-        height: 135px;
-        top: 85px;
+        width: 110px;
+        height: 110px;
+        top: 45px;
+        left: -35px;
       }
       .bg-parts-asset {
-        width: 130px;
-        height: 130px;
-        top: 90px;
+        width: 105px;
+        height: 105px;
+        top: 50px;
+        right: -35px;
       }
     }
 
@@ -811,7 +906,7 @@
     <div class="top-wave-left"></div>
     <div class="top-wave-right"></div>
     
-    <!-- هالة بيضاء ناصعة بالمركز -->
+    <!-- هالة بيضاء ناصعة بالمركز لحماية عزل النصوص -->
     <div class="central-glow"></div>
     
     <!-- الترس الميكانيكي المفرغ كلياً بدون أي خلفية (PNG شفاف) مع دوران بطيء ناعم -->
@@ -839,40 +934,42 @@
   <main class="mobile-screen-container">
 
     <!-- شريط تغيير اللغة بالأعلى فقط (مع أيقونة الترس) -->
-    <div>
-      <header class="top-lang-bar">
-        <!-- زر تغيير اللغة البيضاوي (ترس ⚙️ + عربي ⌵) -->
-        <button type="button" class="lang-pill-btn" title="تغيير لغة التطبيق" aria-label="تغيير لغة التطبيق" onclick="openLangSheet()">
-          <span class="lang-gear-icon">
-            <!-- أيقونة الترس الهندسي الدقيق -->
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-          </span>
-          <span id="currentLangLabel">عربي</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
+    <header class="top-lang-bar">
+      <!-- زر تغيير اللغة البيضاوي (ترس ⚙️ + عربي ⌵) -->
+      <button type="button" class="lang-pill-btn" title="تغيير لغة التطبيق" aria-label="تغيير لغة التطبيق" onclick="openLangSheet()">
+        <span class="lang-gear-icon">
+          <!-- أيقونة الترس الهندسي الدقيق -->
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
           </svg>
-        </button>
-      </header>
+        </span>
+        <span id="currentLangLabel">عربي</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+    </header>
 
-      <!-- عنوان وهوية كفو -->
-      <section class="welcome-header-card">
-        <div class="brand-logo-pod" title="شعار كفو">
-          <img src="assets/images/kafu-logo.png" alt="كفو" class="brand-logo-icon">
-        </div>
-        <h1 class="brand-title">كفو</h1>
+    <!-- كتلة الهيدر والعنوان (كفو + العنوان الفرعي) متمركزة ومستقلة تماماً بدون أي تداخل -->
+    <section class="welcome-header-card">
+      <div class="brand-logo-pod" title="شعار كفو">
+        <img src="assets/images/kafu-logo.png" alt="كفو" class="brand-logo-icon">
+      </div>
+      <h1 class="brand-title">كفو</h1>
+      <div class="brand-subtitle-wrap">
         <h2 class="brand-subtitle">منظومة قطع غيار السيارات الذكية</h2>
-        <p class="brand-prompt">اختر نوع حسابك للمتابعة</p>
-      </section>
+      </div>
+      <p class="brand-prompt">اختر نوع حسابك للمتابعة</p>
+    </section>
 
-      <!-- =====================================================================
-           كروت الأدوار الأربعة (تاجر، مندوب مبيعات، مهندس ورشة، مندوب توصيل)
-           ===================================================================== -->
-      <section class="roles-list-group" aria-label="خيارات تسجيل الدخول">
+    <!-- =====================================================================
+         قسم الإجراءات: كروت الأدوار مع مسافة رأسية وتنفس بصري مريح
+         ===================================================================== -->
+    <section class="welcome-actions-section">
+      <div class="roles-list-group" aria-label="خيارات تسجيل الدخول">
 
-        <!-- 1. تاجر -->
+        <!-- 1. تاجر (أزرق كحلي ملكي راقي) -->
         <button type="button" class="role-action-card" onclick="openSubModal('merchant')">
           <div class="role-content-start">
             <div class="role-gradient-badge badge-merchant">
@@ -893,7 +990,7 @@
           </div>
         </button>
 
-        <!-- 2. مندوب مبيعات -->
+        <!-- 2. مندوب مبيعات (أزرق كفو الأساسي العصري) -->
         <button type="button" class="role-action-card" onclick="openSubModal('rep')">
           <div class="role-content-start">
             <div class="role-gradient-badge badge-rep">
@@ -917,7 +1014,7 @@
           </div>
         </button>
 
-        <!-- 3. مهندس ورشة -->
+        <!-- 3. مهندس ورشة (أزرق سماوي تقني هندسي) -->
         <button type="button" class="role-action-card" onclick="selectRoleAndEnter('workshop')">
           <div class="role-content-start">
             <div class="role-gradient-badge badge-workshop">
@@ -939,7 +1036,7 @@
           </div>
         </button>
 
-        <!-- 4. مندوب توصيل -->
+        <!-- 4. مندوب توصيل (أزرق كوبالت حركي سريع) -->
         <button type="button" class="role-action-card" onclick="selectRoleAndEnter('courier')">
           <div class="role-content-start">
             <div class="role-gradient-badge badge-courier">
@@ -960,7 +1057,7 @@
           </div>
         </button>
 
-      </section>
+      </div>
 
       <!-- =====================================================================
            زر: تصفح كعميل / زائر
@@ -980,11 +1077,10 @@
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
       </button>
-
-    </div>
+    </section>
 
     <!-- =========================================================================
-         تذييل الصفحة (عبارة "مع كفو ... كل قطعة في مكانها" ظاهرة وبارزة 100%)
+         تذييل الصفحة (عبارة "مع كفو ... كل قطعة في مكانها")
          ========================================================================= -->
     <footer class="welcome-footer-wrap">
       <div class="tagline-divider-row">
