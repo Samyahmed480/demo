@@ -102,7 +102,6 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
-}
 
 body {
   font-family: var(--font-family);

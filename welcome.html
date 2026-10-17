@@ -15,7 +15,7 @@
 
   <style>
     /* ==========================================================================
-       واجهة كفو للترحيب واختيار الدور - هوية بصرية موحدة وأبعاد محسنة بدقة
+       واجهة كفو للترحيب واختيار الدور - هوية بصرية سعودية حديثة ومتكاملة
        ========================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -37,20 +37,31 @@
       --card-border: rgba(226, 232, 240, 0.9);
     }
 
-    html, body {
+    html {
       width: 100%;
       height: 100%;
+      min-height: 100%;
+      background: #F3F7FC;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: none;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100%;
       min-height: 100dvh;
       background: #F3F7FC;
       color: var(--slate-title);
       font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
       overflow-x: hidden;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      overflow-y: visible;
       display: flex;
       flex-direction: column;
       align-items: center;
       position: relative;
+      overscroll-behavior: none;
     }
 
     body::-webkit-scrollbar {
@@ -63,7 +74,7 @@
     }
 
     /* --------------------------------------------------------------------------
-       1. طبقات الخلفية الفنية: صور مفرغة شفافة 100% بدون أي حواف بيضاء
+       1. طبقات الخلفية الفنية: التموجات ومعالم المملكة السفلية
        -------------------------------------------------------------------------- */
     .bg-canvas-wrapper {
       position: fixed;
@@ -101,68 +112,22 @@
       opacity: 0.85;
     }
 
-    /* هالة إشعاعية ناصعة خلف الشعار والعناوين بالمنتصف لعزل تام ووضوح فائق */
-    .central-glow {
+    /* أفق معالم المملكة العربية السعودية (برج المملكة، برج الفيصلية، كافد، مجدول، إثراء والنخيل) */
+    .saudi-skyline-svg {
       position: absolute;
-      top: 65px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
-      width: 330px;
-      height: 290px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(240, 246, 255, 0.92) 55%, transparent 80%);
-      filter: blur(12px);
-      z-index: 3;
-    }
-
-    /* الترس الميكانيكي (يسار) - موضع جانبي علوي مستقل بعيداً عن النصوص */
-    .bg-gear-asset {
-      position: absolute;
-      top: 60px;
-      left: calc(50% - 245px);
-      width: 135px;
-      height: 135px;
-      background-image: url('assets/images/welcome-gear.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      z-index: 2;
-      animation: gentleGearRotate 60s linear infinite;
-      transform-origin: center center;
-      filter: drop-shadow(0 8px 18px rgba(0, 102, 255, 0.12));
-      opacity: 0.88;
-    }
-
-    @keyframes gentleGearRotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    /* قطع الغيار (قرص الفرامل والمكبس) (يمين) - موضع جانبي علوي مستقل تماماً عن النص */
-    .bg-parts-asset {
-      position: absolute;
-      top: 65px;
-      right: calc(50% - 240px);
-      width: 130px;
-      height: 130px;
-      background-image: url('assets/images/welcome-parts.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      z-index: 2;
-      filter: drop-shadow(0 8px 18px rgba(15, 23, 42, 0.08));
-      opacity: 0.88;
-    }
-
-    /* أفق مباني المدينة المودرن في الأسفل */
-    .city-skyline-svg {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
       width: 100%;
-      height: 75px;
-      color: #BFDBFE;
-      opacity: 0.45;
+      max-width: 420px;
+      height: 175px;
+      color: #0066FF;
+      opacity: 0.13;
+      pointer-events: none;
       z-index: 1;
+      filter: drop-shadow(0 2px 8px rgba(0, 102, 255, 0.05));
+      mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 65%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 65%, transparent 100%);
     }
 
     /* تموج القاع الكحلي والأزرق الملكي */
@@ -182,19 +147,20 @@
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 410px;
-      min-height: 100vh;
+      max-width: 390px; /* متوافقة بدقة 100% مع أبعاد Galaxy S24 و iPhone Pro */
+      min-height: 100%;
       min-height: 100dvh;
       margin: 0 auto;
       padding: max(12px, env(safe-area-inset-top, 12px)) 16px max(14px, env(safe-area-inset-bottom, 12px));
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
       box-sizing: border-box;
+      overflow-x: hidden;
     }
 
     /* --------------------------------------------------------------------------
-       3. شريط تغيير اللغة بالأعلى فقط (مع أيقونة الترس)
+       3. شريط تغيير اللغة بالأعلى (مع أيقونة الترس)
        -------------------------------------------------------------------------- */
     .top-lang-bar {
       width: 100%;
@@ -205,7 +171,6 @@
       min-height: 38px;
     }
 
-    /* زر تغيير اللغة مع أيقونة الترس */
     .lang-pill-btn {
       height: 36px;
       padding: 0 14px;
@@ -243,7 +208,7 @@
     }
 
     /* --------------------------------------------------------------------------
-       4. رأس الصفحة: الشعار والعناوين (Kafu Brand Header)
+       4. رأس الصفحة: الشعار والعناوين والتروس الجانبية المتناسقة بدقة مع الهاتف
        -------------------------------------------------------------------------- */
     .welcome-header-card {
       width: 100%;
@@ -254,17 +219,83 @@
       margin-top: 4px;
       margin-bottom: 0;
       position: relative;
-      z-index: 5;
+      z-index: 10;
+      contain: layout style;
+    }
+
+    /* هالة إشعاعية ناصعة خلف الشعار لعزل النصوص والتروس */
+    .central-glow {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translate3d(-50%, 0, 0);
+      width: 270px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(240, 246, 255, 0.92) 55%, transparent 80%);
+      filter: blur(12px);
+      z-index: 1;
+      pointer-events: none;
+      backface-visibility: hidden;
+    }
+
+    /* الترس الميكانيكي المتحرك (جهة اليسار) - تسريع عتادي GPU ودوران فائق السلاسة بدون أي اهتزاز */
+    .header-gear-asset {
+      position: absolute;
+      top: -4px;
+      left: -12px;
+      width: 108px;
+      height: 108px;
+      background-image: url('assets/images/welcome-gear.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 2;
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      animation: gentleGearRotate 50s linear infinite;
+      transform-origin: center center;
+      opacity: 0.92;
+      pointer-events: none;
+    }
+
+    @keyframes gentleGearRotate {
+      0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+      }
+      100% {
+        transform: translate3d(0, 0, 0) rotate(360deg);
+      }
+    }
+
+    /* قطع الغيار والقرص الثابت (جهة اليمين) - أبعاد متناسقة بدقة ومحاذاة مثالية مع الشعار */
+    .header-parts-asset {
+      position: absolute;
+      top: -4px;
+      right: -10px;
+      width: 106px;
+      height: 106px;
+      background-image: url('assets/images/welcome-parts.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 2;
+      opacity: 0.92;
+      pointer-events: none;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
 
     /* صندوق الشعار المستدير (Squircle Pod) */
     .brand-logo-pod {
-      width: 78px;
-      height: 78px;
+      width: 76px;
+      height: 76px;
       border-radius: 22px;
       background: #FFFFFF;
       box-shadow: 
-        0 12px 28px rgba(0, 102, 255, 0.15),
+        0 12px 28px rgba(0, 102, 255, 0.16),
         0 3px 8px rgba(15, 23, 42, 0.04);
       border: 2px solid #FFFFFF;
       display: flex;
@@ -272,11 +303,12 @@
       justify-content: center;
       margin-bottom: 8px;
       position: relative;
+      z-index: 3;
     }
 
     .brand-logo-icon {
-      width: 52px;
-      height: 52px;
+      width: 50px;
+      height: 50px;
       object-fit: contain;
     }
 
@@ -285,50 +317,59 @@
       font-weight: 900;
       color: #0A2540;
       line-height: 1.15;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       letter-spacing: -0.3px;
+      position: relative;
+      z-index: 3;
     }
 
-    /* حاوية العنوان الفرعي لضمان التمركز التام والعزل عن أي صور جانبية */
+    /* حاوية العنوان الفرعي لضمان التمركز التام والعزل المستقل دون أي تداخل */
     .brand-subtitle-wrap {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
-      max-width: 290px;
-      margin: 0 auto 4px;
+      max-width: 250px;
+      margin: 2px auto 6px;
+      position: relative;
+      z-index: 3;
     }
 
     .brand-subtitle {
-      font-size: 0.90rem;
+      font-size: 0.83rem;
       font-weight: 700;
       color: #0066FF;
-      line-height: 1.35;
+      line-height: 1.25;
       text-align: center;
-      letter-spacing: -0.15px;
-      padding: 2px 10px;
+      letter-spacing: -0.2px;
+      padding: 4px 14px;
       border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(0, 102, 255, 0.14);
+      box-shadow: 0 2px 10px rgba(0, 102, 255, 0.08);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      white-space: nowrap;
     }
 
     .brand-prompt {
       font-size: 0.81rem;
       font-weight: 500;
       color: #64748B;
-      margin-top: 2px;
+      margin-top: 3px;
+      position: relative;
+      z-index: 3;
     }
 
     /* --------------------------------------------------------------------------
-       5. قسم الإجراءات والبطاقات (فاصل رأسي واضح ومساحة تنفس بصرية)
+       5. قسم الإجراءات والبطاقات (فاصل رأسي واسع ومساحة تنفس مريحة)
        -------------------------------------------------------------------------- */
     .welcome-actions-section {
       width: 100%;
       display: flex;
       flex-direction: column;
-      /* مسافة رأسية تفصل الأزرار عن العناصر العلوية وتستفيد من المساحة الشاغرة */
-      margin-top: clamp(20px, 4vh, 32px);
+      /* زيادة الفاصل الرأسي لإنزال قائمة الأزرار واستغلال الفراغ بانسيابية */
+      margin-top: clamp(26px, 5.2vh, 44px);
       margin-bottom: clamp(14px, 2.5vh, 22px);
       position: relative;
       z-index: 5;
@@ -338,8 +379,8 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 11px;
+      gap: 11px;
+      margin-bottom: 12px;
     }
 
     .role-action-card {
@@ -360,6 +401,9 @@
       font-family: inherit;
       color: inherit;
       text-align: right;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
       position: relative;
       overflow: hidden;
@@ -368,7 +412,7 @@
     .role-action-card:hover {
       border-color: rgba(0, 102, 255, 0.35);
       box-shadow: 0 8px 24px rgba(0, 102, 255, 0.09);
-      transform: translateY(-2px);
+      transform: translate3d(0, -2px, 0);
     }
 
     .role-action-card:active {
@@ -407,7 +451,7 @@
       position: absolute;
       inset: 0;
       border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       pointer-events: none;
     }
 
@@ -416,11 +460,11 @@
       box-shadow: 0 6px 18px rgba(0, 102, 255, 0.32);
     }
 
-    /* درجات الأزرق الموحدة لكافة الأدوار (استبعاد البرتقالي والأخضر والبنفسجي) */
+    /* توحيد درجات الأزرق المعتمدة لهوية كفو لكافة الأدوار */
     /* 1. تاجر: كحلي ملكي راقي يعكس الثقة والمؤسسية */
     .badge-merchant {
-      background: linear-gradient(135deg, #1E40AF 0%, #0F2D6B 100%);
-      box-shadow: 0 5px 16px rgba(30, 64, 175, 0.28);
+      background: linear-gradient(135deg, #0052CC 0%, #003399 100%);
+      box-shadow: 0 5px 16px rgba(0, 82, 204, 0.28);
     }
 
     /* 2. مندوب مبيعات: أزرق كفو الأساسي العصري والحيوي */
@@ -431,14 +475,14 @@
 
     /* 3. مهندس ورشة: أزرق سماوي تقني يرمز للدقة والهندسة */
     .badge-workshop {
-      background: linear-gradient(135deg, #0284C7 0%, #035388 100%);
+      background: linear-gradient(135deg, #0284C7 0%, #0056B3 100%);
       box-shadow: 0 5px 16px rgba(2, 132, 199, 0.28);
     }
 
     /* 4. مندوب توصيل: أزرق كوبالت سريع يرمز للحركة واللوجستيات */
     .badge-courier {
-      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
-      box-shadow: 0 5px 16px rgba(37, 99, 235, 0.28);
+      background: linear-gradient(135deg, #1D4ED8 0%, #0A3EA2 100%);
+      box-shadow: 0 5px 16px rgba(29, 78, 216, 0.28);
     }
 
     /* نصوص العنوان والوصف */
@@ -490,15 +534,15 @@
        -------------------------------------------------------------------------- */
     .visitor-btn-pill {
       width: 100%;
-      height: 50px;
+      height: 52px;
       border-radius: 9999px;
       background: #FFFFFF;
-      border: 1.7px solid #0066FF;
+      border: 1.8px solid #0066FF;
       box-shadow: 0 4px 14px rgba(0, 102, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
+      padding: 0 18px;
       font-family: inherit;
       color: #0066FF;
       cursor: pointer;
@@ -540,7 +584,7 @@
       justify-content: center;
       margin-top: auto;
       padding-top: 8px;
-      padding-bottom: max(10px, env(safe-area-inset-bottom, 10px));
+      padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
       position: relative;
       z-index: 20;
     }
@@ -573,8 +617,48 @@
       display: inline-block;
     }
 
+    /* عرض فائق الأناقة ومحكم لشاشات الديسكتوب */
+    @media (min-width: 769px) {
+      body:not(.in-mobile-frame) {
+        background: #E8EEF5;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 0;
+      }
+
+      body:not(.in-mobile-frame) .mobile-screen-container {
+        max-width: 390px;
+        height: 844px;
+        min-height: 844px;
+        max-height: 92vh;
+        border-radius: 38px;
+        box-shadow: 
+          0 25px 60px -15px rgba(15, 23, 42, 0.22),
+          0 0 0 1px rgba(226, 232, 240, 0.95),
+          0 0 0 8px #0F172A;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: #F3F7FC;
+        position: relative;
+      }
+
+      body:not(.in-mobile-frame) .bg-canvas-wrapper {
+        position: absolute;
+        width: 390px;
+        height: 844px;
+        max-height: 92vh;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 38px;
+        overflow: hidden;
+      }
+    }
+
     /* --------------------------------------------------------------------------
-       8. النافذة المنبثقة التفاعلية لاختيار تخصص التاجر أو المندوب (Bottom Sheet)
+       9. النافذة المنبثقة التفاعلية لاختيار تخصص التاجر أو المندوب (Bottom Sheet)
        -------------------------------------------------------------------------- */
     .submodal-backdrop {
       position: fixed;
@@ -597,7 +681,7 @@
 
     .submodal-sheet {
       width: 100%;
-      max-width: 400px;
+      max-width: 390px;
       background: #FFFFFF;
       border-radius: 28px 28px 0 0;
       padding: 20px 20px 28px;
@@ -698,7 +782,7 @@
     }
 
     /* --------------------------------------------------------------------------
-       9. نافذة تبديل اللغة (Language Selection Sheet)
+       10. نافذة تبديل اللغة (Language Selection Sheet)
        -------------------------------------------------------------------------- */
     .lang-sheet-backdrop {
       position: fixed;
@@ -721,7 +805,7 @@
 
     .lang-sheet {
       width: 100%;
-      max-width: 400px;
+      max-width: 390px;
       background: #FFFFFF;
       border-radius: 28px 28px 0 0;
       padding: 20px 20px 28px;
@@ -761,27 +845,27 @@
     }
 
     /* --------------------------------------------------------------------------
-       10. استجابة ذكية ومثالية للهواتف الذكية والشاشات الصغيرة (Responsive Mobile Fit)
+       11. استجابة ذكية ومثالية للهواتف الذكية والشاشات الصغيرة (Responsive Mobile Fit)
        -------------------------------------------------------------------------- */
-    @media (max-width: 400px) {
-      .bg-gear-asset {
-        width: 115px;
-        height: 115px;
-        top: 55px;
-        left: -40px;
+    @media (max-width: 370px) {
+      .header-gear-asset {
+        width: 96px;
+        height: 96px;
+        left: -10px;
+        top: -4px;
       }
-      .bg-parts-asset {
-        width: 115px;
-        height: 115px;
-        top: 60px;
-        right: -40px;
+      .header-parts-asset {
+        width: 94px;
+        height: 94px;
+        right: -8px;
+        top: -2px;
       }
       .brand-subtitle-wrap {
-        max-width: 260px;
+        max-width: 236px;
       }
       .brand-subtitle {
-        font-size: 0.84rem;
-        padding: 2px 8px;
+        font-size: 0.78rem;
+        padding: 3px 10px;
       }
     }
 
@@ -789,6 +873,18 @@
       .mobile-screen-container {
         padding-top: 8px;
         padding-bottom: 8px;
+      }
+      .header-gear-asset {
+        width: 92px;
+        height: 92px;
+        top: -4px;
+        left: -10px;
+      }
+      .header-parts-asset {
+        width: 90px;
+        height: 90px;
+        top: -2px;
+        right: -8px;
       }
       .brand-logo-pod {
         width: 66px;
@@ -805,15 +901,15 @@
         margin-bottom: 2px;
       }
       .brand-subtitle {
-        font-size: 0.82rem;
+        font-size: 0.78rem;
         margin-bottom: 2px;
-        padding: 2px 8px;
+        padding: 2px 10px;
       }
       .brand-prompt {
         font-size: 0.74rem;
       }
       .welcome-actions-section {
-        margin-top: 14px;
+        margin-top: 16px;
         margin-bottom: 10px;
       }
       .roles-list-group {
@@ -848,22 +944,95 @@
         font-size: 0.82rem;
         padding: 3px 12px;
       }
-      .bg-gear-asset {
-        width: 110px;
-        height: 110px;
-        top: 45px;
-        left: -35px;
+      .saudi-skyline-svg {
+        height: 130px;
+        opacity: 0.10;
       }
-      .bg-parts-asset {
-        width: 105px;
-        height: 105px;
-        top: 50px;
-        right: -35px;
+    }
+
+    /* شاشات مدمجة جداً (مثل وضع محاكي الجوال 391x412 أو الشاشات الأفقية) */
+    @media (max-height: 520px) {
+      .mobile-screen-container {
+        padding-top: 6px;
+        padding-bottom: 6px;
+      }
+      .header-gear-asset {
+        width: 78px;
+        height: 78px;
+        top: -2px;
+        left: -6px;
+      }
+      .header-parts-asset {
+        width: 76px;
+        height: 76px;
+        top: -2px;
+        right: -6px;
+      }
+      .brand-logo-pod {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        margin-bottom: 2px;
+      }
+      .brand-logo-icon {
+        width: 34px;
+        height: 34px;
+      }
+      .brand-title {
+        font-size: 1.42rem;
+        margin-bottom: 2px;
+      }
+      .brand-subtitle-wrap {
+        max-width: 220px;
+        margin: 1px auto 3px;
+      }
+      .brand-subtitle {
+        font-size: 0.72rem;
+        padding: 2px 8px;
+      }
+      .brand-prompt {
+        display: none;
+      }
+      .welcome-actions-section {
+        margin-top: 10px;
+        margin-bottom: 6px;
+      }
+      .roles-list-group {
+        gap: 6px;
+        margin-bottom: 6px;
+      }
+      .role-action-card {
+        height: 50px;
+        border-radius: 12px;
+        padding: 4px 6px 4px 10px;
+      }
+      .role-gradient-badge {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+      }
+      .role-gradient-badge svg {
+        width: 20px;
+        height: 20px;
+      }
+      .role-card-name {
+        font-size: 0.88rem;
+      }
+      .role-card-desc {
+        font-size: 0.68rem;
+      }
+      .visitor-btn-pill {
+        height: 42px;
+        font-size: 0.84rem;
+      }
+      .saudi-skyline-svg {
+        height: 90px;
+        opacity: 0.08;
       }
     }
 
     /* --------------------------------------------------------------------------
-       11. شاشة التحميل والانتقال
+       12. شاشة التحميل والانتقال
        -------------------------------------------------------------------------- */
     .role-loading-overlay {
       position: fixed;
@@ -900,25 +1069,40 @@
 <body>
 
   <!-- =========================================================================
-       1. طبقات الخلفية الفنية المنسقة: صور مفرغة شفافة 100% (PNG بدون أي حواف بيضاء)
+       1. طبقات الخلفية الفنية المنسقة: التموجات ومعالم المملكة السفلية
        ========================================================================= -->
   <div class="bg-canvas-wrapper" aria-hidden="true">
     <div class="top-wave-left"></div>
     <div class="top-wave-right"></div>
-    
-    <!-- هالة بيضاء ناصعة بالمركز لحماية عزل النصوص -->
-    <div class="central-glow"></div>
-    
-    <!-- الترس الميكانيكي المفرغ كلياً بدون أي خلفية (PNG شفاف) مع دوران بطيء ناعم -->
-    <div class="bg-gear-asset" title="ترس ميكانيكي هندسي"></div>
 
-    <!-- قطع الغيار (القرص والمكبس) مفرغة كلياً بدون أي خلفية (PNG شفاف) -->
-    <div class="bg-parts-asset"></div>
-
-    <!-- أفق مباني المدينة (SVG Skyline) -->
-    <svg class="city-skyline-svg" viewBox="0 0 800 120" fill="currentColor" preserveAspectRatio="none">
-      <path d="M0 120 L0 100 L25 100 L25 80 L35 80 L35 100 L60 100 L60 65 L72 65 L72 100 L95 100 L95 45 L110 45 L110 100 L130 100 L130 70 L145 70 L145 100 L170 100 L170 30 L185 30 L185 100 L210 100 L210 60 L225 60 L225 100 L255 100 L255 40 L270 40 L270 100 L300 100 L300 75 L315 75 L315 100 L345 100 L345 25 L360 25 L360 100 L390 100 L390 55 L405 55 L405 100 L435 100 L435 35 L450 35 L450 100 L480 100 L480 70 L495 70 L495 100 L525 100 L525 20 L540 20 L540 100 L570 100 L570 60 L585 60 L585 100 L615 100 L615 45 L630 45 L630 100 L660 100 L660 70 L675 70 L675 100 L705 100 L705 30 L720 30 L720 100 L750 100 L750 65 L765 65 L765 100 L800 100 L800 120 Z" opacity="0.6"/>
-      <path d="M0 120 L0 105 L30 105 L30 90 L50 90 L50 105 L80 105 L80 75 L100 75 L100 105 L140 105 L140 55 L160 55 L160 105 L200 105 L200 85 L220 85 L220 105 L260 105 L260 50 L280 50 L280 105 L320 105 L320 80 L340 80 L340 105 L380 105 L380 40 L400 40 L400 105 L440 105 L440 65 L460 65 L460 105 L500 105 L500 45 L520 45 L520 105 L560 105 L560 75 L580 75 L580 105 L620 105 L620 55 L640 55 L640 105 L680 105 L680 75 L700 75 L700 105 L740 105 L740 85 L760 85 L760 105 L800 105 L800 120 Z" opacity="0.4"/>
+    <!-- أفق معالم المملكة العربية السعودية (برج المملكة، برج الفيصلية، كافد، مجدول، إثراء والنخيل) -->
+    <svg class="saudi-skyline-svg" viewBox="0 0 1000 240" fill="currentColor" preserveAspectRatio="none">
+      <!-- الأرضية الأساسية -->
+      <rect x="0" y="235" width="1000" height="5"/>
+      <!-- النخلة اليسرى الأصيلة -->
+      <path d="M45,240 C43,210 47,175 48,150 C44,146 32,142 20,148 C16,150 18,145 25,139 C33,132 44,136 47,144 C46,135 38,126 28,124 C38,122 47,130 49,140 C51,128 58,120 70,123 C60,126 53,134 52,142 C56,135 68,133 76,140 C68,144 57,146 53,151 C54,175 58,210 56,240 Z"/>
+      <!-- مبنى أعمال عصري 1 -->
+      <path d="M80,240 L80,140 L95,140 L95,115 L105,115 L105,140 L120,140 L120,240 Z"/>
+      <!-- برج مجدول اللولبي بالرياض -->
+      <path d="M140,240 L145,170 L155,160 L145,145 L158,135 L148,120 L160,110 L150,95 L165,85 L155,70 L170,60 L180,60 L180,240 Z"/>
+      <!-- مبنى تقني وهوائي اتصال -->
+      <path d="M195,240 L195,130 L210,130 L210,110 L213,110 L213,75 L215,75 L215,110 L225,110 L225,145 L245,145 L245,240 Z"/>
+      <!-- برج المملكة الأيقوني (Kingdom Centre) مع فتحة القوس المعكوس المميزة -->
+      <path d="M275,240 L285,110 L292,20 L308,20 L308,32 Q325,96 342,32 L342,20 L358,20 L365,110 L375,240 Z"/>
+      <!-- أبراج مركز الملك عبد الله المالي الكريستالية (KAFD) -->
+      <path d="M390,240 L390,140 L410,105 L425,105 L445,140 L445,240 Z"/>
+      <path d="M435,240 L435,120 L455,80 L470,80 L470,240 Z"/>
+      <!-- برج الفيصلية الهرمي (Al Faisaliah Tower) مع الكرة الذهبية والقمة الإبرية -->
+      <path d="M485,240 L514,35 L516,10 L518,35 L547,240 Z"/>
+      <circle cx="516" cy="65" r="9"/>
+      <!-- مبنى مدرج عصري -->
+      <path d="M565,240 L565,130 L575,130 L575,95 L605,95 L605,130 L615,130 L615,240 Z"/>
+      <!-- صخور مركز إثراء الثقافي العالمي بالظهران (Ithra) -->
+      <path d="M635,240 C635,200 645,150 670,145 C695,140 710,170 725,165 C740,160 745,135 765,135 C785,135 790,190 790,240 Z"/>
+      <!-- برج جدة المعماري / برج التلفزيون -->
+      <path d="M810,240 L810,110 L825,110 L825,85 L833,85 L833,40 L835,40 L835,85 L845,85 L845,125 L860,125 L860,240 Z"/>
+      <!-- النخلة اليمنى المتناسقة -->
+      <path d="M935,240 C933,210 937,175 938,150 C934,146 922,142 910,148 C906,150 908,145 915,139 C923,132 934,136 937,144 C936,135 928,126 918,124 C928,122 937,130 939,140 C941,128 948,120 960,123 C950,126 943,134 942,142 C946,135 958,133 966,140 C958,144 947,146 943,151 C944,175 948,210 946,240 Z"/>
     </svg>
 
     <!-- تموج كحلي أنيق في قاعدة الشاشة -->
@@ -951,8 +1135,18 @@
       </button>
     </header>
 
-    <!-- كتلة الهيدر والعنوان (كفو + العنوان الفرعي) متمركزة ومستقلة تماماً بدون أي تداخل -->
+    <!-- كتلة الهيدر والعنوان: التروس الجانبية مدمجة هنا ومطابقة لحجم وأبعاد الموبايل تماماً -->
     <section class="welcome-header-card">
+      <!-- هالة بيضاء ناصعة بالمركز لعزل النصوص -->
+      <div class="central-glow" aria-hidden="true"></div>
+
+      <!-- الترس الميكانيكي المتحرك (يسار) - أبعاد محسوبة بدقة مع شاشة الجوال (Galaxy S24 / iPhone) -->
+      <div class="header-gear-asset" aria-hidden="true" title="ترس ميكانيكي هندسي"></div>
+
+      <!-- قطع الغيار والقرص الثابت (يمين) - أبعاد محسوبة بدقة مع شاشة الجوال وبدون أي تداخل -->
+      <div class="header-parts-asset" aria-hidden="true"></div>
+
+      <!-- صندوق الشعار -->
       <div class="brand-logo-pod" title="شعار كفو">
         <img src="assets/images/kafu-logo.png" alt="كفو" class="brand-logo-icon">
       </div>
@@ -964,7 +1158,7 @@
     </section>
 
     <!-- =====================================================================
-         قسم الإجراءات: كروت الأدوار مع مسافة رأسية وتنفس بصري مريح
+         قسم الإجراءات: كروت الأدوار مع فاصل رأسي واسع ومساحة تنفس مريحة
          ===================================================================== -->
     <section class="welcome-actions-section">
       <div class="roles-list-group" aria-label="خيارات تسجيل الدخول">
@@ -1150,6 +1344,16 @@
   <script src="assets/js/store.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
+    // =========================================================================
+    // التوافق التام مع محاكيات المتصفح وشاشات الهواتف بدون أي اهتزاز أو إعادة رسم
+    // =========================================================================
+    (function initFrameCompatibility() {
+      if (window.self !== window.top) {
+        document.documentElement.classList.add('in-mobile-frame');
+        document.body.classList.add('in-mobile-frame');
+      }
+    })();
+
     // بيانات الأقسام الفرعية عند النقر على تاجر أو مندوب مبيعات
     const SUB_OPTIONS_DATA = {
       merchant: {
