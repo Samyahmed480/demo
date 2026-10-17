@@ -22,6 +22,7 @@
   --gradient-btn: linear-gradient(90deg, #0A6CFF 0%, #7B5CFF 100%);
   --gradient-btn-hover: linear-gradient(90deg, #095edb 0%, #6c4ce8 100%);
   --gradient-hero: linear-gradient(135deg, #094ca7 0%, #0A6CFF 55%, #2d7df7 100%);
+  --gradient-ai: linear-gradient(135deg, #7B5CFF 0%, #0A6CFF 60%, #00D2FF 100%);
 
   /* النصوص */
   --text: #111418;
@@ -77,8 +78,8 @@
   --transition-normal: 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-slow: 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* الخطوط */
-  --font-family: 'IBM Plex Sans Arabic', 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Arabic', sans-serif;
+  /* الخطوط - أنيقة، مصقولة، ومحكمة المسافات */
+  --font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Arabic', sans-serif;
 }
 
 /* Reset وتأسيس عام */
@@ -90,13 +91,17 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: 14.75px; /* حجم خط أرشق ومثالي للتطبيق */
   scroll-behavior: smooth;
   height: 100%;
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
   overflow-y: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 }
 
 body {

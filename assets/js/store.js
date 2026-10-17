@@ -23,7 +23,7 @@ const KafuStore = {
       parentGroup: 'merchant',
       title: 'تاجر متجر قطع غيار جديدة',
       shortTitle: 'متجر قطع جديدة',
-      name: 'Mohamed Ahmed',
+      name: 'محمد أحمد',
       email: 'webmax.ceo.1@gmail.com',
       badge: 'تاجر معتمد · متجر كفو للقطع',
       dashboardTitle: 'لوحة تحكم التاجر',

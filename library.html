@@ -23,17 +23,27 @@
 
   <div class="app-container">
 
-    <!-- رأس صفحة المكتبة -->
-    <header class="page-header" style="margin-bottom: 16px;">
+    <!-- رأس صفحة الكتالوج والمكتبة -->
+    <header class="page-header" style="margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;">
       <div>
-        <h1 class="page-title" style="margin-bottom: 2px;">المكتبة</h1>
+        <h1 class="page-title" style="margin-bottom: 2px;">الكتالوج والمكتبة</h1>
         <p style="font-size: 0.85rem; color: var(--text-muted);">كتالوجات قطع الغيار ومخططات الصيانة والفواتير</p>
       </div>
-      <a href="account.html" class="btn-icon-glass" style="background: rgba(255,255,255,0.85); color: var(--text);" title="الملف الشخصي">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-        </svg>
-      </a>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <a href="cart.html" class="btn-icon-glass" style="position: relative; background: rgba(255,255,255,0.85); color: var(--text);" title="سلة المشتريات">
+          <span class="badge-count header-cart-badge" style="display:none">0</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="21" r="1.25"/>
+            <circle cx="19" cy="21" r="1.25"/>
+            <path d="M2.05 2.05h2.4l2.5 12.2a2 2 0 0 0 1.96 1.6h9.8a2 2 0 0 0 1.96-1.6l1.5-7.4H5.2"/>
+          </svg>
+        </a>
+        <a href="account.html" class="btn-icon-glass" style="background: rgba(255,255,255,0.85); color: var(--text);" title="الملف الشخصي">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+        </a>
+      </div>
     </header>
 
     <!-- كارت كتالوج السيارة النشطة -->
@@ -280,8 +290,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // شريط التنقل السفلي الموحد
-      KafuApp.renderBottomNav('');
+      // شريط التنقل السفلي الموحد مع تفعيل تبويب الكتالوج
+      KafuApp.renderBottomNav('catalog');
 
       // تحديث اسم السيارة في المكتبة
       const car = KafuStore.getSelectedCar();

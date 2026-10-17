@@ -716,13 +716,15 @@
       <!-- كارت ملخص الاختيارين السابقين -->
       <div class="role-summary-banner">
         <div class="role-summary-info">
-          <span style="font-size: 1.5rem;" id="sumRoleIcon">🏬</span>
+          <span style="font-size: 1.1rem; color: var(--primary);" id="sumRoleIcon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </span>
           <div class="role-summary-text">
             <span class="role-summary-label">الحساب والتخصص المختار:</span>
             <span class="role-summary-name" id="sumRoleTitle">متجر قطع غيار جديدة</span>
           </div>
         </div>
-        <button type="button" class="role-summary-edit-btn" onclick="goToStep(1)">تعديل ✎</button>
+        <button type="button" class="role-summary-edit-btn" onclick="goToStep(1)">تعديل</button>
       </div>
 
       <!-- سويتش إنشاء حساب / تسجيل دخول -->
@@ -740,7 +742,7 @@
             <span class="field-svg-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </span>
-            <input type="text" id="inputFinalName" placeholder="أدخل اسمك أو اسم المتجر" value="Mohamed Ahmed">
+            <input type="text" id="inputFinalName" placeholder="أدخل اسمك أو اسم المتجر" value="محمد أحمد">
           </div>
         </div>
 
@@ -765,7 +767,7 @@
         </div>
 
         <button type="button" class="btn-wizard-next" id="btnFinalSubmit" onclick="confirmFinalAuth()">
-          <span>تأكيد والدخول للوحة التحكم 🚀</span>
+          <span>تأكيد والدخول للوحة التحكم</span>
         </button>
 
       </div>
@@ -797,11 +799,11 @@
           id: 'merchant_new',
           title: 'متجر قطع غيار جديدة',
           desc: 'محلات ومستودعات القطع الأصلية والتجارية المعتمدة (جديد)',
-          icon: '🏬',
+          icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
           iconBg: '#FEF3C7',
           iconColor: '#D97706',
           badge: 'وكالة وتجاري معتمد',
-          defaultName: 'Mohamed Ahmed',
+          defaultName: 'محمد أحمد',
           defaultEmail: 'webmax.ceo.1@gmail.com',
           nameLabel: 'اسم متجر قطع الغيار'
         },
@@ -809,7 +811,7 @@
           id: 'merchant_scrap',
           title: 'تاجر تشاليح ومستعمل',
           desc: 'ساحات التشاليح وتفكيك سيارات السكراب والقطع المفحوصة',
-          icon: '🚜',
+          icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>`,
           iconBg: '#FFEDD5',
           iconColor: '#EA580C',
           badge: 'تشاليح مفحوصة ومضمونة',
@@ -823,7 +825,7 @@
           id: 'rep_oem',
           title: 'مندوب مبيعات قطع أصلية',
           desc: 'تغطية الوكالات والمستودعات وبيع القطع المعتمدة للورش',
-          icon: '📦',
+          icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
           iconBg: '#EDE9FE',
           iconColor: '#7B5CFF',
           badge: 'وكالات وموردين رسميين',
@@ -835,7 +837,7 @@
           id: 'rep_scrap',
           title: 'مندوب مبيعات تشاليح ومستعمل',
           desc: 'مندوب ميداني يغطي تشاليح الحائر والصناعية وتسعير الطلبات',
-          icon: '🛠️',
+          icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
           iconBg: '#FEE2E2',
           iconColor: '#DC2626',
           badge: 'تشاليح الحائر والصناعية',
@@ -849,7 +851,7 @@
           id: 'workshop',
           title: 'مركز صيانة وميكانيكا متكامل',
           desc: 'ورشة صيانة شاملة (توضيب، ميكانيكا، كهرباء) مع خصم 15% وبونص',
-          icon: '🔧',
+          icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
           iconBg: '#E0F2FE',
           iconColor: '#0284C7',
           badge: 'خصم 15% + بونص ونقاط',
@@ -863,7 +865,7 @@
           id: 'courier',
           title: 'كابتن توصيل وشحن سريع',
           desc: 'استلام القطع من المتاجر ونقلها للورش والعملاء بأرباح مشاوير يومية',
-          icon: '🚚',
+          icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>`,
           iconBg: '#DCFCE7',
           iconColor: '#16A34A',
           badge: 'أرباح مشاوير فورية',
@@ -877,13 +879,13 @@
           id: 'customer',
           title: 'عميل عادي / مالك سيارة',
           desc: 'شراء وتصفح آلاف قطع الغيار المتوافقة مع سيارتي بدقة 100%',
-          icon: '👤',
+          icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
           iconBg: '#EBF2FF',
           iconColor: '#0A6CFF',
           badge: 'تسوق فوري ومضمون',
-          defaultName: 'يوسف أحمد',
-          defaultEmail: 'youssef@example.com',
-          nameLabel: 'الاسم الكامل'
+          defaultName: 'سامي أحمد',
+          defaultEmail: 'samy@kafu.sa',
+          nameLabel: 'الاسم الكامل للعميل'
         }
       ]
     };
@@ -999,7 +1001,7 @@
         if (found) { optInfo = found; break; }
       }
 
-      document.getElementById('sumRoleIcon').textContent = optInfo ? optInfo.icon : '🏬';
+      document.getElementById('sumRoleIcon').innerHTML = optInfo ? optInfo.icon : `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`;
       document.getElementById('sumRoleTitle').textContent = role.title;
       document.getElementById('labelStep3Name').textContent = optInfo ? optInfo.nameLabel : 'الاسم الكامل أو التجاري';
       document.getElementById('inputFinalName').value = optInfo ? optInfo.defaultName : role.name;
@@ -1014,10 +1016,10 @@
       const btn = document.getElementById('btnFinalSubmit');
       const nameGroup = document.getElementById('groupFullName');
       if (mode === 'login') {
-        btn.innerHTML = '<span>تسجيل الدخول للوحة التحكم 🚀</span>';
+        btn.innerHTML = '<span>تسجيل الدخول للوحة التحكم</span>';
         nameGroup.style.display = 'none';
       } else {
-        btn.innerHTML = '<span>تأكيد الحساب والدخول للوحة التحكم 🚀</span>';
+        btn.innerHTML = '<span>تأكيد الحساب والدخول للوحة التحكم</span>';
         nameGroup.style.display = 'flex';
       }
     }

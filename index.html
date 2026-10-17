@@ -30,48 +30,46 @@
         <path d="M85 45h-6.2a34.8 34.8 0 0 0-4-9.6l4.4-4.4a3 3 0 0 0 0-4.2l-7-7a3 3 0 0 0-4.2 0l-4.4 4.4a34.8 34.8 0 0 0-9.6-4V15a3 3 0 0 0-3-3h-10a3 3 0 0 0-3 3v6.2a34.8 34.8 0 0 0-9.6 4l-4.4-4.4a3 3 0 0 0-4.2 0l-7 7a3 3 0 0 0 0 4.2l4.4 4.4a34.8 34.8 0 0 0-4 9.6H15a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h6.2a34.8 34.8 0 0 0 4 9.6l-4.4 4.4a3 3 0 0 0 0 4.2l7 7a3 3 0 0 0 4.2 0l4.4-4.4a34.8 34.8 0 0 0 9.6 4V85a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-6.2a34.8 34.8 0 0 0 9.6-4l4.4 4.4a3 3 0 0 0 4.2 0l7-7a3 3 0 0 0 0-4.2l-4.4-4.4a34.8 34.8 0 0 0 4-9.6H85a3 3 0 0 0 3-3V48a3 3 0 0 0-3-3z"/>
       </svg>
 
-      <!-- الشريط العلوي داخل الهيرو -->
+      <!-- الشريط العلوي داخل الهيرو: الملف الشخصي والاسم باليمين، وأزرار اللغة والإشعارات والسلة باليسار -->
       <div class="hero-top-bar">
-        <!-- الشعار والاسم على اليمين في RTL -->
-        <a href="index.html" class="hero-brand-group" title="كفو - قطع غيار السيارات">
-          <div class="hero-brand-logo">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-            </svg>
-          </div>
-          <div class="hero-brand-info">
-            <span class="hero-brand-name">كـفـو</span>
-            <span class="hero-brand-tagline">قطع غيار أصلية</span>
+        <!-- الملف الشخصي والصورة على اليمين في RTL (بديلاً للشعار القديم) -->
+        <a href="account.html" class="hero-user-profile" title="الملف الشخصي والحساب" aria-label="الملف الشخصي والحساب">
+          <div class="hero-user-avatar-wrap">
+            <img src="assets/images/avatar.jpg" alt="صورة الملف الشخصي" class="hero-user-avatar">
+            <span class="hero-user-status-dot"></span>
           </div>
         </a>
 
-        <!-- أزرار الإشعارات واللغة والبروفايل على اليسار -->
+        <!-- أزرار الإجراءات على اليسار: اللغة، الإشعارات، والسلة في الأعلى -->
         <div class="hero-actions">
+          <button class="btn-icon-glass" id="btnLanguage" title="تغيير اللغة" aria-label="تغيير اللغة">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9.5"/>
+              <path d="M12 2.5a14 14 0 0 0 0 19 14 14 0 0 0 0-19"/>
+              <path d="M2.5 12h19"/>
+            </svg>
+          </button>
           <button class="btn-icon-glass" id="btnNotifications" title="الإشعارات" aria-label="الإشعارات">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
               <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
             </svg>
           </button>
-          <a href="account.html" class="btn-icon-glass" title="الملف الشخصي" aria-label="الملف الشخصي">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          <!-- السلة انتقلت للأعلى متبقاش تحت مع عداد ديناميكي -->
+          <a href="cart.html" class="btn-icon-glass hero-cart-btn" id="heroCartBtn" title="سلة المشتريات" aria-label="سلة المشتريات">
+            <span class="badge-count" id="heroCartBadge" style="display:none">0</span>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8" cy="21" r="1.25"/>
+              <circle cx="19" cy="21" r="1.25"/>
+              <path d="M2.05 2.05h2.4l2.5 12.2a2 2 0 0 0 1.96 1.6h9.8a2 2 0 0 0 1.96-1.6l1.5-7.4H5.2"/>
             </svg>
           </a>
-          <button class="btn-icon-glass" id="btnLanguage" title="تغيير اللغة" aria-label="تغيير اللغة">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
-              <path d="M2 12h20"/>
-            </svg>
-          </button>
         </div>
       </div>
 
-      <!-- الترحيب والسيارة والدور -->
+      <!-- الترحيب والسيارة والدور (بدون أي تكرار وبدون أي إيموجي) -->
       <div class="hero-content">
-        <h1 class="hero-title">أهلاً بك</h1>
+        <h1 class="hero-title">أهلاً بك، <span id="heroUserName">محمد أحمد</span></h1>
         <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
           <div class="hero-vehicle-badge">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -80,9 +78,13 @@
             <span id="heroSubtitle">Toyota Camry 2025</span>
           </div>
 
-          <a href="auth.html" id="heroRoleBadge" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.4); padding: 4px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; color: #FFFFFF; text-decoration: none; backdrop-filter: blur(8px);">
-            <span id="heroRoleIcon">🏬</span>
-            <span id="heroRoleTitle">متجر قطع غيار</span>
+          <!-- شارة نوع الحساب بريميوم بدون أي إيموجي -->
+          <a href="auth.html" id="heroRoleBadge" class="hero-role-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span id="heroRoleTitle">متجر قطع غيار جديدة</span>
             <span style="opacity: 0.85; font-size: 0.72rem;">(تبديل) ▾</span>
           </a>
         </div>
@@ -93,9 +95,9 @@
     <div class="search-bar-wrap">
       <div class="search-pill glass">
         <button id="btnHomeSearch" class="search-icon-right" title="بحث" aria-label="بحث">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="m21 21-4.3-4.3"/>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7.5"/>
+            <path d="m21 21-4.35-4.35"/>
           </svg>
         </button>
         <input 
@@ -106,7 +108,7 @@
           autocomplete="off"
         >
         <a href="image-search.html" class="search-scan-btn" title="البحث بالصورة" aria-label="البحث بالصورة">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
             <circle cx="12" cy="13" r="4"/>
           </svg>
@@ -118,7 +120,7 @@
     <div class="vehicle-match-card glass glass-card-interactive" id="homeVehicleCard">
       <div class="vehicle-match-info">
         <div class="vehicle-icon-box">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
             <path d="M15 18H9"/>
             <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
@@ -132,13 +134,13 @@
         </div>
       </div>
       <span class="vehicle-chevron">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="m15 18-6-6 6-6"/>
         </svg>
       </span>
     </div>
 
-    <!-- 4. تصفح حسب الفئة - الأيقونات مكبرة وموزعة في صفين متوازيين 3 بالصف الأول و 3 بالصف الثاني -->
+    <!-- 4. تصفح حسب الفئة - أيقونات بريميوم عصرية فائقة النقاء والتفاصيل -->
     <section>
       <div class="section-header">
         <h2 class="section-title">تصفح حسب الفئة</h2>
@@ -147,42 +149,48 @@
       <div class="categories-grid-two-rows">
         <!-- الصف الأول: 3 عناصر -->
         <!-- 1. المحرك -->
-        <a href="search.html?category=engine" class="category-item">
+        <a href="search.html?category=engine" class="category-item" title="قطع المحرك">
           <div class="category-tile-box-lg tile-engine">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="4" y="6" width="16" height="12" rx="2"/>
-              <path d="M2 10h2"/>
-              <path d="M20 10h2"/>
-              <path d="M8 2v4"/>
-              <path d="M16 2v4"/>
-              <circle cx="12" cy="12" r="2"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <!-- كتلة المحرك التوربيني الدقيقة -->
+              <path d="M4 8h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8z"/>
+              <path d="M2 11h2v4H2z"/>
+              <path d="M20 11h2v4h-2z"/>
+              <path d="M8 4v4"/>
+              <path d="M12 4v4"/>
+              <path d="M16 4v4"/>
+              <circle cx="12" cy="14" r="2.5"/>
             </svg>
           </div>
           <span class="category-name-lg">المحرك</span>
         </a>
 
         <!-- 2. الفرامل -->
-        <a href="search.html?category=brakes" class="category-item">
+        <a href="search.html?category=brakes" class="category-item" title="الفرامل والفحمات">
           <div class="category-tile-box-lg tile-brakes">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <!-- هوب فرامل مهوّى مع كليبر رياضي -->
               <circle cx="12" cy="12" r="9"/>
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M12 3a9 9 0 0 1 9 9"/>
+              <circle cx="12" cy="12" r="3.5"/>
+              <path d="M6 12a6 6 0 0 1 6-6v3a3 3 0 0 0-3 3H6z"/>
+              <line x1="12" y1="3" x2="12" y2="4.5"/>
+              <line x1="12" y1="19.5" x2="12" y2="21"/>
+              <line x1="3" y1="12" x2="4.5" y2="12"/>
+              <line x1="19.5" y1="12" x2="21" y2="12"/>
             </svg>
           </div>
           <span class="category-name-lg">الفرامل</span>
         </a>
 
         <!-- 3. الكهرباء -->
-        <a href="search.html?category=electrical" class="category-item">
+        <a href="search.html?category=electrical" class="category-item" title="النظام الكهربائي والبطارية">
           <div class="category-tile-box-lg tile-electrical">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="7" width="20" height="13" rx="2"/>
-              <path d="M6 3v4"/>
-              <path d="M18 3v4"/>
-              <line x1="7" y1="12" x2="11" y2="12"/>
-              <line x1="13" y1="12" x2="17" y2="12"/>
-              <line x1="15" y1="10" x2="15" y2="14"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <!-- بطارية احترافية وأقطاب كهربائية -->
+              <rect x="3" y="7" width="18" height="13" rx="2.5"/>
+              <path d="M7 4v3"/>
+              <path d="M17 4v3"/>
+              <path d="M13 10.5l-3 4h4l-2 4"/>
             </svg>
           </div>
           <span class="category-name-lg">الكهرباء</span>
@@ -190,38 +198,42 @@
 
         <!-- الصف الثاني: 3 عناصر -->
         <!-- 4. الزيوت والفلاتر -->
-        <a href="search.html?category=oils" class="category-item">
+        <a href="search.html?category=oils" class="category-item" title="الزيوت وفلاتر الصيانة">
           <div class="category-tile-box-lg tile-oils">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v4"/>
-              <path d="m4.93 10.93 2.83-2.83"/>
-              <path d="M2 18h4"/>
-              <path d="M20 18h2"/>
-              <path d="m19.07 10.93-2.83-2.83"/>
-              <circle cx="12" cy="17" r="5"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <!-- عبوة زيت وفلتر انسيابي -->
+              <path d="M12 2.5a4.5 4.5 0 0 1 4.5 4.5c0 3.5-4.5 8-4.5 8s-4.5-4.5-4.5-8A4.5 4.5 0 0 1 12 2.5z"/>
+              <path d="M5 18h14v2.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V18z"/>
+              <line x1="9" y1="18" x2="9" y2="22"/>
+              <line x1="15" y1="18" x2="15" y2="22"/>
             </svg>
           </div>
           <span class="category-name-lg">الزيوت والفلاتر</span>
         </a>
 
         <!-- 5. التعليق -->
-        <a href="search.html?category=suspension" class="category-item">
+        <a href="search.html?category=suspension" class="category-item" title="المساعدات ونظام التعليق">
           <div class="category-tile-box-lg tile-suspension">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v5"/>
-              <path d="m8 7 8 2-8 2 8 2-8 2 8 2-8 2"/>
-              <path d="M12 21v1"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <!-- مساعد رياضي وياي حلزوني دقيق -->
+              <path d="M12 2v4"/>
+              <path d="M8 6h8"/>
+              <path d="m8 8 8 2-8 2 8 2-8 2 8 2-8 2"/>
+              <path d="M8 20h8"/>
+              <path d="M12 20v2.5"/>
             </svg>
           </div>
           <span class="category-name-lg">التعليق</span>
         </a>
 
         <!-- 6. الإضاءة -->
-        <a href="search.html?category=lighting" class="category-item">
+        <a href="search.html?category=lighting" class="category-item" title="الإنارة والشمعات">
           <div class="category-tile-box-lg tile-lighting">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"/>
-              <line x1="9" y1="21" x2="15" y2="21"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <!-- شمعة إضاءة LED بروجكتر حديثة مع حزمة إشعاع -->
+              <path d="M12 3a7 7 0 0 0-7 7c0 2.4 1.2 4.5 3 5.8V18a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.2c1.8-1.3 3-3.4 3-5.8a7 7 0 0 0-7-7z"/>
+              <path d="M10 22h4"/>
+              <line x1="12" y1="7" x2="12" y2="11"/>
             </svg>
           </div>
           <span class="category-name-lg">الإضاءة</span>
@@ -254,23 +266,16 @@
   <script src="assets/js/app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 0. تحديث شارة نوع الحساب بالهيرو
+      // 0. تحديث شارة نوع الحساب واسم المستخدم بالهيرو (بدون أي إيموجي)
       const updateHeroRole = () => {
         const role = KafuStore.getRoleData();
-        const roleIconMap = {
-          merchant_new: '🏬',
-          merchant_scrap: '🚜',
-          rep_oem: '📦',
-          rep_scrap: '🛠️',
-          workshop: '🔧',
-          courier: '🚚',
-          customer: '👤'
-        };
-        const iconEl = document.getElementById('heroRoleIcon');
         const titleEl = document.getElementById('heroRoleTitle');
-        if (iconEl && titleEl) {
-          iconEl.textContent = roleIconMap[role.id] || '🏬';
-          titleEl.textContent = role.shortTitle;
+        if (titleEl) {
+          titleEl.textContent = role.shortTitle || 'متجر قطع جديدة';
+        }
+        const userEl = document.getElementById('heroUserName');
+        if (userEl) {
+          userEl.textContent = role.name || 'محمد أحمد';
         }
       };
       updateHeroRole();

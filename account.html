@@ -25,7 +25,9 @@
     <!-- شريط التبديل السريع بين الأدوار والواجهات -->
     <div class="role-switch-top-bar" onclick="openRoleSwitcherModal()" title="انقر لتجربة وتبديل أدوار التطبيق">
       <div class="role-switch-current">
-        <span id="roleIconPill" style="font-size: 1.15rem;">🏬</span>
+        <span id="roleIconPill" style="width: 36px; height: 36px; border-radius: 10px; background: rgba(10, 108, 255, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </span>
         <div>
           <span id="roleCurrentTitle" style="display: block; font-size: 0.88rem; font-weight: 700; color: var(--text);">لوحة تحكم التاجر</span>
           <span id="roleSubText" style="font-size: 0.72rem; color: var(--text-muted);">انقر لتبديل الدور (تاجر / مندوب / مهندس ورشة / توصيل / عميل)</span>
@@ -37,14 +39,11 @@
       </div>
     </div>
 
-    <!-- 1. كارت بروفايل المستخدم المخصص للدور الحالي -->
+    <!-- 1. كارت بروفايل المستخدم المخصص للدور الحالي مع صورة البروفايل الفاخرة -->
     <div class="profile-card">
       <div class="profile-avatar-wrap">
-        <div class="profile-avatar" id="profileAvatarBox">
-          <svg id="profileAvatarSvg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-          </svg>
+        <div class="profile-avatar" id="profileAvatarBox" style="overflow: hidden; padding: 0;">
+          <img src="assets/images/avatar.jpg" alt="صورة الملف الشخصي" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         <div class="avatar-cam-badge" title="تعديل الصورة الرمزية">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -55,7 +54,7 @@
       </div>
 
       <div class="profile-info">
-        <h2 class="profile-name" id="profileName">Mohamed Ahmed</h2>
+        <h2 class="profile-name" id="profileName">محمد أحمد</h2>
         <span class="profile-email" id="profileEmail">webmax.ceo.1@gmail.com</span>
         <span class="profile-device-tag" id="profileBadgeTag">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="margin-left: 4px;"><polyline points="20 6 9 17 4 12"/></svg>
@@ -132,17 +131,18 @@
       const roleId = KafuStore.getRole();
       const role = KafuStore.getRoleData(roleId);
 
-      // 1. تحديث شريط التبديل العلوي
+      // 1. تحديث شريط التبديل العلوي بدون إيموجي
       const iconMap = {
-        merchant_new: '🏬',
-        merchant_scrap: '🚜',
-        rep_oem: '📦',
-        rep_scrap: '🛠️',
-        workshop: '🔧',
-        courier: '🚚',
-        customer: '👤'
+        merchant_new: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+        merchant_scrap: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>`,
+        rep_oem: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
+        rep_scrap: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+        workshop: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+        courier: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>`,
+        customer: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
       };
-      document.getElementById('roleIconPill').textContent = iconMap[roleId] || '🏬';
+      const pillEl = document.getElementById('roleIconPill');
+      if (pillEl) pillEl.innerHTML = iconMap[roleId] || iconMap.merchant_new;
       document.getElementById('roleCurrentTitle').textContent = role.title;
       document.getElementById('dashboardSectionTitle').textContent = role.dashboardTitle;
 
@@ -211,7 +211,7 @@
               </div>
             </div>
             <button class="courier-toggle-btn online" id="btnCourierStatusToggle" onclick="toggleCourierOnlineStatus()">
-              متصل 🟢
+              متصل
             </button>
           </div>
 
@@ -616,13 +616,13 @@
     function openRoleSwitcherModal() {
       const activeId = KafuStore.getRole();
       const rolesList = [
-        { id: 'merchant_new', title: 'تاجر متجر قطع غيار جديدة', group: 'تاجر', icon: '🏬', badge: 'متجر معتمد' },
-        { id: 'merchant_scrap', title: 'تاجر تشاليح ومستعمل', group: 'تاجر', icon: '🚜', badge: 'تشاليح مفحوصة' },
-        { id: 'rep_oem', title: 'مندوب مبيعات قطع أصلية', group: 'مندوب مبيعات', icon: '📦', badge: 'عمولات مباشرة' },
-        { id: 'rep_scrap', title: 'مندوب مبيعات تشاليح ومستعمل', group: 'مندوب مبيعات', icon: '🛠️', badge: 'تشاليح ميداني' },
-        { id: 'workshop', title: 'مهندس ورشة ومركز صيانة', group: 'ورشة صيانة', icon: '🔧', badge: 'خصم 15% + بونص ونقاط' },
-        { id: 'courier', title: 'مندوب توصيل وكابتن شحن', group: 'توصيل', icon: '🚚', badge: 'أرباح مشاوير يومية' },
-        { id: 'customer', title: 'عميل عادي / زائر', group: 'عميل', icon: '👤', badge: 'تسوق فوري' }
+        { id: 'merchant_new', title: 'تاجر متجر قطع غيار جديدة', group: 'تاجر', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`, badge: 'متجر معتمد' },
+        { id: 'merchant_scrap', title: 'تاجر تشاليح ومستعمل', group: 'تاجر', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>`, badge: 'تشاليح مفحوصة' },
+        { id: 'rep_oem', title: 'مندوب مبيعات قطع أصلية', group: 'مندوب مبيعات', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`, badge: 'عمولات مباشرة' },
+        { id: 'rep_scrap', title: 'مندوب مبيعات تشاليح ومستعمل', group: 'مندوب مبيعات', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`, badge: 'تشاليح ميداني' },
+        { id: 'workshop', title: 'مهندس ورشة ومركز صيانة', group: 'ورشة صيانة', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`, badge: 'خصم 15% + بونص ونقاط' },
+        { id: 'courier', title: 'مندوب توصيل وكابتن شحن', group: 'توصيل', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>`, badge: 'أرباح مشاوير يومية' },
+        { id: 'customer', title: 'عميل عادي / زائر', group: 'عميل', icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`, badge: 'تسوق فوري' }
       ];
 
       const html = `
@@ -674,7 +674,7 @@
 
       if (isOnline) {
         btn.classList.remove('online');
-        btn.textContent = 'غير متصل 🔴';
+        btn.textContent = 'غير متصل';
         btn.style.background = '#FEE2E2';
         btn.style.color = '#B91C1C';
         btn.style.borderColor = '#FCA5A5';
@@ -685,7 +685,7 @@
         KafuApp.showToast('تم إيقاف استقبال الطلبات مؤقتاً');
       } else {
         btn.classList.add('online');
-        btn.textContent = 'متصل 🟢';
+        btn.textContent = 'متصل';
         btn.style.background = '#DCFCE7';
         btn.style.color = '#15803D';
         btn.style.borderColor = '#86EFAC';
@@ -741,7 +741,7 @@
             <div style="font-size: 0.85rem; color: #475569;">القطع: مساعدات أمامية أصلية + مسامير توازن</div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #EDF2F7;">
               <span style="font-weight: 800; color: var(--primary);">820 ر.س (خصم ورشة 15%)</span>
-              <button class="btn-primary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="KafuApp.showToast('الكابتن على بُعد 10 دقائق من موقع الورشة');">تتبع الكابتن 🚚</button>
+              <button class="btn-primary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="KafuApp.showToast('الكابتن على بُعد 10 دقائق من موقع الورشة');">تتبع الكابتن</button>
             </div>
           </div>
 
@@ -825,7 +825,7 @@
             </p>
           </div>
           <button class="btn-primary" style="height: 48px;" onclick="KafuApp.showToast('تم حجز كابتن شحن سريع للورشة! سيصل خلال 35 دقيقة.'); closeActionModal();">
-            طلب كابتن توصيل فوري الآن 🚀
+            طلب كابتن توصيل فوري الآن
           </button>
         </div>
       `);
@@ -906,10 +906,10 @@
             <div style="font-size: 0.84rem; color: #475569; margin-bottom: 8px;">العنوان: مخرج 17 - شارع الجمعية، ورشة 14</div>
             <div style="display: flex; gap: 8px;">
               <button class="btn-primary" style="flex: 1; padding: 8px; font-size: 0.82rem;" onclick="KafuApp.showToast('جاري فتح خرائط Google للملاحة...');">
-                🗺️ ملاحة GPS
+                ملاحة GPS
               </button>
               <button class="btn-secondary" style="flex: 1; padding: 8px; font-size: 0.82rem;" onclick="KafuApp.showToast('جاري الاتصال بالمستلم: 0501234567');">
-                📞 اتصال
+                اتصال
               </button>
             </div>
             <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #BFDBFE;">
@@ -1306,7 +1306,7 @@
             <div style="font-size: 0.8rem; color: var(--text-muted);">تويوتا كامري 2025 · الشحن لحي الياسمين</div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #EDF2F7;">
               <span style="font-weight: 800; color: var(--primary);">1,656 ر.س</span>
-              <button class="btn-primary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="KafuApp.showToast('كابتن كفو على مسافة 15 دقيقة من موقعك');">تتبع الشحنة 🚚</button>
+              <button class="btn-primary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="KafuApp.showToast('كابتن كفو على مسافة 15 دقيقة من موقعك');">تتبع الشحنة</button>
             </div>
           </div>
         </div>
@@ -1389,8 +1389,8 @@
     // التهيئة عند تحميل الصفحة
     // =========================================================================
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. تفعيل تبويب الملف الشخصي في شريط التنقل السفلي
-      KafuApp.renderBottomNav('account');
+      // 1. شريط التنقل السفلي الموحد (الرئيسية، البحث، كفو AI، الكتالوج)
+      KafuApp.renderBottomNav('');
 
       // 2. رسم لوحة التحكم الحالية حسب الدور
       renderActiveRoleDashboard();

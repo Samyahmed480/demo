@@ -23,10 +23,17 @@
 
   <div class="app-container">
 
-    <!-- رأس الصفحة -->
-    <header class="page-header">
-      <h1 class="page-title">سلتك</h1>
-      <button id="btnClearAllCart" style="font-size: 0.85rem; color: var(--danger); font-weight: 600; display: none;">
+    <!-- رأس الصفحة مع زر الرجوع -->
+    <header class="page-header" style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <a href="javascript:history.back()" class="btn-icon-glass" style="background: rgba(255,255,255,0.85); color: var(--text);" title="رجوع">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        </a>
+        <h1 class="page-title" style="margin: 0;">سلة المشتريات</h1>
+      </div>
+      <button id="btnClearAllCart" style="font-size: 0.85rem; color: var(--danger); font-weight: 600; display: none; background: none; border: none; cursor: pointer;">
         تفريغ السلة
       </button>
     </header>
@@ -176,8 +183,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // شريط التنقل السفلي مع تفعيل تبويب 'cart'
-      KafuApp.renderBottomNav('cart');
+      // شريط التنقل السفلي الموحد (السلة أصبحت في الأعلى)
+      KafuApp.renderBottomNav('');
 
       const itemsContainer = document.getElementById('cartItemsContainer');
       const summaryCard = document.getElementById('orderSummaryCard');
