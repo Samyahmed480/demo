@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>كفو | مرحباً بك - اختيار الدور</title>
+  <meta name="description" content="واجهة كفو الترحيبية واختيار أدوار المنظومة: تاجر، مندوب مبيعات، مهندس ورشة، أو مندوب توصيل.">
+  
+  <!-- خطوط Google Fonts: IBM Plex Sans Arabic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+
+  <style>
+    /* ==========================================================================
+       واجهة الترحيب واختيار الأدوار (Role Selection / Welcome Splash)
+       تصميم عصري فخم - خالي تماماً من الإيموجي والتفاصيل الترويجية
+       ========================================================================== */
+    body {
+      background: #F8FAFC;
+      color: #0F172A;
+      font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 16px;
+      box-sizing: border-box;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .welcome-screen-wrap {
+      width: 100%;
+      max-width: 430px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+      animation: splashEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes splashEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(28px) scale(0.97);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       1. منطقة الشعار (Logo Section) مع تأثير حركي انسيابي متوهج
+       -------------------------------------------------------------------------- */
+    .splash-logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 26px;
+      text-align: center;
+    }
+
+    .splash-logo-badge {
+      width: 82px;
+      height: 82px;
+      border-radius: 26px;
+      background: linear-gradient(145deg, #0A6CFF, #004ecc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      box-shadow: 0 16px 36px rgba(10, 108, 255, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+      margin-bottom: 14px;
+      position: relative;
+      animation: logoGlowPulse 3.5s infinite ease-in-out;
+    }
+
+    .splash-logo-badge::after {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, rgba(10, 108, 255, 0.4), rgba(123, 92, 255, 0.3));
+      z-index: -1;
+      filter: blur(8px);
+      opacity: 0.75;
+    }
+
+    @keyframes logoGlowPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 16px 36px rgba(10, 108, 255, 0.35);
+      }
+      50% {
+        transform: scale(1.04);
+        box-shadow: 0 22px 48px rgba(10, 108, 255, 0.52);
+      }
+    }
+
+    .splash-app-title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #0F172A;
+      margin: 0 0 4px;
+      letter-spacing: -0.4px;
+    }
+
+    .splash-app-subtitle {
+      font-size: 0.88rem;
+      color: #64748B;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    /* --------------------------------------------------------------------------
+       2. إطار كارت اختيار الأدوار (Roles Card Frame)
+       -------------------------------------------------------------------------- */
+    .roles-card-frame {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 28px;
+      padding: 18px 16px 20px;
+      box-shadow: 0 20px 48px rgba(15, 23, 42, 0.08), 0 4px 16px rgba(15, 23, 42, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-sizing: border-box;
+    }
+
+    .roles-frame-header {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .roles-frame-heading {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1E293B;
+      margin: 0;
+    }
+
+    /* --------------------------------------------------------------------------
+       3. الأزرار البارزة المنسقة (Role Main Action Buttons)
+       -------------------------------------------------------------------------- */
+    .role-acc-item {
+      border-radius: 18px;
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .role-acc-item:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .role-acc-item.expanded {
+      border-color: var(--primary);
+      box-shadow: 0 8px 24px rgba(10, 108, 255, 0.12);
+      background: #FBFDFF;
+    }
+
+    /* رأس الزر الأساسي */
+    .role-main-btn {
+      width: 100%;
+      height: 58px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      color: #0F172A;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    .role-main-btn:active {
+      background: rgba(10, 108, 255, 0.04);
+    }
+
+    .role-btn-start {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .role-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #F1F5F9;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.25s ease;
+    }
+
+    .role-acc-item.expanded .role-icon-box {
+      background: rgba(10, 108, 255, 0.12);
+      color: var(--primary);
+    }
+
+    .role-title-text {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #0F172A;
+      letter-spacing: -0.2px;
+    }
+
+    .role-chevron-box {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #F8FAFC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94A3B8;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, color 0.2s ease;
+    }
+
+    .role-acc-item.expanded .role-chevron-box {
+      transform: rotate(180deg);
+      background: rgba(10, 108, 255, 0.1);
+      color: var(--primary);
+    }
+
+    .role-arrow-box {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #F8FAFC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94A3B8;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .role-acc-item:hover .role-arrow-box {
+      color: var(--primary);
+      transform: translateX(-3px);
+    }
+
+    /* --------------------------------------------------------------------------
+       4. القوائم والاختيارات الفرعية (Smooth Animated Sub-options)
+       -------------------------------------------------------------------------- */
+    .role-sub-menu {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, padding 0.3s ease;
+      background: #F8FAFC;
+      border-top: 1px solid transparent;
+      padding: 0 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .role-acc-item.expanded .role-sub-menu {
+      max-height: 160px;
+      opacity: 1;
+      padding: 10px 12px 14px;
+      border-top-color: #E2E8F0;
+    }
+
+    .role-sub-btn {
+      width: 100%;
+      height: 48px;
+      padding: 0 14px;
+      border-radius: 12px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #1E293B;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      box-sizing: border-box;
+    }
+
+    .role-sub-btn:hover {
+      border-color: var(--primary);
+      background: #EFF6FF;
+      color: var(--primary);
+      transform: translateX(-2px);
+    }
+
+    .role-sub-btn:active {
+      transform: scale(0.98);
+    }
+
+    .sub-indicator-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #CBD5E1;
+      transition: background 0.2s ease;
+    }
+
+    .role-sub-btn:hover .sub-indicator-dot {
+      background: var(--primary);
+      box-shadow: 0 0 6px rgba(10, 108, 255, 0.5);
+    }
+
+    /* --------------------------------------------------------------------------
+       5. الرابط السفلي للمتصفح العادي / الزائر
+       -------------------------------------------------------------------------- */
+    .splash-footer-link {
+      margin-top: 16px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #64748B;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+    }
+
+    .splash-footer-link:hover {
+      color: var(--primary);
+    }
+
+    /* لمسة تفاعلية عند الاختيار */
+    .role-loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .role-loading-overlay.active {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الدوائر اللونية الناعمة في الخلفية -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- الحاوية المركزية للواجهة الترحيبية -->
+  <main class="welcome-screen-wrap">
+
+    <!-- 1. الشعار المتحرك في المنتصف -->
+    <header class="splash-logo-container">
+      <div class="splash-logo-badge" title="شعار كفو">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- شكل الترس والمحرك الميكانيكي الأنيق -->
+          <circle cx="12" cy="12" r="3.5"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </div>
+      <h1 class="splash-app-title">كفو</h1>
+      <p class="splash-app-subtitle">اختر نوع حسابك للمتابعة</p>
+    </header>
+
+    <!-- 2. كارت هيكل الأزرار وخيارات الأدوار الرئيسية والفرعية -->
+    <section class="roles-card-frame">
+
+      <!-- زر: تاجر (يفتح اختيارين فرعيين) -->
+      <div class="role-acc-item" id="accMerchant">
+        <button type="button" class="role-main-btn" onclick="toggleRoleAccordion('accMerchant')" aria-expanded="false" aria-controls="subMerchant">
+          <div class="role-btn-start">
+            <div class="role-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </div>
+            <span class="role-title-text">تاجر</span>
+          </div>
+          <div class="role-chevron-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </button>
+        <!-- القائمة الفرعية لـ تاجر -->
+        <div class="role-sub-menu" id="subMerchant">
+          <button type="button" class="role-sub-btn" onclick="selectRoleAndEnter('merchant_new')">
+            <span>تاجر قطع غيار جديدة</span>
+            <span class="sub-indicator-dot"></span>
+          </button>
+          <button type="button" class="role-sub-btn" onclick="selectRoleAndEnter('merchant_scrap')">
+            <span>تاجر تشاليح</span>
+            <span class="sub-indicator-dot"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- زر: مندوب مبيعات (يفتح اختيارين فرعيين) -->
+      <div class="role-acc-item" id="accRep">
+        <button type="button" class="role-main-btn" onclick="toggleRoleAccordion('accRep')" aria-expanded="false" aria-controls="subRep">
+          <div class="role-btn-start">
+            <div class="role-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
+            <span class="role-title-text">مندوب مبيعات</span>
+          </div>
+          <div class="role-chevron-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </button>
+        <!-- القائمة الفرعية لـ مندوب مبيعات -->
+        <div class="role-sub-menu" id="subRep">
+          <button type="button" class="role-sub-btn" onclick="selectRoleAndEnter('rep_oem')">
+            <span>مندوب مبيعات (جديد)</span>
+            <span class="sub-indicator-dot"></span>
+          </button>
+          <button type="button" class="role-sub-btn" onclick="selectRoleAndEnter('rep_scrap')">
+            <span>مندوب مبيعات (تشاليح)</span>
+            <span class="sub-indicator-dot"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- زر: مهندس ورشة (دور مستقل ينقله للواجهة التالية مباشرة) -->
+      <div class="role-acc-item">
+        <button type="button" class="role-main-btn" onclick="selectRoleAndEnter('workshop')" title="الدخول كمهندس ورشة">
+          <div class="role-btn-start">
+            <div class="role-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+              </svg>
+            </div>
+            <span class="role-title-text">مهندس ورشة</span>
+          </div>
+          <div class="role-arrow-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </div>
+        </button>
+      </div>
+
+      <!-- زر: مندوب توصيل (دور مستقل ينقله للواجهة التالية مباشرة) -->
+      <div class="role-acc-item">
+        <button type="button" class="role-main-btn" onclick="selectRoleAndEnter('courier')" title="الدخول كمندوب توصيل">
+          <div class="role-btn-start">
+            <div class="role-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                <path d="M15 18H9"></path>
+                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+                <circle cx="17" cy="18.5" r="2.5"></circle>
+                <circle cx="7" cy="18.5" r="2.5"></circle>
+              </svg>
+            </div>
+            <span class="role-title-text">مندوب توصيل</span>
+          </div>
+          <div class="role-arrow-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </div>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- 3. الرابط الهادئ للتصفح العادي كعميل / زائر -->
+    <button type="button" class="splash-footer-link" onclick="selectRoleAndEnter('customer')">
+      <span>تصفح كعميل / زائر</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+  </main>
+
+  <!-- شاشة التحميل والانتقال السلس -->
+  <div class="role-loading-overlay" id="loadingOverlay">
+    <div style="width: 44px; height: 44px; border-radius: 50%; border: 3px solid rgba(10, 108, 255, 0.15); border-top-color: var(--primary); animation: spin 0.8s linear infinite;"></div>
+    <span style="font-size: 0.92rem; font-weight: 700; color: #1E293B;" id="loadingText">جاري تهيئة الواجهة...</span>
+  </div>
+
+  <style>
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+
+  <!-- سكربتات التطبيق -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    // التحكم في فتح وإغلاق القوائم الفرعية
+    function toggleRoleAccordion(id) {
+      const item = document.getElementById(id);
+      const isExpanded = item.classList.contains('expanded');
+
+      // إغلاق أي قائمة مفتوحة أخرى أولاً لانتقال نظيف
+      document.querySelectorAll('.role-acc-item').forEach(el => {
+        el.classList.remove('expanded');
+        const btn = el.querySelector('.role-main-btn');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+
+      // إذا لم تكن مفتوحة مسبقاً، نفتحها
+      if (!isExpanded) {
+        item.classList.add('expanded');
+        const btn = item.querySelector('.role-main-btn');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    // حفظ الدور والانتقال فوراً للواجهة الرئيسية
+    function selectRoleAndEnter(roleId) {
+      const overlay = document.getElementById('loadingOverlay');
+      const text = document.getElementById('loadingText');
+      
+      const roleTitles = {
+        merchant_new: 'تاجر قطع جديدة',
+        merchant_scrap: 'تاجر تشاليح',
+        rep_oem: 'مندوب مبيعات (جديد)',
+        rep_scrap: 'مندوب مبيعات (تشاليح)',
+        workshop: 'مهندس ورشة',
+        courier: 'مندوب توصيل',
+        customer: 'عميل عادي'
+      };
+
+      if (overlay && text) {
+        text.textContent = `جاري الانتقال: ${roleTitles[roleId] || ''}...`;
+        overlay.classList.add('active');
+      }
+
+      // حفظ الدور في KafuStore و LocalStorage
+      KafuStore.setRole(roleId);
+      sessionStorage.setItem('kafu_splash_passed', 'true');
+
+      // انتقال سلس للواجهة التالية
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 350);
+    }
+  </script>
+</body>
+</html>

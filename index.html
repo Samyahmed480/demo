@@ -11,6 +11,12 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/components.css">
+  <script>
+    // التوجيه الفوري لواجهة الترحيب واختيار الأدوار عند فتح التطبيق أول مرة
+    if (!sessionStorage.getItem('kafu_splash_passed') && !new URLSearchParams(window.location.search).has('skip_welcome')) {
+      window.location.replace('welcome.html');
+    }
+  </script>
 </head>
 <body>
 
@@ -265,6 +271,12 @@
   <script src="assets/js/app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // 0. التوجيه لواجهة الترحيب واختيار الأدوار عند فتح التطبيق أول مرة
+      if (!sessionStorage.getItem('kafu_splash_passed') && !new URLSearchParams(window.location.search).has('skip_welcome')) {
+        window.location.href = 'welcome.html';
+        return;
+      }
+
       // 0. تحديث شارة نوع الحساب واسم المستخدم بالهيرو (بدون أي إيموجي)
       const updateHeroRole = () => {
         const role = KafuStore.getRoleData();
