@@ -15,26 +15,47 @@
 
   <style>
     /* ==========================================================================
-       واجهة كفو (Splash / Role Selection Screen)
-       تصميم بطاقات الأدوار الأصلي المحسّن - بدون حشو - احتواء كامل 100vh
+       واجهة كفو للهواتف الذكية (Mobile-First Splash & Role Selection)
+       مضبوطة بالمللي لكافة شاشات الجوال وهواتف الآيفون والأندرويد
        ========================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
-    html, body {
+    html {
       width: 100%;
       height: 100%;
-      height: 100vh;
       height: 100dvh;
-      max-height: 100dvh;
-      overflow: hidden;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100%;
+      min-height: 100dvh;
       background: #F8FAFC;
       color: #0F172A;
       font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* إخفاء شريط التمرير لمظهر يشبه التطبيقات الأصلية */
+    body::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+    body {
+      scrollbar-width: none;
     }
 
     /* --------------------------------------------------------------------------
@@ -58,11 +79,11 @@
 
     .bg-ambient-glow {
       position: fixed;
-      top: -80px;
+      top: -60px;
       left: 50%;
       transform: translateX(-50%);
-      width: 400px;
-      height: 400px;
+      width: 360px;
+      height: 360px;
       background: radial-gradient(circle, rgba(10, 108, 255, 0.14) 0%, rgba(99, 102, 241, 0.06) 50%, transparent 70%);
       filter: blur(45px);
       z-index: 1;
@@ -70,31 +91,31 @@
     }
 
     /* --------------------------------------------------------------------------
-       2. الحاوية المركزية للشاشة (Single Screen 100vh Fit)
+       2. الحاوية المركزية للشاشة المحسّنة للجوال (Mobile Container)
        -------------------------------------------------------------------------- */
     .welcome-screen-wrap {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 420px;
-      height: 100%;
-      height: 100dvh;
+      max-width: 414px;
+      min-height: 100dvh;
       margin: 0 auto;
-      padding: max(16px, env(safe-area-inset-top, 12px)) 18px max(16px, env(safe-area-inset-bottom, 12px));
+      padding: max(16px, env(safe-area-inset-top, 14px)) 16px max(24px, env(safe-area-inset-bottom, 20px));
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      animation: screenFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+      gap: 12px;
+      animation: screenFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
     @keyframes screenFadeIn {
-      0% { opacity: 0; transform: translateY(12px); }
+      0% { opacity: 0; transform: translateY(10px); }
       100% { opacity: 1; transform: translateY(0); }
     }
 
     /* --------------------------------------------------------------------------
-       3. الشعار الرسمي والعنوان (Header)
+       3. الشعار الرسمي والعنوان (Mobile Header)
        -------------------------------------------------------------------------- */
     .splash-header {
       width: 100%;
@@ -107,11 +128,11 @@
 
     .splash-logo-pod {
       position: relative;
-      width: 76px;
-      height: 76px;
+      width: clamp(66px, 16vw, 78px);
+      height: clamp(66px, 16vw, 78px);
       border-radius: 24px;
       background: linear-gradient(145deg, #FFFFFF, #F8FAFC);
-      border: 1px solid rgba(255, 255, 255, 0.95);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
       box-shadow: 
         0 14px 28px -6px rgba(10, 108, 255, 0.22),
         0 2px 8px rgba(15, 23, 42, 0.04),
@@ -120,17 +141,18 @@
       align-items: center;
       justify-content: center;
       margin-bottom: 8px;
+      transition: transform 0.3s ease;
     }
 
     .splash-logo-img {
-      width: 58px;
-      height: 58px;
+      width: clamp(50px, 12vw, 60px);
+      height: clamp(50px, 12vw, 60px);
       object-fit: contain;
       filter: drop-shadow(0 3px 6px rgba(15, 23, 42, 0.12));
     }
 
     .splash-app-title {
-      font-size: 1.65rem;
+      font-size: clamp(1.45rem, 5vw, 1.7rem);
       font-weight: 800;
       color: #0F172A;
       line-height: 1.15;
@@ -139,29 +161,29 @@
     }
 
     .splash-app-subtitle {
-      font-size: 0.82rem;
+      font-size: clamp(0.78rem, 2.8vw, 0.85rem);
       font-weight: 600;
       color: #0A6CFF;
       margin-bottom: 2px;
     }
 
     .splash-app-prompt {
-      font-size: 0.77rem;
+      font-size: clamp(0.74rem, 2.5vw, 0.8rem);
       color: #64748B;
       font-weight: 500;
     }
 
     /* --------------------------------------------------------------------------
-       4. بطاقة الأدوار الأصلية المحسّنة (Refined Card & Role Buttons)
+       4. بطاقة الأدوار الأصلية المحسّنة (Touch-Optimized Role Card)
        -------------------------------------------------------------------------- */
     .roles-card-frame {
       width: 100%;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.9);
       border-radius: 26px;
-      padding: 12px;
+      padding: clamp(10px, 3vw, 14px);
       box-shadow: 
         0 18px 40px -10px rgba(15, 23, 42, 0.07),
         0 2px 8px rgba(15, 23, 42, 0.03);
@@ -176,13 +198,17 @@
       background: #FFFFFF;
       border: 1.5px solid #E2E8F0;
       overflow: hidden;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .role-acc-item:hover {
       border-color: #CBD5E1;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    }
+
+    .role-acc-item:active {
+      transform: scale(0.985);
     }
 
     .role-acc-item.expanded {
@@ -194,7 +220,7 @@
     /* الزر الرئيسي لكل دور */
     .role-main-btn {
       width: 100%;
-      height: 52px;
+      height: clamp(52px, 12vw, 56px);
       padding: 0 14px;
       display: flex;
       align-items: center;
@@ -206,29 +232,31 @@
       cursor: pointer;
       text-decoration: none;
       text-align: right;
-      transition: background 0.2s ease;
+      transition: background 0.18s ease;
     }
 
     .role-main-btn:active {
-      background: rgba(10, 108, 255, 0.04);
+      background: rgba(10, 108, 255, 0.05);
     }
 
     .role-btn-start {
       display: flex;
       align-items: center;
       gap: 12px;
+      flex: 1;
+      min-width: 0;
     }
 
     /* صناديق الأيقونات المميزة لكل دور */
     .role-icon-box {
-      width: 38px;
-      height: 38px;
+      width: clamp(36px, 9vw, 40px);
+      height: clamp(36px, 9vw, 40px);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: transform 0.25s ease, background 0.25s ease;
+      transition: transform 0.22s ease;
     }
 
     .icon-merchant {
@@ -253,16 +281,17 @@
     }
 
     .role-title-text {
-      font-size: 1.02rem;
+      font-size: clamp(0.96rem, 3.2vw, 1.05rem);
       font-weight: 700;
       color: #0F172A;
       letter-spacing: -0.2px;
+      white-space: nowrap;
     }
 
     /* سهم التوسيع أو الانتقال الدائري المحسن */
     .role-chevron-box, .role-arrow-box {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       background: #F8FAFC;
       border: 1px solid #E2E8F0;
@@ -289,7 +318,7 @@
     }
 
     /* --------------------------------------------------------------------------
-       5. القوائم والخيارات الفرعية المنسابة بسلاسة (Accordion Sub-menu)
+       5. القوائم والخيارات الفرعية المنسابة بسلاسة (Smooth Accordion Sub-menu)
        -------------------------------------------------------------------------- */
     .role-sub-menu {
       max-height: 0;
@@ -305,7 +334,7 @@
     }
 
     .role-acc-item.expanded .role-sub-menu {
-      max-height: 125px;
+      max-height: 140px;
       opacity: 1;
       padding: 8px 10px 10px;
       border-top-color: #E2E8F0;
@@ -313,8 +342,8 @@
 
     .role-sub-btn {
       width: 100%;
-      height: 42px;
-      padding: 0 12px;
+      height: clamp(42px, 10vw, 46px);
+      padding: 0 14px;
       border-radius: 12px;
       background: #FFFFFF;
       border: 1px solid #E2E8F0;
@@ -323,29 +352,26 @@
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.18s ease;
       text-decoration: none;
       text-align: right;
     }
 
-    .role-sub-btn:hover {
+    .role-sub-btn:hover, .role-sub-btn:active {
       border-color: #0A6CFF;
       background: #EFF6FF;
       transform: translateX(-2px);
     }
 
-    .role-sub-btn:active {
-      transform: scale(0.985);
-    }
-
     .sub-btn-title {
-      font-size: 0.9rem;
+      font-size: clamp(0.86rem, 2.9vw, 0.92rem);
       font-weight: 700;
       color: #1E293B;
-      transition: color 0.2s ease;
+      transition: color 0.18s ease;
     }
 
-    .role-sub-btn:hover .sub-btn-title {
+    .role-sub-btn:hover .sub-btn-title,
+    .role-sub-btn:active .sub-btn-title {
       color: #0A6CFF;
     }
 
@@ -353,10 +379,11 @@
       color: #94A3B8;
       display: flex;
       align-items: center;
-      transition: color 0.2s ease, transform 0.2s ease;
+      transition: color 0.18s ease, transform 0.18s ease;
     }
 
-    .role-sub-btn:hover .sub-btn-arrow {
+    .role-sub-btn:hover .sub-btn-arrow,
+    .role-sub-btn:active .sub-btn-arrow {
       color: #0A6CFF;
       transform: translateX(-2px);
     }
@@ -374,34 +401,33 @@
 
     .btn-visitor-pill {
       width: 100%;
-      max-width: 320px;
-      height: 42px;
+      max-width: 330px;
+      height: clamp(44px, 11vw, 48px);
       border-radius: 9999px;
       background: #FFFFFF;
       border: 1.5px solid #CBD5E1;
       color: #334155;
       font-family: inherit;
-      font-size: 0.88rem;
+      font-size: clamp(0.86rem, 2.9vw, 0.92rem);
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
       transition: all 0.2s ease;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
-    .btn-visitor-pill:hover {
+    .btn-visitor-pill:hover,
+    .btn-visitor-pill:active {
       border-color: #0A6CFF;
       color: #0A6CFF;
       background: #EFF6FF;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(10, 108, 255, 0.12);
-    }
-
-    .btn-visitor-pill:active {
-      transform: scale(0.98);
+      box-shadow: 0 4px 12px rgba(10, 108, 255, 0.14);
     }
 
     /* --------------------------------------------------------------------------
@@ -412,6 +438,7 @@
       inset: 0;
       background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       z-index: 9999;
       display: none;
       flex-direction: column;
@@ -435,6 +462,38 @@
 
     @keyframes spin {
       to { transform: rotate(360deg); }
+    }
+
+    /* ميديا كويري للهواتف ذات الشاشات القصيرة (iPhone SE / Small Androids) */
+    @media (max-height: 680px) {
+      .welcome-screen-wrap {
+        padding-top: max(10px, env(safe-area-inset-top, 8px));
+        padding-bottom: max(12px, env(safe-area-inset-bottom, 10px));
+        gap: 8px;
+      }
+      .splash-logo-pod {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        margin-bottom: 4px;
+      }
+      .splash-logo-img {
+        width: 44px;
+        height: 44px;
+      }
+      .splash-app-title {
+        font-size: 1.35rem;
+      }
+      .roles-card-frame {
+        padding: 8px;
+        gap: 6px;
+      }
+      .role-main-btn {
+        height: 48px;
+      }
+      .btn-visitor-pill {
+        height: 42px;
+      }
     }
   </style>
 </head>
@@ -492,7 +551,7 @@
 
   <div class="bg-ambient-glow" aria-hidden="true"></div>
 
-  <!-- 2. الحاوية المركزية للشاشة الواحدة (Single Screen 100vh) -->
+  <!-- 2. الحاوية المركزية للشاشة المحسنة للجوال -->
   <main class="welcome-screen-wrap">
 
     <!-- 1. الشعار الرسمي والعنوان بالأعلى -->
@@ -630,7 +689,7 @@
 
     </section>
 
-    <!-- 3. زر تصفح كعميل / زائر في الأسفل ظاهر بالكامل -->
+    <!-- 3. زر تصفح كعميل / زائر في الأسفل ظاهر بالكامل وبمسافة أمان كافية -->
     <footer class="splash-footer">
       <button type="button" class="btn-visitor-pill" onclick="selectRoleAndEnter('customer')" title="تصفح المتجر كعميل أو زائر">
         <span>تصفح كعميل / زائر</span>
