@@ -132,8 +132,8 @@
     const resultsList = document.getElementById('scanResultsList');
 
     document.addEventListener('DOMContentLoaded', () => {
-      // شريط التنقل السفلي الموحد
-      KafuApp.renderBottomNav('');
+      // شريط التنقل السفلي الموحد (تبويب الكاميرا نشط)
+      KafuApp.renderBottomNav('camera');
 
       // تعبئة نماذج البحث بالصور
       const samplesGrid = document.getElementById('samplePartsGrid');

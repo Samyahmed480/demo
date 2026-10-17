@@ -41,12 +41,17 @@ const KafuApp = {
             ${this.ICONS.home}
           </a>
 
-          <!-- 2. البحث بالعدسة (في المنتصف) -->
+          <!-- 2. البحث بالعدسة -->
           <a href="search.html" class="nav-tab ${activeTab === 'search' ? 'active' : ''}" title="البحث بالعدسة" aria-label="البحث بالعدسة">
             ${this.ICONS.search}
           </a>
 
-          <!-- 3. الكتالوج أو المكتبة (أقصى اليسار في RTL) -->
+          <!-- 3. البحث بالكاميرا والصورة -->
+          <a href="image-search.html" class="nav-tab ${activeTab === 'camera' || activeTab === 'image' ? 'active' : ''}" title="البحث بالكاميرا" aria-label="البحث بالكاميرا">
+            ${this.ICONS.camera}
+          </a>
+
+          <!-- 4. الكتالوج أو المكتبة (أقصى اليسار في RTL) -->
           <a href="library.html" class="nav-tab ${activeTab === 'library' || activeTab === 'catalog' ? 'active' : ''}" title="الكتالوج والمكتبة" aria-label="الكتالوج والمكتبة">
             ${this.ICONS.catalog}
           </a>
