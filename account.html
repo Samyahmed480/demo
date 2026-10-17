@@ -22,23 +22,6 @@
 
   <div class="app-container">
 
-    <!-- شريط التبديل السريع بين الأدوار والواجهات -->
-    <div class="role-switch-top-bar" onclick="openRoleSwitcherModal()" title="انقر لتجربة وتبديل أدوار التطبيق">
-      <div class="role-switch-current">
-        <span id="roleIconPill" style="width: 36px; height: 36px; border-radius: 10px; background: rgba(10, 108, 255, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        </span>
-        <div>
-          <span id="roleCurrentTitle" style="display: block; font-size: 0.88rem; font-weight: 700; color: var(--text);">لوحة تحكم التاجر</span>
-          <span id="roleSubText" style="font-size: 0.72rem; color: var(--text-muted);">انقر لتبديل الدور (تاجر / مندوب / مهندس ورشة / توصيل / عميل)</span>
-        </div>
-      </div>
-      <div class="role-switch-action">
-        <span>تبديل</span>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-    </div>
-
     <!-- 1. كارت بروفايل المستخدم المخصص للدور الحالي مع صورة البروفايل الفاخرة -->
     <div class="profile-card">
       <div class="profile-avatar-wrap">
@@ -75,9 +58,14 @@
     <!-- 3. قائمة خيارات لوحة التحكم المخصصة وفق الدور الحالي -->
     <div class="account-menu-list" id="accountMenuList"></div>
 
-    <!-- زر تسجيل الخروج والتبديل -->
-    <button class="btn-logout-row" id="btnLogout">
-      تبديل الحساب أو تسجيل الخروج
+    <!-- زر تسجيل الخروج -->
+    <button class="btn-logout-row" id="btnLogout" title="تسجيل الخروج من الحساب">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px;">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      تسجيل الخروج
     </button>
 
   </div>
@@ -143,8 +131,10 @@
       };
       const pillEl = document.getElementById('roleIconPill');
       if (pillEl) pillEl.innerHTML = iconMap[roleId] || iconMap.merchant_new;
-      document.getElementById('roleCurrentTitle').textContent = role.title;
-      document.getElementById('dashboardSectionTitle').textContent = role.dashboardTitle;
+      const curTitle = document.getElementById('roleCurrentTitle');
+      if (curTitle) curTitle.textContent = role.title;
+      const secTitle = document.getElementById('dashboardSectionTitle');
+      if (secTitle) secTitle.textContent = role.dashboardTitle;
 
       // 2. تحديث كارت البروفايل
       document.getElementById('profileName').textContent = role.name;
@@ -1395,9 +1385,9 @@
       // 2. رسم لوحة التحكم الحالية حسب الدور
       renderActiveRoleDashboard();
 
-      // 3. زر تسجيل الخروج / التبديل
+      // 3. زر تسجيل الخروج
       document.getElementById('btnLogout').addEventListener('click', () => {
-        if (confirm('هل ترغب بتسجيل الخروج واختيار نوع حساب آخر؟')) {
+        if (confirm('هل ترغب بتسجيل الخروج من الحساب؟')) {
           window.location.href = 'auth.html';
         }
       });
