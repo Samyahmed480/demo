@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>كفو | مرحباً بك - اختيار الدور</title>
-  <meta name="description" content="منظومة كفو الذكية لقطع غيار السيارات: اختيار حساب تاجر، مندوب مبيعات، مهندس ورشة، أو مندوب توصيل.">
+  <title>كفو | منظومة قطع غيار السيارات الذكية</title>
+  <meta name="description" content="منظومة كفو الذكية لقطع غيار السيارات: اختر نوع حسابك للمتابعة تاجر، مندوب مبيعات، مهندس ورشة، أو مندوب توصيل.">
   
   <!-- خطوط Google Fonts: IBM Plex Sans Arabic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="assets/css/tokens.css">
 
   <style>
     /* ==========================================================================
-       واجهة كفو للهواتف الذكية (Mobile-Perfect Splash & Role Selection)
-       تجميع مدمج ومتمركز يضمن ظهور زر الزائر وكافة العناصر على أي شاشة جوال
+       واجهة كفو للترحيب واختيار الدور - صور مفرغة شفافة وتنسيق هاتف ذكي فائق
        ========================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -26,23 +25,31 @@
       touch-action: manipulation;
     }
 
+    :root {
+      --primary-blue: #0066FF;
+      --primary-dark: #0047BA;
+      --primary-light: #EFF6FF;
+      --slate-title: #0A2540;
+      --slate-sub: #64748B;
+      --card-border: rgba(226, 232, 240, 0.85);
+    }
+
     html, body {
       width: 100%;
-      min-height: 100%;
+      height: 100%;
       min-height: 100dvh;
-      background: #F8FAFC;
-      color: #0F172A;
+      background: #F3F7FC;
+      color: var(--slate-title);
       font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      position: relative;
     }
 
-    /* إخفاء شريط التمرير لمظهر تطبيق أصلي ناعم */
     body::-webkit-scrollbar {
       display: none;
       width: 0;
@@ -53,9 +60,9 @@
     }
 
     /* --------------------------------------------------------------------------
-       1. الخلفية التقنية الهندسية (Automotive Blueprint Watermark)
+       1. طبقات الخلفية الفنية: صور مفرغة شفافة 100% بدون أي حواف بيضاء
        -------------------------------------------------------------------------- */
-    .bg-watermark-wrap {
+    .bg-canvas-wrapper {
       position: fixed;
       inset: 0;
       width: 100%;
@@ -65,371 +72,710 @@
       overflow: hidden;
     }
 
-    .bg-watermark-svg {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    /* تموج أزرق ملكي خفيف في الزاوية العلوية اليسرى */
+    .top-wave-left {
+      position: absolute;
+      top: -35px;
+      left: -45px;
+      width: 250px;
+      height: 230px;
+      background: radial-gradient(circle at 25% 25%, #0062FF 0%, #1D4ED8 40%, rgba(37, 99, 235, 0.3) 75%, transparent 100%);
+      filter: blur(2px);
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      opacity: 0.92;
     }
 
-    .bg-ambient-glow {
-      position: fixed;
-      top: -60px;
+    /* تموج أزرق في الزاوية العلوية اليمنى */
+    .top-wave-right {
+      position: absolute;
+      top: -55px;
+      right: -35px;
+      width: 210px;
+      height: 190px;
+      background: radial-gradient(circle at 75% 25%, #2563EB 0%, #3B82F6 45%, rgba(96, 165, 250, 0.22) 75%, transparent 100%);
+      filter: blur(3px);
+      border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%;
+      opacity: 0.88;
+    }
+
+    /* هالة إشعاعية ناصعة خلف الشعار بالمنتصف */
+    .central-glow {
+      position: absolute;
+      top: 85px;
       left: 50%;
       transform: translateX(-50%);
-      width: 360px;
-      height: 360px;
-      background: radial-gradient(circle, rgba(10, 108, 255, 0.12) 0%, rgba(99, 102, 241, 0.05) 50%, transparent 70%);
-      filter: blur(40px);
+      width: 320px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(240, 246, 255, 0.85) 55%, transparent 80%);
+      filter: blur(12px);
+      z-index: 3;
+    }
+
+    /* الترس الميكانيكي المفرغ كلياً (PNG شفاف 100% بدون أي خلفية أو مربع) */
+    .bg-gear-asset {
+      position: absolute;
+      top: 105px;
+      left: max(-15px, calc(50% - 220px));
+      width: 175px;
+      height: 175px;
+      background-image: url('assets/images/welcome-gear.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 2;
+      animation: gentleGearRotate 60s linear infinite;
+      transform-origin: center center;
+      filter: drop-shadow(0 10px 20px rgba(0, 102, 255, 0.12));
+    }
+
+    @keyframes gentleGearRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* قطع الغيار (القرص والمكبس) مفرغة كلياً (PNG شفاف 100% بدون أي خلفية) */
+    .bg-parts-asset {
+      position: absolute;
+      top: 110px;
+      right: max(-15px, calc(50% - 215px));
+      width: 170px;
+      height: 160px;
+      background-image: url('assets/images/welcome-parts.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 2;
+      filter: drop-shadow(0 10px 20px rgba(15, 23, 42, 0.08));
+    }
+
+    /* أفق مباني المدينة المودرن في الأسفل */
+    .city-skyline-svg {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      height: 75px;
+      color: #BFDBFE;
+      opacity: 0.45;
       z-index: 1;
-      pointer-events: none;
+    }
+
+    /* تموج القاع الكحلي والأزرق الملكي */
+    .bottom-ocean-wave {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 42px;
+      z-index: 2;
     }
 
     /* --------------------------------------------------------------------------
-       2. الحاوية المركزية للشاشة المحسّنة للجوال (Compact Centered Container)
+       2. الحاوية الرئيسية للشاشة المنسقة بالكامل مع الهواتف الذكية (Mobile Perfect)
        -------------------------------------------------------------------------- */
-    .welcome-screen-wrap {
+    .mobile-screen-container {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 390px;
-      margin: auto;
-      padding: max(14px, env(safe-area-inset-top, 10px)) 16px max(18px, env(safe-area-inset-bottom, 14px));
+      max-width: 400px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: max(12px, env(safe-area-inset-top, 12px)) 16px max(14px, env(safe-area-inset-bottom, 12px));
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      animation: screenFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-
-    @keyframes screenFadeIn {
-      0% { opacity: 0; transform: translateY(8px); }
-      100% { opacity: 1; transform: translateY(0); }
+      justify-content: space-between;
+      box-sizing: border-box;
     }
 
     /* --------------------------------------------------------------------------
-       3. الشعار والعنوان المدمج (Compact Mobile Header)
+       3. شريط تغيير اللغة بالأعلى فقط (مع أيقونة الترس)
        -------------------------------------------------------------------------- */
-    .splash-header {
+    .top-lang-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 2px;
+      min-height: 38px;
+    }
+
+    /* زر تغيير اللغة مع أيقونة الترس */
+    .lang-pill-btn {
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 9999px;
+      background: #FFFFFF;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #0A2540;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .lang-pill-btn:active {
+      transform: scale(0.96);
+      background: #F8FAFC;
+    }
+
+    .lang-gear-icon {
+      color: #0066FF;
+      transition: transform 0.4s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .lang-pill-btn:hover .lang-gear-icon {
+      transform: rotate(45deg);
+    }
+
+    /* --------------------------------------------------------------------------
+       4. رأس الصفحة: الشعار والعناوين (Kafu Brand Header)
+       -------------------------------------------------------------------------- */
+    .welcome-header-card {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       margin-top: 0;
-      margin-bottom: 2px;
+      margin-bottom: 12px;
     }
 
-    .splash-logo-pod {
-      position: relative;
-      width: 68px;
-      height: 68px;
-      border-radius: 20px;
-      background: linear-gradient(145deg, #FFFFFF, #F8FAFC);
-      border: 1.5px solid rgba(255, 255, 255, 0.95);
+    /* صندوق الشعار المستدير (Squircle Pod) */
+    .brand-logo-pod {
+      width: 82px;
+      height: 82px;
+      border-radius: 24px;
+      background: #FFFFFF;
       box-shadow: 
-        0 12px 24px -6px rgba(10, 108, 255, 0.2),
-        0 2px 8px rgba(15, 23, 42, 0.04),
-        0 0 0 1px rgba(226, 232, 240, 0.75) inset;
+        0 12px 28px rgba(0, 102, 255, 0.16),
+        0 3px 8px rgba(15, 23, 42, 0.04);
+      border: 2px solid #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      position: relative;
     }
 
-    .splash-logo-img {
-      width: 52px;
-      height: 52px;
+    .brand-logo-icon {
+      width: 56px;
+      height: 56px;
       object-fit: contain;
-      filter: drop-shadow(0 3px 6px rgba(15, 23, 42, 0.12));
     }
 
-    .splash-app-title {
-      font-size: 1.55rem;
-      font-weight: 800;
-      color: #0F172A;
+    .brand-title {
+      font-size: 2.05rem;
+      font-weight: 900;
+      color: #0A2540;
       line-height: 1.15;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
       letter-spacing: -0.4px;
     }
 
-    .splash-app-subtitle {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #0A6CFF;
-      margin-bottom: 2px;
+    .brand-subtitle {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #0066FF;
+      margin-bottom: 3px;
     }
 
-    .splash-app-prompt {
-      font-size: 0.75rem;
-      color: #64748B;
+    .brand-prompt {
+      font-size: 0.82rem;
       font-weight: 500;
+      color: #64748B;
     }
 
     /* --------------------------------------------------------------------------
-       4. بطاقة الأدوار الأصلية المحسّنة (Compact Role Cards)
+       5. كروت الأدوار الأربعة (Role Cards 100% Mobile Optimized)
        -------------------------------------------------------------------------- */
-    .roles-card-frame {
+    .roles-list-group {
       width: 100%;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      border-radius: 22px;
-      padding: 10px;
-      box-shadow: 
-        0 16px 36px -10px rgba(15, 23, 42, 0.07),
-        0 2px 8px rgba(15, 23, 42, 0.03);
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
 
-    /* عنصر الدور (Button Card) */
-    .role-acc-item {
-      border-radius: 14px;
-      background: #FFFFFF;
-      border: 1.5px solid #E2E8F0;
-      overflow: hidden;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    .role-acc-item:hover {
-      border-color: #CBD5E1;
-    }
-
-    .role-acc-item:active {
-      transform: scale(0.985);
-    }
-
-    .role-acc-item.expanded {
-      border-color: #0A6CFF;
-      box-shadow: 0 4px 16px rgba(10, 108, 255, 0.12);
-      background: #FBFDFF;
-    }
-
-    /* الزر الرئيسي لكل دور */
-    .role-main-btn {
+    .role-action-card {
       width: 100%;
-      height: 48px;
-      padding: 0 12px;
+      height: 68px;
+      border-radius: 18px;
+      background: #FFFFFF;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+      box-shadow: 
+        0 4px 16px rgba(15, 23, 42, 0.05),
+        0 1px 3px rgba(15, 23, 42, 0.02);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: transparent;
-      border: none;
-      font-family: inherit;
-      color: #0F172A;
+      padding: 6px 10px 6px 14px;
       cursor: pointer;
       text-decoration: none;
+      font-family: inherit;
+      color: inherit;
       text-align: right;
-      transition: background 0.18s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    .role-main-btn:active {
-      background: rgba(10, 108, 255, 0.05);
+    .role-action-card:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+      transform: translateY(-1px);
     }
 
-    .role-btn-start {
+    .role-action-card:active {
+      transform: scale(0.985);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+
+    /* المحتوى الأيمن: بادج الأيقونة المتدرجة + النصوص */
+    .role-content-start {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 11px;
       flex: 1;
       min-width: 0;
     }
 
-    /* صناديق الأيقونات المميزة لكل دور */
-    .role-icon-box {
+    /* البادج المربع المتدرج للأيقونة */
+    .role-gradient-badge {
+      width: 54px;
+      height: 54px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
+    }
+
+    /* تدرجات ألوان الأدوار الأربعة */
+    .badge-merchant {
+      background: linear-gradient(135deg, #2563EB 0%, #0052CC 100%);
+    }
+    .badge-rep {
+      background: linear-gradient(135deg, #C084FC 0%, #7C3AED 100%);
+    }
+    .badge-workshop {
+      background: linear-gradient(135deg, #FBBF24 0%, #EA580C 100%);
+    }
+    .badge-courier {
+      background: linear-gradient(135deg, #4ADE80 0%, #16A34A 100%);
+    }
+
+    /* نصوص العنوان والوصف */
+    .role-texts-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 1px;
+    }
+
+    .role-card-name {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #0F172A;
+      line-height: 1.25;
+      letter-spacing: -0.2px;
+    }
+
+    .role-card-desc {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: #64748B;
+      line-height: 1.2;
+    }
+
+    /* دائرة السهم اليسرى المنسقة */
+    .role-chevron-circle {
       width: 34px;
       height: 34px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
-
-    .icon-merchant {
-      background: #EFF6FF;
-      color: #0A6CFF;
-    }
-    .icon-rep {
-      background: #F5F3FF;
-      color: #7C3AED;
-    }
-    .icon-workshop {
-      background: #FFFBEB;
-      color: #D97706;
-    }
-    .icon-courier {
-      background: #ECFDF5;
-      color: #059669;
-    }
-
-    .role-acc-item.expanded .role-icon-box {
-      transform: scale(1.05);
-    }
-
-    .role-title-text {
-      font-size: 0.98rem;
-      font-weight: 700;
-      color: #0F172A;
-      letter-spacing: -0.2px;
-      white-space: nowrap;
-    }
-
-    /* سهم التوسيع أو الانتقال الدائري المحسن */
-    .role-chevron-box, .role-arrow-box {
-      width: 28px;
-      height: 28px;
       border-radius: 50%;
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
+      background: #EFF4FA;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #94A3B8;
+      color: #0F172A;
       flex-shrink: 0;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: background 0.18s ease, transform 0.18s ease;
     }
 
-    .role-acc-item.expanded .role-chevron-box {
-      transform: rotate(180deg);
-      background: #0A6CFF;
-      border-color: #0A6CFF;
-      color: #FFFFFF;
-    }
-
-    .role-acc-item:hover .role-arrow-box {
-      background: #0A6CFF;
-      border-color: #0A6CFF;
-      color: #FFFFFF;
-      transform: translateX(-3px);
+    .role-action-card:hover .role-chevron-circle {
+      background: #E2E8F0;
+      transform: translateX(-2px);
     }
 
     /* --------------------------------------------------------------------------
-       5. القوائم والخيارات الفرعية المنسابة بسلاسة (Smooth Accordion Sub-menu)
+       6. زر الزائر / العميل البيضاوي (تصفح كعميل / زائر)
        -------------------------------------------------------------------------- */
-    .role-sub-menu {
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transition: max-height 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, padding 0.22s ease;
-      background: #F8FAFC;
-      border-top: 1px solid transparent;
-      padding: 0 8px;
+    .visitor-btn-pill {
+      width: 100%;
+      height: 50px;
+      border-radius: 9999px;
+      background: #FFFFFF;
+      border: 1.8px solid #0066FF;
+      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      font-family: inherit;
+      color: #0066FF;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-bottom: 10px;
+    }
+
+    .visitor-btn-pill:hover {
+      background: #F0F6FF;
+      box-shadow: 0 6px 18px rgba(0, 102, 255, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .visitor-btn-pill:active {
+      transform: scale(0.985);
+    }
+
+    .visitor-content-center {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .visitor-title-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0066FF;
+    }
+
+    /* --------------------------------------------------------------------------
+       7. تذييل الصفحة: عبارة "مع كفو ... كل قطعة في مكانها" ظاهرة وبارزة 100%
+       -------------------------------------------------------------------------- */
+    .welcome-footer-wrap {
+      width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      align-items: center;
+      justify-content: center;
+      margin-top: auto;
+      padding-top: 6px;
+      padding-bottom: max(10px, env(safe-area-inset-bottom, 10px));
+      position: relative;
+      z-index: 20;
     }
 
-    .role-acc-item.expanded .role-sub-menu {
-      max-height: 130px;
-      opacity: 1;
-      padding: 7px 8px 8px;
-      border-top-color: #E2E8F0;
-    }
-
-    .role-sub-btn {
+    .tagline-divider-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
       width: 100%;
-      height: 40px;
-      padding: 0 12px;
-      border-radius: 10px;
+    }
+
+    .tagline-line {
+      flex: 1;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.35), transparent);
+    }
+
+    .tagline-label {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #0066FF;
+      white-space: nowrap;
+      letter-spacing: -0.2px;
+      padding: 5px 16px;
+      background: #EFF6FF;
+      border: 1.2px solid rgba(0, 102, 255, 0.22);
+      border-radius: 9999px;
+      box-shadow: 0 2px 8px rgba(0, 102, 255, 0.08);
+      display: inline-block;
+    }
+
+    /* --------------------------------------------------------------------------
+       8. النافذة المنبثقة التفاعلية لاختيار تخصص التاجر أو المندوب (Bottom Sheet)
+       -------------------------------------------------------------------------- */
+    .submodal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 999;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .submodal-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .submodal-sheet {
+      width: 100%;
+      max-width: 400px;
       background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      font-family: inherit;
+      border-radius: 28px 28px 0 0;
+      padding: 20px 20px 28px;
+      box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.16);
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .submodal-backdrop.active .submodal-sheet {
+      transform: translateY(0);
+    }
+
+    .submodal-handle {
+      width: 42px;
+      height: 4px;
+      border-radius: 99px;
+      background: #CBD5E1;
+      align-self: center;
+      margin-bottom: 4px;
+    }
+
+    .submodal-header {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .submodal-title {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 3px;
+    }
+
+    .submodal-desc {
+      font-size: 0.8rem;
+      color: #64748B;
+    }
+
+    .submodal-options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .submodal-opt-btn {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 15px;
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      transition: all 0.16s ease;
-      text-decoration: none;
+      font-family: inherit;
       text-align: right;
+      transition: all 0.18s ease;
     }
 
-    .role-sub-btn:hover, .role-sub-btn:active {
-      border-color: #0A6CFF;
+    .submodal-opt-btn:hover {
       background: #EFF6FF;
-      transform: translateX(-2px);
+      border-color: #0066FF;
+      transform: translateX(-3px);
     }
 
-    .sub-btn-title {
-      font-size: 0.88rem;
+    .submodal-opt-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .submodal-opt-title {
+      font-size: 0.94rem;
       font-weight: 700;
-      color: #1E293B;
-      transition: color 0.16s ease;
+      color: #0F172A;
     }
 
-    .role-sub-btn:hover .sub-btn-title,
-    .role-sub-btn:active .sub-btn-title {
-      color: #0A6CFF;
+    .submodal-opt-sub {
+      font-size: 0.76rem;
+      color: #64748B;
     }
 
-    .sub-btn-arrow {
-      color: #94A3B8;
-      display: flex;
-      align-items: center;
-      transition: color 0.16s ease, transform 0.16s ease;
-    }
-
-    .role-sub-btn:hover .sub-btn-arrow,
-    .role-sub-btn:active .sub-btn-arrow {
-      color: #0A6CFF;
-      transform: translateX(-2px);
-    }
-
-    /* --------------------------------------------------------------------------
-       6. زر التصفح كعميل / زائر - ظاهر وبارز مباشرة تحت البطاقة
-       -------------------------------------------------------------------------- */
-    .splash-footer {
+    .submodal-cancel-btn {
       width: 100%;
-      display: flex;
-      justify-content: center;
+      height: 44px;
+      border-radius: 13px;
+      background: #F1F5F9;
+      border: none;
+      color: #475569;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
       margin-top: 2px;
     }
 
-    .btn-visitor-pill {
-      width: 100%;
-      height: 44px;
-      border-radius: 9999px;
-      background: #FFFFFF;
-      border: 1.5px solid #CBD5E1;
-      color: #1E293B;
-      font-family: inherit;
-      font-size: 0.9rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
+    /* --------------------------------------------------------------------------
+       9. نافذة تبديل اللغة (Language Selection Sheet)
+       -------------------------------------------------------------------------- */
+    .lang-sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: flex-end;
       justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-      transition: all 0.2s ease;
-      -webkit-user-select: none;
-      user-select: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
     }
 
-    .btn-visitor-pill:hover,
-    .btn-visitor-pill:active {
-      border-color: #0A6CFF;
-      color: #0A6CFF;
+    .lang-sheet-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lang-sheet {
+      width: 100%;
+      max-width: 400px;
+      background: #FFFFFF;
+      border-radius: 28px 28px 0 0;
+      padding: 20px 20px 28px;
+      box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.16);
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .lang-sheet-backdrop.active .lang-sheet {
+      transform: translateY(0);
+    }
+
+    .lang-item-btn {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0F172A;
+      transition: all 0.18s ease;
+    }
+
+    .lang-item-btn.selected {
       background: #EFF6FF;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(10, 108, 255, 0.14);
+      border-color: #0066FF;
+      color: #0066FF;
     }
 
     /* --------------------------------------------------------------------------
-       7. شاشة التحميل والانتقال السريع
+       10. استجابة ذكية ومثالية للهواتف الذكية (Mobile Perfect Fit)
+       -------------------------------------------------------------------------- */
+    @media (max-height: 760px) {
+      .mobile-screen-container {
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+      .brand-logo-pod {
+        width: 68px;
+        height: 68px;
+        border-radius: 18px;
+        margin-bottom: 4px;
+      }
+      .brand-logo-icon {
+        width: 46px;
+        height: 46px;
+      }
+      .brand-title {
+        font-size: 1.7rem;
+        margin-bottom: 1px;
+      }
+      .brand-subtitle {
+        font-size: 0.84rem;
+        margin-bottom: 2px;
+      }
+      .brand-prompt {
+        font-size: 0.74rem;
+      }
+      .roles-list-group {
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .role-action-card {
+        height: 60px;
+        border-radius: 15px;
+        padding: 5px 8px 5px 12px;
+      }
+      .role-gradient-badge {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+      }
+      .role-card-name {
+        font-size: 0.96rem;
+      }
+      .role-card-desc {
+        font-size: 0.74rem;
+      }
+      .role-chevron-circle {
+        width: 30px;
+        height: 30px;
+      }
+      .visitor-btn-pill {
+        height: 46px;
+        margin-bottom: 6px;
+      }
+      .tagline-label {
+        font-size: 0.82rem;
+        padding: 3px 12px;
+      }
+      .bg-gear-asset {
+        width: 135px;
+        height: 135px;
+        top: 85px;
+      }
+      .bg-parts-asset {
+        width: 130px;
+        height: 130px;
+        top: 90px;
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       11. شاشة التحميل والانتقال
        -------------------------------------------------------------------------- */
     .role-loading-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       z-index: 9999;
       display: none;
       flex-direction: column;
@@ -443,12 +789,12 @@
     }
 
     .loading-spinner {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      border: 3px solid rgba(10, 108, 255, 0.15);
-      border-top-color: #0A6CFF;
-      animation: spin 0.75s linear infinite;
+      border: 3.5px solid rgba(0, 102, 255, 0.15);
+      border-top-color: #0066FF;
+      animation: spin 0.7s linear infinite;
     }
 
     @keyframes spin {
@@ -458,212 +804,249 @@
 </head>
 <body>
 
-  <!-- 1. الخلفية التقنية الهندسية (Automotive Blueprint Watermark) -->
-  <div class="bg-watermark-wrap" aria-hidden="true">
-    <svg class="bg-watermark-svg" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- ترس ميكانيكي بالأعلى يميناً -->
-      <g opacity="0.04" stroke="#0A6CFF" stroke-width="1.8" transform="translate(560, 50)">
-        <circle cx="100" cy="100" r="85" />
-        <circle cx="100" cy="100" r="55" stroke-dasharray="6 4" />
-        <circle cx="100" cy="100" r="28" />
-        <line x1="100" y1="5" x2="100" y2="195" stroke-dasharray="4 4" />
-        <line x1="5" y1="100" x2="195" y2="100" stroke-dasharray="4 4" />
-      </g>
+  <!-- =========================================================================
+       1. طبقات الخلفية الفنية المنسقة: صور مفرغة شفافة 100% (PNG بدون أي حواف بيضاء)
+       ========================================================================= -->
+  <div class="bg-canvas-wrapper" aria-hidden="true">
+    <div class="top-wave-left"></div>
+    <div class="top-wave-right"></div>
+    
+    <!-- هالة بيضاء ناصعة بالمركز -->
+    <div class="central-glow"></div>
+    
+    <!-- الترس الميكانيكي المفرغ كلياً بدون أي خلفية (PNG شفاف) مع دوران بطيء ناعم -->
+    <div class="bg-gear-asset" title="ترس ميكانيكي هندسي"></div>
 
-      <!-- مكبس محرك Piston بالأعلى يساراً -->
-      <g opacity="0.04" stroke="#0F172A" stroke-width="1.8" transform="translate(50, 60)">
-        <rect x="20" y="20" width="100" height="75" rx="6" />
-        <line x1="28" y1="42" x2="112" y2="42" />
-        <line x1="28" y1="60" x2="112" y2="60" />
-        <path d="M70 95 L70 185" stroke-width="8" stroke-linecap="round" />
-        <circle cx="70" cy="205" r="22" stroke-width="2.5" />
-        <circle cx="70" cy="205" r="11" stroke-width="1.5" />
-      </g>
+    <!-- قطع الغيار (القرص والمكبس) مفرغة كلياً بدون أي خلفية (PNG شفاف) -->
+    <div class="bg-parts-asset"></div>
 
-      <!-- قرص فرامل مهوّى Brake Disc بالأسفل يساراً -->
-      <g opacity="0.04" stroke="#0A6CFF" stroke-width="1.8" transform="translate(40, 520)">
-        <circle cx="100" cy="100" r="90" />
-        <circle cx="100" cy="100" r="80" />
-        <circle cx="100" cy="100" r="42" />
-        <circle cx="78" cy="78" r="4" />
-        <circle cx="122" cy="78" r="4" />
-        <circle cx="122" cy="122" r="4" />
-        <circle cx="78" cy="122" r="4" />
-        <path d="M150 40 Q185 85 180 135 L165 130 Q170 90 140 50 Z" fill="#0A6CFF" fill-opacity="0.03" />
-      </g>
+    <!-- أفق مباني المدينة (SVG Skyline) -->
+    <svg class="city-skyline-svg" viewBox="0 0 800 120" fill="currentColor" preserveAspectRatio="none">
+      <path d="M0 120 L0 100 L25 100 L25 80 L35 80 L35 100 L60 100 L60 65 L72 65 L72 100 L95 100 L95 45 L110 45 L110 100 L130 100 L130 70 L145 70 L145 100 L170 100 L170 30 L185 30 L185 100 L210 100 L210 60 L225 60 L225 100 L255 100 L255 40 L270 40 L270 100 L300 100 L300 75 L315 75 L315 100 L345 100 L345 25 L360 25 L360 100 L390 100 L390 55 L405 55 L405 100 L435 100 L435 35 L450 35 L450 100 L480 100 L480 70 L495 70 L495 100 L525 100 L525 20 L540 20 L540 100 L570 100 L570 60 L585 60 L585 100 L615 100 L615 45 L630 45 L630 100 L660 100 L660 70 L675 70 L675 100 L705 100 L705 30 L720 30 L720 100 L750 100 L750 65 L765 65 L765 100 L800 100 L800 120 Z" opacity="0.6"/>
+      <path d="M0 120 L0 105 L30 105 L30 90 L50 90 L50 105 L80 105 L80 75 L100 75 L100 105 L140 105 L140 55 L160 55 L160 105 L200 105 L200 85 L220 85 L220 105 L260 105 L260 50 L280 50 L280 105 L320 105 L320 80 L340 80 L340 105 L380 105 L380 40 L400 40 L400 105 L440 105 L440 65 L460 65 L460 105 L500 105 L500 45 L520 45 L520 105 L560 105 L560 75 L580 75 L580 105 L620 105 L620 55 L640 55 L640 105 L680 105 L680 75 L700 75 L700 105 L740 105 L740 85 L760 85 L760 105 L800 105 L800 120 Z" opacity="0.4"/>
+    </svg>
 
-      <!-- مساعد وياي تعليق Shock Absorber بالأسفل يميناً -->
-      <g opacity="0.04" stroke="#0F172A" stroke-width="2" transform="translate(630, 500)">
-        <path d="M40 20 L40 50 Q56 68 40 86 Q24 104 40 122 Q56 140 40 158 Q24 176 40 194 L40 230" />
-        <rect x="32" y="10" width="16" height="12" rx="2" />
-        <circle cx="40" cy="242" r="12" />
-      </g>
-
-      <!-- خطوط شبكية هندسية CAD Lines -->
-      <g opacity="0.03" stroke="#0A6CFF" stroke-width="1">
-        <path d="M400 40 L400 760 M40 400 L760 400" stroke-dasharray="6 8" />
-        <circle cx="400" cy="400" r="160" stroke-dasharray="8 6" />
-        <circle cx="400" cy="400" r="280" stroke-dasharray="10 8" />
-      </g>
+    <!-- تموج كحلي أنيق في قاعدة الشاشة -->
+    <svg class="bottom-ocean-wave" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none">
+      <path d="M0,40 C320,120 480,10 720,50 C960,90 1180,20 1440,60 L1440,120 L0,120 Z" fill="#0058DD"/>
+      <path d="M0,70 C360,20 620,110 900,60 C1140,20 1320,80 1440,70 L1440,120 L0,120 Z" fill="#0066FF" opacity="0.65"/>
     </svg>
   </div>
 
-  <div class="bg-ambient-glow" aria-hidden="true"></div>
+  <!-- =========================================================================
+       2. هيكل شاشة الجوال المركزية المنسقة
+       ========================================================================= -->
+  <main class="mobile-screen-container">
 
-  <!-- 2. الحاوية المركزية للشاشة المحسنة للجوال -->
-  <main class="welcome-screen-wrap">
-
-    <!-- 1. الشعار الرسمي والعنوان بالأعلى -->
-    <header class="splash-header">
-      <div class="splash-logo-pod" title="شعار كفو">
-        <img src="assets/images/kafu-logo.png" alt="شعار كفو" class="splash-logo-img">
-      </div>
-      <h1 class="splash-app-title">كفو</h1>
-      <span class="splash-app-subtitle">منظومة قطع غيار السيارات الذكية</span>
-      <p class="splash-app-prompt">اختر نوع حسابك للمتابعة</p>
-    </header>
-
-    <!-- 2. بطاقة الأزرار الأصلية المحسّنة (بأيقوناتها المميزة وسهم التوسيع) -->
-    <section class="roles-card-frame" aria-label="خيارات الحسابات">
-
-      <!-- زر: تاجر (يفتح اختيارين فرعيين) -->
-      <div class="role-acc-item" id="accMerchant">
-        <button type="button" class="role-main-btn" onclick="toggleRoleAccordion('accMerchant')" aria-expanded="false" aria-controls="subMerchant">
-          <div class="role-btn-start">
-            <div class="role-icon-box icon-merchant">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-            </div>
-            <span class="role-title-text">تاجر</span>
-          </div>
-          <div class="role-chevron-box">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
+    <!-- شريط تغيير اللغة بالأعلى فقط (مع أيقونة الترس) -->
+    <div>
+      <header class="top-lang-bar">
+        <!-- زر تغيير اللغة البيضاوي (ترس ⚙️ + عربي ⌵) -->
+        <button type="button" class="lang-pill-btn" title="تغيير لغة التطبيق" aria-label="تغيير لغة التطبيق" onclick="openLangSheet()">
+          <span class="lang-gear-icon">
+            <!-- أيقونة الترس الهندسي الدقيق -->
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
             </svg>
-          </div>
+          </span>
+          <span id="currentLangLabel">عربي</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </button>
-        <!-- القائمة الفرعية لـ تاجر -->
-        <div class="role-sub-menu" id="subMerchant">
-          <button type="button" class="role-sub-btn" onclick="selectRoleAndEnter('merchant_new')">
-            <span class="sub-btn-title">تاجر قطع غيار جديدة</span>
-            <span class="sub-btn-arrow">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </span>
-          </button>
-          <button type="button" class="role-sub-btn" onclick="selectRoleAndEnter('merchant_scrap')">
-            <span class="sub-btn-title">تاجر تشاليح</span>
-            <span class="sub-btn-arrow">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </span>
-          </button>
-        </div>
-      </div>
+      </header>
 
-      <!-- زر: مندوب مبيعات (يفتح اختيارين فرعيين) -->
-      <div class="role-acc-item" id="accRep">
-        <button type="button" class="role-main-btn" onclick="toggleRoleAccordion('accRep')" aria-expanded="false" aria-controls="subRep">
-          <div class="role-btn-start">
-            <div class="role-icon-box icon-rep">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+      <!-- عنوان وهوية كفو -->
+      <section class="welcome-header-card">
+        <div class="brand-logo-pod" title="شعار كفو">
+          <img src="assets/images/kafu-logo.png" alt="كفو" class="brand-logo-icon">
+        </div>
+        <h1 class="brand-title">كفو</h1>
+        <h2 class="brand-subtitle">منظومة قطع غيار السيارات الذكية</h2>
+        <p class="brand-prompt">اختر نوع حسابك للمتابعة</p>
+      </section>
+
+      <!-- =====================================================================
+           كروت الأدوار الأربعة (تاجر، مندوب مبيعات، مهندس ورشة، مندوب توصيل)
+           ===================================================================== -->
+      <section class="roles-list-group" aria-label="خيارات تسجيل الدخول">
+
+        <!-- 1. تاجر -->
+        <button type="button" class="role-action-card" onclick="openSubModal('merchant')">
+          <div class="role-content-start">
+            <div class="role-gradient-badge badge-merchant">
+              <!-- أيقونة متجر / محل -->
+              <svg width="27" height="27" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21.9 8.2l-1.3-4.5c-.2-.7-.8-1.2-1.6-1.2H5c-.8 0-1.4.5-1.6 1.2L2.1 8.2c-.3 1 .4 2.1 1.5 2.1.2 0 .4 0 .6-.1l.8-.4V19c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V9.8l.8.4c.2.1.4.1.6.1 1.1 0 1.8-1.1 1.5-2.1zM11 19H6v-6h5v6zm7 0h-5v-6h5v6z"/>
               </svg>
             </div>
-            <span class="role-title-text">مندوب مبيعات</span>
-          </div>
-          <div class="role-chevron-box">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-        </button>
-        <!-- القائمة الفرعية لـ مندوب مبيعات -->
-        <div class="role-sub-menu" id="subRep">
-          <button type="button" class="role-sub-btn" onclick="selectRoleAndEnter('rep_oem')">
-            <span class="sub-btn-title">مندوب مبيعات (جديد)</span>
-            <span class="sub-btn-arrow">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </span>
-          </button>
-          <button type="button" class="role-sub-btn" onclick="selectRoleAndEnter('rep_scrap')">
-            <span class="sub-btn-title">مندوب مبيعات (تشاليح)</span>
-            <span class="sub-btn-arrow">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </span>
-          </button>
-        </div>
-      </div>
-
-      <!-- زر: مهندس ورشة (مسار مباشر) -->
-      <div class="role-acc-item">
-        <button type="button" class="role-main-btn" onclick="selectRoleAndEnter('workshop')" title="حساب مهندس ورشة">
-          <div class="role-btn-start">
-            <div class="role-icon-box icon-workshop">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-              </svg>
+            <div class="role-texts-wrap">
+              <strong class="role-card-name">تاجر</strong>
+              <span class="role-card-desc">لإدارة نشاطك التجاري</span>
             </div>
-            <span class="role-title-text">مهندس ورشة</span>
           </div>
-          <div class="role-arrow-box">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <div class="role-chevron-circle">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </div>
         </button>
-      </div>
 
-      <!-- زر: مندوب توصيل (مسار مباشر) -->
-      <div class="role-acc-item">
-        <button type="button" class="role-main-btn" onclick="selectRoleAndEnter('courier')" title="حساب مندوب توصيل">
-          <div class="role-btn-start">
-            <div class="role-icon-box icon-courier">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
-                <path d="M15 18H9"></path>
-                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
-                <circle cx="17" cy="18.5" r="2.5"></circle>
-                <circle cx="7" cy="18.5" r="2.5"></circle>
+        <!-- 2. مندوب مبيعات -->
+        <button type="button" class="role-action-card" onclick="openSubModal('rep')">
+          <div class="role-content-start">
+            <div class="role-gradient-badge badge-rep">
+              <!-- أيقونة مندوب المبيعات مع الحقيبة -->
+              <svg width="27" height="27" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="9" cy="6.5" r="4"/>
+                <path d="M9 12.5c-4 0-7 2.4-7 5.5V20.5h14V18c0-3.1-3-5.5-7-5.5z"/>
+                <rect x="15" y="13.5" width="7" height="6.5" rx="1.5"/>
+                <path d="M17 13.5v-1.5a1.5 1.5 0 0 1 3 0v1.5"/>
               </svg>
             </div>
-            <span class="role-title-text">مندوب توصيل</span>
+            <div class="role-texts-wrap">
+              <strong class="role-card-name">مندوب مبيعات</strong>
+              <span class="role-card-desc">لإدارة مهام المبيعات</span>
+            </div>
           </div>
-          <div class="role-arrow-box">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <div class="role-chevron-circle">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </div>
         </button>
-      </div>
 
-    </section>
+        <!-- 3. مهندس ورشة -->
+        <button type="button" class="role-action-card" onclick="selectRoleAndEnter('workshop')">
+          <div class="role-content-start">
+            <div class="role-gradient-badge badge-workshop">
+              <!-- مفاتيح تصليح متقاطعة -->
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                <path d="M9.3 6.3a1 1 0 0 1 0 1.4L7.7 9.3a1 1 0 0 1-1.4 0L2.53 5.53a6 6 0 0 0 7.94 7.94l6.91 6.91a2.12 2.12 0 0 0 3-3l-6.91-6.91a6 6 0 0 0-7.94-7.94l3.77-3.77z"/>
+              </svg>
+            </div>
+            <div class="role-texts-wrap">
+              <strong class="role-card-name">مهندس ورشة</strong>
+              <span class="role-card-desc">لإدارة الورشة والخدمات</span>
+            </div>
+          </div>
+          <div class="role-chevron-circle">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </div>
+        </button>
 
-    <!-- 3. زر تصفح كعميل / زائر - متصل مباشرة تحت البطاقة وظاهر 100% -->
-    <footer class="splash-footer">
-      <button type="button" class="btn-visitor-pill" onclick="selectRoleAndEnter('customer')" title="تصفح المتجر كعميل أو زائر">
-        <span>تصفح كعميل / زائر</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <!-- 4. مندوب توصيل -->
+        <button type="button" class="role-action-card" onclick="selectRoleAndEnter('courier')">
+          <div class="role-content-start">
+            <div class="role-gradient-badge badge-courier">
+              <!-- شاحنة توصيل مع خطوط حركة سريعة -->
+              <svg width="27" height="27" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 6.5h3v2H3v-2zm-2 4h5v2H1v-2zm2 4h3v2H3v-2zm5-10h9v4h4.5l2.5 3.3V17.5h-2c0 1.6-1.3 3-3 3s-3-1.4-3-3H11c0 1.6-1.3 3-3 3s-3-1.4-3-3H4V6.5c0-1.1.9-2 2-2h2zm11 11.5c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-11 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm9-7.5v2.8h3.8l-1.8-2.8H17z"/>
+              </svg>
+            </div>
+            <div class="role-texts-wrap">
+              <strong class="role-card-name">مندوب توصيل</strong>
+              <span class="role-card-desc">لمتابعة عمليات التوصيل</span>
+            </div>
+          </div>
+          <div class="role-chevron-circle">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </div>
+        </button>
+
+      </section>
+
+      <!-- =====================================================================
+           زر: تصفح كعميل / زائر
+           ===================================================================== -->
+      <button type="button" class="visitor-btn-pill" onclick="selectRoleAndEnter('customer')" title="تصفح المتجر مباشرة">
+        <!-- اليمين: أيقونة السماعة والخدمة -->
+        <div class="visitor-content-center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+            <path d="M8 21v-1a4 4 0 0 1 4-4h1"></path>
+          </svg>
+          <span class="visitor-title-text">تصفح كعميل / زائر</span>
+        </div>
+        <!-- اليسار: سهم التنقل -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
       </button>
+
+    </div>
+
+    <!-- =========================================================================
+         تذييل الصفحة (عبارة "مع كفو ... كل قطعة في مكانها" ظاهرة وبارزة 100%)
+         ========================================================================= -->
+    <footer class="welcome-footer-wrap">
+      <div class="tagline-divider-row">
+        <div class="tagline-line"></div>
+        <span class="tagline-label">مع كفو ... كل قطعة في مكانها</span>
+        <div class="tagline-line"></div>
+      </div>
     </footer>
 
   </main>
 
+  <!-- =========================================================================
+       نافذة الاختيار الفرعي (Bottom Sheet) لاختيار نوع التاجر أو نوع المندوب
+       ========================================================================= -->
+  <div class="submodal-backdrop" id="subModalBackdrop" onclick="closeSubModal(event)">
+    <div class="submodal-sheet" id="subModalSheet">
+      <div class="submodal-handle"></div>
+      
+      <div class="submodal-header">
+        <h3 class="submodal-title" id="subModalTitle">اختر نوع الحساب</h3>
+        <p class="submodal-desc" id="subModalDesc">حدد تخصص نشاطك لبدء التجربة المخصصة</p>
+      </div>
+
+      <div class="submodal-options-list" id="subModalOptions">
+        <!-- الخيارات تتغير برمجياً حسب الدور -->
+      </div>
+
+      <button type="button" class="submodal-cancel-btn" onclick="closeSubModalDirect()">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       نافذة تبديل اللغة (Language Selection Sheet)
+       ========================================================================= -->
+  <div class="lang-sheet-backdrop" id="langSheetBackdrop" onclick="closeLangSheet(event)">
+    <div class="lang-sheet">
+      <div class="submodal-handle"></div>
+      <div class="submodal-header">
+        <h3 class="submodal-title">اختر لغة التطبيق / Select Language</h3>
+        <p class="submodal-desc">اختر لغة العرض المناسبة لك للمتابعة</p>
+      </div>
+
+      <button type="button" class="lang-item-btn selected" onclick="setLanguage('ar')">
+        <span>العربية (Arabic)</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </button>
+
+      <button type="button" class="lang-item-btn" onclick="setLanguage('en')">
+        <span>English (الإنجليزية)</span>
+        <span style="font-size: 0.8rem; color: #94A3B8;">قريباً</span>
+      </button>
+
+      <button type="button" class="submodal-cancel-btn" onclick="closeLangSheetDirect()">إغلاق</button>
+    </div>
+  </div>
+
   <!-- شاشة التحميل والانتقال السريع -->
   <div class="role-loading-overlay" id="loadingOverlay">
     <div class="loading-spinner"></div>
-    <span style="font-size: 0.92rem; font-weight: 700; color: #1E293B;" id="loadingText">جاري تهيئة الواجهة...</span>
+    <span style="font-size: 0.95rem; font-weight: 700; color: #0A2540;" id="loadingText">جاري الانتقال...</span>
   </div>
 
   <!-- السكربتات البرمجية -->
@@ -671,28 +1054,118 @@
   <script src="assets/js/store.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
-    // التحكم في فتح وإغلاق القوائم الفرعية بتأثير Accordion سلس
-    function toggleRoleAccordion(id) {
-      const item = document.getElementById(id);
-      if (!item) return;
-      const isExpanded = item.classList.contains('expanded');
+    // بيانات الأقسام الفرعية عند النقر على تاجر أو مندوب مبيعات
+    const SUB_OPTIONS_DATA = {
+      merchant: {
+        title: 'اختر نوع نشاط التاجر',
+        desc: 'اختر نشاط المتجر لعرض لوحة التحكم والأدوات المناسبة',
+        options: [
+          {
+            roleId: 'merchant_new',
+            title: 'تاجر قطع غيار جديدة',
+            sub: 'عرض وبيع قطع الغيار الأصلية والبديلة بضمان المصنع'
+          },
+          {
+            roleId: 'merchant_scrap',
+            title: 'تاجر تشاليح ومستعمل',
+            sub: 'بيع قطع التشاليح والسيارات المفككة والقطع المستعملة المضمونة'
+          }
+        ]
+      },
+      rep: {
+        title: 'اختر تخصص مندوب المبيعات',
+        desc: 'حدد مسار العمل لمتابعة عروض الأسعار والطلبات الفورية',
+        options: [
+          {
+            roleId: 'rep_oem',
+            title: 'مندوب مبيعات قطع أصلية (جديدة)',
+            sub: 'إدارة طلبات ومبيعات الوكالات والمتاجر للقطع الجديدة'
+          },
+          {
+            roleId: 'rep_scrap',
+            title: 'مندوب مبيعات تشاليح ومستعمل',
+            sub: 'التنسيق بين الورش ومحلات التشاليح لتوفير القطع النادرة'
+          }
+        ]
+      }
+    };
 
-      // إغلاق أي قائمة أخرى أولاً للحفاظ على الحجم المتناسق للشاشة
-      document.querySelectorAll('.role-acc-item').forEach(el => {
-        el.classList.remove('expanded');
-        const btn = el.querySelector('.role-main-btn');
-        if (btn) btn.setAttribute('aria-expanded', 'false');
+    // فتح وإغلاق النافذة المنبثقة السفلية للأدوار
+    function openSubModal(categoryKey) {
+      const data = SUB_OPTIONS_DATA[categoryKey];
+      if (!data) return;
+
+      document.getElementById('subModalTitle').textContent = data.title;
+      document.getElementById('subModalDesc').textContent = data.desc;
+
+      const container = document.getElementById('subModalOptions');
+      container.innerHTML = '';
+
+      data.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'submodal-opt-btn';
+        btn.onclick = () => {
+          closeSubModalDirect();
+          selectRoleAndEnter(opt.roleId);
+        };
+
+        btn.innerHTML = `
+          <div class="submodal-opt-info">
+            <strong class="submodal-opt-title">${opt.title}</strong>
+            <span class="submodal-opt-sub">${opt.sub}</span>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        `;
+
+        container.appendChild(btn);
       });
 
-      // إذا لم تكن مفتوحة مسبقاً، نفتحها
-      if (!isExpanded) {
-        item.classList.add('expanded');
-        const btn = item.querySelector('.role-main-btn');
-        if (btn) btn.setAttribute('aria-expanded', 'true');
+      const backdrop = document.getElementById('subModalBackdrop');
+      backdrop.classList.add('active');
+    }
+
+    function closeSubModal(event) {
+      if (event.target === document.getElementById('subModalBackdrop')) {
+        closeSubModalDirect();
       }
     }
 
-    // اختيار الدور والانتقال الفوري للواجهة
+    function closeSubModalDirect() {
+      const backdrop = document.getElementById('subModalBackdrop');
+      backdrop.classList.remove('active');
+    }
+
+    // فتح وإغلاق نافذة اللغة
+    function openLangSheet() {
+      const backdrop = document.getElementById('langSheetBackdrop');
+      backdrop.classList.add('active');
+    }
+
+    function closeLangSheet(event) {
+      if (event.target === document.getElementById('langSheetBackdrop')) {
+        closeLangSheetDirect();
+      }
+    }
+
+    function closeLangSheetDirect() {
+      const backdrop = document.getElementById('langSheetBackdrop');
+      backdrop.classList.remove('active');
+    }
+
+    function setLanguage(lang) {
+      if (lang === 'ar') {
+        document.getElementById('currentLangLabel').textContent = 'عربي';
+        closeLangSheetDirect();
+      } else {
+        alert('الدعم الكامل للغة الإنجليزية قيد التجهيز وسيتم إطلاقه في التحديث القادم.');
+        closeLangSheetDirect();
+      }
+    }
+
+    // الانتقال وتفعيل الدور
     function selectRoleAndEnter(roleId) {
       const overlay = document.getElementById('loadingOverlay');
       const text = document.getElementById('loadingText');
@@ -713,12 +1186,16 @@
       }
 
       // حفظ الدور في المتجر والجلسة
-      KafuStore.setRole(roleId);
+      if (window.KafuStore) {
+        KafuStore.setRole(roleId);
+      } else {
+        localStorage.setItem('kafu_user_role', roleId);
+      }
       sessionStorage.setItem('kafu_splash_passed', 'true');
 
       setTimeout(() => {
         window.location.href = 'index.html';
-      }, 300);
+      }, 350);
     }
   </script>
 </body>
