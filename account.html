@@ -92,6 +92,7 @@
   <script src="assets/js/merchant-orders.js"></script>
   <script src="assets/js/merchant-inventory.js"></script>
   <script src="assets/js/merchant-wallet.js"></script>
+  <script src="assets/js/merchant-verification.js"></script>
   <script src="assets/js/add-product.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
@@ -307,11 +308,11 @@
             action: 'openAssistantModal()'
           },
           {
-            title: 'إعدادات المتجر والرقم الضريبي',
-            desc: 'الرقم الضريبي ZATCA وتفضيلات الحساب',
-            iconBg: 'var(--tile-yellow)',
-            iconColor: 'var(--tile-yellow-icon)',
-            icon: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`,
+            title: 'المستندات الرسمية وإعدادات المتجر',
+            desc: 'السجل التجاري، البطاقة الضريبية، الهوية الوطنية وتفضيلات الحساب',
+            iconBg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)',
+            iconColor: '#15803D',
+            icon: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>`,
             action: 'openSettingsModal()'
           }
         ];
@@ -1256,6 +1257,14 @@
     }
 
     function openSettingsModal() {
+      if (window.KafuMerchantVerification) {
+        openModalWith(
+          'المستندات الرسمية وتوثيق الحساب',
+          'رفع وتحديث السجل التجاري والبطاقة الضريبية وصورة الهوية',
+          KafuMerchantVerification.renderModalContent()
+        );
+        return;
+      }
       const isHindi = localStorage.getItem(KafuStore.KEYS.USE_HINDI_NUMS) !== 'false';
       openModalWith('إعدادات الحساب وتنسيق البيانات', 'خيارات العرض وتنسيق الأسعار والبيانات التجارية', `
         <div style="display: flex; flex-direction: column; gap: 14px;">
