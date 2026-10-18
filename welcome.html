@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>كفو | منظومة قطع غيار السيارات الذكية</title>
-  <meta name="description" content="منظومة كفو الذكية لقطع غيار السيارات: اختر نوع حسابك للمتابعة تاجر، مندوب مبيعات، مهندس ورشة، أو مندوب توصيل.">
+  <title>كفو | تسجيل الدخول - منظومة قطع غيار السيارات الذكية</title>
+  <meta name="description" content="تسجيل الدخول إلى منظومة كفو لقطع غيار السيارات الذكية - تاجر، مندوب مبيعات، مهندس ورشة، أو مندوب توصيل.">
   
   <!-- خطوط Google Fonts: IBM Plex Sans Arabic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,7 @@
 
   <style>
     /* ==========================================================================
-       واجهة كفو للترحيب واختيار الدور - هوية بصرية سعودية حديثة ومتكاملة
+       واجهة تسجيل الدخول كفو - متوافقة 100% مع كافة مقاسات الأجهزة والهواتف
        ========================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -27,41 +27,35 @@
 
     :root {
       --primary-blue: #0066FF;
-      --primary-dark: #0047BA;
-      --primary-navy: #0F2D6B;
-      --primary-steel: #0284C7;
-      --primary-cobalt: #2563EB;
-      --primary-light: #EFF6FF;
-      --slate-title: #0A2540;
+      --primary-gradient: linear-gradient(90deg, #0056E0 0%, #0066FF 100%);
+      --primary-hover: #0052D4;
+      --navy-dark: #0A2540;
+      --slate-text: #0F172A;
       --slate-sub: #64748B;
-      --card-border: rgba(226, 232, 240, 0.9);
+      --border-color: #E2E8F0;
+      --card-bg: #FFFFFF;
+      --shadow-card: 0 10px 32px rgba(0, 102, 255, 0.08), 0 2px 8px rgba(15, 23, 42, 0.03);
+      --shadow-btn: 0 6px 20px rgba(0, 102, 255, 0.28);
     }
 
-    html {
+    html, body {
       width: 100%;
       height: 100%;
       min-height: 100%;
-      background: #F3F7FC;
+      min-height: 100dvh;
+      background: #EBF3FC;
+      font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--slate-text);
       overflow-x: hidden;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
       overscroll-behavior: none;
     }
 
     body {
-      width: 100%;
-      min-height: 100%;
-      min-height: 100dvh;
-      background: #F3F7FC;
-      color: var(--slate-title);
-      font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
-      overflow-x: hidden;
-      overflow-y: visible;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       position: relative;
-      overscroll-behavior: none;
     }
 
     body::-webkit-scrollbar {
@@ -74,9 +68,9 @@
     }
 
     /* --------------------------------------------------------------------------
-       1. طبقات الخلفية الفنية: التموجات ومعالم المملكة السفلية
+       خلفية التموجات الانسيابية السماوية المعتمدة
        -------------------------------------------------------------------------- */
-    .bg-canvas-wrapper {
+    .bg-fluid-canvas {
       position: fixed;
       inset: 0;
       width: 100%;
@@ -84,104 +78,84 @@
       pointer-events: none;
       z-index: 1;
       overflow: hidden;
+      background: linear-gradient(180deg, #DCEBFA 0%, #E8F2FD 28%, #F2F7FD 65%, #EAF3FD 100%);
     }
 
-    /* تموج أزرق ملكي في الزاوية العلوية اليسرى */
-    .top-wave-left {
+    .fluid-wave-top-left {
       position: absolute;
-      top: -45px;
-      left: -55px;
-      width: 250px;
-      height: 230px;
-      background: radial-gradient(circle at 25% 25%, #0062FF 0%, #1D4ED8 40%, rgba(37, 99, 235, 0.25) 75%, transparent 100%);
-      filter: blur(2px);
-      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-      opacity: 0.9;
-    }
-
-    /* تموج أزرق في الزاوية العلوية اليمنى */
-    .top-wave-right {
-      position: absolute;
-      top: -65px;
-      right: -45px;
-      width: 210px;
-      height: 190px;
-      background: radial-gradient(circle at 75% 25%, #2563EB 0%, #3B82F6 45%, rgba(96, 165, 250, 0.2) 75%, transparent 100%);
-      filter: blur(3px);
-      border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%;
+      top: -60px;
+      left: -60px;
+      width: 320px;
+      height: 280px;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 102, 255, 0.42) 0%, rgba(59, 130, 246, 0.20) 50%, transparent 75%);
+      filter: blur(28px);
+      border-radius: 50% 40% 60% 40%;
       opacity: 0.85;
     }
 
-    /* أفق معالم المملكة العربية السعودية (برج المملكة، برج الفيصلية، كافد، مجدول، إثراء والنخيل) */
-    .saudi-skyline-svg {
+    .fluid-wave-top-right {
       position: absolute;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 420px;
-      height: 175px;
-      color: #0066FF;
-      opacity: 0.13;
-      pointer-events: none;
-      z-index: 1;
-      filter: drop-shadow(0 2px 8px rgba(0, 102, 255, 0.05));
-      mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 65%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 65%, transparent 100%);
+      top: -80px;
+      right: -60px;
+      width: 340px;
+      height: 300px;
+      background: radial-gradient(circle at 70% 30%, rgba(37, 99, 235, 0.40) 0%, rgba(96, 165, 250, 0.18) 55%, transparent 80%);
+      filter: blur(32px);
+      border-radius: 40% 60% 40% 60%;
+      opacity: 0.85;
     }
 
-    /* تموج القاع الكحلي والأزرق الملكي */
-    .bottom-ocean-wave {
+    .svg-curved-stream {
       position: absolute;
-      bottom: -1px;
+      top: 0;
       left: 0;
       width: 100%;
-      height: 42px;
-      z-index: 2;
+      height: 360px;
+      opacity: 0.40;
+      pointer-events: none;
     }
 
     /* --------------------------------------------------------------------------
-       2. الحاوية الرئيسية للشاشة المنسقة بالكامل مع الهواتف الذكية (Mobile Perfect)
+       شاشة العرض المركزية المتوافقة مع كافة مقاسات الأجهزة (Responsive Viewport)
        -------------------------------------------------------------------------- */
-    .mobile-screen-container {
+    .screen-wrapper {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 390px; /* متوافقة بدقة 100% مع أبعاد Galaxy S24 و iPhone Pro */
+      max-width: 412px;
       min-height: 100%;
       min-height: 100dvh;
       margin: 0 auto;
-      padding: max(12px, env(safe-area-inset-top, 12px)) 16px max(14px, env(safe-area-inset-bottom, 12px));
+      padding: max(8px, env(safe-area-inset-top, 8px)) 16px max(14px, env(safe-area-inset-bottom, 14px));
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: space-between;
       box-sizing: border-box;
-      overflow-x: hidden;
     }
 
     /* --------------------------------------------------------------------------
-       3. شريط تغيير اللغة بالأعلى (مع أيقونة الترس)
+       1. الشريط العلوي: زر تغيير اللغة (أعلى اليسار)
        -------------------------------------------------------------------------- */
-    .top-lang-bar {
+    .top-action-bar {
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      margin-bottom: 2px;
-      min-height: 38px;
+      justify-content: flex-end; /* يضعه في أقصى اليسار في الوضع RTL */
+      margin-bottom: clamp(2px, 0.8vh, 6px);
+      min-height: 34px;
     }
 
     .lang-pill-btn {
-      height: 36px;
-      padding: 0 14px;
+      height: 34px;
+      padding: 0 12px;
       border-radius: 9999px;
       background: #FFFFFF;
       border: 1px solid rgba(226, 232, 240, 0.95);
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
-      display: flex;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
+      display: inline-flex;
       align-items: center;
       gap: 7px;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       font-weight: 700;
       color: #0A2540;
       cursor: pointer;
@@ -191,433 +165,496 @@
       user-select: none;
     }
 
-    .lang-pill-btn:active {
-      transform: scale(0.96);
+    .lang-pill-btn:hover {
       background: #F8FAFC;
+      border-color: #CBD5E1;
+      transform: translateY(-1px);
     }
 
     .lang-gear-icon {
-      color: #0066FF;
-      transition: transform 0.4s ease;
-      display: flex;
-      align-items: center;
-    }
-
-    .lang-pill-btn:hover .lang-gear-icon {
-      transform: rotate(45deg);
-    }
-
-    /* --------------------------------------------------------------------------
-       4. رأس الصفحة: الشعار والعناوين والتروس الجانبية المتناسقة بدقة مع الهاتف
-       -------------------------------------------------------------------------- */
-    .welcome-header-card {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      margin-top: 4px;
-      margin-bottom: 0;
-      position: relative;
-      z-index: 10;
-      contain: layout style;
-    }
-
-    /* هالة إشعاعية ناصعة خلف الشعار لعزل النصوص والتروس */
-    .central-glow {
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translate3d(-50%, 0, 0);
-      width: 270px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(240, 246, 255, 0.92) 55%, transparent 80%);
-      filter: blur(12px);
-      z-index: 1;
-      pointer-events: none;
-      backface-visibility: hidden;
-    }
-
-    /* الترس الميكانيكي المتحرك (جهة اليسار) - تسريع عتادي GPU ودوران فائق السلاسة بدون أي اهتزاز */
-    .header-gear-asset {
-      position: absolute;
-      top: -4px;
-      left: -12px;
-      width: 108px;
-      height: 108px;
-      background-image: url('assets/images/welcome-gear.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      z-index: 2;
-      transform: translate3d(0, 0, 0);
-      will-change: transform;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      animation: gentleGearRotate 50s linear infinite;
-      transform-origin: center center;
-      opacity: 0.92;
-      pointer-events: none;
-    }
-
-    @keyframes gentleGearRotate {
-      0% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
-      }
-      100% {
-        transform: translate3d(0, 0, 0) rotate(360deg);
-      }
-    }
-
-    /* قطع الغيار والقرص الثابت (جهة اليمين) - أبعاد متناسقة بدقة ومحاذاة مثالية مع الشعار */
-    .header-parts-asset {
-      position: absolute;
-      top: -4px;
-      right: -10px;
-      width: 106px;
-      height: 106px;
-      background-image: url('assets/images/welcome-parts.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      z-index: 2;
-      opacity: 0.92;
-      pointer-events: none;
-      transform: translate3d(0, 0, 0);
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-    }
-
-    /* صندوق الشعار المستدير (Squircle Pod) */
-    .brand-logo-pod {
-      width: 76px;
-      height: 76px;
-      border-radius: 22px;
-      background: #FFFFFF;
-      box-shadow: 
-        0 12px 28px rgba(0, 102, 255, 0.16),
-        0 3px 8px rgba(15, 23, 42, 0.04);
-      border: 2px solid #FFFFFF;
+      color: var(--primary-blue);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 8px;
-      position: relative;
-      z-index: 3;
     }
 
-    .brand-logo-icon {
-      width: 50px;
-      height: 50px;
-      object-fit: contain;
-    }
-
-    .brand-title {
-      font-size: 1.95rem;
-      font-weight: 900;
-      color: #0A2540;
-      line-height: 1.15;
-      margin-bottom: 6px;
-      letter-spacing: -0.3px;
-      position: relative;
-      z-index: 3;
-    }
-
-    /* حاوية العنوان الفرعي لضمان التمركز التام والعزل المستقل دون أي تداخل */
-    .brand-subtitle-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 250px;
-      margin: 2px auto 6px;
-      position: relative;
-      z-index: 3;
-    }
-
-    .brand-subtitle {
-      font-size: 0.83rem;
-      font-weight: 700;
-      color: #0066FF;
-      line-height: 1.25;
-      text-align: center;
-      letter-spacing: -0.2px;
-      padding: 4px 14px;
-      border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.94);
-      border: 1px solid rgba(0, 102, 255, 0.14);
-      box-shadow: 0 2px 10px rgba(0, 102, 255, 0.08);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      white-space: nowrap;
-    }
-
-    .brand-prompt {
-      font-size: 0.81rem;
-      font-weight: 500;
+    .lang-chevron-icon {
       color: #64748B;
-      margin-top: 3px;
-      position: relative;
-      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     /* --------------------------------------------------------------------------
-       5. قسم الإجراءات والبطاقات (فاصل رأسي واسع ومساحة تنفس مريحة)
+       2. رأس الصفحة: اللوجو الأصلي لكفو (بدون أي تروس جانبية)
        -------------------------------------------------------------------------- */
-    .welcome-actions-section {
+    .brand-hero-section {
       width: 100%;
       display: flex;
       flex-direction: column;
-      /* زيادة الفاصل الرأسي لإنزال قائمة الأزرار واستغلال الفراغ بانسيابية */
-      margin-top: clamp(26px, 5.2vh, 44px);
-      margin-bottom: clamp(14px, 2.5vh, 22px);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: clamp(4px, 1.2vh, 8px);
       position: relative;
-      z-index: 5;
     }
 
-    .roles-list-group {
+    /* اللوجو الرسمي الأصلي الشفاف المستخرج بدقة فائقة */
+    .brand-hero-logo {
+      width: clamp(140px, 42vw, 172px);
+      max-width: 178px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      filter: drop-shadow(0 4px 10px rgba(0, 102, 255, 0.12));
+      -webkit-user-select: none;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* --------------------------------------------------------------------------
+       3. بطاقة تسجيل الدخول البيضاء المرفوعة (Main White Card)
+       -------------------------------------------------------------------------- */
+    .main-login-card {
       width: 100%;
+      background: var(--card-bg);
+      border-radius: clamp(20px, 4.5vw, 26px);
+      padding: clamp(12px, 2.5vh, 18px) clamp(12px, 3.5vw, 18px);
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(226, 232, 240, 0.85);
       display: flex;
       flex-direction: column;
-      gap: 11px;
-      margin-bottom: 12px;
+      position: relative;
+      box-sizing: border-box;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
-    .role-action-card {
+    .card-header-block {
+      text-align: center;
+      margin-bottom: clamp(8px, 1.8vh, 14px);
+    }
+
+    .card-main-title {
+      font-size: clamp(1.28rem, 4vw, 1.45rem);
+      font-weight: 800;
+      color: var(--navy-dark);
+      line-height: 1.2;
+      margin-bottom: 2px;
+      letter-spacing: -0.3px;
+    }
+
+    .card-sub-title {
+      font-size: clamp(0.78rem, 2.4vw, 0.86rem);
+      font-weight: 500;
+      color: var(--slate-sub);
+    }
+
+    /* --------------------------------------------------------------------------
+       4. حقول الإدخال
+       -------------------------------------------------------------------------- */
+    .inputs-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(7px, 1.4vh, 10px);
       width: 100%;
-      height: 68px;
-      border-radius: 18px;
+      margin-bottom: clamp(6px, 1.2vh, 8px);
+    }
+
+    .form-input-box {
+      width: 100%;
+      height: clamp(44px, 6vh, 48px);
       background: #FFFFFF;
-      border: 1px solid var(--card-border);
-      box-shadow: 
-        0 4px 16px rgba(15, 23, 42, 0.04),
-        0 1px 3px rgba(15, 23, 42, 0.02);
+      border: 1.6px solid var(--border-color);
+      border-radius: 13px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 6px 10px 6px 14px;
-      cursor: pointer;
-      text-decoration: none;
-      font-family: inherit;
-      color: inherit;
-      text-align: right;
-      transform: translate3d(0, 0, 0);
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+      padding: 0 11px;
+      transition: all 0.2s ease;
       position: relative;
-      overflow: hidden;
+      box-sizing: border-box;
     }
 
-    .role-action-card:hover {
-      border-color: rgba(0, 102, 255, 0.35);
-      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.09);
-      transform: translate3d(0, -2px, 0);
+    .form-input-box:focus-within {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12);
     }
 
-    .role-action-card:active {
-      transform: scale(0.985);
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    .form-input-box.error-state {
+      border-color: #EF4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
     }
 
-    /* المحتوى الأيمن: بادج الأيقونة المتدرجة + النصوص */
-    .role-content-start {
+    .input-field-right {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 9px;
       flex: 1;
+      height: 100%;
       min-width: 0;
     }
 
-    /* البادج المربع المتدرج للأيقونة - هوية كفو الزرقاء الموحدة والفاخرة */
-    .role-gradient-badge {
-      width: 52px;
-      height: 52px;
-      border-radius: 15px;
+    .input-icon-blue {
+      color: var(--primary-blue);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      color: #FFFFFF;
-      background: linear-gradient(135deg, #0066FF 0%, #0047BA 100%);
-      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.22);
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
-      position: relative;
     }
 
-    /* حلقة خفيفة تضفي طابعاً مستقبلياً فائق الأناقة */
-    .role-gradient-badge::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      pointer-events: none;
+    .native-text-input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--slate-text);
+      text-align: right;
+      padding: 0;
     }
 
-    .role-action-card:hover .role-gradient-badge {
-      transform: scale(1.04);
-      box-shadow: 0 6px 18px rgba(0, 102, 255, 0.32);
-    }
-
-    /* توحيد درجات الأزرق المعتمدة لهوية كفو لكافة الأدوار */
-    /* 1. تاجر: كحلي ملكي راقي يعكس الثقة والمؤسسية */
-    .badge-merchant {
-      background: linear-gradient(135deg, #0052CC 0%, #003399 100%);
-      box-shadow: 0 5px 16px rgba(0, 82, 204, 0.28);
-    }
-
-    /* 2. مندوب مبيعات: أزرق كفو الأساسي العصري والحيوي */
-    .badge-rep {
-      background: linear-gradient(135deg, #0066FF 0%, #0047BA 100%);
-      box-shadow: 0 5px 16px rgba(0, 102, 255, 0.28);
-    }
-
-    /* 3. مهندس ورشة: أزرق سماوي تقني يرمز للدقة والهندسة */
-    .badge-workshop {
-      background: linear-gradient(135deg, #0284C7 0%, #0056B3 100%);
-      box-shadow: 0 5px 16px rgba(2, 132, 199, 0.28);
-    }
-
-    /* 4. مندوب توصيل: أزرق كوبالت سريع يرمز للحركة واللوجستيات */
-    .badge-courier {
-      background: linear-gradient(135deg, #1D4ED8 0%, #0A3EA2 100%);
-      box-shadow: 0 5px 16px rgba(29, 78, 216, 0.28);
-    }
-
-    /* نصوص العنوان والوصف */
-    .role-texts-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 1px;
-    }
-
-    .role-card-name {
-      font-size: 1.01rem;
-      font-weight: 800;
-      color: #0F172A;
-      line-height: 1.25;
-      letter-spacing: -0.2px;
-    }
-
-    .role-card-desc {
-      font-size: 0.77rem;
+    .native-text-input::placeholder {
+      color: #94A3B8;
       font-weight: 500;
-      color: #64748B;
-      line-height: 1.2;
     }
 
-    /* دائرة السهم اليسرى المنسقة بتدرج هادئ */
-    .role-chevron-circle {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: #F0F6FF;
+    /* منع تشويه خلفية الحقول عند الإكمال التلقائي من المتصفح */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px #FFFFFF inset !important;
+      box-shadow: 0 0 0 1000px #FFFFFF inset !important;
+      -webkit-text-fill-color: #0F172A !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    /* بادج الدولة في حقل رقم الجوال: 🇸🇦 +966 ⌵ بالترتيب الصحيح */
+    .country-code-pill {
+      display: inline-flex;
+      flex-direction: row;
+      direction: ltr;
+      align-items: center;
+      gap: 5px;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      border-radius: 9px;
+      padding: 4px 7px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #0F172A;
+      transition: all 0.18s ease;
+      flex-shrink: 0;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .country-code-pill:hover {
+      background: #E2E8F0;
+      border-color: #CBD5E1;
+    }
+
+    .country-flag-icon {
+      width: 19px;
+      height: 13px;
+      border-radius: 2px;
+      object-fit: cover;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+
+    .toggle-pass-btn {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #94A3B8;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #0066FF;
+      padding: 6px;
+      border-radius: 8px;
+      transition: color 0.2s ease, background 0.2s ease;
       flex-shrink: 0;
-      transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
     }
 
-    .role-action-card:hover .role-chevron-circle {
-      background: #0066FF;
+    .toggle-pass-btn:hover {
+      color: var(--primary-blue);
+      background: #F1F5F9;
+    }
+
+    .forgot-pass-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      margin-top: -2px;
+      margin-bottom: clamp(4px, 1vh, 6px);
+    }
+
+    .forgot-pass-link {
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--primary-blue);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 2px 0;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .forgot-pass-link:hover {
+      text-decoration: underline;
+      opacity: 0.88;
+    }
+
+    /* --------------------------------------------------------------------------
+       5. زر تسجيل الدخول الأساسي: النص على اليسار ودائرة السهم على اليمين كما بالتصميم
+       -------------------------------------------------------------------------- */
+    .primary-submit-btn {
+      width: 100%;
+      height: clamp(44px, 6vh, 48px);
+      border-radius: 13px;
+      background: var(--primary-gradient);
+      box-shadow: var(--shadow-btn);
+      border: none;
+      outline: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       color: #FFFFFF;
+      font-family: inherit;
+      font-size: clamp(0.96rem, 2.8vw, 1.04rem);
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-top: clamp(2px, 0.6vh, 4px);
+      margin-bottom: clamp(8px, 1.6vh, 12px);
+    }
+
+    .primary-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.40);
+      background: linear-gradient(90deg, #004ecc 0%, #005ce6 100%);
+    }
+
+    .primary-submit-btn:active {
+      transform: scale(0.985);
+    }
+
+    .btn-arrow-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-blue);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .primary-submit-btn:hover .btn-arrow-circle {
       transform: translateX(-3px);
     }
 
     /* --------------------------------------------------------------------------
-       6. زر الزائر / العميل البيضاوي (تصفح كعميل / زائر)
+       6. فاصل تسجيل الدخول بصفتك
        -------------------------------------------------------------------------- */
-    .visitor-btn-pill {
-      width: 100%;
-      height: 52px;
-      border-radius: 9999px;
-      background: #FFFFFF;
-      border: 1.8px solid #0066FF;
-      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.08);
+    .section-divider-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 18px;
-      font-family: inherit;
-      color: #0066FF;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      margin-bottom: 0;
-    }
-
-    .visitor-btn-pill:hover {
-      background: #F0F6FF;
-      box-shadow: 0 6px 18px rgba(0, 102, 255, 0.14);
-      transform: translateY(-1px);
-    }
-
-    .visitor-btn-pill:active {
-      transform: scale(0.985);
-    }
-
-    .visitor-content-center {
-      display: flex;
-      align-items: center;
+      justify-content: center;
       gap: 10px;
+      width: 100%;
+      margin-bottom: clamp(8px, 1.6vh, 12px);
     }
 
-    .visitor-title-text {
-      font-size: 0.94rem;
-      font-weight: 700;
-      color: #0066FF;
+    .divider-line-subtle {
+      flex: 1;
+      height: 1px;
+      background: #E2E8F0;
+    }
+
+    .divider-text-caption {
+      font-size: clamp(0.76rem, 2.2vw, 0.82rem);
+      font-weight: 600;
+      color: #64748B;
+      white-space: nowrap;
     }
 
     /* --------------------------------------------------------------------------
-       7. تذييل الصفحة: عبارة "مع كفو ... كل قطعة في مكانها"
+       7. كروت الأدوار الأربعة في صف واحد
        -------------------------------------------------------------------------- */
-    .welcome-footer-wrap {
+    .roles-four-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(4px, 1.4vw, 7px);
+      width: 100%;
+      margin-bottom: clamp(8px, 1.6vh, 12px);
+    }
+
+    .role-grid-card {
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 6px 2px 5px;
+      min-height: clamp(58px, 8.2vh, 68px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      color: inherit;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02);
+      outline: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .role-grid-card:hover {
+      border-color: var(--primary-blue);
+      background: #F8FAFF;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 102, 255, 0.12);
+    }
+
+    .role-grid-card:active {
+      transform: scale(0.96);
+      background: #EFF6FF;
+    }
+
+    .role-card-svg {
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: clamp(22px, 3.2vh, 26px);
+    }
+
+    .role-card-svg svg {
+      width: clamp(22px, 3.2vh, 26px);
+      height: clamp(22px, 3.2vh, 26px);
+    }
+
+    .role-card-caption {
+      font-size: clamp(0.68rem, 2vw, 0.74rem);
+      font-weight: 700;
+      color: #0F172A;
+      text-align: center;
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+
+    /* --------------------------------------------------------------------------
+       8. زر تصفح كعميل / زائر (النص على اليسار والأيقونة على اليمين كما بالتصميم)
+       -------------------------------------------------------------------------- */
+    .visitor-outline-btn {
+      width: 100%;
+      height: clamp(40px, 5.5vh, 44px);
+      border-radius: 9999px;
+      background: #FFFFFF;
+      border: 1.8px solid var(--primary-blue);
+      box-shadow: 0 3px 10px rgba(0, 102, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      color: var(--primary-blue);
+      font-family: inherit;
+      font-size: clamp(0.86rem, 2.6vw, 0.92rem);
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .visitor-outline-btn:hover {
+      background: #F0F6FF;
+      box-shadow: 0 5px 16px rgba(0, 102, 255, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .visitor-outline-btn:active {
+      transform: scale(0.985);
+    }
+
+    .visitor-icon-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* --------------------------------------------------------------------------
+       9. تذييل الصفحة: سيارة كفو وعبارة الشعار (بدون أي قطع وتلائم كل الشاشات)
+       -------------------------------------------------------------------------- */
+    .brand-footer-section {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-top: auto;
-      padding-top: 8px;
-      padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+      margin-top: clamp(6px, 1.4vh, 10px);
+      padding-top: 4px;
+      padding-bottom: clamp(6px, 1.2vh, 12px);
       position: relative;
-      z-index: 20;
+      z-index: 5;
     }
 
-    .tagline-divider-row {
+    .footer-car-divider-row {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
       width: 100%;
+      max-width: 260px;
+      margin-bottom: 3px;
     }
 
-    .tagline-line {
+    .footer-divider-arm {
       flex: 1;
       height: 1.5px;
-      background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.35), transparent);
+      background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.4), transparent);
     }
 
-    .tagline-label {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: #0066FF;
-      white-space: nowrap;
+    .footer-car-img {
+      height: clamp(22px, 3.4vh, 28px);
+      width: auto;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .footer-tagline-text {
+      font-size: clamp(0.78rem, 2.2vw, 0.85rem);
+      font-weight: 700;
+      color: var(--primary-blue);
       letter-spacing: -0.2px;
-      padding: 5px 16px;
-      background: #EFF6FF;
-      border: 1.2px solid rgba(0, 102, 255, 0.22);
-      border-radius: 9999px;
-      box-shadow: 0 2px 8px rgba(0, 102, 255, 0.08);
-      display: inline-block;
+      text-align: center;
     }
 
-    /* عرض فائق الأناقة ومحكم لشاشات الديسكتوب */
+    /* --------------------------------------------------------------------------
+       10. محاكي الديسكتوب المحكم
+       -------------------------------------------------------------------------- */
     @media (min-width: 769px) {
       body:not(.in-mobile-frame) {
         background: #E8EEF5;
@@ -625,14 +662,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 24px 0;
+        padding: 16px 0;
       }
 
-      body:not(.in-mobile-frame) .mobile-screen-container {
-        max-width: 390px;
-        height: 844px;
-        min-height: 844px;
-        max-height: 92vh;
+      body:not(.in-mobile-frame) .screen-wrapper {
+        max-width: 412px;
+        height: 870px;
+        min-height: 870px;
+        max-height: 94vh;
         border-radius: 38px;
         box-shadow: 
           0 25px 60px -15px rgba(15, 23, 42, 0.22),
@@ -640,15 +677,15 @@
           0 0 0 8px #0F172A;
         overflow-x: hidden;
         overflow-y: auto;
-        background: #F3F7FC;
+        background: #EBF3FC;
         position: relative;
       }
 
-      body:not(.in-mobile-frame) .bg-canvas-wrapper {
+      body:not(.in-mobile-frame) .bg-fluid-canvas {
         position: absolute;
-        width: 390px;
-        height: 844px;
-        max-height: 92vh;
+        width: 412px;
+        height: 870px;
+        max-height: 94vh;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -657,137 +694,39 @@
       }
     }
 
-    /* --------------------------------------------------------------------------
-       9. النافذة المنبثقة التفاعلية لاختيار تخصص التاجر أو المندوب (Bottom Sheet)
-       -------------------------------------------------------------------------- */
-    .submodal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 999;
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-    }
-
-    .submodal-backdrop.active {
-      display: flex;
-      opacity: 1;
-    }
-
-    .submodal-sheet {
-      width: 100%;
-      max-width: 390px;
-      background: #FFFFFF;
-      border-radius: 28px 28px 0 0;
-      padding: 20px 20px 28px;
-      box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.16);
-      transform: translateY(100%);
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .submodal-backdrop.active .submodal-sheet {
-      transform: translateY(0);
-    }
-
-    .submodal-handle {
-      width: 42px;
-      height: 4px;
-      border-radius: 99px;
-      background: #CBD5E1;
-      align-self: center;
-      margin-bottom: 4px;
-    }
-
-    .submodal-header {
-      text-align: center;
-      margin-bottom: 4px;
-    }
-
-    .submodal-title {
-      font-size: 1.12rem;
-      font-weight: 800;
-      color: #0F172A;
-      margin-bottom: 3px;
-    }
-
-    .submodal-desc {
-      font-size: 0.8rem;
-      color: #64748B;
-    }
-
-    .submodal-options-list {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
-    .submodal-opt-btn {
-      width: 100%;
-      padding: 13px 15px;
-      border-radius: 15px;
-      background: #F8FAFC;
-      border: 1.5px solid #E2E8F0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      font-family: inherit;
-      text-align: right;
-      transition: all 0.18s ease;
-    }
-
-    .submodal-opt-btn:hover {
-      background: #EFF6FF;
-      border-color: #0066FF;
-      transform: translateX(-3px);
-    }
-
-    .submodal-opt-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .submodal-opt-title {
-      font-size: 0.94rem;
-      font-weight: 700;
-      color: #0F172A;
-    }
-
-    .submodal-opt-sub {
-      font-size: 0.76rem;
-      color: #64748B;
-    }
-
-    .submodal-cancel-btn {
-      width: 100%;
-      height: 44px;
-      border-radius: 13px;
-      background: #F1F5F9;
-      border: none;
-      color: #475569;
-      font-size: 0.9rem;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      margin-top: 2px;
+    /* الشاشات الصغيرة جداً والقصيرة */
+    @media (max-height: 680px) {
+      .screen-wrapper {
+        padding-top: 4px;
+        padding-bottom: 8px;
+      }
+      .brand-hero-logo {
+        width: 125px;
+      }
+      .main-login-card {
+        padding: 10px 12px;
+      }
+      .form-input-box {
+        height: 40px;
+      }
+      .primary-submit-btn {
+        height: 40px;
+      }
+      .role-grid-card {
+        min-height: 52px;
+      }
+      .visitor-outline-btn {
+        height: 38px;
+      }
     }
 
     /* --------------------------------------------------------------------------
-       10. نافذة تبديل اللغة (Language Selection Sheet)
+       11. النوافذ السفلية المنبثقة (Bottom Sheets)
        -------------------------------------------------------------------------- */
-    .lang-sheet-backdrop {
+    .bottom-sheet-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.45);
+      background: rgba(15, 23, 42, 0.48);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       z-index: 1000;
@@ -798,14 +737,14 @@
       transition: opacity 0.25s ease;
     }
 
-    .lang-sheet-backdrop.active {
+    .bottom-sheet-backdrop.active {
       display: flex;
       opacity: 1;
     }
 
-    .lang-sheet {
+    .bottom-sheet-content {
       width: 100%;
-      max-width: 390px;
+      max-width: 412px;
       background: #FFFFFF;
       border-radius: 28px 28px 0 0;
       padding: 20px 20px 28px;
@@ -814,16 +753,50 @@
       transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
+      box-sizing: border-box;
+      max-height: 85vh;
+      overflow-y: auto;
     }
 
-    .lang-sheet-backdrop.active .lang-sheet {
+    .bottom-sheet-backdrop.active .bottom-sheet-content {
       transform: translateY(0);
     }
 
-    .lang-item-btn {
+    .sheet-drag-handle {
+      width: 42px;
+      height: 4px;
+      border-radius: 99px;
+      background: #CBD5E1;
+      align-self: center;
+      margin-bottom: 4px;
+      flex-shrink: 0;
+    }
+
+    .sheet-title-text {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--navy-dark);
+      text-align: center;
+      margin-bottom: 2px;
+    }
+
+    .sheet-desc-text {
+      font-size: 0.82rem;
+      color: #64748B;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .sheet-options-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sheet-btn-option {
       width: 100%;
-      padding: 14px 16px;
+      padding: 13px 15px;
       border-radius: 14px;
       background: #F8FAFC;
       border: 1.5px solid #E2E8F0;
@@ -832,208 +805,67 @@
       justify-content: space-between;
       cursor: pointer;
       font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #0F172A;
+      text-align: right;
       transition: all 0.18s ease;
+      color: #0F172A;
     }
 
-    .lang-item-btn.selected {
+    .sheet-btn-option:hover {
       background: #EFF6FF;
-      border-color: #0066FF;
-      color: #0066FF;
+      border-color: var(--primary-blue);
+      transform: translateX(-3px);
     }
 
-    /* --------------------------------------------------------------------------
-       11. استجابة ذكية ومثالية للهواتف الذكية والشاشات الصغيرة (Responsive Mobile Fit)
-       -------------------------------------------------------------------------- */
-    @media (max-width: 370px) {
-      .header-gear-asset {
-        width: 96px;
-        height: 96px;
-        left: -10px;
-        top: -4px;
-      }
-      .header-parts-asset {
-        width: 94px;
-        height: 94px;
-        right: -8px;
-        top: -2px;
-      }
-      .brand-subtitle-wrap {
-        max-width: 236px;
-      }
-      .brand-subtitle {
-        font-size: 0.78rem;
-        padding: 3px 10px;
-      }
+    .sheet-close-btn {
+      width: 100%;
+      height: 44px;
+      border-radius: 13px;
+      background: #F1F5F9;
+      border: none;
+      color: #475569;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 4px;
     }
 
-    @media (max-height: 760px) {
-      .mobile-screen-container {
-        padding-top: 8px;
-        padding-bottom: 8px;
-      }
-      .header-gear-asset {
-        width: 92px;
-        height: 92px;
-        top: -4px;
-        left: -10px;
-      }
-      .header-parts-asset {
-        width: 90px;
-        height: 90px;
-        top: -2px;
-        right: -8px;
-      }
-      .brand-logo-pod {
-        width: 66px;
-        height: 66px;
-        border-radius: 18px;
-        margin-bottom: 4px;
-      }
-      .brand-logo-icon {
-        width: 44px;
-        height: 44px;
-      }
-      .brand-title {
-        font-size: 1.7rem;
-        margin-bottom: 2px;
-      }
-      .brand-subtitle {
-        font-size: 0.78rem;
-        margin-bottom: 2px;
-        padding: 2px 10px;
-      }
-      .brand-prompt {
-        font-size: 0.74rem;
-      }
-      .welcome-actions-section {
-        margin-top: 16px;
-        margin-bottom: 10px;
-      }
-      .roles-list-group {
-        gap: 8px;
-        margin-bottom: 8px;
-      }
-      .role-action-card {
-        height: 60px;
-        border-radius: 15px;
-        padding: 5px 8px 5px 12px;
-      }
-      .role-gradient-badge {
-        width: 46px;
-        height: 46px;
-        border-radius: 12px;
-      }
-      .role-card-name {
-        font-size: 0.94rem;
-      }
-      .role-card-desc {
-        font-size: 0.73rem;
-      }
-      .role-chevron-circle {
-        width: 30px;
-        height: 30px;
-      }
-      .visitor-btn-pill {
-        height: 46px;
-        margin-bottom: 0;
-      }
-      .tagline-label {
-        font-size: 0.82rem;
-        padding: 3px 12px;
-      }
-      .saudi-skyline-svg {
-        height: 130px;
-        opacity: 0.10;
-      }
+    /* رسائل التنبيه العائمة (Toast Notifications) */
+    .feedback-toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: #0A2540;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
     }
 
-    /* شاشات مدمجة جداً (مثل وضع محاكي الجوال 391x412 أو الشاشات الأفقية) */
-    @media (max-height: 520px) {
-      .mobile-screen-container {
-        padding-top: 6px;
-        padding-bottom: 6px;
-      }
-      .header-gear-asset {
-        width: 78px;
-        height: 78px;
-        top: -2px;
-        left: -6px;
-      }
-      .header-parts-asset {
-        width: 76px;
-        height: 76px;
-        top: -2px;
-        right: -6px;
-      }
-      .brand-logo-pod {
-        width: 52px;
-        height: 52px;
-        border-radius: 14px;
-        margin-bottom: 2px;
-      }
-      .brand-logo-icon {
-        width: 34px;
-        height: 34px;
-      }
-      .brand-title {
-        font-size: 1.42rem;
-        margin-bottom: 2px;
-      }
-      .brand-subtitle-wrap {
-        max-width: 220px;
-        margin: 1px auto 3px;
-      }
-      .brand-subtitle {
-        font-size: 0.72rem;
-        padding: 2px 8px;
-      }
-      .brand-prompt {
-        display: none;
-      }
-      .welcome-actions-section {
-        margin-top: 10px;
-        margin-bottom: 6px;
-      }
-      .roles-list-group {
-        gap: 6px;
-        margin-bottom: 6px;
-      }
-      .role-action-card {
-        height: 50px;
-        border-radius: 12px;
-        padding: 4px 6px 4px 10px;
-      }
-      .role-gradient-badge {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
-      }
-      .role-gradient-badge svg {
-        width: 20px;
-        height: 20px;
-      }
-      .role-card-name {
-        font-size: 0.88rem;
-      }
-      .role-card-desc {
-        font-size: 0.68rem;
-      }
-      .visitor-btn-pill {
-        height: 42px;
-        font-size: 0.84rem;
-      }
-      .saudi-skyline-svg {
-        height: 90px;
-        opacity: 0.08;
-      }
+    .feedback-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
     }
 
-    /* --------------------------------------------------------------------------
-       12. شاشة التحميل والانتقال
-       -------------------------------------------------------------------------- */
+    .feedback-toast.success {
+      background: #059669;
+    }
+
+    .feedback-toast.error {
+      background: #DC2626;
+    }
+
+    /* شاشة التحميل والانتقال السريع */
     .role-loading-overlay {
       position: fixed;
       inset: 0;
@@ -1053,11 +885,11 @@
     }
 
     .loading-spinner {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       border: 3.5px solid rgba(0, 102, 255, 0.15);
-      border-top-color: #0066FF;
+      border-top-color: var(--primary-blue);
       animation: spin 0.7s linear infinite;
     }
 
@@ -1069,274 +901,386 @@
 <body>
 
   <!-- =========================================================================
-       1. طبقات الخلفية الفنية المنسقة: التموجات ومعالم المملكة السفلية
+       طبقات الخلفية الانسيابية (Cyan/Blue Curved Gradient Background)
        ========================================================================= -->
-  <div class="bg-canvas-wrapper" aria-hidden="true">
-    <div class="top-wave-left"></div>
-    <div class="top-wave-right"></div>
-
-    <!-- أفق معالم المملكة العربية السعودية (برج المملكة، برج الفيصلية، كافد، مجدول، إثراء والنخيل) -->
-    <svg class="saudi-skyline-svg" viewBox="0 0 1000 240" fill="currentColor" preserveAspectRatio="none">
-      <!-- الأرضية الأساسية -->
-      <rect x="0" y="235" width="1000" height="5"/>
-      <!-- النخلة اليسرى الأصيلة -->
-      <path d="M45,240 C43,210 47,175 48,150 C44,146 32,142 20,148 C16,150 18,145 25,139 C33,132 44,136 47,144 C46,135 38,126 28,124 C38,122 47,130 49,140 C51,128 58,120 70,123 C60,126 53,134 52,142 C56,135 68,133 76,140 C68,144 57,146 53,151 C54,175 58,210 56,240 Z"/>
-      <!-- مبنى أعمال عصري 1 -->
-      <path d="M80,240 L80,140 L95,140 L95,115 L105,115 L105,140 L120,140 L120,240 Z"/>
-      <!-- برج مجدول اللولبي بالرياض -->
-      <path d="M140,240 L145,170 L155,160 L145,145 L158,135 L148,120 L160,110 L150,95 L165,85 L155,70 L170,60 L180,60 L180,240 Z"/>
-      <!-- مبنى تقني وهوائي اتصال -->
-      <path d="M195,240 L195,130 L210,130 L210,110 L213,110 L213,75 L215,75 L215,110 L225,110 L225,145 L245,145 L245,240 Z"/>
-      <!-- برج المملكة الأيقوني (Kingdom Centre) مع فتحة القوس المعكوس المميزة -->
-      <path d="M275,240 L285,110 L292,20 L308,20 L308,32 Q325,96 342,32 L342,20 L358,20 L365,110 L375,240 Z"/>
-      <!-- أبراج مركز الملك عبد الله المالي الكريستالية (KAFD) -->
-      <path d="M390,240 L390,140 L410,105 L425,105 L445,140 L445,240 Z"/>
-      <path d="M435,240 L435,120 L455,80 L470,80 L470,240 Z"/>
-      <!-- برج الفيصلية الهرمي (Al Faisaliah Tower) مع الكرة الذهبية والقمة الإبرية -->
-      <path d="M485,240 L514,35 L516,10 L518,35 L547,240 Z"/>
-      <circle cx="516" cy="65" r="9"/>
-      <!-- مبنى مدرج عصري -->
-      <path d="M565,240 L565,130 L575,130 L575,95 L605,95 L605,130 L615,130 L615,240 Z"/>
-      <!-- صخور مركز إثراء الثقافي العالمي بالظهران (Ithra) -->
-      <path d="M635,240 C635,200 645,150 670,145 C695,140 710,170 725,165 C740,160 745,135 765,135 C785,135 790,190 790,240 Z"/>
-      <!-- برج جدة المعماري / برج التلفزيون -->
-      <path d="M810,240 L810,110 L825,110 L825,85 L833,85 L833,40 L835,40 L835,85 L845,85 L845,125 L860,125 L860,240 Z"/>
-      <!-- النخلة اليمنى المتناسقة -->
-      <path d="M935,240 C933,210 937,175 938,150 C934,146 922,142 910,148 C906,150 908,145 915,139 C923,132 934,136 937,144 C936,135 928,126 918,124 C928,122 937,130 939,140 C941,128 948,120 960,123 C950,126 943,134 942,142 C946,135 958,133 966,140 C958,144 947,146 943,151 C944,175 948,210 946,240 Z"/>
-    </svg>
-
-    <!-- تموج كحلي أنيق في قاعدة الشاشة -->
-    <svg class="bottom-ocean-wave" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none">
-      <path d="M0,40 C320,120 480,10 720,50 C960,90 1180,20 1440,60 L1440,120 L0,120 Z" fill="#0058DD"/>
-      <path d="M0,70 C360,20 620,110 900,60 C1140,20 1320,80 1440,70 L1440,120 L0,120 Z" fill="#0066FF" opacity="0.65"/>
+  <div class="bg-fluid-canvas" aria-hidden="true">
+    <div class="fluid-wave-top-left"></div>
+    <div class="fluid-wave-top-right"></div>
+    <svg class="svg-curved-stream" viewBox="0 0 800 400" fill="none" preserveAspectRatio="none">
+      <path d="M-100,50 C200,180 400,-20 900,120" stroke="rgba(0, 102, 255, 0.12)" stroke-width="40" fill="none"/>
+      <path d="M-50,150 C300,260 500,40 850,220" stroke="rgba(59, 130, 246, 0.10)" stroke-width="25" fill="none"/>
     </svg>
   </div>
 
   <!-- =========================================================================
-       2. هيكل شاشة الجوال المركزية المنسقة
+       شاشة العرض المركزية (Mobile Screen Wrapper)
        ========================================================================= -->
-  <main class="mobile-screen-container">
+  <main class="screen-wrapper">
 
-    <!-- شريط تغيير اللغة بالأعلى فقط (مع أيقونة الترس) -->
-    <header class="top-lang-bar">
-      <!-- زر تغيير اللغة البيضاوي (ترس ⚙️ + عربي ⌵) -->
-      <button type="button" class="lang-pill-btn" title="تغيير لغة التطبيق" aria-label="تغيير لغة التطبيق" onclick="openLangSheet()">
+    <!-- 1. الشريط العلوي: زر تغيير اللغة والإعدادات (عربي ⚙️ ⌵) بأعلى اليسار -->
+    <header class="top-action-bar">
+      <button type="button" class="lang-pill-btn" onclick="openLangSheet()" title="تغيير لغة العرض">
+        <span class="lang-chevron-icon">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+        <span id="currentLangLabel">عربي</span>
         <span class="lang-gear-icon">
-          <!-- أيقونة الترس الهندسي الدقيق -->
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
           </svg>
         </span>
-        <span id="currentLangLabel">عربي</span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
       </button>
     </header>
 
-    <!-- كتلة الهيدر والعنوان: التروس الجانبية مدمجة هنا ومطابقة لحجم وأبعاد الموبايل تماماً -->
-    <section class="welcome-header-card">
-      <!-- هالة بيضاء ناصعة بالمركز لعزل النصوص -->
-      <div class="central-glow" aria-hidden="true"></div>
-
-      <!-- الترس الميكانيكي المتحرك (يسار) - أبعاد محسوبة بدقة مع شاشة الجوال (Galaxy S24 / iPhone) -->
-      <div class="header-gear-asset" aria-hidden="true" title="ترس ميكانيكي هندسي"></div>
-
-      <!-- قطع الغيار والقرص الثابت (يمين) - أبعاد محسوبة بدقة مع شاشة الجوال وبدون أي تداخل -->
-      <div class="header-parts-asset" aria-hidden="true"></div>
-
-      <!-- صندوق الشعار -->
-      <div class="brand-logo-pod" title="شعار كفو">
-        <img src="assets/images/kafu-logo.png" alt="كفو" class="brand-logo-icon">
-      </div>
-      <h1 class="brand-title">كفو</h1>
-      <div class="brand-subtitle-wrap">
-        <h2 class="brand-subtitle">منظومة قطع غيار السيارات الذكية</h2>
-      </div>
-      <p class="brand-prompt">اختر نوع حسابك للمتابعة</p>
+    <!-- 2. رأس الصفحة: لوجو كفو الرسمي الأصلي (المطابق 100% للتصميم بدون تروس جانبية) -->
+    <section class="brand-hero-section">
+      <img src="assets/images/kafu-brand-logo.png" alt="كفو - منظومة قطع غيار السيارات الذكية" class="brand-hero-logo" />
     </section>
 
-    <!-- =====================================================================
-         قسم الإجراءات: كروت الأدوار مع فاصل رأسي واسع ومساحة تنفس مريحة
-         ===================================================================== -->
-    <section class="welcome-actions-section">
-      <div class="roles-list-group" aria-label="خيارات تسجيل الدخول">
+    <!-- 3. بطاقة تسجيل الدخول البيضاء المرفوعة (Main White Card) -->
+    <div class="main-login-card">
+      
+      <div class="card-header-block">
+        <h2 class="card-main-title">تسجيل الدخول</h2>
+        <p class="card-sub-title">أهلاً بعودتك إلى كفو</p>
+      </div>
 
-        <!-- 1. تاجر (أزرق كحلي ملكي راقي) -->
-        <button type="button" class="role-action-card" onclick="openSubModal('merchant')">
-          <div class="role-content-start">
-            <div class="role-gradient-badge badge-merchant">
-              <!-- أيقونة متجر / محل -->
-              <svg width="27" height="27" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M21.9 8.2l-1.3-4.5c-.2-.7-.8-1.2-1.6-1.2H5c-.8 0-1.4.5-1.6 1.2L2.1 8.2c-.3 1 .4 2.1 1.5 2.1.2 0 .4 0 .6-.1l.8-.4V19c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V9.8l.8.4c.2.1.4.1.6.1 1.1 0 1.8-1.1 1.5-2.1zM11 19H6v-6h5v6zm7 0h-5v-6h5v6z"/>
+      <!-- حقول الإدخال -->
+      <form id="loginForm" onsubmit="handleLoginSubmit(event)" novalidate>
+        <div class="inputs-form-group">
+          
+          <!-- حقل رقم الجوال مع كود الدولة في جهة اليسار -->
+          <div class="form-input-box" id="phoneBox">
+            <div class="input-field-right">
+              <span class="input-icon-blue">
+                <!-- أيقونة الهاتف الجوال -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+              </span>
+              <input 
+                type="tel" 
+                id="phoneInput" 
+                class="native-text-input" 
+                placeholder="رقم الجوال" 
+                dir="rtl"
+                autocomplete="tel"
+                maxlength="14"
+              />
+            </div>
+            
+            <!-- زر كود الدولة السعودية (🇸🇦 +966 ⌵) -->
+            <button type="button" class="country-code-pill" onclick="openCountrySheet()" title="اختر رمز الدولة">
+              <!-- علم المملكة العربية السعودية SVG النقي -->
+              <svg class="country-flag-icon" viewBox="0 0 640 440">
+                <rect width="640" height="440" fill="#007A3D"/>
+                <path d="M160 180 Q320 160 480 180 Q320 200 160 180" fill="#FFFFFF"/>
+                <rect x="200" y="240" width="240" height="18" rx="4" fill="#FFFFFF"/>
+                <path d="M190 249 L210 235 L210 263 Z" fill="#FFFFFF"/>
               </svg>
-            </div>
-            <div class="role-texts-wrap">
-              <strong class="role-card-name">تاجر</strong>
-              <span class="role-card-desc">لإدارة نشاطك التجاري</span>
-            </div>
+              <span>+966</span>
+              <span class="lang-chevron-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </span>
+            </button>
           </div>
-          <div class="role-chevron-circle">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
+
+          <!-- حقل كلمة المرور مع زر الإظهار -->
+          <div class="form-input-box" id="passwordBox">
+            <div class="input-field-right">
+              <span class="input-icon-blue">
+                <!-- أيقونة القفل -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </span>
+              <input 
+                type="password" 
+                id="passwordInput" 
+                class="native-text-input" 
+                placeholder="كلمة المرور" 
+                dir="rtl"
+                autocomplete="current-password"
+              />
+            </div>
+
+            <!-- زر إظهار/إخفاء كلمة المرور -->
+            <button type="button" class="toggle-pass-btn" id="togglePassBtn" onclick="togglePasswordVisibility()" title="إظهار / إخفاء كلمة المرور">
+              <svg id="eyeIcon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- رابط نسيت كلمة المرور؟ في جهة اليمين مباشرة -->
+        <div class="forgot-pass-wrap">
+          <button type="button" class="forgot-pass-link" onclick="openForgotSheet()">نسيت كلمة المرور؟</button>
+        </div>
+
+        <!-- زر تسجيل الدخول الأساسي: النص على اليسار ودائرة السهم على اليمين كما بالتصميم الأصلي بالضبط -->
+        <button type="submit" class="primary-submit-btn" id="submitBtn">
+          <span class="btn-arrow-circle">
+            <!-- سهم التنقل في الدائرة البيضاء متجه لليمين كما في التصميم -->
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="13 6 19 12 13 18"></polyline>
+            </svg>
+          </span>
+          <span>تسجيل الدخول</span>
+        </button>
+      </form>
+
+      <!-- فاصل: أو تسجيل الدخول بصفتك -->
+      <div class="section-divider-row">
+        <div class="divider-line-subtle"></div>
+        <span class="divider-text-caption">أو تسجيل الدخول بصفتك</span>
+        <div class="divider-line-subtle"></div>
+      </div>
+
+      <!-- كروت الأدوار الأربعة المتجاورة في صف واحد (تاجر - مندوب مبيعات - مهندس ورشة - مندوب توصيل) -->
+      <div class="roles-four-grid">
+        
+        <!-- 1. تاجر -->
+        <button type="button" class="role-grid-card" onclick="openSubModal('merchant')" title="تسجيل الدخول كتاجر">
+          <div class="role-card-svg">
+            <!-- أيقونة المتجر مع مظلة الواجهة المطابقة للأصل -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l1-5h16l1 5"></path>
+              <path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"></path>
+              <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path>
+              <path d="M10 21v-6h4v6"></path>
             </svg>
           </div>
+          <span class="role-card-caption">تاجر</span>
         </button>
 
-        <!-- 2. مندوب مبيعات (أزرق كفو الأساسي العصري) -->
-        <button type="button" class="role-action-card" onclick="openSubModal('rep')">
-          <div class="role-content-start">
-            <div class="role-gradient-badge badge-rep">
-              <!-- أيقونة مندوب المبيعات مع الحقيبة -->
-              <svg width="27" height="27" viewBox="0 0 24 24" fill="currentColor">
-                <circle cx="9" cy="6.5" r="4"/>
-                <path d="M9 12.5c-4 0-7 2.4-7 5.5V20.5h14V18c0-3.1-3-5.5-7-5.5z"/>
-                <rect x="15" y="13.5" width="7" height="6.5" rx="1.5"/>
-                <path d="M17 13.5v-1.5a1.5 1.5 0 0 1 3 0v1.5"/>
-              </svg>
-            </div>
-            <div class="role-texts-wrap">
-              <strong class="role-card-name">مندوب مبيعات</strong>
-              <span class="role-card-desc">لإدارة مهام المبيعات</span>
-            </div>
-          </div>
-          <div class="role-chevron-circle">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
+        <!-- 2. مندوب مبيعات -->
+        <button type="button" class="role-grid-card" onclick="openSubModal('rep')" title="تسجيل الدخول كمندوب مبيعات">
+          <div class="role-card-svg">
+            <!-- أيقونة مندوب المبيعات مع ربطة العنق والبطاقة -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="10" cy="7" r="4"></circle>
+              <path d="M10 11l1 3 2-1-1 4-1-1"></path>
+              <rect x="16" y="11" width="6" height="8" rx="1.5"></rect>
+              <path d="M19 11V9a1 1 0 0 0-1-1"></path>
             </svg>
           </div>
+          <span class="role-card-caption">مندوب مبيعات</span>
         </button>
 
-        <!-- 3. مهندس ورشة (أزرق سماوي تقني هندسي) -->
-        <button type="button" class="role-action-card" onclick="selectRoleAndEnter('workshop')">
-          <div class="role-content-start">
-            <div class="role-gradient-badge badge-workshop">
-              <!-- مفاتيح تصليح متقاطعة -->
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-                <path d="M9.3 6.3a1 1 0 0 1 0 1.4L7.7 9.3a1 1 0 0 1-1.4 0L2.53 5.53a6 6 0 0 0 7.94 7.94l6.91 6.91a2.12 2.12 0 0 0 3-3l-6.91-6.91a6 6 0 0 0-7.94-7.94l3.77-3.77z"/>
-              </svg>
-            </div>
-            <div class="role-texts-wrap">
-              <strong class="role-card-name">مهندس ورشة</strong>
-              <span class="role-card-desc">لإدارة الورشة والخدمات</span>
-            </div>
-          </div>
-          <div class="role-chevron-circle">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
+        <!-- 3. مهندس ورشة -->
+        <button type="button" class="role-grid-card" onclick="selectRoleAndEnter('workshop')" title="تسجيل الدخول كمهندس ورشة">
+          <div class="role-card-svg">
+            <!-- مفاتيح أدوات صيانة وورشة متقاطعة -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
             </svg>
           </div>
+          <span class="role-card-caption">مهندس ورشة</span>
         </button>
 
-        <!-- 4. مندوب توصيل (أزرق كوبالت حركي سريع) -->
-        <button type="button" class="role-action-card" onclick="selectRoleAndEnter('courier')">
-          <div class="role-content-start">
-            <div class="role-gradient-badge badge-courier">
-              <!-- شاحنة توصيل مع خطوط حركة سريعة -->
-              <svg width="27" height="27" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M3 6.5h3v2H3v-2zm-2 4h5v2H1v-2zm2 4h3v2H3v-2zm5-10h9v4h4.5l2.5 3.3V17.5h-2c0 1.6-1.3 3-3 3s-3-1.4-3-3H11c0 1.6-1.3 3-3 3s-3-1.4-3-3H4V6.5c0-1.1.9-2 2-2h2zm11 11.5c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-11 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm9-7.5v2.8h3.8l-1.8-2.8H17z"/>
-              </svg>
-            </div>
-            <div class="role-texts-wrap">
-              <strong class="role-card-name">مندوب توصيل</strong>
-              <span class="role-card-desc">لمتابعة عمليات التوصيل</span>
-            </div>
-          </div>
-          <div class="role-chevron-circle">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
+        <!-- 4. مندوب توصيل -->
+        <button type="button" class="role-grid-card" onclick="selectRoleAndEnter('courier')" title="تسجيل الدخول كمندوب توصيل">
+          <div class="role-card-svg">
+            <!-- شاحنة توصيل سريعة مع خطوط حركة -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="14" height="13" rx="1"></rect>
+              <polygon points="15 8 19 8 22 11 22 16 15 16 15 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="17.5" cy="18.5" r="2.5"></circle>
+              <line x1="1" y1="8" x2="3" y2="8"></line>
+              <line x1="1" y1="11" x2="4" y2="11"></line>
             </svg>
           </div>
+          <span class="role-card-caption">مندوب توصيل</span>
         </button>
 
       </div>
 
-      <!-- =====================================================================
-           زر: تصفح كعميل / زائر
-           ===================================================================== -->
-      <button type="button" class="visitor-btn-pill" onclick="selectRoleAndEnter('customer')" title="تصفح المتجر مباشرة">
-        <!-- اليمين: أيقونة السماعة والخدمة -->
-        <div class="visitor-content-center">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- 8. زر تصفح كعميل / زائر: النص على اليسار وسماعة الدعم على اليمين كما بالتصميم الأصلي -->
+      <button type="button" class="visitor-outline-btn" onclick="selectRoleAndEnter('customer')" title="تصفح كعميل أو زائر">
+        <span class="visitor-icon-wrap">
+          <!-- أيقونة سماعة الدعم والعميل -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
             <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
             <path d="M8 21v-1a4 4 0 0 1 4-4h1"></path>
           </svg>
-          <span class="visitor-title-text">تصفح كعميل / زائر</span>
-        </div>
-        <!-- اليسار: سهم التنقل -->
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
+        </span>
+        <span>تصفح كعميل / زائر</span>
       </button>
-    </section>
 
-    <!-- =========================================================================
-         تذييل الصفحة (عبارة "مع كفو ... كل قطعة في مكانها")
-         ========================================================================= -->
-    <footer class="welcome-footer-wrap">
-      <div class="tagline-divider-row">
-        <div class="tagline-line"></div>
-        <span class="tagline-label">مع كفو ... كل قطعة في مكانها</span>
-        <div class="tagline-line"></div>
+    </div>
+
+    <!-- 9. تذييل الصفحة: سيارة كفو وعبارة الشعار (مع كفو... كل قطعة في مكانها) بدون أي اقتصاص -->
+    <footer class="brand-footer-section">
+      <div class="footer-car-divider-row">
+        <div class="footer-divider-arm"></div>
+        <!-- صورة سيارة كفو الأصلية الشفافة المعتمدة -->
+        <img src="assets/images/kafu-footer-car.png" alt="كفو" class="footer-car-img" />
+        <div class="footer-divider-arm"></div>
       </div>
+      <p class="footer-tagline-text">مع كفو... كل قطعة في مكانها</p>
     </footer>
 
   </main>
 
   <!-- =========================================================================
-       نافذة الاختيار الفرعي (Bottom Sheet) لاختيار نوع التاجر أو نوع المندوب
+       نافذة التخصص الفرعي للأدوار (تاجر / مندوب)
        ========================================================================= -->
-  <div class="submodal-backdrop" id="subModalBackdrop" onclick="closeSubModal(event)">
-    <div class="submodal-sheet" id="subModalSheet">
-      <div class="submodal-handle"></div>
-      
-      <div class="submodal-header">
-        <h3 class="submodal-title" id="subModalTitle">اختر نوع الحساب</h3>
-        <p class="submodal-desc" id="subModalDesc">حدد تخصص نشاطك لبدء التجربة المخصصة</p>
+  <div class="bottom-sheet-backdrop" id="subModalBackdrop" onclick="closeSubModal(event)">
+    <div class="bottom-sheet-content" id="subModalSheet">
+      <div class="sheet-drag-handle"></div>
+      <h3 class="sheet-title-text" id="subModalTitle">اختر نوع الحساب</h3>
+      <p class="sheet-desc-text" id="subModalDesc">حدد تخصص نشاطك لبدء التجربة المخصصة</p>
+
+      <div class="sheet-options-stack" id="subModalOptions">
+        <!-- الخيارات تضاف برمجياً -->
       </div>
 
-      <div class="submodal-options-list" id="subModalOptions">
-        <!-- الخيارات تتغير برمجياً حسب الدور -->
-      </div>
-
-      <button type="button" class="submodal-cancel-btn" onclick="closeSubModalDirect()">إلغاء</button>
+      <button type="button" class="sheet-close-btn" onclick="closeSubModalDirect()">إلغاء</button>
     </div>
   </div>
 
   <!-- =========================================================================
-       نافذة تبديل اللغة (Language Selection Sheet)
+       نافذة اختيار رمز الدولة (Country Code Sheet)
        ========================================================================= -->
-  <div class="lang-sheet-backdrop" id="langSheetBackdrop" onclick="closeLangSheet(event)">
-    <div class="lang-sheet">
-      <div class="submodal-handle"></div>
-      <div class="submodal-header">
-        <h3 class="submodal-title">اختر لغة التطبيق / Select Language</h3>
-        <p class="submodal-desc">اختر لغة العرض المناسبة لك للمتابعة</p>
+  <div class="bottom-sheet-backdrop" id="countrySheetBackdrop" onclick="closeCountrySheet(event)">
+    <div class="bottom-sheet-content">
+      <div class="sheet-drag-handle"></div>
+      <h3 class="sheet-title-text">اختر رمز الدولة</h3>
+      <p class="sheet-desc-text">حدد كود الدولة لرقم هاتفك المحمول</p>
+
+      <div class="sheet-options-stack">
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+966', '🇸🇦')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇸🇦</span>
+            <strong style="font-size: 0.94rem;">المملكة العربية السعودية</strong>
+          </div>
+          <span style="font-weight: 700; color: #0066FF; direction: ltr;">+966</span>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+971', '🇦🇪')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇦🇪</span>
+            <strong style="font-size: 0.94rem;">الإمارات العربية المتحدة</strong>
+          </div>
+          <span style="font-weight: 700; color: #64748B; direction: ltr;">+971</span>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+965', '🇰🇼')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇰🇼</span>
+            <strong style="font-size: 0.94rem;">الكويت</strong>
+          </div>
+          <span style="font-weight: 700; color: #64748B; direction: ltr;">+965</span>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+973', '🇧🇭')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇧🇭</span>
+            <strong style="font-size: 0.94rem;">البحرين</strong>
+          </div>
+          <span style="font-weight: 700; color: #64748B; direction: ltr;">+973</span>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+968', '🇴🇲')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇴🇲</span>
+            <strong style="font-size: 0.94rem;">سلطنة عُمان</strong>
+          </div>
+          <span style="font-weight: 700; color: #64748B; direction: ltr;">+968</span>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+974', '🇶🇦')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇶🇦</span>
+            <strong style="font-size: 0.94rem;">قطر</strong>
+          </div>
+          <span style="font-weight: 700; color: #64748B; direction: ltr;">+974</span>
+        </button>
       </div>
 
-      <button type="button" class="lang-item-btn selected" onclick="setLanguage('ar')">
-        <span>العربية (Arabic)</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-      </button>
-
-      <button type="button" class="lang-item-btn" onclick="setLanguage('en')">
-        <span>English (الإنجليزية)</span>
-        <span style="font-size: 0.8rem; color: #94A3B8;">قريباً</span>
-      </button>
-
-      <button type="button" class="submodal-cancel-btn" onclick="closeLangSheetDirect()">إغلاق</button>
+      <button type="button" class="sheet-close-btn" onclick="closeCountrySheetDirect()">إغلاق</button>
     </div>
+  </div>
+
+  <!-- =========================================================================
+       نافذة تبديل لغة التطبيق (Language Selection Sheet)
+       ========================================================================= -->
+  <div class="bottom-sheet-backdrop" id="langSheetBackdrop" onclick="closeLangSheet(event)">
+    <div class="bottom-sheet-content">
+      <div class="sheet-drag-handle"></div>
+      <h3 class="sheet-title-text">اختر لغة التطبيق / Select Language</h3>
+      <p class="sheet-desc-text">حدد لغة العرض المناسبة لتجربتك</p>
+
+      <div class="sheet-options-stack">
+        <button type="button" class="sheet-btn-option" style="border-color: #0066FF; background: #EFF6FF;" onclick="setLanguage('ar')">
+          <strong style="color: #0066FF;">العربية (Arabic)</strong>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.6">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setLanguage('en')">
+          <strong>English (الإنجليزية)</strong>
+          <span style="font-size: 0.8rem; color: #94A3B8;">قريباً</span>
+        </button>
+      </div>
+
+      <button type="button" class="sheet-close-btn" onclick="closeLangSheetDirect()">إغلاق</button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       نافذة استعادة كلمة المرور (Forgot Password Sheet)
+       ========================================================================= -->
+  <div class="bottom-sheet-backdrop" id="forgotSheetBackdrop" onclick="closeForgotSheet(event)">
+    <div class="bottom-sheet-content">
+      <div class="sheet-drag-handle"></div>
+      <h3 class="sheet-title-text">استعادة كلمة المرور</h3>
+      <p class="sheet-desc-text">أدخل رقم جوالك المسجل لإرسال رمز التحقق OTP</p>
+
+      <div class="form-input-box" style="margin-bottom: 14px;">
+        <div class="input-field-right">
+          <span class="input-icon-blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <rect x="5" y="2" width="14" height="20" rx="3"></rect>
+              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+            </svg>
+          </span>
+          <input type="tel" id="recoveryPhoneInput" class="native-text-input" placeholder="05XXXXXXXX" dir="rtl" />
+        </div>
+      </div>
+
+      <button type="button" class="primary-submit-btn" style="margin-bottom: 8px;" onclick="sendRecoveryCode()">
+        <span>إرسال رمز التحقق</span>
+      </button>
+
+      <button type="button" class="sheet-close-btn" onclick="closeForgotSheetDirect()">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- رسالة Toast منبثقة -->
+  <div class="feedback-toast" id="feedbackToast">
+    <span id="toastMessage">تم تسجيل الدخول بنجاح</span>
   </div>
 
   <!-- شاشة التحميل والانتقال السريع -->
   <div class="role-loading-overlay" id="loadingOverlay">
     <div class="loading-spinner"></div>
-    <span style="font-size: 0.95rem; font-weight: 700; color: #0A2540;" id="loadingText">جاري الانتقال...</span>
+    <span style="font-size: 0.95rem; font-weight: 700; color: #0A2540;" id="loadingText">جاري تسجيل الدخول...</span>
   </div>
 
   <!-- السكربتات البرمجية -->
@@ -1345,7 +1289,7 @@
   <script src="assets/js/app.js"></script>
   <script>
     // =========================================================================
-    // التوافق التام مع محاكيات المتصفح وشاشات الهواتف بدون أي اهتزاز أو إعادة رسم
+    // التوافق مع محاكيات شاشات الجوال داخل المتصفح
     // =========================================================================
     (function initFrameCompatibility() {
       if (window.self !== window.top) {
@@ -1390,7 +1334,65 @@
       }
     };
 
-    // فتح وإغلاق النافذة المنبثقة السفلية للأدوار
+    // -------------------------------------------------------------------------
+    // إظهار وإخفاء كلمة المرور
+    // -------------------------------------------------------------------------
+    function togglePasswordVisibility() {
+      const passInput = document.getElementById('passwordInput');
+      const eyeIcon = document.getElementById('eyeIcon');
+      
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+        eyeIcon.innerHTML = `
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        `;
+      } else {
+        passInput.type = 'password';
+        eyeIcon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        `;
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // إرسال نموذج تسجيل الدخول
+    // -------------------------------------------------------------------------
+    function handleLoginSubmit(event) {
+      if (event) event.preventDefault();
+
+      const phoneInput = document.getElementById('phoneInput');
+      const passInput = document.getElementById('passwordInput');
+      const phoneBox = document.getElementById('phoneBox');
+      const passwordBox = document.getElementById('passwordBox');
+
+      const phoneVal = phoneInput.value.trim();
+      const passVal = passInput.value.trim();
+
+      phoneBox.classList.remove('error-state');
+      passwordBox.classList.remove('error-state');
+
+      if (!phoneVal && !passVal) {
+        showToast('مرحباً بك في كفو! جاري تسجيل الدخول...', 'success');
+        proceedToApp('customer');
+        return;
+      }
+
+      if (phoneVal.length < 5) {
+        phoneBox.classList.add('error-state');
+        showToast('يرجى إدخال رقم جوال أو بريد صحيح', 'error');
+        phoneInput.focus();
+        return;
+      }
+
+      showToast('تم تسجيل الدخول بنجاح!', 'success');
+      proceedToApp('customer');
+    }
+
+    // -------------------------------------------------------------------------
+    // فتح وإغلاق النوافذ السفلية (Sheets)
+    // -------------------------------------------------------------------------
     function openSubModal(categoryKey) {
       const data = SUB_OPTIONS_DATA[categoryKey];
       if (!data) return;
@@ -1404,16 +1406,16 @@
       data.options.forEach(opt => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'submodal-opt-btn';
+        btn.className = 'sheet-btn-option';
         btn.onclick = () => {
           closeSubModalDirect();
           selectRoleAndEnter(opt.roleId);
         };
 
         btn.innerHTML = `
-          <div class="submodal-opt-info">
-            <strong class="submodal-opt-title">${opt.title}</strong>
-            <span class="submodal-opt-sub">${opt.sub}</span>
+          <div style="display:flex; flex-direction:column; gap:2px;">
+            <strong style="font-size:0.95rem; color:#0F172A;">${opt.title}</strong>
+            <span style="font-size:0.78rem; color:#64748B;">${opt.sub}</span>
           </div>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"></polyline>
@@ -1423,61 +1425,116 @@
         container.appendChild(btn);
       });
 
-      const backdrop = document.getElementById('subModalBackdrop');
-      backdrop.classList.add('active');
+      document.getElementById('subModalBackdrop').classList.add('active');
     }
 
-    function closeSubModal(event) {
-      if (event.target === document.getElementById('subModalBackdrop')) {
-        closeSubModalDirect();
-      }
+    function closeSubModal(e) {
+      if (e.target === document.getElementById('subModalBackdrop')) closeSubModalDirect();
     }
-
     function closeSubModalDirect() {
-      const backdrop = document.getElementById('subModalBackdrop');
-      backdrop.classList.remove('active');
+      document.getElementById('subModalBackdrop').classList.remove('active');
     }
 
-    // فتح وإغلاق نافذة اللغة
-    function openLangSheet() {
-      const backdrop = document.getElementById('langSheetBackdrop');
-      backdrop.classList.add('active');
+    // كود الدولة
+    function openCountrySheet() {
+      document.getElementById('countrySheetBackdrop').classList.add('active');
     }
-
-    function closeLangSheet(event) {
-      if (event.target === document.getElementById('langSheetBackdrop')) {
-        closeLangSheetDirect();
+    function closeCountrySheet(e) {
+      if (e.target === document.getElementById('countrySheetBackdrop')) closeCountrySheetDirect();
+    }
+    function closeCountrySheetDirect() {
+      document.getElementById('countrySheetBackdrop').classList.remove('active');
+    }
+    function setCountry(code, flagEmoji) {
+      const pill = document.querySelector('.country-code-pill');
+      if (pill) {
+        pill.innerHTML = `
+          <span style="font-size: 1.15rem; line-height: 1;">${flagEmoji}</span>
+          <span>${code}</span>
+          <span class="lang-chevron-icon">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        `;
       }
+      closeCountrySheetDirect();
+      showToast(`تم اختيار رمز الدولة: ${code}`, 'success');
     }
 
+    // اللغة
+    function openLangSheet() {
+      document.getElementById('langSheetBackdrop').classList.add('active');
+    }
+    function closeLangSheet(e) {
+      if (e.target === document.getElementById('langSheetBackdrop')) closeLangSheetDirect();
+    }
     function closeLangSheetDirect() {
-      const backdrop = document.getElementById('langSheetBackdrop');
-      backdrop.classList.remove('active');
+      document.getElementById('langSheetBackdrop').classList.remove('active');
     }
-
     function setLanguage(lang) {
       if (lang === 'ar') {
         document.getElementById('currentLangLabel').textContent = 'عربي';
         closeLangSheetDirect();
       } else {
-        alert('الدعم الكامل للغة الإنجليزية قيد التجهيز وسيتم إطلاقه في التحديث القادم.');
+        alert('الدعم الكامل للغة الإنجليزية قيد التجهيز وسيتم إطلاقه قريباً.');
         closeLangSheetDirect();
       }
     }
 
+    // نسيت كلمة المرور
+    function openForgotSheet() {
+      document.getElementById('forgotSheetBackdrop').classList.add('active');
+    }
+    function closeForgotSheet(e) {
+      if (e.target === document.getElementById('forgotSheetBackdrop')) closeForgotSheetDirect();
+    }
+    function closeForgotSheetDirect() {
+      document.getElementById('forgotSheetBackdrop').classList.remove('active');
+    }
+    function sendRecoveryCode() {
+      const recPhone = document.getElementById('recoveryPhoneInput').value.trim();
+      if (!recPhone) {
+        showToast('يرجى إدخال رقم الجوال أولاً', 'error');
+        return;
+      }
+      closeForgotSheetDirect();
+      showToast('تم إرسال رمز التحقق (OTP) إلى جوالك بنجاح', 'success');
+    }
+
+    // عرض إشعار Toast
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('feedbackToast');
+      const msgSpan = document.getElementById('toastMessage');
+      if (!toast || !msgSpan) return;
+
+      msgSpan.textContent = msg;
+      toast.className = `feedback-toast show ${type}`;
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2800);
+    }
+
     // الانتقال وتفعيل الدور
     function selectRoleAndEnter(roleId) {
+      proceedToApp(roleId);
+    }
+
+    function proceedToApp(roleId) {
       const overlay = document.getElementById('loadingOverlay');
       const text = document.getElementById('loadingText');
       
       const roleTitles = {
+        merchant: 'تاجر كفو',
         merchant_new: 'تاجر قطع جديدة',
-        merchant_scrap: 'تاجر تشاليح',
+        merchant_scrap: 'تاجر تشاليح ومستعمل',
+        rep: 'مندوب مبيعات',
         rep_oem: 'مندوب مبيعات (جديد)',
         rep_scrap: 'مندوب مبيعات (تشاليح)',
         workshop: 'مهندس ورشة',
         courier: 'مندوب توصيل',
-        customer: 'عميل عادي'
+        customer: 'عميل / زائر'
       };
 
       if (overlay && text) {
@@ -1485,7 +1542,6 @@
         overlay.classList.add('active');
       }
 
-      // حفظ الدور في المتجر والجلسة
       if (window.KafuStore) {
         KafuStore.setRole(roleId);
       } else {
