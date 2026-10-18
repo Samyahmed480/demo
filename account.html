@@ -91,6 +91,7 @@
   <script src="assets/js/store.js"></script>
   <script src="assets/js/merchant-orders.js"></script>
   <script src="assets/js/merchant-inventory.js"></script>
+  <script src="assets/js/merchant-wallet.js"></script>
   <script src="assets/js/add-product.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
@@ -1175,18 +1176,10 @@
     }
 
     function openMerchantWalletModal() {
-      openModalWith('محفظة التاجر والأرباح', 'عائدات المبيعات وسحب الأرباح البنكية', `
-        <div style="display: flex; flex-direction: column; gap: 14px; text-align: center;">
-          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 18px; padding: 18px;">
-            <div style="font-size: 0.82rem; color: var(--text-muted);">الرصيد المتاح للسحب</div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #0F766E; margin: 4px 0;" class="font-num">4,280.00 <span style="font-size: 1rem;">ر.س</span></div>
-            <div style="font-size: 0.78rem; color: var(--text-muted);">صافي أرباح مبيعاتك المحصلة</div>
-          </div>
-          <button class="btn-primary" style="height: 48px; background: #0F766E;" onclick="KafuApp.showToast('تم تقديم طلب التحويل البنكي! سيصل إلى حسابك خلال 24 ساعة.'); closeActionModal();">
-            طلب سحب الرصيد للحساب البنكي (4,280 ر.س)
-          </button>
-        </div>
-      `);
+      if (window.KafuMerchantWallet) {
+        const html = KafuMerchantWallet.renderModalContent('all');
+        openModalWith('محفظة التاجر والأرباح', 'عائدات المبيعات وسحب الأرباح البنكية الفورية', html);
+      }
     }
 
     function openInventoryModal() {
