@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>كفو | إنشاء حساب جديد - منظومة قطع غيار السيارات الذكية</title>
+  <meta name="description" content="إنشاء حساب جديد في منظومة كفو لقطع غيار السيارات الذكية - تاجر، مندوب مبيعات، مهندس ورشة، أو عميل.">
+  
+  <!-- خطوط Google Fonts: IBM Plex Sans Arabic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="assets/css/tokens.css">
+
+  <style>
+    /* ==========================================================================
+       واجهة إنشاء الحساب كفو - متوافقة 100% مع كافة مقاسات الأجهزة والهواتف
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    :root {
+      --primary-blue: #0066FF;
+      --primary-gradient: linear-gradient(90deg, #0056E0 0%, #0066FF 100%);
+      --primary-hover: #0052D4;
+      --navy-dark: #0A2540;
+      --slate-text: #0F172A;
+      --slate-sub: #64748B;
+      --border-color: #E2E8F0;
+      --card-bg: #FFFFFF;
+      --shadow-card: 0 10px 32px rgba(0, 102, 255, 0.08), 0 2px 8px rgba(15, 23, 42, 0.03);
+      --shadow-btn: 0 6px 20px rgba(0, 102, 255, 0.28);
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background: #EBF3FC;
+      font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--slate-text);
+      overflow-x: hidden;
+      overscroll-behavior: none;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+    body {
+      scrollbar-width: none;
+    }
+
+    /* --------------------------------------------------------------------------
+       خلفية التموجات الانسيابية السماوية المعتمدة
+       -------------------------------------------------------------------------- */
+    .bg-fluid-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+      background: linear-gradient(180deg, #DCEBFA 0%, #E8F2FD 28%, #F2F7FD 65%, #EAF3FD 100%);
+    }
+
+    .fluid-wave-top-left {
+      position: absolute;
+      top: -60px;
+      left: -60px;
+      width: 320px;
+      height: 280px;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 102, 255, 0.42) 0%, rgba(59, 130, 246, 0.20) 50%, transparent 75%);
+      filter: blur(28px);
+      border-radius: 50% 40% 60% 40%;
+      opacity: 0.85;
+    }
+
+    .fluid-wave-top-right {
+      position: absolute;
+      top: -80px;
+      right: -60px;
+      width: 340px;
+      height: 300px;
+      background: radial-gradient(circle at 70% 30%, rgba(37, 99, 235, 0.40) 0%, rgba(96, 165, 250, 0.18) 55%, transparent 80%);
+      filter: blur(32px);
+      border-radius: 40% 60% 40% 60%;
+      opacity: 0.85;
+    }
+
+    .svg-curved-stream {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 360px;
+      opacity: 0.40;
+      pointer-events: none;
+    }
+
+    /* --------------------------------------------------------------------------
+       شاشة العرض المركزية المتوافقة مع كافة مقاسات الأجهزة
+       -------------------------------------------------------------------------- */
+    .screen-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 412px;
+      min-height: 100%;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: max(8px, env(safe-area-inset-top, 8px)) 16px max(14px, env(safe-area-inset-bottom, 14px));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+
+    /* --------------------------------------------------------------------------
+       1. الشريط العلوي: زر الرجوع وزر تغيير اللغة
+       -------------------------------------------------------------------------- */
+    .top-action-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: clamp(2px, 0.8vh, 6px);
+      min-height: 34px;
+    }
+
+    .back-btn-round {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #0A2540;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn-round:hover {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+      transform: translateX(2px);
+    }
+
+    .lang-pill-btn {
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 9999px;
+      background: #FFFFFF;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #0A2540;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .lang-pill-btn:hover {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+      transform: translateY(-1px);
+    }
+
+    .lang-gear-icon {
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lang-chevron-icon {
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* --------------------------------------------------------------------------
+       2. رأس الصفحة: لوجو شركة كفو المعتمد
+       -------------------------------------------------------------------------- */
+    .brand-hero-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: clamp(4px, 1.2vh, 8px);
+      position: relative;
+    }
+
+    .brand-logo-pod {
+      width: clamp(52px, 14vw, 64px);
+      height: clamp(52px, 14vw, 64px);
+      border-radius: clamp(15px, 3.8vw, 18px);
+      background: #FFFFFF;
+      box-shadow: 
+        0 10px 24px rgba(0, 102, 255, 0.14),
+        0 3px 8px rgba(15, 23, 42, 0.04);
+      border: 2px solid #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: clamp(2px, 0.6vh, 4px);
+      position: relative;
+      z-index: 3;
+    }
+
+    .brand-logo-icon {
+      width: clamp(36px, 10vw, 44px);
+      height: clamp(36px, 10vw, 44px);
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-title {
+      font-size: clamp(1.4rem, 4.5vw, 1.75rem);
+      font-weight: 900;
+      color: var(--navy-dark);
+      line-height: 1.15;
+      margin-bottom: 2px;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-subtitle {
+      font-size: clamp(0.72rem, 2.1vw, 0.80rem);
+      font-weight: 700;
+      color: var(--primary-blue);
+      line-height: 1.2;
+      text-align: center;
+      letter-spacing: -0.2px;
+    }
+
+    /* --------------------------------------------------------------------------
+       3. بطاقة إنشاء الحساب البيضاء المرفوعة (Registration Card)
+       -------------------------------------------------------------------------- */
+    .main-register-card {
+      width: 100%;
+      background: var(--card-bg);
+      border-radius: clamp(20px, 4.5vw, 26px);
+      padding: clamp(12px, 2.2vh, 18px) clamp(12px, 3.5vw, 18px);
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(226, 232, 240, 0.85);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-sizing: border-box;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .card-header-block {
+      text-align: center;
+      margin-bottom: clamp(8px, 1.6vh, 12px);
+    }
+
+    .card-main-title {
+      font-size: clamp(1.28rem, 4vw, 1.45rem);
+      font-weight: 800;
+      color: var(--navy-dark);
+      line-height: 1.2;
+      margin-bottom: 2px;
+      letter-spacing: -0.3px;
+    }
+
+    .card-sub-title {
+      font-size: clamp(0.78rem, 2.4vw, 0.86rem);
+      font-weight: 500;
+      color: var(--slate-sub);
+    }
+
+    /* --------------------------------------------------------------------------
+       4. حقول الإدخال
+       -------------------------------------------------------------------------- */
+    .inputs-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(6px, 1.2vh, 9px);
+      width: 100%;
+      margin-bottom: clamp(6px, 1.2vh, 8px);
+    }
+
+    .form-input-box {
+      width: 100%;
+      height: clamp(42px, 5.5vh, 46px);
+      background: #FFFFFF;
+      border: 1.6px solid var(--border-color);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 11px;
+      transition: all 0.2s ease;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .form-input-box:focus-within {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12);
+    }
+
+    .form-input-box.error-state {
+      border-color: #EF4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+    }
+
+    .input-field-right {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex: 1;
+      height: 100%;
+      min-width: 0;
+    }
+
+    .input-icon-blue {
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .native-text-input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.90rem;
+      font-weight: 600;
+      color: var(--slate-text);
+      text-align: right;
+      padding: 0;
+    }
+
+    .native-text-input::placeholder {
+      color: #94A3B8;
+      font-weight: 500;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px #FFFFFF inset !important;
+      box-shadow: 0 0 0 1000px #FFFFFF inset !important;
+      -webkit-text-fill-color: #0F172A !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    .country-code-pill {
+      display: inline-flex;
+      flex-direction: row;
+      direction: ltr;
+      align-items: center;
+      gap: 5px;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 4px 7px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #0F172A;
+      transition: all 0.18s ease;
+      flex-shrink: 0;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .country-code-pill:hover {
+      background: #E2E8F0;
+      border-color: #CBD5E1;
+    }
+
+    .country-flag-icon {
+      width: 18px;
+      height: 12px;
+      border-radius: 2px;
+      object-fit: cover;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+
+    .toggle-pass-btn {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #94A3B8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-radius: 8px;
+      transition: color 0.2s ease, background 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .toggle-pass-btn:hover {
+      color: var(--primary-blue);
+      background: #F1F5F9;
+    }
+
+    /* اختيار نوع الحساب */
+    .role-select-box {
+      width: 100%;
+      height: clamp(42px, 5.5vh, 46px);
+      background: #FFFFFF;
+      border: 1.6px solid var(--border-color);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 11px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .role-select-box:hover {
+      border-color: var(--primary-blue);
+      background: #F8FAFC;
+    }
+
+    .role-selected-text {
+      font-size: 0.90rem;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    /* شروط الخدمة والخصوصية */
+    .terms-agree-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+      margin-bottom: clamp(6px, 1.2vh, 8px);
+      cursor: pointer;
+      font-size: 0.78rem;
+      color: #475569;
+    }
+
+    .terms-checkbox {
+      width: 17px;
+      height: 17px;
+      border-radius: 5px;
+      accent-color: var(--primary-blue);
+      cursor: pointer;
+    }
+
+    .terms-link {
+      color: var(--primary-blue);
+      text-decoration: underline;
+      font-weight: 700;
+    }
+
+    /* --------------------------------------------------------------------------
+       5. زر إنشاء الحساب الأساسي
+       -------------------------------------------------------------------------- */
+    .primary-submit-btn {
+      width: 100%;
+      height: clamp(44px, 6vh, 48px);
+      border-radius: 13px;
+      background: var(--primary-gradient);
+      box-shadow: var(--shadow-btn);
+      border: none;
+      outline: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: clamp(0.96rem, 2.8vw, 1.04rem);
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-top: clamp(2px, 0.6vh, 4px);
+      margin-bottom: clamp(8px, 1.4vh, 12px);
+    }
+
+    .primary-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.40);
+      background: linear-gradient(90deg, #004ecc 0%, #005ce6 100%);
+    }
+
+    .primary-submit-btn:active {
+      transform: scale(0.985);
+    }
+
+    .btn-arrow-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-blue);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .primary-submit-btn:hover .btn-arrow-circle {
+      transform: translateX(-3px);
+    }
+
+    /* --------------------------------------------------------------------------
+       6. رابط الانتقال لتسجيل الدخول
+       -------------------------------------------------------------------------- */
+    .login-prompt-box {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 0 2px;
+      font-size: 0.85rem;
+      color: #64748B;
+      font-weight: 600;
+    }
+
+    .login-link-bold {
+      color: var(--primary-blue);
+      font-weight: 800;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .login-link-bold:hover {
+      text-decoration: underline;
+      opacity: 0.88;
+    }
+
+    /* --------------------------------------------------------------------------
+       7. تذييل الصفحة: سيارة كفو وعبارة الشعار
+       -------------------------------------------------------------------------- */
+    .brand-footer-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: clamp(6px, 1.4vh, 10px);
+      padding-top: 4px;
+      padding-bottom: clamp(6px, 1.2vh, 12px);
+      position: relative;
+      z-index: 5;
+    }
+
+    .footer-car-divider-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 260px;
+      margin-bottom: 3px;
+    }
+
+    .footer-divider-arm {
+      flex: 1;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.4), transparent);
+    }
+
+    .footer-car-img {
+      height: clamp(20px, 3.2vh, 26px);
+      width: auto;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .footer-tagline-text {
+      font-size: clamp(0.78rem, 2.2vw, 0.85rem);
+      font-weight: 700;
+      color: var(--primary-blue);
+      letter-spacing: -0.2px;
+      text-align: center;
+    }
+
+    /* --------------------------------------------------------------------------
+       8. محاكي الديسكتوب المحكم
+       -------------------------------------------------------------------------- */
+    @media (min-width: 769px) {
+      body:not(.in-mobile-frame) {
+        background: #E8EEF5;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 0;
+      }
+
+      body:not(.in-mobile-frame) .screen-wrapper {
+        max-width: 412px;
+        height: 870px;
+        min-height: 870px;
+        max-height: 94vh;
+        border-radius: 38px;
+        box-shadow: 
+          0 25px 60px -15px rgba(15, 23, 42, 0.22),
+          0 0 0 1px rgba(226, 232, 240, 0.95),
+          0 0 0 8px #0F172A;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: #EBF3FC;
+        position: relative;
+      }
+
+      body:not(.in-mobile-frame) .bg-fluid-canvas {
+        position: absolute;
+        width: 412px;
+        height: 870px;
+        max-height: 94vh;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 38px;
+        overflow: hidden;
+      }
+    }
+
+    @media (max-height: 680px) {
+      .screen-wrapper {
+        padding-top: 4px;
+        padding-bottom: 6px;
+      }
+      .brand-logo-pod {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+      }
+      .brand-logo-icon {
+        width: 30px;
+        height: 30px;
+      }
+      .brand-title {
+        font-size: 1.25rem;
+      }
+      .brand-subtitle {
+        font-size: 0.68rem;
+      }
+      .main-register-card {
+        padding: 8px 10px;
+      }
+      .form-input-box, .role-select-box {
+        height: 38px;
+      }
+      .primary-submit-btn {
+        height: 38px;
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       9. النوافذ السفلية المنبثقة (Bottom Sheets)
+       -------------------------------------------------------------------------- */
+    .bottom-sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.48);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .bottom-sheet-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .bottom-sheet-content {
+      width: 100%;
+      max-width: 412px;
+      background: #FFFFFF;
+      border-radius: 28px 28px 0 0;
+      padding: 20px 20px 28px;
+      box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.16);
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-sizing: border-box;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .bottom-sheet-backdrop.active .bottom-sheet-content {
+      transform: translateY(0);
+    }
+
+    .sheet-drag-handle {
+      width: 42px;
+      height: 4px;
+      border-radius: 99px;
+      background: #CBD5E1;
+      align-self: center;
+      margin-bottom: 4px;
+      flex-shrink: 0;
+    }
+
+    .sheet-title-text {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--navy-dark);
+      text-align: center;
+      margin-bottom: 2px;
+    }
+
+    .sheet-desc-text {
+      font-size: 0.82rem;
+      color: #64748B;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .sheet-options-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sheet-btn-option {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 14px;
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: right;
+      transition: all 0.18s ease;
+      color: #0F172A;
+    }
+
+    .sheet-btn-option:hover {
+      background: #EFF6FF;
+      border-color: var(--primary-blue);
+      transform: translateX(-3px);
+    }
+
+    .sheet-close-btn {
+      width: 100%;
+      height: 44px;
+      border-radius: 13px;
+      background: #F1F5F9;
+      border: none;
+      color: #475569;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .feedback-toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: #0A2540;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .feedback-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .feedback-toast.success {
+      background: #059669;
+    }
+
+    .feedback-toast.error {
+      background: #DC2626;
+    }
+
+    .role-loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .role-loading-overlay.active {
+      display: flex;
+    }
+
+    .loading-spinner {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 3.5px solid rgba(0, 102, 255, 0.15);
+      border-top-color: var(--primary-blue);
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       طبقات الخلفية الانسيابية (Cyan/Blue Curved Gradient Background)
+       ========================================================================= -->
+  <div class="bg-fluid-canvas" aria-hidden="true">
+    <div class="fluid-wave-top-left"></div>
+    <div class="fluid-wave-top-right"></div>
+    <svg class="svg-curved-stream" viewBox="0 0 800 400" fill="none" preserveAspectRatio="none">
+      <path d="M-100,50 C200,180 400,-20 900,120" stroke="rgba(0, 102, 255, 0.12)" stroke-width="40" fill="none"/>
+      <path d="M-50,150 C300,260 500,40 850,220" stroke="rgba(59, 130, 246, 0.10)" stroke-width="25" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- =========================================================================
+       شاشة العرض المركزية (Mobile Screen Wrapper)
+       ========================================================================= -->
+  <main class="screen-wrapper">
+
+    <!-- 1. الشريط العلوي: زر الرجوع لتسجيل الدخول وزر اللغة -->
+    <header class="top-action-bar">
+      <!-- زر الرجوع إلى صفحة تسجيل الدخول -->
+      <a href="welcome.html" class="back-btn-round" title="الرجوع لتسجيل الدخول">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+
+      <!-- زر اللغة -->
+      <button type="button" class="lang-pill-btn" onclick="openLangSheet()" title="تغيير لغة العرض">
+        <span class="lang-chevron-icon">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+        <span id="currentLangLabel">عربي</span>
+        <span class="lang-gear-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </span>
+      </button>
+    </header>
+
+    <!-- 2. رأس الصفحة: لوجو شركة كفو الرسمي المعتمد -->
+    <section class="brand-hero-section">
+      <div class="brand-logo-pod" title="شعار شركة كفو">
+        <img src="assets/images/kafu-logo.png" alt="شعار شركة كفو" class="brand-logo-icon" />
+      </div>
+      <h1 class="brand-title">كفو</h1>
+      <p class="brand-subtitle">منظومة قطع غيار السيارات الذكية</p>
+    </section>
+
+    <!-- 3. بطاقة إنشاء الحساب البيضاء المرفوعة (Register Card) -->
+    <div class="main-register-card">
+      
+      <div class="card-header-block">
+        <h2 class="card-main-title">إنشاء حساب جديد</h2>
+        <p class="card-sub-title">انضم الآن إلى منظومة كفو الذكية</p>
+      </div>
+
+      <!-- نموذج تسجيل البيانات -->
+      <form id="registerForm" onsubmit="handleRegisterSubmit(event)" novalidate>
+        <div class="inputs-form-group">
+          
+          <!-- 1. حقل الاسم الكامل -->
+          <div class="form-input-box" id="nameBox">
+            <div class="input-field-right">
+              <span class="input-icon-blue">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </span>
+              <input 
+                type="text" 
+                id="nameInput" 
+                class="native-text-input" 
+                placeholder="الاسم الكامل أو اسم النشاط" 
+                dir="rtl"
+                autocomplete="name"
+              />
+            </div>
+          </div>
+
+          <!-- 2. حقل رقم الجوال مع كود الدولة -->
+          <div class="form-input-box" id="phoneBox">
+            <div class="input-field-right">
+              <span class="input-icon-blue">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+              </span>
+              <input 
+                type="tel" 
+                id="phoneInput" 
+                class="native-text-input" 
+                placeholder="رقم الجوال" 
+                dir="rtl"
+                autocomplete="tel"
+                maxlength="14"
+              />
+            </div>
+            
+            <button type="button" class="country-code-pill" onclick="openCountrySheet()" title="اختر رمز الدولة">
+              <svg class="country-flag-icon" viewBox="0 0 640 440">
+                <rect width="640" height="440" fill="#007A3D"/>
+                <path d="M160 180 Q320 160 480 180 Q320 200 160 180" fill="#FFFFFF"/>
+                <rect x="200" y="240" width="240" height="18" rx="4" fill="#FFFFFF"/>
+                <path d="M190 249 L210 235 L210 263 Z" fill="#FFFFFF"/>
+              </svg>
+              <span>+966</span>
+              <span class="lang-chevron-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </span>
+            </button>
+          </div>
+
+          <!-- 3. حقل نوع الحساب -->
+          <div class="role-select-box" id="roleBox" onclick="openRolePickerSheet()" title="اختر نوع الحساب">
+            <div class="input-field-right">
+              <span class="input-icon-blue">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </span>
+              <span class="role-selected-text" id="selectedRoleLabel">نوع الحساب: تاجر قطع غيار</span>
+            </div>
+            <span class="lang-chevron-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </div>
+
+          <!-- 4. حقل كلمة المرور -->
+          <div class="form-input-box" id="passwordBox">
+            <div class="input-field-right">
+              <span class="input-icon-blue">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </span>
+              <input 
+                type="password" 
+                id="passwordInput" 
+                class="native-text-input" 
+                placeholder="كلمة المرور" 
+                dir="rtl"
+                autocomplete="new-password"
+              />
+            </div>
+            <button type="button" class="toggle-pass-btn" onclick="togglePasswordVisibility('passwordInput', 'eyeIcon1')" title="إظهار / إخفاء كلمة المرور">
+              <svg id="eyeIcon1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+
+          <!-- 5. حقل تأكيد كلمة المرور -->
+          <div class="form-input-box" id="confirmPasswordBox">
+            <div class="input-field-right">
+              <span class="input-icon-blue">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </span>
+              <input 
+                type="password" 
+                id="confirmPasswordInput" 
+                class="native-text-input" 
+                placeholder="تأكيد كلمة المرور" 
+                dir="rtl"
+                autocomplete="new-password"
+              />
+            </div>
+            <button type="button" class="toggle-pass-btn" onclick="togglePasswordVisibility('confirmPasswordInput', 'eyeIcon2')" title="إظهار / إخفاء كلمة المرور">
+              <svg id="eyeIcon2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- الموافقة على الشروط -->
+        <label class="terms-agree-row">
+          <input type="checkbox" id="termsCheckbox" class="terms-checkbox" checked />
+          <span>أوافق على <a href="#" class="terms-link" onclick="event.preventDefault(); showToast('شروط الخدمة والخصوصية معتمدة وفق الأنظمة السعودية');">شروط الخدمة وسياسة الخصوصية</a></span>
+        </label>
+
+        <!-- زر إنشاء الحساب الأساسي -->
+        <button type="submit" class="primary-submit-btn" id="submitBtn">
+          <span class="btn-arrow-circle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="13 6 19 12 13 18"></polyline>
+            </svg>
+          </span>
+          <span>إنشاء الحساب</span>
+        </button>
+      </form>
+
+      <!-- رابط العودة لتسجيل الدخول -->
+      <div class="login-prompt-box">
+        <span>لديك حساب بالفعل؟</span>
+        <a href="welcome.html" class="login-link-bold">تسجيل الدخول</a>
+      </div>
+
+    </div>
+
+    <!-- 4. تذييل الصفحة: سيارة كفو وعبارة الشعار المعتمدة -->
+    <footer class="brand-footer-section">
+      <div class="footer-car-divider-row">
+        <div class="footer-divider-arm"></div>
+        <img src="assets/images/kafu-footer-car.png" alt="كفو" class="footer-car-img" />
+        <div class="footer-divider-arm"></div>
+      </div>
+      <p class="footer-tagline-text">مع كفو... كل قطعة في مكانها</p>
+    </footer>
+
+  </main>
+
+  <!-- =========================================================================
+       نافذة اختيار نوع الحساب (Role Selection Sheet)
+       ========================================================================= -->
+  <div class="bottom-sheet-backdrop" id="roleSheetBackdrop" onclick="closeRolePickerSheet(event)">
+    <div class="bottom-sheet-content">
+      <div class="sheet-drag-handle"></div>
+      <h3 class="sheet-title-text">اختر نوع حسابك في كفو</h3>
+      <p class="sheet-desc-text">حدد صفتك لتهيئة حسابك ولوحة التحكم المناسبة</p>
+
+      <div class="sheet-options-stack">
+        <button type="button" class="sheet-btn-option" onclick="setAccountRole('merchant_new', 'تاجر قطع غيار جديدة')">
+          <div style="display:flex; flex-direction:column; gap:2px;">
+            <strong style="color: #0F172A;">تاجر قطع غيار جديدة</strong>
+            <span style="font-size:0.78rem; color:#64748B;">متجر ومورد لقطع الغيار الأصلية والوكالات</span>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setAccountRole('merchant_scrap', 'تاجر تشاليح ومستعمل')">
+          <div style="display:flex; flex-direction:column; gap:2px;">
+            <strong style="color: #0F172A;">تاجر تشاليح ومستعمل</strong>
+            <span style="font-size:0.78rem; color:#64748B;">بيع قطع التشاليح والسيارات المفككة</span>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setAccountRole('rep_oem', 'مندوب مبيعات (جديد)')">
+          <div style="display:flex; flex-direction:column; gap:2px;">
+            <strong style="color: #0F172A;">مندوب مبيعات</strong>
+            <span style="font-size:0.78rem; color:#64748B;">متابعة عروض الأسعار والمبيعات الميدانية</span>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setAccountRole('workshop', 'مهندس ورشة صيانة')">
+          <div style="display:flex; flex-direction:column; gap:2px;">
+            <strong style="color: #0F172A;">مهندس ورشة صيانة</strong>
+            <span style="font-size:0.78rem; color:#64748B;">طلب القطع الفورية ومتابعة الصيانة</span>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setAccountRole('courier', 'مندوب توصيل لوجستي')">
+          <div style="display:flex; flex-direction:column; gap:2px;">
+            <strong style="color: #0F172A;">مندوب توصيل</strong>
+            <span style="font-size:0.78rem; color:#64748B;">توصيل واستلام شحنات قطع الغيار</span>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setAccountRole('customer', 'عميل / زائر')">
+          <div style="display:flex; flex-direction:column; gap:2px;">
+            <strong style="color: #0F172A;">عميل عادي (مشتري)</strong>
+            <span style="font-size:0.78rem; color:#64748B;">شراء وتصفح قطع الغيار لسيارتي</span>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      </div>
+
+      <button type="button" class="sheet-close-btn" onclick="closeRolePickerSheetDirect()">إغلاق</button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       نافذة اختيار رمز الدولة (Country Code Sheet)
+       ========================================================================= -->
+  <div class="bottom-sheet-backdrop" id="countrySheetBackdrop" onclick="closeCountrySheet(event)">
+    <div class="bottom-sheet-content">
+      <div class="sheet-drag-handle"></div>
+      <h3 class="sheet-title-text">اختر رمز الدولة</h3>
+      <p class="sheet-desc-text">حدد كود الدولة لرقم هاتفك المحمول</p>
+
+      <div class="sheet-options-stack">
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+966', '🇸🇦')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇸🇦</span>
+            <strong style="font-size: 0.94rem;">المملكة العربية السعودية</strong>
+          </div>
+          <span style="font-weight: 700; color: #0066FF; direction: ltr;">+966</span>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+971', '🇦🇪')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇦🇪</span>
+            <strong style="font-size: 0.94rem;">الإمارات العربية المتحدة</strong>
+          </div>
+          <span style="font-weight: 700; color: #64748B; direction: ltr;">+971</span>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+965', '🇰🇼')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇰🇼</span>
+            <strong style="font-size: 0.94rem;">الكويت</strong>
+          </div>
+          <span style="font-weight: 700; color: #64748B; direction: ltr;">+965</span>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+973', '🇧🇭')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇧🇭</span>
+            <strong style="font-size: 0.94rem;">البحرين</strong>
+          </div>
+          <span style="font-weight: 700; color: #64748B; direction: ltr;">+973</span>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+968', '🇴🇲')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇴🇲</span>
+            <strong style="font-size: 0.94rem;">سلطنة عُمان</strong>
+          </div>
+          <span style="font-weight: 700; color: #64748B; direction: ltr;">+968</span>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setCountry('+974', '🇶🇦')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;">🇶🇦</span>
+            <strong style="font-size: 0.94rem;">قطر</strong>
+          </div>
+          <span style="font-weight: 700; color: #64748B; direction: ltr;">+974</span>
+        </button>
+      </div>
+
+      <button type="button" class="sheet-close-btn" onclick="closeCountrySheetDirect()">إغلاق</button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       نافذة تبديل لغة التطبيق
+       ========================================================================= -->
+  <div class="bottom-sheet-backdrop" id="langSheetBackdrop" onclick="closeLangSheet(event)">
+    <div class="bottom-sheet-content">
+      <div class="sheet-drag-handle"></div>
+      <h3 class="sheet-title-text">اختر لغة التطبيق / Select Language</h3>
+      <p class="sheet-desc-text">حدد لغة العرض المناسبة لتجربتك</p>
+
+      <div class="sheet-options-stack">
+        <button type="button" class="sheet-btn-option" style="border-color: #0066FF; background: #EFF6FF;" onclick="setLanguage('ar')">
+          <strong style="color: #0066FF;">العربية (Arabic)</strong>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.6"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </button>
+
+        <button type="button" class="sheet-btn-option" onclick="setLanguage('en')">
+          <strong>English (الإنجليزية)</strong>
+          <span style="font-size: 0.8rem; color: #94A3B8;">قريباً</span>
+        </button>
+      </div>
+
+      <button type="button" class="sheet-close-btn" onclick="closeLangSheetDirect()">إغلاق</button>
+    </div>
+  </div>
+
+  <!-- رسالة Toast منبثقة -->
+  <div class="feedback-toast" id="feedbackToast">
+    <span id="toastMessage">تم إنشاء الحساب بنجاح</span>
+  </div>
+
+  <!-- شاشة التحميل والانتقال السريع -->
+  <div class="role-loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <span style="font-size: 0.95rem; font-weight: 700; color: #0A2540;" id="loadingText">جاري تهيئة حسابك في كفو...</span>
+  </div>
+
+  <!-- السكربتات البرمجية -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    (function initFrameCompatibility() {
+      if (window.self !== window.top) {
+        document.documentElement.classList.add('in-mobile-frame');
+        document.body.classList.add('in-mobile-frame');
+      }
+    })();
+
+    let currentSelectedRole = 'merchant_new';
+
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (!input || !icon) return;
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.innerHTML = `
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        `;
+      } else {
+        input.type = 'password';
+        icon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        `;
+      }
+    }
+
+    function openRolePickerSheet() {
+      document.getElementById('roleSheetBackdrop').classList.add('active');
+    }
+    function closeRolePickerSheet(e) {
+      if (e.target === document.getElementById('roleSheetBackdrop')) closeRolePickerSheetDirect();
+    }
+    function closeRolePickerSheetDirect() {
+      document.getElementById('roleSheetBackdrop').classList.remove('active');
+    }
+    function setAccountRole(roleKey, roleLabel) {
+      currentSelectedRole = roleKey;
+      document.getElementById('selectedRoleLabel').textContent = `نوع الحساب: ${roleLabel}`;
+      closeRolePickerSheetDirect();
+      showToast(`تم اختيار نوع الحساب: ${roleLabel}`, 'success');
+    }
+
+    function openCountrySheet() {
+      document.getElementById('countrySheetBackdrop').classList.add('active');
+    }
+    function closeCountrySheet(e) {
+      if (e.target === document.getElementById('countrySheetBackdrop')) closeCountrySheetDirect();
+    }
+    function closeCountrySheetDirect() {
+      document.getElementById('countrySheetBackdrop').classList.remove('active');
+    }
+    function setCountry(code, flagEmoji) {
+      const pill = document.querySelector('.country-code-pill');
+      if (pill) {
+        pill.innerHTML = `
+          <span style="font-size: 1.15rem; line-height: 1;">${flagEmoji}</span>
+          <span>${code}</span>
+          <span class="lang-chevron-icon">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        `;
+      }
+      closeCountrySheetDirect();
+      showToast(`تم اختيار رمز الدولة: ${code}`, 'success');
+    }
+
+    function openLangSheet() {
+      document.getElementById('langSheetBackdrop').classList.add('active');
+    }
+    function closeLangSheet(e) {
+      if (e.target === document.getElementById('langSheetBackdrop')) closeLangSheetDirect();
+    }
+    function closeLangSheetDirect() {
+      document.getElementById('langSheetBackdrop').classList.remove('active');
+    }
+    function setLanguage(lang) {
+      if (lang === 'ar') {
+        document.getElementById('currentLangLabel').textContent = 'عربي';
+        closeLangSheetDirect();
+      } else {
+        alert('الدعم الكامل للغة الإنجليزية قيد التجهيز وسيتم إطلاقه قريباً.');
+        closeLangSheetDirect();
+      }
+    }
+
+    function handleRegisterSubmit(event) {
+      if (event) event.preventDefault();
+
+      const nameInput = document.getElementById('nameInput');
+      const phoneInput = document.getElementById('phoneInput');
+      const passInput = document.getElementById('passwordInput');
+      const confirmInput = document.getElementById('confirmPasswordInput');
+      const termsBox = document.getElementById('termsCheckbox');
+
+      const nameVal = nameInput.value.trim();
+      const phoneVal = phoneInput.value.trim();
+      const passVal = passInput.value.trim();
+      const confirmVal = confirmInput.value.trim();
+
+      // إعادة تعيين ألوان الخطأ
+      ['nameBox', 'phoneBox', 'passwordBox', 'confirmPasswordBox'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('error-state');
+      });
+
+      // التحقق من الاسم
+      if (!nameVal) {
+        document.getElementById('nameBox').classList.add('error-state');
+        showToast('يرجى إدخال الاسم الكامل أو اسم النشاط', 'error');
+        nameInput.focus();
+        return;
+      }
+
+      // التحقق من الجوال
+      if (phoneVal.length < 9) {
+        document.getElementById('phoneBox').classList.add('error-state');
+        showToast('يرجى إدخال رقم جوال صحيح (9 أرقام على الأقل)', 'error');
+        phoneInput.focus();
+        return;
+      }
+
+      // التحقق من كلمة المرور
+      if (passVal.length < 6) {
+        document.getElementById('passwordBox').classList.add('error-state');
+        showToast('كلمة المرور يجب أن لا تقل عن 6 خانات', 'error');
+        passInput.focus();
+        return;
+      }
+
+      // التحقق من تطابق كلمتي المرور
+      if (passVal !== confirmVal) {
+        document.getElementById('confirmPasswordBox').classList.add('error-state');
+        showToast('كلمتا المرور غير متطابقتين', 'error');
+        confirmInput.focus();
+        return;
+      }
+
+      // التحقق من الموافقة على الشروط
+      if (!termsBox.checked) {
+        showToast('يرجى الموافقة على شروط الخدمة والخصوصية', 'error');
+        return;
+      }
+
+      // حفظ بيانات المستخدم
+      const userData = {
+        name: nameVal,
+        phone: phoneVal,
+        role: currentSelectedRole,
+        registeredAt: new Date().toISOString()
+      };
+
+      localStorage.setItem('kafu_user_profile', JSON.stringify(userData));
+      if (window.KafuStore) {
+        KafuStore.setRole(currentSelectedRole);
+      } else {
+        localStorage.setItem('kafu_user_role', currentSelectedRole);
+      }
+      sessionStorage.setItem('kafu_splash_passed', 'true');
+
+      // رسالة نجاح والانتقال للتطبيق
+      showToast('تم إنشاء الحساب بنجاح! أهلاً بك في كفو', 'success');
+
+      const overlay = document.getElementById('loadingOverlay');
+      const text = document.getElementById('loadingText');
+      if (overlay && text) {
+        text.textContent = `مرحباً بك ${nameVal}، جاري تهيئة حسابك...`;
+        overlay.classList.add('active');
+      }
+
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 600);
+    }
+
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('feedbackToast');
+      const msgSpan = document.getElementById('toastMessage');
+      if (!toast || !msgSpan) return;
+
+      msgSpan.textContent = msg;
+      toast.className = `feedback-toast show ${type}`;
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2800);
+    }
+  </script>
+</body>
+</html>
