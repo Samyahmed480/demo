@@ -89,6 +89,7 @@
   <!-- سكربتات التطبيق -->
   <script src="assets/js/products.js"></script>
   <script src="assets/js/store.js"></script>
+  <script src="assets/js/merchant-orders.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
     const modalBackdrop = document.getElementById('accountActionModal');
@@ -1116,52 +1117,10 @@
     // =========================================================================
 
     function openIncomingOrdersModal() {
-      const incomingOrders = [
-        {
-          id: 'ORD-8921',
-          customer: 'عبدالله السبيعي',
-          phone: '055****128',
-          car: 'تويوتا كامري 2023',
-          part: 'فحمات / قماشات الفرامل (Brake Pad)',
-          oem: '04465-33480',
-          amount: 195,
-          status: 'قيد التجهيز',
-          statusColor: '#D97706',
-          statusBg: '#FEF3C7'
-        },
-        {
-          id: 'ORD-8918',
-          customer: 'سالم الشمري',
-          phone: '050****845',
-          car: 'تويوتا كامري 2022',
-          part: 'طقم مكبس محرك كامل',
-          oem: 'OP010-13101',
-          amount: 480,
-          status: 'جاهز للشحن',
-          statusColor: '#2563EB',
-          statusBg: '#EFF6FF'
-        }
-      ];
-
-      const html = incomingOrders.map(o => `
-        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px; margin-bottom: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <strong style="color: var(--text); font-size: 0.95rem;">طلب رقم: ${o.id}</strong>
-            <span style="color: ${o.statusColor}; background: ${o.statusBg}; padding: 3px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;">${o.status}</span>
-          </div>
-          <div style="font-size: 0.85rem; color: #475569; margin-bottom: 4px;">العميل: <strong>${o.customer}</strong> (${o.phone})</div>
-          <div style="font-size: 0.84rem; color: #475569; margin-bottom: 4px;">القطعة المطلوبة: <strong>${o.part}</strong></div>
-          <div style="font-size: 0.8rem; color: var(--text-muted); font-family: monospace;">OEM: ${o.oem} | السيارة: ${o.car}</div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #EDF2F7;">
-            <span style="font-weight: 800; color: var(--primary); font-size: 1rem;">${o.amount} ر.س</span>
-            <button class="btn-primary" style="padding: 6px 14px; font-size: 0.82rem;" onclick="KafuApp.showToast('تم تأكيد تجهيز الطلب وإرسال إشعار للكابتن'); closeActionModal();">
-              تأكيد وتجهيز الشحنة
-            </button>
-          </div>
-        </div>
-      `).join('');
-
-      openModalWith('طلبات العملاء الواردة', 'قائمة الطلبات الجديدة لمتجرك', html);
+      if (window.KafuMerchantOrders) {
+        const html = KafuMerchantOrders.renderOrdersModalHtml('all', '');
+        openModalWith('طلبات العملاء الواردة', 'إدارة وتجهيز مبيعات المتجر، المندوبين، والشحن', html);
+      }
     }
 
     function openMerchantAddressModal() {
