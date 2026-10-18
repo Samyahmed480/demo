@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>كفو | المستندات الرسمية وتراخيص المندوب</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #F1F5F9;
+      font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #0F172A;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .verification-page-shell {
+      width: 100%;
+      max-width: 600px;
+      min-height: 100vh;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 35px rgba(15, 23, 42, 0.06);
+      position: relative;
+    }
+
+    .verification-top-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1.5px solid #E2E8F0;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-back-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #0F172A;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .header-back-btn:hover {
+      background: #EFF6FF;
+      border-color: #BFDBFE;
+      color: #0066FF;
+    }
+
+    .verification-main-content {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="verification-page-shell">
+    
+    <!-- الشريط العلوي مع زر الرجوع لصفحة الحساب -->
+    <header class="verification-top-header">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <a href="account.html" class="header-back-btn" title="الرجوع إلى الحساب">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </a>
+        <div>
+          <h1 style="font-size: 1.15rem; font-weight: 900; color: #0A2540;">الوثائق والتراخيص الرسمية</h1>
+          <p style="font-size: 0.74rem; color: #64748B;">وثيقة العمل الحر، رخصة القيادة، والهوية المعتمدة</p>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <span style="font-size: 0.76rem; background: #DCFCE7; color: #15803D; padding: 4px 10px; border-radius: 999px; font-weight: 700;">
+          معتمد وموثق 100% ✓
+        </span>
+      </div>
+    </header>
+
+    <!-- المحتوى الشامل للمستندات -->
+    <main class="verification-main-content" id="verificationMainContainer">
+      <!-- يتم حقنه ديناميكياً بواسطة KafuMerchantVerification -->
+    </main>
+
+  </div>
+
+  <!-- مودال المعاينة والإجراءات التفاعلية -->
+  <div class="sheet-backdrop" id="accountActionModal">
+    <div class="bottom-sheet" id="accountActionSheet">
+      <div class="sheet-header">
+        <div class="sheet-title-col">
+          <h2 class="sheet-title" id="actionModalTitle">عنوان</h2>
+          <p class="sheet-subtitle" id="actionModalDesc">وصف</p>
+        </div>
+        <button class="btn-close-sheet" onclick="closeActionModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div id="actionModalBody"></div>
+    </div>
+  </div>
+
+  <!-- سكربتات التطبيق -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/merchant-verification.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    const modalBackdrop = document.getElementById('accountActionModal');
+    const modalTitle = document.getElementById('actionModalTitle');
+    const modalDesc = document.getElementById('actionModalDesc');
+    const modalBody = document.getElementById('actionModalBody');
+
+    function openModalWith(title, desc, bodyHtml) {
+      if (!modalBackdrop || !modalBody) return;
+      modalTitle.textContent = title;
+      modalDesc.textContent = desc;
+      modalBody.innerHTML = bodyHtml;
+      modalBackdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeActionModal() {
+      if (!modalBackdrop) return;
+      modalBackdrop.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) {
+        closeActionModal();
+      }
+    });
+
+    window.openModalWith = openModalWith;
+    window.closeActionModal = closeActionModal;
+
+    function renderPage() {
+      const container = document.getElementById('verificationMainContainer');
+      if (container && window.KafuMerchantVerification) {
+        container.innerHTML = KafuMerchantVerification.renderModalContent();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderPage();
+    });
+  </script>
+</body>
+</html>

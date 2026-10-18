@@ -117,21 +117,253 @@ const KafuMerchantWallet = {
     ]
   },
 
+  getRoleContext() {
+    const roleId = (window.KafuStore && window.KafuStore.getRole) ? window.KafuStore.getRole() : 'merchant_new';
+    if (roleId === 'rep_oem' || roleId === 'rep_scrap') {
+      const isScrap = roleId === 'rep_scrap';
+      return {
+        roleId,
+        isRep: true,
+        isCourier: false,
+        walletTitle: 'محفظة عمولات المبيعات والأرباح',
+        walletSubtitle: 'سحب العمولات الفورية وكشف حركات مبيعات الورش',
+        badge: 'عمولات معتمدة ✓',
+        availLabel: 'رصيد العمولات المتاح للسحب الفوري',
+        pendingLabel: 'عمولات معلقة (قيد التحصيل والتسليم للورش)',
+        monthlyLabel: 'مبيعات الورش هذا الشهر',
+        payoutBtnLabel: 'طلب سحب العمولات للبنك',
+        fullPageUrl: 'rep-wallet.html',
+        fullPageTitle: 'فتح محفظة عمولات المندوب بملء الشاشة',
+        beneficiaryDefault: isScrap ? 'خالد الدوسري (مندوب تشاليح معتمد)' : 'فهد العتيبي (مندوب مبيعات معتمد)',
+        ibanDefault: 'SA03 8000 0000 6080 1012 3456',
+        salesTabLabel: 'عمولات المبيعات (+)',
+        payoutSuccessMsg: 'تم تحويل العمولات بنجاح إلى حسابك البنكي!'
+      };
+    } else if (roleId === 'courier') {
+      return {
+        roleId,
+        isRep: false,
+        isCourier: true,
+        walletTitle: 'محفظة أرباح التوصيل والمشاوير',
+        walletSubtitle: 'سحب فوري لأرباح مشاوير الكابتن بدون رسوم عبر سريع SARIE',
+        badge: 'كابتن سريع معتمد ✓',
+        availLabel: 'أرباح المشاوير المتاحة للسحب',
+        pendingLabel: 'مشاوير جارية (قيد التوصيل)',
+        monthlyLabel: 'أرباح التوصيل هذا الشهر',
+        payoutBtnLabel: 'طلب تحويل أرباح المشاوير للبنك',
+        fullPageUrl: 'courier-wallet.html',
+        fullPageTitle: 'فتح محفظة أرباح الكابتن بملء الشاشة',
+        beneficiaryDefault: 'كابتن عبدالله الشمري',
+        ibanDefault: 'SA49 8000 0123 4567 8901 2345',
+        salesTabLabel: 'أرباح التوصيل (+)',
+        payoutSuccessMsg: 'تم تحويل أرباح المشاوير بنجاح إلى حسابك البنكي!'
+      };
+    }
+    return {
+      roleId,
+      isRep: false,
+      isCourier: false,
+      walletTitle: 'محفظة التاجر والأرباح',
+      walletSubtitle: 'سحب الأرباح الفورية وكشف الحركات المالية',
+      badge: 'جاهز للتحويل البنكي ✓',
+      availLabel: 'الرصيد المتاح للسحب الفوري',
+      pendingLabel: 'الرصيد المعلّق (مع المندوبين)',
+      monthlyLabel: 'مبيعات هذا الشهر',
+      payoutBtnLabel: 'طلب سحب الرصيد للبنك',
+      fullPageUrl: 'merchant-wallet.html',
+      fullPageTitle: 'فتح محفظة الأرباح بملء الشاشة',
+      beneficiaryDefault: 'مؤسسة متجر كفو لقطع الغيار',
+      ibanDefault: 'SA03 8000 0000 6080 1012 3456',
+      salesTabLabel: 'مبيعات وأرباح (+)',
+      payoutSuccessMsg: 'تم تنفيذ التحويل البنكي الفوري بنجاح!'
+    };
+  },
+
+  getStorageKey() {
+    const ctx = this.getRoleContext();
+    if (ctx.isRep) return this.STORAGE_KEY + '_rep';
+    if (ctx.isCourier) return this.STORAGE_KEY + '_courier';
+    return this.STORAGE_KEY;
+  },
+
+  getDefaultDataForRole() {
+    const ctx = this.getRoleContext();
+    if (ctx.isRep) {
+      return {
+        availableBalance: 4280.00,
+        pendingBalance: 1850.00,
+        monthlySales: 24650.00,
+        totalWithdrawn: 12400.00,
+        vatCollected: 1860.00,
+        vatNumber: '310928192800003',
+        bankAccount: {
+          bankName: 'مصرف الراجحي (SARIE سريع)',
+          bankLogo: '🏛️',
+          iban: ctx.ibanDefault,
+          beneficiaryName: ctx.beneficiaryDefault,
+          crNumber: 'وثيقة عمل حر #FL-90281-2026',
+          isVerified: true
+        },
+        transactions: [
+          {
+            id: 'TXN-REP-9841',
+            type: 'sale',
+            title: 'عمولة مبيعات طلبية ورشة الأمل #ORD-8921',
+            desc: 'فحمات فرامل كامري 2023 - عمولة مباشرة مسندة للمندوب',
+            date: 'اليوم، 10:46 ص',
+            amount: 140.00,
+            netProfit: 140.00,
+            fee: 0.00,
+            status: 'completed',
+            statusLabel: 'عمولة معتمدة ومودعة',
+            statusColor: '#15803D',
+            statusBg: '#DCFCE7',
+            refNumber: 'COMM-ORD-8921'
+          },
+          {
+            id: 'TXN-REP-9830',
+            type: 'sale',
+            title: 'عمولة مبيعات ورشة المحرك الذهبي #ORD-8918',
+            desc: 'طقم مكبس محرك كامل - عمولة بيع وتنسيق ميداني',
+            date: 'اليوم، 09:32 ص',
+            amount: 180.00,
+            netProfit: 180.00,
+            fee: 0.00,
+            status: 'completed',
+            statusLabel: 'عمولة معتمدة ومودعة',
+            statusColor: '#15803D',
+            statusBg: '#DCFCE7',
+            refNumber: 'COMM-ORD-8918'
+          },
+          {
+            id: 'TXN-REP-9812',
+            type: 'pending',
+            title: 'عمولة معلقة - طلبية ورشة الخليج #ORD-8915',
+            desc: 'مساعدات مازدا 6 - الشحنة مع كابتن التوصيل بانتظار التسليم',
+            date: 'اليوم، 08:14 ص',
+            amount: 95.00,
+            netProfit: 95.00,
+            fee: 0.00,
+            status: 'pending',
+            statusLabel: 'معلقة لحين التسليم للورشة',
+            statusColor: '#B45309',
+            statusBg: '#FEF3C7',
+            refNumber: 'COMM-PEND-8915'
+          },
+          {
+            id: 'TXN-REP-9750',
+            type: 'payout',
+            title: 'تحويل عمولات سريع لحساب الراجحي',
+            desc: 'تحويل عمولات مبيعات مباشر عبر نظام سريع (SARIE)',
+            date: 'أمس، 02:15 م',
+            amount: -3000.00,
+            status: 'completed',
+            statusLabel: 'حوالة منفذة',
+            statusColor: '#0369A1',
+            statusBg: '#E0F2FE',
+            refNumber: 'SARIE-REP-772910'
+          }
+        ]
+      };
+    } else if (ctx.isCourier) {
+      return {
+        availableBalance: 210.00,
+        pendingBalance: 95.00,
+        monthlySales: 4850.00,
+        totalWithdrawn: 3420.00,
+        vatCollected: 0.00,
+        vatNumber: '-',
+        bankAccount: {
+          bankName: 'مصرف الراجحي (SARIE سريع)',
+          bankLogo: '🏛️',
+          iban: ctx.ibanDefault,
+          beneficiaryName: ctx.beneficiaryDefault,
+          crNumber: 'رخصة قيادة #DL-2024-98129',
+          isVerified: true
+        },
+        transactions: [
+          {
+            id: 'TXN-CR-9941',
+            type: 'sale',
+            title: 'أجر توصيل مشوار شحنة #SH-992',
+            desc: 'من متجر كفو للصناعية القديمة إلى مركز الأمل باليرموك',
+            date: 'اليوم، 10:46 ص',
+            amount: 45.00,
+            netProfit: 45.00,
+            fee: 0.00,
+            status: 'completed',
+            statusLabel: 'تم التوصيل وإيداع الأجر',
+            statusColor: '#15803D',
+            statusBg: '#DCFCE7',
+            refNumber: 'DELIV-SH-992'
+          },
+          {
+            id: 'TXN-CR-9930',
+            type: 'sale',
+            title: 'أجر توصيل مشوار شحنة #SH-988',
+            desc: 'من تشاليح الحائر إلى ورشة الخليج بالسلي',
+            date: 'اليوم، 09:32 ص',
+            amount: 60.00,
+            netProfit: 60.00,
+            fee: 0.00,
+            status: 'completed',
+            statusLabel: 'تم التوصيل وإيداع الأجر',
+            statusColor: '#15803D',
+            statusBg: '#DCFCE7',
+            refNumber: 'DELIV-SH-988'
+          },
+          {
+            id: 'TXN-CR-9912',
+            type: 'pending',
+            title: 'أجر مشوار قيد التوصيل #ACT-104',
+            desc: 'طرد قطع محرك لمركز صيانة كفو بمخرج 17',
+            date: 'اليوم، 08:14 ص',
+            amount: 45.00,
+            netProfit: 45.00,
+            fee: 0.00,
+            status: 'pending',
+            statusLabel: 'قيد التوصيل (يودع فور إدخال OTP)',
+            statusColor: '#B45309',
+            statusBg: '#FEF3C7',
+            refNumber: 'DELIV-ACT-104'
+          },
+          {
+            id: 'TXN-CR-9750',
+            type: 'payout',
+            title: 'سحب أرباح مشاوير لحساب الراجحي',
+            desc: 'تحويل سريع SARIE لحساب الكابتن البنكي',
+            date: 'أمس، 02:15 م',
+            amount: -400.00,
+            status: 'completed',
+            statusLabel: 'حوالة منفذة',
+            statusColor: '#0369A1',
+            statusBg: '#E0F2FE',
+            refNumber: 'SARIE-CR-89210'
+          }
+        ]
+      };
+    }
+    return this.defaultData;
+  },
+
   getData() {
+    const key = this.getStorageKey();
     try {
-      const raw = localStorage.getItem(this.STORAGE_KEY);
+      const raw = localStorage.getItem(key);
       if (!raw) {
-        this.saveData(this.defaultData);
-        return { ...this.defaultData };
+        const d = this.getDefaultDataForRole();
+        this.saveData(d);
+        return { ...d };
       }
       return JSON.parse(raw);
     } catch (e) {
-      return { ...this.defaultData };
+      return { ...this.getDefaultDataForRole() };
     }
   },
 
   saveData(data) {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+    const key = this.getStorageKey();
+    localStorage.setItem(key, JSON.stringify(data));
   },
 
   // 1. طلب سحب الرصيد البنكي
@@ -170,6 +402,7 @@ const KafuMerchantWallet = {
   renderModalContent(activeTab = 'all') {
     this.activeTab = activeTab;
     const data = this.getData();
+    const ctx = this.getRoleContext();
 
     let txns = data.transactions || [];
     if (activeTab === 'sales') {
@@ -191,7 +424,7 @@ const KafuMerchantWallet = {
 
           <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
             <div>
-              <span style="font-size: 0.78rem; color: #94A3B8; font-weight: 600;">الرصيد المتاح للسحب الفوري</span>
+              <span style="font-size: 0.78rem; color: #94A3B8; font-weight: 600;">${ctx.availLabel}</span>
               <div style="display: flex; align-items: baseline; gap: 6px; margin: 2px 0;">
                 <strong style="font-size: 2.2rem; font-weight: 900; color: #38BDF8; letter-spacing: -0.5px;" class="font-num">${data.availableBalance.toLocaleString('ar-SA', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
                 <span style="font-size: 1rem; color: #E2E8F0; font-weight: 700;">ر.س</span>
@@ -199,19 +432,19 @@ const KafuMerchantWallet = {
             </div>
 
             <span style="font-size: 0.72rem; color: #34D399; background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.3); padding: 3px 10px; border-radius: 999px; font-weight: 800;">
-              جاهز للتحويل البنكي ✓
+              ${ctx.badge}
             </span>
           </div>
 
           <!-- تفاصيل الأرصدة الإضافية (معلق ومبيعات الشهر) -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.12); margin-top: 6px;">
             <div>
-              <div style="font-size: 0.72rem; color: #94A3B8;">الرصيد المعلّق (مع المندوبين)</div>
+              <div style="font-size: 0.72rem; color: #94A3B8;">${ctx.pendingLabel}</div>
               <strong style="font-size: 1.05rem; font-weight: 800; color: #FCD34D;" class="font-num">${data.pendingBalance.toLocaleString('ar-SA', { minimumFractionDigits: 2 })} ر.س</strong>
             </div>
 
             <div style="text-align: left;">
-              <div style="font-size: 0.72rem; color: #94A3B8;">مبيعات هذا الشهر</div>
+              <div style="font-size: 0.72rem; color: #94A3B8;">${ctx.monthlyLabel}</div>
               <strong style="font-size: 1.05rem; font-weight: 800; color: #FFFFFF;" class="font-num">${data.monthlySales.toLocaleString('ar-SA')} ر.س</strong>
             </div>
           </div>
@@ -226,14 +459,14 @@ const KafuMerchantWallet = {
             style="flex: 1; height: 46px; background: #0F766E; border: none; border-radius: 13px; font-size: 0.94rem; font-weight: 800; color: #FFFFFF; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(15, 118, 110, 0.3); transition: all 0.2s ease;"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-            <span>طلب سحب الرصيد للبنك (${data.availableBalance.toLocaleString('ar-SA')} ر.س)</span>
+            <span>${ctx.payoutBtnLabel} (${data.availableBalance.toLocaleString('ar-SA')} ر.س)</span>
           </button>
 
           <a 
-            href="merchant-wallet.html" 
+            href="${ctx.fullPageUrl}" 
             target="_blank" 
             style="display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 13px; color: #0A2540; text-decoration: none;"
-            title="فتح محفظة الأرباح بملء الشاشة"
+            title="${ctx.fullPageTitle}"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
@@ -294,7 +527,7 @@ const KafuMerchantWallet = {
           <!-- شريط فلاتر العمليات -->
           <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px;">
             ${this.renderTabBtn('all', 'الكل', data.transactions.length)}
-            ${this.renderTabBtn('sales', 'مبيعات وأرباح (+)', data.transactions.filter(t => t.type === 'sale').length, '#15803D', '#DCFCE7')}
+            ${this.renderTabBtn('sales', ctx.salesTabLabel || 'مبيعات وأرباح (+)', data.transactions.filter(t => t.type === 'sale').length, '#15803D', '#DCFCE7')}
             ${this.renderTabBtn('payouts', 'سحوبات بنكية (-)', data.transactions.filter(t => t.type === 'payout').length, '#0369A1', '#E0F2FE')}
             ${this.renderTabBtn('pending', 'معلقة', data.transactions.filter(t => t.type === 'pending').length, '#B45309', '#FEF3C7')}
           </div>

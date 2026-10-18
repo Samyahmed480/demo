@@ -318,24 +318,418 @@ const KafuMerchantOrders = {
     }
   ],
 
+  getRoleContext() {
+    const roleId = (window.KafuStore && window.KafuStore.getRole) ? window.KafuStore.getRole() : 'merchant_new';
+    if (roleId === 'rep_oem' || roleId === 'rep_scrap') {
+      return {
+        roleId,
+        isRep: true,
+        isCourier: false,
+        pageTitle: 'إدارة طلبيات ومبيعات المندوب',
+        pageSubtitle: 'متابعة وتجهيز طلبيات الورش والعملاء وتأكيد الشحن والتسليم للكباتن',
+        statusBadge: 'حسابك متاح للطلبات ✓',
+        totalLabel: 'إجمالي طلبيات الورش والعملاء:',
+        fullPageUrl: 'rep-orders.html',
+        fullPageTitle: 'فتح لوحة طلبيات المندوب الموسعة',
+        searchPlaceholder: 'بحث برقم الطلبية (ORD-...)، اسم الورشة، العميل، أو القطعة...',
+        confirmedTabLabel: 'المؤكدة / بانتظار الكابتن',
+        courierTabLabel: 'مع كابتن الشحن'
+      };
+    } else if (roleId === 'courier') {
+      return {
+        roleId,
+        isRep: false,
+        isCourier: true,
+        pageTitle: 'إدارة شحنات ومشاوير الكابتن',
+        pageSubtitle: 'استلام الشحنات من المتاجر، ملاحة GPS، والتسليم برمز التحقق OTP',
+        statusBadge: 'كابتن متصل وجاهز للاستلام ✓',
+        totalLabel: 'إجمالي الشحنات والمشاوير:',
+        fullPageUrl: 'courier-orders.html',
+        fullPageTitle: 'فتح لوحة شحنات الكابتن الموسعة',
+        searchPlaceholder: 'بحث برقم الشحنة، المستودع، الوجهة، أو المستلم...',
+        confirmedTabLabel: 'جاهزة للاستلام بالمستودع',
+        courierTabLabel: 'قيد التوصيل معي'
+      };
+    }
+    return {
+      roleId,
+      isRep: false,
+      isCourier: false,
+      pageTitle: 'إدارة طلبات المتجر والمبيعات',
+      pageSubtitle: 'متابعة الشحنات، المندوبين، والتسليم الفوري',
+      statusBadge: 'متجرك متاح للطلبات ✓',
+      totalLabel: 'إجمالي الطلبات المسجلة:',
+      fullPageUrl: 'merchant-orders.html',
+      fullPageTitle: 'فتح لوحة الطلبات الموسعة',
+      searchPlaceholder: 'بحث برقم الطلب (ORD-...)، اسم العميل، رقم الجوال، أو القطعة...',
+      confirmedTabLabel: 'المؤكدة / بانتظار المندوب',
+      courierTabLabel: 'مع المندوب'
+    };
+  },
+
+  getStorageKey() {
+    const ctx = this.getRoleContext();
+    if (ctx.isRep) return this.STORAGE_KEY + '_rep';
+    if (ctx.isCourier) return this.STORAGE_KEY + '_courier';
+    return this.STORAGE_KEY;
+  },
+
+  getDefaultOrdersForRole() {
+    const ctx = this.getRoleContext();
+    if (ctx.isRep) {
+      return [
+        {
+          id: 'ORD-8921',
+          date: 'اليوم، 10:45 ص',
+          customer: {
+            name: 'مركز صيانة الأمل (م. كمال)',
+            phone: '0554128930',
+            phoneMasked: '055****893',
+            city: 'الرياض',
+            district: 'حي اليرموك',
+            address: 'شارع الصحابة، ورشة 12'
+          },
+          car: {
+            make: 'تويوتا',
+            model: 'كامري',
+            year: '2023',
+            vin: '4T1B11HK5SU89201',
+            displayName: 'تويوتا كامري 2023'
+          },
+          part: {
+            name: 'فحمات / قماشات الفرامل الأمامية (Brake Pad)',
+            oem: '04465-33480',
+            category: 'نظام الفرامل',
+            condition: 'أصلي وكالة (Genuine OEM)',
+            warranty: 'ضمان كفو 6 أشهر',
+            quantity: 1,
+            unitPrice: 195.00,
+            repCommission: 140.00,
+            total: 195.00
+          },
+          status: 'incoming',
+          statusLabel: 'طلبية واردة من ورشة تابعة',
+          notes: 'طلبية مستعجلة للورشة - بانتظار تأكيد التجهيز من المورد المعتمد',
+          courier: null,
+          timeline: [
+            { time: '10:45 ص', text: 'تم استلام الطلبية من مركز صيانة الأمل برمز المندوب' },
+            { time: '10:46 ص', text: 'بانتظار تأكيد التجهيز وإسناد كابتن التوصيل' }
+          ]
+        },
+        {
+          id: 'ORD-8918',
+          date: 'اليوم، 09:30 ص',
+          customer: {
+            name: 'ورشة المحرك الذهبي (أبو فهد)',
+            phone: '0508451122',
+            phoneMasked: '050****845',
+            city: 'الرياض',
+            district: 'الصناعية القديمة',
+            address: 'شارع الجمعية، ورشة رقم 8'
+          },
+          car: {
+            make: 'تويوتا',
+            model: 'كامري',
+            year: '2022',
+            vin: '4T1B11HK2NU10928',
+            displayName: 'تويوتا كامري 2022'
+          },
+          part: {
+            name: 'طقم مكبس محرك كامل (Complete Engine Piston Set)',
+            oem: 'OP010-13101',
+            category: 'المحرك وملحقاته',
+            condition: 'أصلي وكالة معتمد',
+            warranty: 'ضمان سنة كاملة',
+            quantity: 1,
+            unitPrice: 480.00,
+            repCommission: 180.00,
+            total: 480.00
+          },
+          status: 'review',
+          statusLabel: 'قيد المراجعة وتدقيق المقاسات',
+          reviewNote: 'جاري مطابقة مقاس السلندر وستاندر المكبس مع الوكيل',
+          notes: 'طلب فحص إضافي لرقم الهيكل من قبل الورشة',
+          courier: null,
+          timeline: [
+            { time: '09:30 ص', text: 'استلام استفسار الطلبية من الورشة' },
+            { time: '09:40 ص', text: 'تحويل الطلب للمراجعة الفنية' }
+          ]
+        },
+        {
+          id: 'ORD-8915',
+          date: 'اليوم، 07:10 ص',
+          customer: {
+            name: 'مركز صيانة الخليج (م. يوسف)',
+            phone: '0567788990',
+            phoneMasked: '056****990',
+            city: 'الرياض',
+            district: 'حي السلي',
+            address: 'شارع هارون الرشيد، مجمع ورش 4'
+          },
+          car: {
+            make: 'مازدا',
+            model: 'مازدا 6',
+            year: '2021',
+            vin: 'JM1GL1U58M120918',
+            displayName: 'مازدا 6 2021'
+          },
+          part: {
+            name: 'طقم مساعدات أمامية يمين ويسار أصلية',
+            oem: 'KD35-34-700C',
+            category: 'العضلات والمساعدات',
+            condition: 'أصلي وكالة',
+            warranty: 'ضمان سنة كاملة',
+            quantity: 2,
+            unitPrice: 750.00,
+            repCommission: 95.00,
+            total: 750.00
+          },
+          status: 'with_courier',
+          statusLabel: 'قيد التوصيل مع الكابتن للورشة',
+          notes: 'تم فحص المساعدات والتأكد من أرقام البارت نمبر',
+          courier: {
+            name: 'الكابتن راكان المطيري',
+            phone: '0557654321',
+            vehicle: 'هيونداي إلنترا 2022 - ر س ت 9912',
+            rating: '4.95 ★',
+            eta: 'متوقع الوصول للورشة 11:30 ص',
+            pickupOtp: '8143',
+            courierStatus: 'استلم القطع وجاري التوصيل للورشة'
+          },
+          timeline: [
+            { time: '07:10 ص', text: 'طلب مؤكد ومسند للمورد' },
+            { time: '08:00 ص', text: 'الكابتن راكان استلم الشحنة بالكود #8143' }
+          ]
+        },
+        {
+          id: 'ORD-8889',
+          date: 'أمس، 04:30 م',
+          customer: {
+            name: 'مركز صيانة كفو المعتمد',
+            phone: '0509988776',
+            phoneMasked: '050****776',
+            city: 'الرياض',
+            district: 'حي النرجس',
+            address: 'شارع عثمان بن عفان'
+          },
+          car: {
+            make: 'فورد',
+            model: 'تورس',
+            year: '2022',
+            vin: '1FTFW1ED4NFC9201',
+            displayName: 'فورد تورس 2022'
+          },
+          part: {
+            name: 'طقم فلاتر صيانة دورية أصلية',
+            oem: 'FA-1927 / FP-79',
+            category: 'الفلاتر والصيانة السريعة',
+            condition: 'أصلي وكالة',
+            warranty: 'أصلي 100%',
+            quantity: 1,
+            unitPrice: 320.00,
+            repCommission: 85.00,
+            total: 320.00
+          },
+          status: 'delivered',
+          statusLabel: 'تم التسليم واحتساب العمولة ✓',
+          notes: 'تم تسليم القطع للمهندس واعتمدت العمولة بالمحفظة',
+          courier: null,
+          timeline: [
+            { time: 'أمس 04:30 م', text: 'تسليم ناجح للورشة وتأكيد برمز OTP' }
+          ]
+        }
+      ];
+    } else if (ctx.isCourier) {
+      return [
+        {
+          id: 'SH-992',
+          date: 'اليوم، 10:45 ص',
+          customer: {
+            name: 'مركز صيانة الأمل (م. كمال)',
+            phone: '0554128930',
+            phoneMasked: '055****893',
+            city: 'الرياض',
+            district: 'حي اليرموك',
+            address: 'شارع الصحابة، ورشة 12'
+          },
+          pickupWarehouse: 'متجر كفو للقطع - الصناعية القديمة',
+          deliveryDestination: 'حي اليرموك (14 كم)',
+          deliveryFee: 45.00,
+          car: {
+            make: 'تويوتا',
+            model: 'كامري',
+            year: '2023',
+            vin: '4T1B11HK5SU89201',
+            displayName: 'تويوتا كامري 2023'
+          },
+          part: {
+            name: 'فحمات فرامل وبواجي أصلية',
+            oem: '04465-33480',
+            category: 'نظام الفرامل',
+            condition: 'طرد خفيف (3 كجم)',
+            warranty: 'مغلف ومختوم بباركود كفو',
+            quantity: 1,
+            unitPrice: 195.00,
+            total: 195.00
+          },
+          status: 'incoming',
+          statusLabel: 'شحنة متاحة للاستلام الآن (45 ر.س)',
+          notes: 'جاهزة للاستلام من بوابة المستودع رقم 3',
+          courier: null,
+          timeline: [
+            { time: '10:45 ص', text: 'تم تجهيز الطرد في المستودع وجاهز لاستلام الكابتن' }
+          ]
+        },
+        {
+          id: 'SH-988',
+          date: 'اليوم، 09:30 ص',
+          customer: {
+            name: 'ورشة الخليج لصيانة السيارات',
+            phone: '0508451122',
+            phoneMasked: '050****845',
+            city: 'الرياض',
+            district: 'حي السلي',
+            address: 'شارع هارون الرشيد'
+          },
+          pickupWarehouse: 'تشاليح الحائر - أبو فهد للقطع',
+          deliveryDestination: 'حي السلي (18 كم)',
+          deliveryFee: 60.00,
+          car: {
+            make: 'مازدا',
+            model: 'مازدا 6',
+            year: '2021',
+            vin: 'JM1GL1U58M120918',
+            displayName: 'مازدا 6 2021'
+          },
+          part: {
+            name: 'رفرف ومساعدات سيارة مستعملة نظيفة',
+            oem: 'KD35-34-700C',
+            category: 'عضلات وهيكل',
+            condition: 'مفحوص ومضمون',
+            warranty: 'ضمان كفو',
+            quantity: 1,
+            unitPrice: 750.00,
+            total: 750.00
+          },
+          status: 'confirmed',
+          statusLabel: 'بانتظار وصولك للمستودع (60 ر.س)',
+          notes: 'يرجى مراجعة الاستقبال في ساحة التشاليح',
+          courier: null,
+          timeline: [
+            { time: '09:30 ص', text: 'تم تأكيد التجهيز وتحديد موعد الاستلام' }
+          ]
+        },
+        {
+          id: 'ACT-104',
+          date: 'اليوم، 08:15 ص',
+          customer: {
+            name: 'م. سامي أحمد (مركز صيانة كفو)',
+            phone: '0561239988',
+            phoneMasked: '056****988',
+            city: 'الرياض',
+            district: 'مخرج 17',
+            address: 'شارع الجمعية، ورشة 14'
+          },
+          pickupWarehouse: 'مستودع الموزعين المركزي',
+          deliveryDestination: 'مخرج 17 - شارع الجمعية',
+          deliveryFee: 45.00,
+          car: {
+            make: 'نيسان',
+            model: 'باترول',
+            year: '2021',
+            vin: 'JN8AY2NK5M90123',
+            displayName: 'نيسان باترول 2021'
+          },
+          part: {
+            name: 'طرد قطع محرك أصلية كاملة',
+            oem: '26010-6GM0A',
+            category: 'المحرك',
+            condition: 'أصلي معتمد',
+            warranty: 'ضمان كفو',
+            quantity: 1,
+            unitPrice: 1850.00,
+            total: 1850.00
+          },
+          status: 'with_courier',
+          statusLabel: 'في حوزتك قيد التوصيل الآن (ملاحة GPS)',
+          notes: 'المستلم ينتظر بالموقع، يرجى طلب رمز OTP عند التسليم',
+          courier: {
+            name: 'كابتن عبدالله الشمري',
+            phone: '0559876543',
+            vehicle: 'تويوتا هايلوكس 2023 - ك ف و 2025',
+            pickupOtp: '9201',
+            courierStatus: 'جاري التوجه لموقع الورشة'
+          },
+          timeline: [
+            { time: '08:15 ص', text: 'تم استلام الطرد من المستودع بالرمز #9201' },
+            { time: '08:20 ص', text: 'في الطريق لموقع التسليم' }
+          ]
+        },
+        {
+          id: 'SH-895',
+          date: 'أمس، 04:30 م',
+          customer: {
+            name: 'مركز التخصصي للسيارات',
+            phone: '0509988776',
+            phoneMasked: '050****776',
+            city: 'الرياض',
+            district: 'حي النرجس',
+            address: 'شارع عثمان بن عفان'
+          },
+          pickupWarehouse: 'متجر كفو للقطع',
+          deliveryDestination: 'حي النرجس',
+          deliveryFee: 50.00,
+          car: {
+            make: 'فورد',
+            model: 'تورس',
+            year: '2022',
+            vin: '1FTFW1ED4NFC9201',
+            displayName: 'فورد تورس 2022'
+          },
+          part: {
+            name: 'دينمو كامري وطقم فلاتر',
+            oem: 'FA-1927',
+            category: 'الكهرباء',
+            condition: 'أصلي',
+            warranty: 'ضمان كفو',
+            quantity: 1,
+            unitPrice: 320.00,
+            total: 320.00
+          },
+          status: 'delivered',
+          statusLabel: 'تم التسليم وإيداع 50 ر.س بالمحفظة ✓',
+          notes: 'تسليم ناجح مع تقييم 5 نجوم من العميل',
+          courier: null,
+          timeline: [
+            { time: 'أمس 05:10 م', text: 'تم التسليم برمز OTP وإيداع أجر المشوار فوراً' }
+          ]
+        }
+      ];
+    }
+    return this.defaultOrders;
+  },
+
   // جلب كافة الطلبات من التخزين
   getAllOrders() {
+    const key = this.getStorageKey();
     try {
-      const raw = localStorage.getItem(this.STORAGE_KEY);
+      const raw = localStorage.getItem(key);
       if (!raw) {
-        this.saveAllOrders(this.defaultOrders);
-        return [...this.defaultOrders];
+        const d = this.getDefaultOrdersForRole();
+        this.saveAllOrders(d);
+        return [...d];
       }
       return JSON.parse(raw);
     } catch (e) {
-      console.error('Error reading merchant orders:', e);
-      return [...this.defaultOrders];
+      console.error('Error reading orders:', e);
+      return [...this.getDefaultOrdersForRole()];
     }
   },
 
   // حفظ كافة الطلبات في التخزين
   saveAllOrders(orders) {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(orders));
+    const key = this.getStorageKey();
+    localStorage.setItem(key, JSON.stringify(orders));
   },
 
   // جلب طلب محدد برقم المعرف
@@ -549,6 +943,7 @@ const KafuMerchantOrders = {
     this.activeTab = activeTab;
     this.searchQuery = searchQuery;
     const counts = this.getCounts();
+    const ctx = this.getRoleContext();
 
     let allOrders = this.getAllOrders();
 
@@ -566,11 +961,11 @@ const KafuMerchantOrders = {
       const q = searchQuery.trim().toLowerCase();
       allOrders = allOrders.filter(o => 
         o.id.toLowerCase().includes(q) ||
-        o.customer.name.toLowerCase().includes(q) ||
-        o.customer.phone.includes(q) ||
-        o.part.name.toLowerCase().includes(q) ||
-        o.part.oem.toLowerCase().includes(q) ||
-        o.car.displayName.toLowerCase().includes(q)
+        (o.customer && o.customer.name.toLowerCase().includes(q)) ||
+        (o.customer && o.customer.phone.includes(q)) ||
+        (o.part && o.part.name.toLowerCase().includes(q)) ||
+        (o.part && o.part.oem.toLowerCase().includes(q)) ||
+        (o.car && o.car.displayName.toLowerCase().includes(q))
       );
     }
 
@@ -580,12 +975,12 @@ const KafuMerchantOrders = {
         <!-- الشريط الإحصائي السريع وأزرار التحكم -->
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-bottom: 4px; border-bottom: 1px solid #EDF2F7;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 0.82rem; color: #64748B;">إجمالي الطلبات المسجلة:</span>
+            <span style="font-size: 0.82rem; color: #64748B;">${ctx.totalLabel}</span>
             <strong style="color: #0F172A; font-size: 0.95rem;">${counts.all} طلبات</strong>
           </div>
           <div style="display: flex; align-items: center; gap: 6px;">
-            <a href="merchant-orders.html" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; font-size: 0.78rem; font-weight: 700; color: #0066FF; text-decoration: none; padding: 4px 10px; background: #EFF6FF; border-radius: 8px; border: 1px solid #BFDBFE;">
-              <span>فتح لوحة الطلبات الموسعة</span>
+            <a href="${ctx.fullPageUrl}" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; font-size: 0.78rem; font-weight: 700; color: #0066FF; text-decoration: none; padding: 4px 10px; background: #EFF6FF; border-radius: 8px; border: 1px solid #BFDBFE;">
+              <span>${ctx.fullPageTitle}</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
@@ -596,7 +991,7 @@ const KafuMerchantOrders = {
           <input 
             type="text" 
             id="merchantOrdersSearch" 
-            placeholder="بحث برقم الطلب (ORD-...)، اسم العميل، رقم الجوال، أو القطعة..." 
+            placeholder="${ctx.searchPlaceholder}" 
             value="${this.searchQuery}" 
             oninput="KafuMerchantOrders.handleSearch(this.value)"
             style="width: 100%; height: 40px; padding: 0 38px 0 12px; background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; font-size: 0.85rem; font-family: inherit; outline: none; box-sizing: border-box;"
@@ -614,8 +1009,8 @@ const KafuMerchantOrders = {
           ${this.renderTabBtn('all', 'الكل', counts.all)}
           ${this.renderTabBtn('incoming', 'الواردة الجديدة', counts.incoming, '#1D4ED8', '#EFF6FF')}
           ${this.renderTabBtn('hold_review', 'الانتظار والمراجعة', counts.on_hold + counts.review, '#B45309', '#FEF3C7')}
-          ${this.renderTabBtn('confirmed', 'المؤكدة / بانتظار المندوب', counts.confirmed, '#0369A1', '#E0F2FE')}
-          ${this.renderTabBtn('with_courier', 'مع المندوب', counts.with_courier, '#047857', '#ECFDF5')}
+          ${this.renderTabBtn('confirmed', ctx.confirmedTabLabel || 'المؤكدة / بانتظار المندوب', counts.confirmed, '#0369A1', '#E0F2FE')}
+          ${this.renderTabBtn('with_courier', ctx.courierTabLabel || 'مع المندوب', counts.with_courier, '#047857', '#ECFDF5')}
           ${this.renderTabBtn('delivered', 'المُسلّمة', counts.delivered, '#15803D', '#F0FDF4')}
           ${this.renderTabBtn('rejected', 'المرفوضة', counts.rejected, '#B91C1C', '#FEF2F2')}
         </div>

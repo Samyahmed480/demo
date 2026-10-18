@@ -151,26 +151,55 @@ const KafuMerchantInventory = {
     }
   ],
 
+  getRoleContext() {
+    const roleId = (window.KafuStore && window.KafuStore.getRole) ? window.KafuStore.getRole() : 'merchant_new';
+    if (roleId === 'rep_oem' || roleId === 'rep_scrap') {
+      return {
+        roleId,
+        isRep: true,
+        fullPageUrl: 'rep-inventory.html',
+        fullPageTitle: 'فتح لوحة مخزون المندوب بملء الشاشة',
+        addBtnText: '+ إضافة قطعة وتحديد العمولة',
+        searchPlaceholder: 'ابحث برقم OEM، اسم القطعة، الموديل، أو كود المندوب...'
+      };
+    }
+    return {
+      roleId,
+      isRep: false,
+      fullPageUrl: 'merchant-inventory.html',
+      fullPageTitle: 'فتح لوحة المستودع بملء الشاشة',
+      addBtnText: '+ إضافة قطعة جديدة للمخزون',
+      searchPlaceholder: 'ابحث برقم OEM، اسم القطعة، الموديل، أو كود الرف في المستودع...'
+    };
+  },
+
+  getStorageKey() {
+    const ctx = this.getRoleContext();
+    if (ctx.isRep) return this.STORAGE_KEY + '_rep';
+    return this.STORAGE_KEY;
+  },
+
   // جلب كافة قطع المخزون
   getAllItems() {
+    const key = this.getStorageKey();
     try {
-      const raw = localStorage.getItem(this.STORAGE_KEY);
+      const raw = localStorage.getItem(key);
       if (!raw) {
         this.saveAllItems(this.defaultItems);
         return [...this.defaultItems];
       }
       const parsed = JSON.parse(raw);
-      // دمج أي قطع مضافة حديثاً عبر أداة إضافة القطعة
       return parsed;
     } catch (e) {
-      console.error('Error reading merchant inventory:', e);
+      console.error('Error reading inventory:', e);
       return [...this.defaultItems];
     }
   },
 
   // حفظ القطع في التخزين
   saveAllItems(items) {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(items));
+    const key = this.getStorageKey();
+    localStorage.setItem(key, JSON.stringify(items));
   },
 
   // جلب قطعة برقم المعرف
@@ -305,6 +334,7 @@ const KafuMerchantInventory = {
     this.activeTab = activeTab;
     this.searchQuery = searchQuery;
     const stats = this.getStats();
+    const ctx = this.getRoleContext();
 
     let items = this.getAllItems();
 
@@ -362,15 +392,15 @@ const KafuMerchantInventory = {
             onclick="closeActionModal(); setTimeout(() => openAddProductPriceModal(), 180);"
             style="padding: 7px 14px; background: linear-gradient(90deg, #0056E0 0%, #0066FF 100%); color: #FFFFFF; border: none; border-radius: 10px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);"
           >
-            <span>+ إضافة قطعة جديدة للمخزون</span>
+            <span>${ctx.addBtnText}</span>
           </button>
 
           <a 
-            href="merchant-inventory.html" 
+            href="${ctx.fullPageUrl}" 
             target="_blank" 
             style="display: inline-flex; align-items: center; gap: 4px; font-size: 0.78rem; font-weight: 700; color: #0066FF; text-decoration: none; padding: 5px 10px; background: #EFF6FF; border-radius: 8px; border: 1px solid #BFDBFE;"
           >
-            <span>فتح لوحة المستودع بملء الشاشة</span>
+            <span>${ctx.fullPageTitle}</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
         </div>
@@ -379,7 +409,7 @@ const KafuMerchantInventory = {
         <div style="position: relative; width: 100%;">
           <input 
             type="text" 
-            placeholder="ابحث برقم OEM، اسم القطعة، الموديل، أو كود الرف في المستودع..." 
+            placeholder="${ctx.searchPlaceholder}" 
             value="${this.searchQuery}" 
             oninput="KafuMerchantInventory.handleSearch(this.value)"
             style="width: 100%; height: 40px; padding: 0 38px 0 12px; background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; font-size: 0.84rem; font-family: inherit; outline: none; box-sizing: border-box;"

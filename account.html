@@ -39,10 +39,16 @@
       <div class="profile-info">
         <h2 class="profile-name" id="profileName">محمد أحمد</h2>
         <span class="profile-email" id="profileEmail">webmax.ceo.1@gmail.com</span>
-        <span class="profile-device-tag" id="profileBadgeTag">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="margin-left: 4px;"><polyline points="20 6 9 17 4 12"/></svg>
-          <span id="profileBadgeText">تاجر معتمد · متجر كفو للقطع</span>
-        </span>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 6px;">
+          <span class="profile-device-tag" id="profileBadgeTag" style="margin-top: 0;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="margin-left: 4px;"><polyline points="20 6 9 17 4 12"/></svg>
+            <span id="profileBadgeText">تاجر معتمد · متجر كفو للقطع</span>
+          </span>
+          <button type="button" onclick="openRoleSwitcherModal()" style="display: inline-flex; align-items: center; gap: 5px; background: rgba(10, 108, 255, 0.08); border: 1px solid rgba(10, 108, 255, 0.22); color: var(--primary); font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; cursor: pointer; transition: all 0.2s ease;">
+            <span>تبديل الدور</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -473,19 +479,19 @@
         items = [
           {
             title: 'شحنات متاحة للاستلام الآن',
-            desc: 'طلبيات جاهزة في متاجر القطع القريبة بانتظار استلامك',
+            desc: 'طلبيات جاهزة في مستودعات القطع بانتظار استلامك ونقلها',
             iconBg: '#DCFCE7',
             iconColor: '#16A34A',
             icon: `<rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>`,
-            action: 'openCourierAvailableShipmentsModal()'
+            action: "openCourierOrdersModal('incoming')"
           },
           {
-            title: 'شحنات قيد التوصيل الحالية',
-            desc: 'طلبين قيد النقل: ملاحة GPS، الاتصال بالورشة، وتأكيد التسليم',
+            title: 'شحنات قيد التوصيل (في الطريق)',
+            desc: 'شحنات في عهدتك: ملاحة GPS، الاتصال بالعميل، وتأكيد التسليم بـ OTP',
             iconBg: '#DCEAFE',
             iconColor: 'var(--primary)',
             icon: `<path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/>`,
-            action: 'openCourierActiveShipmentsModal()'
+            action: "openCourierOrdersModal('confirmed')"
           },
           {
             title: 'محفظة أرباح التوصيل والمشاوير',
@@ -504,12 +510,12 @@
             action: 'openCourierBarcodeScanModal()'
           },
           {
-            title: 'سجل المشاوير المكتملة',
-            desc: 'أرشيف الشحنات المسلمة مع تقييمات التجار والورش',
+            title: 'سجل المشاوير المكتملة والأرشيف',
+            desc: 'أرشيف الطرود المسلمة بنجاح مع تأكيدات الـ OTP والتقييمات',
             iconBg: 'var(--tile-peach)',
             iconColor: 'var(--tile-peach-icon)',
             icon: `<polyline points="20 6 9 17 4 12"/>`,
-            action: 'openCourierCompletedTripsModal()'
+            action: "openCourierOrdersModal('delivered')"
           },
           {
             title: 'مناطق التغطية ونطاق الاستلام المفضل',
@@ -873,86 +879,26 @@
     // مودالات مندوب التوصيل (Courier Modals)
     // =========================================================================
 
-    function openCourierAvailableShipmentsModal() {
-      openModalWith('شحنات متاحة للاستلام الآن', 'اختر الشحنات المناسبة لمسارك واقبل المشوار فوراً', `
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <strong style="color: var(--text); font-size: 0.95rem;">شحنة كفو #SH-992</strong>
-              <span style="background: #DCFCE7; color: #15803D; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 800;">أجر المشوار: 45 ر.س</span>
-            </div>
-            <div style="font-size: 0.85rem; color: #475569; margin-bottom: 4px;">المستودع: <strong>متجر كفو للقطع - الصناعية القديمة</strong></div>
-            <div style="font-size: 0.85rem; color: #475569; margin-bottom: 6px;">الوجهة: <strong>مركز صيانة الأمل - حي اليرموك</strong> (14 كم)</div>
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">محتوى الطرد: فحمات فرامل وبواجي (وزن خفيف 3 كجم)</div>
-            <button class="btn-primary" style="width: 100%; padding: 8px;" onclick="KafuApp.showToast('تم قبول المشوار! افتح الشحنات قيد التوصيل للملاحة.'); closeActionModal();">
-              قبول الشحنة والبدء بالاستلام ✓
-            </button>
-          </div>
+    function openCourierOrdersModal(tab = 'all') {
+      if (window.KafuMerchantOrders) {
+        const html = KafuMerchantOrders.renderOrdersModalHtml(tab, '');
+        openModalWith('شحنات كابتن التوصيل', 'متابعة استلام الطرود من المستودعات وتسليمها للعملاء والورش بـ OTP', html);
+      }
+    }
 
-          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <strong style="color: var(--text); font-size: 0.95rem;">شحنة كفو #SH-988</strong>
-              <span style="background: #DCFCE7; color: #15803D; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 800;">أجر المشوار: 60 ر.س</span>
-            </div>
-            <div style="font-size: 0.85rem; color: #475569; margin-bottom: 4px;">المستودع: <strong>تشاليح الحائر - أبو فهد للقطع</strong></div>
-            <div style="font-size: 0.85rem; color: #475569; margin-bottom: 6px;">الوجهة: <strong>ورشة الخليج - حي السلي</strong> (18 كم)</div>
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">محتوى الطرد: رفرف ومساعدات سيارة مستعملة</div>
-            <button class="btn-primary" style="width: 100%; padding: 8px;" onclick="KafuApp.showToast('تم قبول المشوار!'); closeActionModal();">
-              قبول الشحنة والبدء بالاستلام ✓
-            </button>
-          </div>
-        </div>
-      `);
+    function openCourierAvailableShipmentsModal() {
+      openCourierOrdersModal('incoming');
     }
 
     function openCourierActiveShipmentsModal() {
-      openModalWith('شحنات قيد التوصيل الحالية', 'معلومات العميل، موقع التسليم، وملاحة الخريطة', `
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: 16px; padding: 14px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <strong style="color: #1E40AF; font-size: 0.95rem;">شحنة نشطة #ACT-104</strong>
-              <span style="background: #DBEAFE; color: #1D4ED8; padding: 3px 8px; border-radius: 6px; font-size: 0.76rem; font-weight: 700;">في حوزة الكابتن</span>
-            </div>
-            <div style="font-size: 0.86rem; color: #1E293B; margin-bottom: 4px;">المستلم: <strong>م. سامي أحمد (مركز صيانة كفو)</strong></div>
-            <div style="font-size: 0.84rem; color: #475569; margin-bottom: 8px;">العنوان: مخرج 17 - شارع الجمعية، ورشة 14</div>
-            <div style="display: flex; gap: 8px;">
-              <button class="btn-primary" style="flex: 1; padding: 8px; font-size: 0.82rem;" onclick="KafuApp.showToast('جاري فتح خرائط Google للملاحة...');">
-                ملاحة GPS
-              </button>
-              <button class="btn-secondary" style="flex: 1; padding: 8px; font-size: 0.82rem;" onclick="KafuApp.showToast('جاري الاتصال بالمستلم: 0501234567');">
-                اتصال
-              </button>
-            </div>
-            <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #BFDBFE;">
-              <button class="btn-primary" style="width: 100%; background: #16A34A; padding: 8px; font-size: 0.86rem;" onclick="KafuApp.showToast('تم تأكيد تسليم الشحنة وإيداع 45 ر.س في محفظتك ✓'); closeActionModal();">
-                تأكيد التسليم بنجاح ✓ (إدخال رمز OTP)
-              </button>
-            </div>
-          </div>
-        </div>
-      `);
+      openCourierOrdersModal('confirmed');
     }
 
     function openCourierWalletModal() {
-      openModalWith('محفظة الكابتن وأرباح المشاوير', 'سحب فوري لحسابك البنكي بدون رسوم', `
-        <div style="display: flex; flex-direction: column; gap: 14px; text-align: center;">
-          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 18px; padding: 18px;">
-            <div style="font-size: 0.82rem; color: var(--text-muted);">رصيد أرباحك الجاهز للسحب</div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #15803D; margin: 4px 0;" class="font-num">210.00 <span style="font-size: 1rem;">ر.س</span></div>
-            <div style="font-size: 0.78rem; color: var(--text-muted);">أرباح 7 مشاوير منجزة اليوم</div>
-          </div>
-
-          <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 12px; text-align: right;">
-            <div style="font-size: 0.82rem; color: var(--text-muted);">الحساب البنكي المسجل للتحويل:</div>
-            <div style="font-weight: 700; font-size: 0.92rem; font-family: monospace;">SA49 8000 0123 4567 8901 2345</div>
-            <div style="font-size: 0.76rem; color: #15803D; font-weight: 700; margin-top: 2px;">مصرف الراجحي · كابتن عبدالله الشمري</div>
-          </div>
-
-          <button class="btn-primary" style="height: 48px; background: #16A34A;" onclick="KafuApp.showToast('تم إرسال طلب التحويل السريع! سيصل الرصيد لحسابك خلال دقائق.'); closeActionModal();">
-            تحويل الأرباح لحسابي البنكي الآن (سحب 210 ر.س)
-          </button>
-        </div>
-      `);
+      if (window.KafuMerchantWallet) {
+        const html = KafuMerchantWallet.renderModalContent('all');
+        openModalWith('محفظة كابتن التوصيل وأرباح المشاوير', 'سحب مستحقات التوصيل والمشاوير الفورية للحساب البنكي عبر سريع', html);
+      }
     }
 
     function openCourierBarcodeScanModal() {
@@ -1219,8 +1165,11 @@
 
     function openInventoryModal() {
       if (window.KafuMerchantInventory) {
+        const isRep = (KafuStore.getRole() || '').includes('rep');
+        const title = isRep ? 'كتالوج وعينات المندوب' : 'قطع المتجر والمخزون المعروض';
+        const desc = isRep ? 'إدارة القطع المتاحة للترويج والعمولات المباشرة' : 'إدارة كميات المستودع، التوريد، النقص، وتعديل الأسعار';
         const html = KafuMerchantInventory.renderModalContent('all', '');
-        openModalWith('قطع المتجر والمخزون المعروض', 'إدارة كميات المستودع، التوريد، النقص، وتعديل الأسعار', html);
+        openModalWith(title, desc, html);
       }
     }
 
@@ -1292,9 +1241,19 @@
 
     function openSettingsModal() {
       if (window.KafuMerchantVerification) {
+        const role = (KafuStore.getRole() || '').toLowerCase();
+        let title = 'المستندات الرسمية وتوثيق الحساب';
+        let desc = 'رفع وتحديث السجل التجاري والبطاقة الضريبية وصورة الهوية';
+        if (role.includes('courier')) {
+          title = 'الوثائق الرسمية ورخص المركبة';
+          desc = 'رخصة القيادة، استمارة المركبة، وثيقة التأمين، والآيبان البنكي';
+        } else if (role.includes('rep')) {
+          title = 'المستندات الرسمية والاعتماد المهني';
+          desc = 'وثيقة العمل الحر، الهوية الوطنية، وحساب العمولات البنكي';
+        }
         openModalWith(
-          'المستندات الرسمية وتوثيق الحساب',
-          'رفع وتحديث السجل التجاري والبطاقة الضريبية وصورة الهوية',
+          title,
+          desc,
           KafuMerchantVerification.renderModalContent()
         );
         return;
