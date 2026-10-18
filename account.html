@@ -90,6 +90,7 @@
   <script src="assets/js/products.js"></script>
   <script src="assets/js/store.js"></script>
   <script src="assets/js/merchant-orders.js"></script>
+  <script src="assets/js/add-product.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
     const modalBackdrop = document.getElementById('accountActionModal');
@@ -1146,35 +1147,10 @@
     }
 
     function openAddProductPriceModal() {
-      openModalWith('إضافة قطعة جديدة وتحديد السعر', 'أدخل بيانات القطعة والمواصفات الـ 9 الخاصة بكفو', `
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div>
-            <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">اسم القطعة</label>
-            <input type="text" placeholder="مثال: فحمات فرامل أمامية أصلية" class="form-input" id="newPartName">
-          </div>
-          <div style="display: flex; gap: 8px;">
-            <div style="flex: 1;">
-              <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">كود المصنع (OEM)</label>
-              <input type="text" placeholder="04465-33480" class="form-input ltr" style="text-align: right;">
-            </div>
-            <div style="flex: 1;">
-              <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">سعر البيع (ر.س)</label>
-              <input type="number" placeholder="180" class="form-input font-num">
-            </div>
-          </div>
-          <div>
-            <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">حالة وتصنيف القطعة</label>
-            <select class="form-input" style="width: 100%;">
-              <option>أصلي وكالة (Genuine OEM)</option>
-              <option>تجاري معتمد درجة أولى (Certified Tier-1)</option>
-              <option>تشليح ومستعمل مفحوص (Used Guaranteed)</option>
-            </select>
-          </div>
-          <button class="btn-primary" onclick="KafuApp.showToast('تم تسجيل القطعة بنجاح وإضافتها للمتجر ✓'); closeActionModal();">
-            إضافة القطعة وعرضها للعملاء
-          </button>
-        </div>
-      `);
+      if (window.KafuAddProduct) {
+        const html = KafuAddProduct.renderModalContent();
+        openModalWith('إضافة قطعة جديدة وتحديد السعر', 'اختر طريقة الإضافة: مسح الذكاء الاصطناعي كفو AI أو الإدخال اليدوي الموسع', html);
+      }
     }
 
     function openMerchantQuoteRepliesModal() {
@@ -1213,28 +1189,58 @@
     }
 
     function openInventoryModal() {
+      let customItems = [];
+      try {
+        const stored = localStorage.getItem('kafu_merchant_inventory');
+        if (stored) customItems = JSON.parse(stored);
+      } catch (e) {}
+
+      let itemsHtml = `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+          <div>
+            <div style="font-weight: 700; font-size: 0.92rem;">طقم مكبس محرك كامل</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">الكمية: 14 طقم · OEM: OP010-13101</div>
+          </div>
+          <div style="text-align: left;">
+            <div style="font-weight: 800; color: var(--primary);">480 ر.س</div>
+            <span style="font-size: 0.72rem; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">متوفر</span>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
+          <div>
+            <div style="font-weight: 700; font-size: 0.92rem;">فحمات فرامل أمامية أصلية</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">الكمية: 28 طقم · OEM: 04465-33480</div>
+          </div>
+          <div style="text-align: left;">
+            <div style="font-weight: 800; color: var(--primary);">195 ر.س</div>
+            <span style="font-size: 0.72rem; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">متوفر</span>
+          </div>
+        </div>
+      `;
+
+      if (customItems.length > 0) {
+        itemsHtml = customItems.map(item => `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: 14px;">
+            <div>
+              <div style="font-weight: 800; font-size: 0.92rem; color: #0A2540;">${item.name}</div>
+              <div style="font-size: 0.78rem; color: #0066FF;">الكمية: ${item.quantity} · OEM: ${item.oem} · ${item.brand || ''}</div>
+              <div style="font-size: 0.72rem; color: #64748B;">الموقع: ${item.position || 'أمامي'} · ${item.compatibility || 'مؤكد'}</div>
+            </div>
+            <div style="text-align: left;">
+              <div style="font-weight: 900; color: var(--primary); font-size: 1rem;">${item.price} ر.س</div>
+              <span style="font-size: 0.72rem; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px; font-weight: 700;">معروض للبيع</span>
+            </div>
+          </div>
+        `).join('') + itemsHtml;
+      }
+
       openModalWith('قطع المتجر والمخزون المعروض', 'إدارة أسعار القطع وتحديث الكميات', `
         <div style="display: flex; flex-direction: column; gap: 10px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
-            <div>
-              <div style="font-weight: 700; font-size: 0.92rem;">طقم مكبس محرك كامل</div>
-              <div style="font-size: 0.78rem; color: var(--text-muted);">الكمية: 14 طقم · OEM: OP010-13101</div>
-            </div>
-            <div style="text-align: left;">
-              <div style="font-weight: 800; color: var(--primary);">480 ر.س</div>
-              <span style="font-size: 0.72rem; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">متوفر</span>
-            </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+            <span style="font-size: 0.8rem; color: #64748B;">إجمالي القطع المضافة والمعروضة: <strong>${customItems.length + 2} قطعة</strong></span>
+            <button onclick="closeActionModal(); setTimeout(() => openAddProductPriceModal(), 200);" style="background: none; border: none; color: #0066FF; font-weight: 800; font-size: 0.78rem; cursor: pointer;">+ إضافة قطعة جديدة</button>
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px;">
-            <div>
-              <div style="font-weight: 700; font-size: 0.92rem;">فحمات فرامل أمامية أصلية</div>
-              <div style="font-size: 0.78rem; color: var(--text-muted);">الكمية: 28 طقم · OEM: 04465-33480</div>
-            </div>
-            <div style="text-align: left;">
-              <div style="font-weight: 800; color: var(--primary);">195 ر.س</div>
-              <span style="font-size: 0.72rem; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">متوفر</span>
-            </div>
-          </div>
+          ${itemsHtml}
         </div>
       `);
     }
