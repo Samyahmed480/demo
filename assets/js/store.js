@@ -59,14 +59,14 @@ const KafuStore = {
       shortTitle: 'مندوب قطع أصلية',
       name: 'فهد العتيبي',
       email: 'fahad.rep@kafu.sa',
-      badge: 'مندوب مبيعات معتمد · موردين معتمدين',
-      dashboardTitle: 'لوحة تحكم مندوب المبيعات',
+      badge: 'تاجر معتمد · متجر كفو للقطع',
+      dashboardTitle: 'لوحة تحكم التاجر',
       iconType: 'briefcase',
-      accentColor: '#7B5CFF',
+      accentColor: '#0A6CFF',
       stats: [
-        { label: 'عمولات المبيعات', val: '4,280 ر.س' },
-        { label: 'طلبات العملاء والورش', val: '12 طلباً' },
-        { label: 'القطع المتاحة', val: '142 قطعة' }
+        { label: 'مبيعات اليوم', val: '4,280 ر.س' },
+        { label: 'طلبات العملاء', val: '8 طلبات' },
+        { label: 'القطع المعروضة', val: '142 قطعة' }
       ]
     },
     rep_scrap: {
@@ -76,14 +76,14 @@ const KafuStore = {
       shortTitle: 'مندوب تشاليح',
       name: 'خالد الدوسري',
       email: 'khaled.tashlih@kafu.sa',
-      badge: 'مندوب تشاليح معتمد · الحائر',
-      dashboardTitle: 'لوحة تحكم مندوب التشاليح',
-      iconType: 'briefcase-scrap',
-      accentColor: '#EA580C',
+      badge: 'تاجر تشاليح معتمد · ضمان كفو',
+      dashboardTitle: 'لوحة تحكم تاجر التشاليح',
+      iconType: 'truck-scrap',
+      accentColor: '#D97706',
       stats: [
-        { label: 'عمولات المبيعات', val: '6,150 ر.س' },
-        { label: 'طلبات التسعير والورش', val: '14 طلباً' },
-        { label: 'القطع والسيارات', val: '28 مركبة' }
+        { label: 'مبيعات اليوم', val: '6,150 ر.س' },
+        { label: 'طلبات التسعير', val: '14 استفسار' },
+        { label: 'سيارات مفككة', val: '28 سيارة' }
       ]
     },
     workshop: {

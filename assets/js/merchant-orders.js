@@ -320,22 +320,7 @@ const KafuMerchantOrders = {
 
   getRoleContext() {
     const roleId = (window.KafuStore && window.KafuStore.getRole) ? window.KafuStore.getRole() : 'merchant_new';
-    if (roleId === 'rep_oem' || roleId === 'rep_scrap') {
-      return {
-        roleId,
-        isRep: true,
-        isCourier: false,
-        pageTitle: 'إدارة طلبيات ومبيعات المندوب',
-        pageSubtitle: 'متابعة وتجهيز طلبيات الورش والعملاء وتأكيد الشحن والتسليم للكباتن',
-        statusBadge: 'حسابك متاح للطلبات ✓',
-        totalLabel: 'إجمالي طلبيات الورش والعملاء:',
-        fullPageUrl: 'rep-orders.html',
-        fullPageTitle: 'فتح لوحة طلبيات المندوب الموسعة',
-        searchPlaceholder: 'بحث برقم الطلبية (ORD-...)، اسم الورشة، العميل، أو القطعة...',
-        confirmedTabLabel: 'المؤكدة / بانتظار الكابتن',
-        courierTabLabel: 'مع كابتن الشحن'
-      };
-    } else if (roleId === 'courier') {
+    if (roleId === 'courier') {
       return {
         roleId,
         isRep: false,
@@ -351,15 +336,16 @@ const KafuMerchantOrders = {
         courierTabLabel: 'قيد التوصيل معي'
       };
     }
+    const isRep = (roleId === 'rep_oem' || roleId === 'rep_scrap');
     return {
       roleId,
-      isRep: false,
+      isRep,
       isCourier: false,
       pageTitle: 'إدارة طلبات المتجر والمبيعات',
       pageSubtitle: 'متابعة الشحنات، المندوبين، والتسليم الفوري',
       statusBadge: 'متجرك متاح للطلبات ✓',
       totalLabel: 'إجمالي الطلبات المسجلة:',
-      fullPageUrl: 'merchant-orders.html',
+      fullPageUrl: isRep ? 'rep-orders.html' : 'merchant-orders.html',
       fullPageTitle: 'فتح لوحة الطلبات الموسعة',
       searchPlaceholder: 'بحث برقم الطلب (ORD-...)، اسم العميل، رقم الجوال، أو القطعة...',
       confirmedTabLabel: 'المؤكدة / بانتظار المندوب',
@@ -369,7 +355,6 @@ const KafuMerchantOrders = {
 
   getStorageKey() {
     const ctx = this.getRoleContext();
-    if (ctx.isRep) return this.STORAGE_KEY + '_rep';
     if (ctx.isCourier) return this.STORAGE_KEY + '_courier';
     return this.STORAGE_KEY;
   },

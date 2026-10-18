@@ -153,20 +153,11 @@ const KafuMerchantInventory = {
 
   getRoleContext() {
     const roleId = (window.KafuStore && window.KafuStore.getRole) ? window.KafuStore.getRole() : 'merchant_new';
-    if (roleId === 'rep_oem' || roleId === 'rep_scrap') {
-      return {
-        roleId,
-        isRep: true,
-        fullPageUrl: 'rep-inventory.html',
-        fullPageTitle: 'فتح لوحة مخزون المندوب بملء الشاشة',
-        addBtnText: '+ إضافة قطعة وتحديد العمولة',
-        searchPlaceholder: 'ابحث برقم OEM، اسم القطعة، الموديل، أو كود المندوب...'
-      };
-    }
+    const isRep = (roleId === 'rep_oem' || roleId === 'rep_scrap');
     return {
       roleId,
-      isRep: false,
-      fullPageUrl: 'merchant-inventory.html',
+      isRep,
+      fullPageUrl: isRep ? 'rep-inventory.html' : 'merchant-inventory.html',
       fullPageTitle: 'فتح لوحة المستودع بملء الشاشة',
       addBtnText: '+ إضافة قطعة جديدة للمخزون',
       searchPlaceholder: 'ابحث برقم OEM، اسم القطعة، الموديل، أو كود الرف في المستودع...'
@@ -174,8 +165,6 @@ const KafuMerchantInventory = {
   },
 
   getStorageKey() {
-    const ctx = this.getRoleContext();
-    if (ctx.isRep) return this.STORAGE_KEY + '_rep';
     return this.STORAGE_KEY;
   },
 

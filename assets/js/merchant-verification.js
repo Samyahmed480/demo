@@ -16,14 +16,12 @@ const KafuMerchantVerification = {
   getRoleContext() {
     const rawRole = (window.__kafu_force_role || (window.KafuStore && KafuStore.getUserRole ? KafuStore.getUserRole() : localStorage.getItem('kafu_user_role')) || 'merchant_new').toLowerCase();
     if (rawRole.includes('courier')) return 'courier';
-    if (rawRole.includes('rep')) return 'rep';
     return 'merchant';
   },
 
   getStorageKey() {
     const role = this.getRoleContext();
     if (role === 'courier') return 'kafu_courier_documents_v1';
-    if (role === 'rep') return 'kafu_rep_documents_v1';
     return 'kafu_merchant_documents_v1';
   },
 

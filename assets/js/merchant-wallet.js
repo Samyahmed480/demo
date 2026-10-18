@@ -119,27 +119,7 @@ const KafuMerchantWallet = {
 
   getRoleContext() {
     const roleId = (window.KafuStore && window.KafuStore.getRole) ? window.KafuStore.getRole() : 'merchant_new';
-    if (roleId === 'rep_oem' || roleId === 'rep_scrap') {
-      const isScrap = roleId === 'rep_scrap';
-      return {
-        roleId,
-        isRep: true,
-        isCourier: false,
-        walletTitle: 'محفظة عمولات المبيعات والأرباح',
-        walletSubtitle: 'سحب العمولات الفورية وكشف حركات مبيعات الورش',
-        badge: 'عمولات معتمدة ✓',
-        availLabel: 'رصيد العمولات المتاح للسحب الفوري',
-        pendingLabel: 'عمولات معلقة (قيد التحصيل والتسليم للورش)',
-        monthlyLabel: 'مبيعات الورش هذا الشهر',
-        payoutBtnLabel: 'طلب سحب العمولات للبنك',
-        fullPageUrl: 'rep-wallet.html',
-        fullPageTitle: 'فتح محفظة عمولات المندوب بملء الشاشة',
-        beneficiaryDefault: isScrap ? 'خالد الدوسري (مندوب تشاليح معتمد)' : 'فهد العتيبي (مندوب مبيعات معتمد)',
-        ibanDefault: 'SA03 8000 0000 6080 1012 3456',
-        salesTabLabel: 'عمولات المبيعات (+)',
-        payoutSuccessMsg: 'تم تحويل العمولات بنجاح إلى حسابك البنكي!'
-      };
-    } else if (roleId === 'courier') {
+    if (roleId === 'courier') {
       return {
         roleId,
         isRep: false,
@@ -159,9 +139,10 @@ const KafuMerchantWallet = {
         payoutSuccessMsg: 'تم تحويل أرباح المشاوير بنجاح إلى حسابك البنكي!'
       };
     }
+    const isRep = (roleId === 'rep_oem' || roleId === 'rep_scrap');
     return {
       roleId,
-      isRep: false,
+      isRep,
       isCourier: false,
       walletTitle: 'محفظة التاجر والأرباح',
       walletSubtitle: 'سحب الأرباح الفورية وكشف الحركات المالية',
@@ -170,7 +151,7 @@ const KafuMerchantWallet = {
       pendingLabel: 'الرصيد المعلّق (مع المندوبين)',
       monthlyLabel: 'مبيعات هذا الشهر',
       payoutBtnLabel: 'طلب سحب الرصيد للبنك',
-      fullPageUrl: 'merchant-wallet.html',
+      fullPageUrl: isRep ? 'rep-wallet.html' : 'merchant-wallet.html',
       fullPageTitle: 'فتح محفظة الأرباح بملء الشاشة',
       beneficiaryDefault: 'مؤسسة متجر كفو لقطع الغيار',
       ibanDefault: 'SA03 8000 0000 6080 1012 3456',
@@ -181,7 +162,6 @@ const KafuMerchantWallet = {
 
   getStorageKey() {
     const ctx = this.getRoleContext();
-    if (ctx.isRep) return this.STORAGE_KEY + '_rep';
     if (ctx.isCourier) return this.STORAGE_KEY + '_courier';
     return this.STORAGE_KEY;
   },
