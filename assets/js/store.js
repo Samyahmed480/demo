@@ -59,14 +59,14 @@ const KafuStore = {
       shortTitle: 'مندوب قطع أصلية',
       name: 'فهد العتيبي',
       email: 'fahad.rep@kafu.sa',
-      badge: 'مندوب معتمد · موردين معتمدين',
+      badge: 'مندوب مبيعات معتمد · موردين معتمدين',
       dashboardTitle: 'لوحة تحكم مندوب المبيعات',
       iconType: 'briefcase',
       accentColor: '#7B5CFF',
       stats: [
-        { label: 'عمولة الشهر', val: '3,840 ر.س' },
-        { label: 'طلبات العملاء', val: '12 طلباً' },
-        { label: 'الورش التابعة', val: '19 ورشة' }
+        { label: 'عمولات المبيعات', val: '4,280 ر.س' },
+        { label: 'طلبات العملاء والورش', val: '12 طلباً' },
+        { label: 'القطع المتاحة', val: '142 قطعة' }
       ]
     },
     rep_scrap: {
@@ -76,14 +76,14 @@ const KafuStore = {
       shortTitle: 'مندوب تشاليح',
       name: 'خالد الدوسري',
       email: 'khaled.tashlih@kafu.sa',
-      badge: 'مندوب ميداني · تشاليح الحائر',
+      badge: 'مندوب تشاليح معتمد · الحائر',
       dashboardTitle: 'لوحة تحكم مندوب التشاليح',
       iconType: 'briefcase-scrap',
       accentColor: '#EA580C',
       stats: [
-        { label: 'عمولة اليوم', val: '720 ر.س' },
-        { label: 'قطع مسعرة', val: '22 قطعة' },
-        { label: 'التشاليح الشريكة', val: '11 تشليح' }
+        { label: 'عمولات المبيعات', val: '6,150 ر.س' },
+        { label: 'طلبات التسعير والورش', val: '14 طلباً' },
+        { label: 'القطع والسيارات', val: '28 مركبة' }
       ]
     },
     workshop: {

@@ -316,46 +316,78 @@
             action: 'openSettingsModal()'
           }
         ];
-      } else if (roleId === 'rep_oem' || roleId === 'rep_scrap') {
-        // لوحة تحكم مندوب المبيعات (زى واجهة التاجر)
+            } else if (roleId === 'rep_oem' || roleId === 'rep_scrap') {
+        // لوحة تحكم مندوب المبيعات (زى واجهة التاجر باختلاف المسمى)
         items = [
           {
             title: 'طلبات العملاء والورش المسندة',
-            desc: 'متابعة وتجهيز طلبيات الورش والعملاء وإتمام البيع',
+            desc: 'متابعة وتجهيز طلبيات الورش والعملاء وتأكيد الشحن والتسليم للكباتن',
             iconBg: 'var(--tile-peach)',
             iconColor: 'var(--tile-peach-icon)',
-            icon: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>`,
+            icon: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>`,
             action: 'openRepAssignedOrdersModal()'
           },
           {
-            title: 'تقديم عروض الأسعار والعمولات',
-            desc: 'تسعير القطع للعملاء بنسبة عمولتك المباشرة',
-            iconBg: '#DCEAFE',
-            iconColor: 'var(--primary)',
-            icon: `<path d="m20.59 13.41-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>`,
-            action: 'openRepQuotesModal()'
-          },
-          {
-            title: 'إضافة قطع وتحديث أسعار الموردين',
-            desc: 'ربط قطع الوكلاء والمستودعات الشريكة في كفو',
+            title: 'مقر المندوب ونطاق التغطية الميدانية',
+            desc: 'مقر ونطاق التوزيع الميداني ونقطة تسليم الشحنات للكباتن',
             iconBg: 'var(--tile-teal)',
             iconColor: 'var(--tile-teal-icon)',
+            icon: `<path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/>`,
+            action: 'openRepAddressModal()'
+          },
+          {
+            title: roleId === 'rep_scrap' ? 'إضافة قطعة تشليح وتحديد السعر والعمولة' : 'إضافة قطعة وتحديد السعر والعمولة',
+            desc: roleId === 'rep_scrap' ? 'تسجيل قطعة تشليح بمواصفات كفو أو مسح كفو AI وتحديد السعر والعمولة' : 'تسجيل قطعة جديدة بمواصفات كفو أو مسح كفو AI وتحديد السعر والعمولة',
+            iconBg: '#DCEAFE',
+            iconColor: 'var(--primary)',
             icon: `<path d="M12 5v14M5 12h14"/>`,
             action: 'openAddProductPriceModal()'
           },
           {
-            title: 'محفظة عمولات المبيعات',
-            desc: 'عائدات العمولات المباشرة وسحب الرصيد البنكي',
+            title: 'طلبات تسعير الورش والعملاء الواردة',
+            desc: 'تسعير استفسارات أرقام الهيكل VIN للورش والعملاء واحتساب عمولتك',
+            iconBg: 'var(--tile-peach)',
+            iconColor: 'var(--tile-peach-icon)',
+            icon: `<path d="m20.59 13.41-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>`,
+            action: 'openRepQuotesModal()'
+          },
+          {
+            title: 'محفظة عمولات المبيعات والأرباح',
+            desc: 'عائدات العمولات المباشرة وسحب الأرباح البنكية الفوري عبر سريع SARIE',
             iconBg: '#CBEAE7',
             iconColor: '#0F766E',
             icon: `<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>`,
             action: 'openRepWalletModal()'
           },
           {
-            title: 'شبكة الورش ومراكز الصيانة التابعة',
-            desc: '19 ورشة معتمدة تطلب قطعها عبر حسابك المندوب',
+            title: roleId === 'rep_scrap' ? 'قطع التشليح ومخزون المبيعات' : 'قطع المندوب والمخزون المعروض',
+            desc: 'إدارة الأسعار وتحديث توفر قطع الغيار والمخزون الميداني وأسعار البيع',
             iconBg: 'var(--tile-lavender)',
             iconColor: 'var(--tile-lavender-icon)',
+            icon: `<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>`,
+            action: 'openInventoryModal()'
+          },
+          {
+            title: 'مساعد كفو ومطابقة VIN والكتالوجات',
+            desc: 'فحص رقم الهيكل ومطابقة كتالوجات الوكالة والتأكد من التوافق',
+            iconBg: 'var(--tile-orange)',
+            iconColor: 'var(--tile-orange-icon)',
+            icon: `<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>`,
+            action: 'openAssistantModal()'
+          },
+          {
+            title: 'المستندات الرسمية والاعتماد المهني',
+            desc: 'الهوية الوطنية، وثيقة العمل الحر / السجل التجاري، الشهادة الضريبية والآيبان',
+            iconBg: 'linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%)',
+            iconColor: '#15803D',
+            icon: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>`,
+            action: 'openSettingsModal()'
+          },
+          {
+            title: 'شبكة الورش ومراكز الصيانة التابعة',
+            desc: '19 ورشة معتمدة تطلب قطعها عبر حسابك المندوب',
+            iconBg: '#EDE9FE',
+            iconColor: '#7B5CFF',
             icon: `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`,
             action: 'openRepWorkshopsModal()'
           },
@@ -366,22 +398,6 @@
             iconColor: 'var(--tile-orange-icon)',
             icon: `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/>`,
             action: 'openRepFieldVisitsModal()'
-          },
-          {
-            title: 'فاحص VIN وكتالوجات الوكالة',
-            desc: 'مطابقة رقم الشاسيه والتأكد من توافق القطعة قبل البيع',
-            iconBg: 'var(--tile-blue)',
-            iconColor: 'var(--tile-blue-icon)',
-            icon: `<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>`,
-            action: 'openAssistantModal()'
-          },
-          {
-            title: 'إعدادات حساب المندوب',
-            desc: 'بيانات الحساب البنكي لتحويل العمولات ونطاق العمل',
-            iconBg: 'var(--tile-yellow)',
-            iconColor: 'var(--tile-yellow-icon)',
-            icon: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`,
-            action: 'openSettingsModal()'
           }
         ];
       } else if (roleId === 'workshop') {
@@ -1010,47 +1026,70 @@
     // =========================================================================
 
     function openRepAssignedOrdersModal() {
-      openModalWith('طلبات العملاء والورش المسندة', 'قائمة العملاء الذين اختاروك مندوباً لهم لإتمام البيع', `
+      if (window.KafuMerchantOrders) {
+        const html = KafuMerchantOrders.renderOrdersModalHtml('all', '');
+        openModalWith('طلبات العملاء والورش المسندة', 'إدارة وتجهيز مبيعات المندوب، الكباتن، وتسليم الشحنات', html);
+      } else {
+        openIncomingOrdersModal();
+      }
+    }
+
+    function openRepAddressModal() {
+      openModalWith('مقر المندوب ونطاق التغطية الميدانية', 'مقر تسليم الشحنات وتنسيق التوزيع الميداني مع الكباتن', `
         <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <strong style="color: var(--text);">طلب عميل #REP-320</strong>
-              <span style="background: #EFF6FF; color: #2563EB; padding: 3px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700;">عمولتك: 85 ر.س</span>
-            </div>
-            <div style="font-size: 0.85rem; color: #475569;">العميل: ورشة الدقة الألمانية (مهندس ماجد)</div>
-            <div style="font-size: 0.85rem; color: #475569;">القطع: طقم فحمات + هوبات مرسيدس C200</div>
-            <div style="display: flex; gap: 8px; margin-top: 10px;">
-              <button class="btn-primary" style="flex: 1; padding: 6px;" onclick="KafuApp.showToast('تم تأكيد توريد القطعة واحتساب عمولتك'); closeActionModal();">تأكيد البيع وتوريد الطلب</button>
-            </div>
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">المدينة والمنطقة الميدانية</label>
+            <input type="text" value="الرياض - نطاق الصناعية القديمة وشمال الرياض" class="form-input">
           </div>
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">نقطة التوزيع والتسليم للكباتن</label>
+            <input type="text" value="مستودع الموزعين المركزي - بوابة رقم 3" class="form-input">
+          </div>
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">رقم هاتف المندوب المعتمد للتواصل</label>
+            <input type="tel" value="0559876543" class="form-input ltr" style="text-align: right;">
+          </div>
+          <button class="btn-primary" onclick="KafuApp.showToast('تم حفظ وتحديث مقر ونطاق تغطية المندوب بنجاح ✓'); closeActionModal();">
+            حفظ وتحديث الموقع والنطاق
+          </button>
         </div>
       `);
     }
 
     function openRepQuotesModal() {
-      openModalWith('عروض الأسعار والعمولات', 'تحديد سعر القطعة ونسبة عمولتك المباشرة', `
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div>
-            <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">القطعة المطلوبة من الزبون</label>
-            <input type="text" class="form-input" value="طرمبة بنزين أصلية - تاهو 2021" readonly style="background: #F8FAFC;">
-          </div>
-          <div style="display: flex; gap: 10px;">
-            <div style="flex: 1;">
-              <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">سعر المستودع (ر.س)</label>
-              <input type="number" id="costPrice" class="form-input font-num" value="750" oninput="calcRepCommission()">
+      openModalWith('طلبات تسعير الورش والعملاء الواردة', 'تسعير القطع وتحديد نسبة عمولة المندوب المباشرة', `
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <strong style="font-size: 0.92rem; color: #0F172A;">طلب تسعير ورشة #Q-702</strong>
+              <span style="font-size: 0.74rem; color: #D97706; background: #FEF3C7; padding: 2px 8px; border-radius: 6px; font-weight: 700;">بانتظار سعرك</span>
             </div>
-            <div style="flex: 1;">
-              <label style="font-size: 0.82rem; font-weight: 700; display: block; margin-bottom: 4px;">سعر العرض للعميل (ر.س)</label>
-              <input type="number" id="salePrice" class="form-input font-num" value="890" oninput="calcRepCommission()">
+            <div style="font-size: 0.84rem; color: #475569;">سيارة: <strong>تويوتا لاندكروزر 2023</strong></div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); font-family: monospace;">VIN: JTMHY7AJ6M4029182</div>
+            <div style="font-size: 0.84rem; color: #475569; margin: 4px 0;">القطعة: <strong>دينمو شحن أصلي وكالة</strong></div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+              <div>
+                <label style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: block; margin-bottom: 2px;">سعر المورد (ر.س)</label>
+                <input type="number" id="costPrice" class="form-input font-num" value="850" oninput="calcRepCommission()">
+              </div>
+              <div>
+                <label style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: block; margin-bottom: 2px;">سعرك للورشة (ر.س)</label>
+                <input type="number" id="salePrice" class="form-input font-num" value="990" oninput="calcRepCommission()">
+              </div>
+            </div>
+
+            <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px; padding: 10px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.82rem; font-weight: 700; color: #166534;">عمولتك المباشرة المكتسبة:</span>
+              <span style="font-size: 1.15rem; font-weight: 800; color: #15803D;" id="repCommissionDisplay" class="font-num">140 ر.س</span>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+              <button class="btn-primary" style="flex: 1; padding: 9px; font-weight: 700;" onclick="KafuApp.showToast('تم إرسال عرض السعر للورشة واحتساب عمولتك بنجاح ✓'); closeActionModal();">
+                إرسال عرض السعر للورشة
+              </button>
             </div>
           </div>
-          <div style="background: #EDE9FE; border: 1px solid #C4B5FD; border-radius: 12px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-weight: 700; color: #6D28D9;">صافي عمولة المندوب:</span>
-            <span style="font-size: 1.25rem; font-weight: 800; color: #6D28D9;" id="repCommissionDisplay">140 ر.س</span>
-          </div>
-          <button class="btn-primary" onclick="KafuApp.showToast('تم إرسال عرض السعر للعميل مع اعتماد عمولتك ✓'); closeActionModal();">
-            إرسال العرض للعميل فوراً
-          </button>
         </div>
       `);
     }
@@ -1059,22 +1098,17 @@
       const cost = parseFloat(document.getElementById('costPrice').value) || 0;
       const sale = parseFloat(document.getElementById('salePrice').value) || 0;
       const comm = Math.max(0, sale - cost);
-      document.getElementById('repCommissionDisplay').textContent = `${comm} ر.س`;
+      const displayEl = document.getElementById('repCommissionDisplay');
+      if (displayEl) displayEl.textContent = `${comm} ر.س`;
     }
 
     function openRepWalletModal() {
-      openModalWith('محفظة عمولات المبيعات', 'أرباح العمولات وسحب الرصيد البنكي', `
-        <div style="display: flex; flex-direction: column; gap: 14px; text-align: center;">
-          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 18px; padding: 18px;">
-            <div style="font-size: 0.82rem; color: var(--text-muted);">رصيد عمولات المبيعات الجاهز للسحب</div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #7B5CFF; margin: 4px 0;" class="font-num">3,840.00 <span style="font-size: 1rem;">ر.س</span></div>
-            <div style="font-size: 0.78rem; color: var(--text-muted);">عن إتمام بيع 34 طلباً للورش والزبائن</div>
-          </div>
-          <button class="btn-primary" style="height: 48px; background: #7B5CFF;" onclick="KafuApp.showToast('تم إرسال طلب سحب العمولات لحسابك البنكي!'); closeActionModal();">
-            سحب العمولات لحسابي البنكي الآن (3,840 ر.س)
-          </button>
-        </div>
-      `);
+      if (window.KafuMerchantWallet) {
+        const html = KafuMerchantWallet.renderModalContent('all');
+        openModalWith('محفظة عمولات المبيعات والأرباح', 'عائدات العمولات المباشرة وسحب الأرباح الفوري عبر سريع SARIE', html);
+      } else {
+        openMerchantWalletModal();
+      }
     }
 
     function openRepWorkshopsModal() {
