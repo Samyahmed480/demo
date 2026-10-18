@@ -200,18 +200,47 @@
       position: relative;
     }
 
-    /* اللوجو الرسمي الأصلي الشفاف المستخرج بدقة فائقة */
-    .brand-hero-logo {
-      width: clamp(140px, 42vw, 172px);
-      max-width: 178px;
-      height: auto;
+    /* شعار شركة كفو المعتمد (الترس والمفك ومفتاح الصيانة 3D) */
+    .brand-logo-pod {
+      width: clamp(56px, 15vw, 68px);
+      height: clamp(56px, 15vw, 68px);
+      border-radius: clamp(16px, 4vw, 20px);
+      background: #FFFFFF;
+      box-shadow: 
+        0 10px 24px rgba(0, 102, 255, 0.14),
+        0 3px 8px rgba(15, 23, 42, 0.04);
+      border: 2px solid #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: clamp(3px, 0.8vh, 5px);
+      position: relative;
+      z-index: 3;
+    }
+
+    .brand-logo-icon {
+      width: clamp(38px, 10.5vw, 48px);
+      height: clamp(38px, 10.5vw, 48px);
       object-fit: contain;
       display: block;
-      margin: 0 auto;
-      filter: drop-shadow(0 4px 10px rgba(0, 102, 255, 0.12));
-      -webkit-user-select: none;
-      user-select: none;
-      pointer-events: none;
+    }
+
+    .brand-title {
+      font-size: clamp(1.5rem, 4.8vw, 1.85rem);
+      font-weight: 900;
+      color: var(--navy-dark);
+      line-height: 1.15;
+      margin-bottom: 2px;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-subtitle {
+      font-size: clamp(0.74rem, 2.2vw, 0.82rem);
+      font-weight: 700;
+      color: var(--primary-blue);
+      line-height: 1.2;
+      text-align: center;
+      letter-spacing: -0.2px;
     }
 
     /* --------------------------------------------------------------------------
@@ -700,8 +729,22 @@
         padding-top: 4px;
         padding-bottom: 8px;
       }
-      .brand-hero-logo {
-        width: 125px;
+      .brand-logo-pod {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        margin-bottom: 2px;
+      }
+      .brand-logo-icon {
+        width: 34px;
+        height: 34px;
+      }
+      .brand-title {
+        font-size: 1.35rem;
+        margin-bottom: 1px;
+      }
+      .brand-subtitle {
+        font-size: 0.70rem;
       }
       .main-login-card {
         padding: 10px 12px;
@@ -935,9 +978,13 @@
       </button>
     </header>
 
-    <!-- 2. رأس الصفحة: لوجو كفو الرسمي الأصلي (المطابق 100% للتصميم بدون تروس جانبية) -->
+    <!-- 2. رأس الصفحة: لوجو شركة كفو الرسمي المعتمد -->
     <section class="brand-hero-section">
-      <img src="assets/images/kafu-brand-logo.png" alt="كفو - منظومة قطع غيار السيارات الذكية" class="brand-hero-logo" />
+      <div class="brand-logo-pod" title="شعار شركة كفو">
+        <img src="assets/images/kafu-logo.png" alt="شعار شركة كفو" class="brand-logo-icon" />
+      </div>
+      <h1 class="brand-title">كفو</h1>
+      <p class="brand-subtitle">منظومة قطع غيار السيارات الذكية</p>
     </section>
 
     <!-- 3. بطاقة تسجيل الدخول البيضاء المرفوعة (Main White Card) -->
