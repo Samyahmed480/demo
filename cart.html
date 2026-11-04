@@ -3,14 +3,147 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>كفو | سلتك</title>
-  <meta name="description" content="عربة التسوق في كفو - راجع قطع الغيار وتابع إلى الشحن وتأكيد الطلب.">
+  <title>كفو | سلة المشتريات وإتمام الطلب</title>
+  <meta name="description" content="عربة التسوق في كفو - تفاصيل القطع، الضمان المعتمد، بوابات الدفع، التوصيل للمنزل أو الورشة، وتتبع الشحن المباشر.">
   <!-- خطوط عربية فائقة الوضوح والجمال من Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/components.css">
+  <style>
+    .cart-item-card-rich {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-card);
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .warranty-badge-gold {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FCD34D;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .warranty-badge-green {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #DCFCE7;
+      color: #166534;
+      border: 1px solid #86EFAC;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .destination-toggle {
+      display: flex;
+      background: #F1F5F9;
+      border-radius: var(--radius-pill);
+      padding: 4px;
+      gap: 4px;
+      margin-bottom: 14px;
+    }
+    .dest-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: var(--radius-pill);
+      border: none;
+      background: transparent;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #64748B;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .dest-btn.active {
+      background: #FFFFFF;
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .payment-tab {
+      border: 1.5px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .payment-tab.active {
+      border-color: var(--primary);
+      background: #EFF6FF;
+    }
+    /* شريط سير عملية الشحن */
+    .tracking-timeline {
+      position: relative;
+      padding-right: 28px;
+      margin: 16px 0;
+    }
+    .tracking-timeline::before {
+      content: '';
+      position: absolute;
+      right: 11px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: #CBD5E1;
+    }
+    .timeline-step {
+      position: relative;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+    }
+    .timeline-step:last-child {
+      margin-bottom: 0;
+    }
+    .timeline-dot {
+      position: absolute;
+      right: -28px;
+      top: 2px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #94A3B8;
+      border: 3px solid #FFFFFF;
+      box-shadow: 0 0 0 2px #CBD5E1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      font-size: 0.65rem;
+    }
+    .timeline-step.completed .timeline-dot {
+      background: #16A34A;
+      box-shadow: 0 0 0 2px #86EFAC;
+    }
+    .timeline-step.current .timeline-dot {
+      background: var(--primary);
+      box-shadow: 0 0 0 3px rgba(10, 108, 255, 0.35);
+      animation: pulseDot 1.5s infinite;
+    }
+    @keyframes pulseDot {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+  </style>
 </head>
 <body>
 
@@ -24,46 +157,50 @@
   <div class="app-container">
 
     <!-- رأس الصفحة مع زر الرجوع -->
-    <header class="page-header" style="display: flex; align-items: center; justify-content: space-between;">
+    <header class="page-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
       <div style="display: flex; align-items: center; gap: 10px;">
-        <a href="javascript:history.back()" class="btn-icon-glass" style="background: rgba(255,255,255,0.85); color: var(--text);" title="رجوع">
+        <a href="index.html" class="btn-icon-glass" style="background: rgba(255,255,255,0.85); color: var(--text);" title="رجوع للرئيسية">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m9 18 6-6-6-6"/>
           </svg>
         </a>
-        <h1 class="page-title" style="margin: 0;">سلة المشتريات</h1>
+        <h1 class="page-title" style="margin: 0; font-size: 1.2rem;">سلة المشتريات</h1>
       </div>
-      <button id="btnClearAllCart" style="font-size: 0.85rem; color: var(--danger); font-weight: 600; display: none; background: none; border: none; cursor: pointer;">
+      <button id="btnClearAllCart" style="font-size: 0.82rem; color: var(--danger); font-weight: 700; display: none; background: none; border: none; cursor: pointer;">
         تفريغ السلة
       </button>
     </header>
 
-    <!-- قائمة عناصر السلة -->
+    <!-- قائمة عناصر السلة الغنية بالتفاصيل والضمان والتقييمات -->
     <div id="cartItemsContainer">
-      <!-- يتم توليد العناصر ديناميكياً لتطابق لقطة الشاشة 2 -->
+      <!-- يتم توليدها ديناميكياً مع ظهور التفاصيل لكل قطعة -->
     </div>
 
-    <!-- كارت ملخص الطلب -->
-    <div class="summary-card glass" id="orderSummaryCard">
+    <!-- كارت ملخص التكاليف -->
+    <div class="summary-card glass" id="orderSummaryCard" style="margin-bottom: 16px;">
       <div class="summary-row">
         <span>إجمالي القطع</span>
-        <span id="summarySubtotal">١٬٤٤٠ ر.س</span>
+        <span id="summarySubtotal">٠ ر.س</span>
       </div>
       <div class="summary-row">
-        <span>ضريبة القيمة المضافة</span>
-        <span id="summaryVat">٢١٦ ر.س</span>
+        <span>ضريبة القيمة المضافة (15%)</span>
+        <span id="summaryVat">٠ ر.س</span>
+      </div>
+      <div class="summary-row">
+        <span>رسوم الشحن والتوصيل</span>
+        <span style="color: #16A34A; font-weight: 700;">مجاناً (عرض كفو)</span>
       </div>
       <div class="summary-divider"></div>
       <div class="summary-total-row">
-        <span>الإجمالي</span>
-        <span id="summaryTotal" style="color: var(--text);">١٬٦٥٦ ر.س</span>
+        <span>المبلغ الإجمالي</span>
+        <span id="summaryTotal" style="color: var(--primary);">٠ ر.س</span>
       </div>
     </div>
 
-    <!-- زر متابعة إلى الشحن -->
-    <div id="checkoutBtnWrapper" style="margin-top: 6px;">
+    <!-- زر متابعة إلى الشحن والدفع -->
+    <div id="checkoutBtnWrapper" style="margin-bottom: 80px;">
       <button class="btn-primary" id="btnProceedToCheckout">
-        <span>متابعة إلى الشحن</span>
+        <span>متابعة إلى الشحن والدفع</span>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
@@ -71,30 +208,30 @@
       </button>
     </div>
 
-    <!-- Empty State إذا كانت السلة فارغة -->
-    <div id="emptyCartView" class="glass" style="display: none; padding: 40px 20px; text-align: center; border-radius: var(--radius-sheet); margin-top: 20px;">
+    <!-- شاشة السلة الفارغة -->
+    <div id="emptyCartView" class="glass" style="display: none; padding: 40px 20px; text-align: center; border-radius: var(--radius-sheet); margin-top: 20px; margin-bottom: 80px;">
       <div style="width: 72px; height: 72px; border-radius: 50%; background: #DCEAFE; color: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
         <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
           <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
         </svg>
       </div>
-      <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 6px;">سلتك فارغة</h3>
-      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">تصفح القطع المتوافقة مع سيارتك وأضفها إلى السلة بسهولة.</p>
-      <a href="index.html" class="btn-primary" style="display: inline-flex; width: auto; padding: 0 32px;">
-        تصفح القطع
+      <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 6px;">سلتك فارغة حالياً</h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">تصفح القطع المتوافقة مع سيارتك أو ابحث برقم الهيكل وأضف ما تحتاجه.</p>
+      <a href="search.html" class="btn-primary" style="display: inline-flex; width: auto; padding: 0 32px;">
+        تصفح القطع والبحث
       </a>
     </div>
 
   </div>
 
-  <!-- Bottom Sheet الشحن المطابق للقطة الشاشة 4 -->
+  <!-- Bottom Sheet: بيانات الشحن والدفع والوجهة (للمنزل أو الورشة) -->
   <div class="sheet-backdrop" id="checkoutSheet">
-    <div class="bottom-sheet">
+    <div class="bottom-sheet" style="max-height: 90vh; overflow-y: auto;">
       <div class="sheet-header">
         <div class="sheet-title-col">
-          <h2 class="sheet-title">بيانات الشحن</h2>
-          <p class="sheet-subtitle">اختر عنوان التوصيل وطريقة الدفع لإتمام طلبك.</p>
+          <h2 class="sheet-title">إتمام الشراء والشحن</h2>
+          <p class="sheet-subtitle">حدد وجهة التوصيل وطريقة الدفع لإصدار الفاتورة وتتبع الشحن.</p>
         </div>
         <button class="btn-close-sheet" id="btnCloseCheckout" aria-label="إغلاق">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -104,67 +241,257 @@
         </button>
       </div>
 
-      <!-- قسم عنوان الشحن -->
-      <div class="sheet-section">
-        <h3 class="sheet-section-title">عنوان الشحن</h3>
-        <div id="addressDisplayBox">
-          <button class="address-select-btn" id="btnAddNewAddressSheet">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            <span>إضافة عنوان جديد</span>
+      <!-- 1. اختيار الوجهة: هل للورشة أو للمنزل وتحديد الموقع والوصول -->
+      <div class="sheet-section" style="margin-bottom: 16px;">
+        <h3 class="sheet-section-title" style="margin-bottom: 8px;">وجهة التوصيل</h3>
+        
+        <div class="destination-toggle">
+          <button type="button" class="dest-btn active" id="btnDestHome" onclick="selectDestination('home')">
+            <span>🏠 التوصيل إلى المنزل</span>
+          </button>
+          <button type="button" class="dest-btn" id="btnDestWorkshop" onclick="selectDestination('workshop')">
+            <span>🔧 التوصيل مباشرة للورشة</span>
           </button>
         </div>
-      </div>
 
-      <!-- قسم طريقة الدفع -->
-      <div class="sheet-section">
-        <h3 class="sheet-section-title">طريقة الدفع</h3>
-        <div class="payment-options-grid">
-          <div class="payment-card-option active" id="payOptionCod" onclick="selectPayment('cod')">
-            <span class="option-icon" style="color: #059669; font-weight: 700; font-size: 1.4rem;">$</span>
-            <span class="option-name">الدفع عند الاستلام</span>
+        <!-- حالة التوصيل للمنزل -->
+        <div id="destHomeBox">
+          <div style="background: rgba(10, 108, 255, 0.06); border: 1.5px solid var(--primary); border-radius: 12px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+              <div>
+                <strong style="font-size: 0.92rem; color: var(--text);">عنوان المنزل (الرئيسي)</strong>
+                <div style="font-size: 0.8rem; color: #64748B;">الرياض · حي الملز · شارع صلاح الدين الأيوبي</div>
+              </div>
+              <span style="font-size: 0.75rem; background: #DBEAFE; color: var(--primary); font-weight: 700; padding: 2px 6px; border-radius: 4px;">موقع GPS دقيق</span>
+            </div>
+            <div style="font-size: 0.78rem; color: #16A34A; font-weight: 700;">
+              ⚡ وقت الوصول المتوقع: خلال 45 دقيقة (توصيل فوري)
+            </div>
           </div>
+        </div>
 
-          <div class="payment-card-option" id="payOptionWallet" onclick="selectPayment('wallet')">
-            <span class="option-icon" style="color: #0A6CFF; display: flex; align-items: center; justify-content: center;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                <line x1="1" y1="10" x2="23" y2="10"></line>
-              </svg>
-            </span>
-            <span class="option-name">الدفع من المحفظة</span>
+        <!-- حالة التوصيل للورشة -->
+        <div id="destWorkshopBox" style="display: none;">
+          <div style="background: rgba(2, 132, 199, 0.06); border: 1.5px solid #0284C7; border-radius: 12px; padding: 12px 14px;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: #0369A1; display: block; margin-bottom: 6px;">
+              اختر الورشة المعتمدة لتسليم القطع لمهندسها:
+            </label>
+            <select id="selectWorkshopChoice" style="width: 100%; height: 42px; border-radius: 8px; border: 1px solid #CBD5E1; padding: 0 10px; font-family: inherit; font-size: 0.86rem; margin-bottom: 8px;">
+              <option value="ws-4">ورشة أوتو فكس لميزان الأذرعة والمساعدات (صناعية الشفاء)</option>
+              <option value="ws-1">مركز النخبة المتخصص للميكانيكا (صناعية الدائري)</option>
+              <option value="ws-2">ورشة الوفاء للسمكرة ورش البوية بالفرن (أم الحمام)</option>
+              <option value="ws-3">مركز دقة التشخيص للكهرباء وفحص الكمبيوتر (العاصمة)</option>
+            </select>
+            <div style="font-size: 0.78rem; color: #0369A1;">
+              📍 سيتم تسليم الشحنة باسمك لمهندس الورشة مباشرة مع تقرير التوافق وشهادة الضمان.
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="sheet-total-bar">
-        <span>الإجمالي</span>
-        <span id="sheetTotalAmount">١٬٦٥٦ ر.س</span>
+      <!-- 2. بوابات الدفع: أبل باي، فيزا / مدى، الدفع عند الاستلام -->
+      <div class="sheet-section" style="margin-bottom: 18px;">
+        <h3 class="sheet-section-title" style="margin-bottom: 10px;">بوابات الدفع الإلكتروني</h3>
+        
+        <!-- Apple Pay -->
+        <div class="payment-tab active" id="payApplePay" onclick="selectPayGateway('applepay')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.3rem;"></span>
+            <div>
+              <strong style="font-size: 0.92rem; color: var(--text);">Apple Pay</strong>
+              <div style="font-size: 0.75rem; color: #64748B;">دفع سريع وآمن بلمسة واحدة</div>
+            </div>
+          </div>
+          <span style="width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: var(--primary);"></span>
+          </span>
+        </div>
+
+        <!-- مدى / فيزا / ماستركارد -->
+        <div class="payment-tab" id="payCard" onclick="selectPayGateway('card')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0284C7;">
+              <rect x="2" y="5" width="20" height="14" rx="2"/>
+              <line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+            <div>
+              <strong style="font-size: 0.92rem; color: var(--text);">بطاقة مدى / فيزا / ماستركارد</strong>
+              <div style="font-size: 0.75rem; color: #64748B;">البطاقات الائتمانية والبنكية السعودية</div>
+            </div>
+          </div>
+          <span style="font-size: 0.78rem; font-weight: 700; color: #059669;">مدى 🇸🇦</span>
+        </div>
+
+        <!-- الدفع عند الاستلام -->
+        <div class="payment-tab" id="payCod" onclick="selectPayGateway('cod')">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.2rem;">💵</span>
+            <div>
+              <strong style="font-size: 0.92rem; color: var(--text);">الدفع عند الاستلام (COD)</strong>
+              <div style="font-size: 0.75rem; color: #64748B;">كاش أو شبكة مدى مع المندوب عند المعاينة</div>
+            </div>
+          </div>
+          <span style="font-size: 0.75rem; background: #DCFCE7; color: #166534; font-weight: 700; padding: 2px 6px; border-radius: 4px;">متاح</span>
+        </div>
       </div>
 
-      <button class="btn-primary" id="btnConfirmOrder">
-        تأكيد الطلب
+      <div class="sheet-total-bar" style="margin-bottom: 14px;">
+        <span>المبلغ النهائي المطلوب:</span>
+        <span id="sheetFinalTotal" style="font-size: 1.2rem; font-weight: 800; color: var(--primary);">٠ ر.س</span>
+      </div>
+
+      <button class="btn-primary" id="btnConfirmAndTrack" onclick="executeOrderAndShowLiveTracking()">
+        <span>تأكيد الطلب وتتبع الشحنة الحية 🚀</span>
       </button>
     </div>
   </div>
 
-  <!-- نافذة نجاح الطلب -->
-  <div class="sheet-backdrop" id="orderSuccessModal">
-    <div class="bottom-sheet" style="text-align: center; padding: 36px 24px;">
-      <div style="width: 76px; height: 76px; border-radius: 50%; background: #DDF5E4; color: #16A34A; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px;">
-        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
+  <!-- Modal سير عملية الشحن الحية (Live Shipping Progress Bar & Map Trigger) -->
+  <div class="sheet-backdrop" id="liveTrackingSheet">
+    <div class="bottom-sheet" style="padding: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+        <div>
+          <span style="font-size: 0.75rem; background: #DCFCE7; color: #166534; font-weight: 700; padding: 2px 8px; border-radius: 999px;">تم تأكيد الطلب بنجاح ✓</span>
+          <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--text); margin-top: 4px;" id="orderIdDisplay">
+            طلب رقم #KAFU-920412
+          </h2>
+        </div>
+        <button onclick="exitToMyOrdersDirect()" style="background: #F1F5F9; border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer;">
+          ✕
+        </button>
       </div>
-      <h2 style="font-size: 1.45rem; font-weight: 700; margin-bottom: 8px;">تم تأكيد طلبك بنجاح!</h2>
-      <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 20px;" id="orderSuccessDetails">
-        رقم الطلب: KAFU-849201<br>
-        سيتم تجهيز القطع وشحنها إلى عنوانك فوراً مع فحص التوافق.
-      </p>
-      <button class="btn-primary" onclick="window.location.href='index.html'">
-        العودة للرئيسية
+
+      <!-- شريط سير عملية الشحن التفاعلي (المطلوب نصاً من العميل) -->
+      <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 14px; margin-bottom: 16px; cursor: pointer;" onclick="openLiveMapModal()" title="اضغط لمشاهدة الخريطة المباشرة">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <strong style="font-size: 0.88rem; color: var(--primary);">سير عملية الشحن الحية 🚚</strong>
+          <span style="font-size: 0.76rem; color: var(--primary); font-weight: 700; text-decoration: underline;">عرض الخريطة الحية 🗺️</span>
+        </div>
+
+        <div class="tracking-timeline">
+          <div class="timeline-step completed">
+            <div class="timeline-dot">✓</div>
+            <strong>تم استلام الطلب وتأكيده</strong>
+            <div style="font-size: 0.75rem; color: #64748B;">تم مطابقة القطع مع سيارتك (Toyota Camry 2025) بدقة 100%</div>
+          </div>
+          <div class="timeline-step completed">
+            <div class="timeline-dot">✓</div>
+            <strong>تجهيز وفحص القطع بالمستودع</strong>
+            <div style="font-size: 0.75rem; color: #64748B;">تم تغليف القطع وإرفاق شهادات الضمان الرسمية</div>
+          </div>
+          <div class="timeline-step current">
+            <div class="timeline-dot">•</div>
+            <strong style="color: var(--primary);">تسليم الشحنة للكابتن (المندوب)</strong>
+            <div style="font-size: 0.75rem; color: #1E3A8A;">كابتن كفو: فهد الدوسري استلم الشحنة وفي طريقه للوجهة</div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-dot">○</div>
+            <strong id="finalDestLabel">التسليم في المنزل</strong>
+            <div style="font-size: 0.75rem; color: #94A3B8;">وصول متوقع خلال 35 دقيقة</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- زر الخريطة وزر طلباتي دايركت -->
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <button class="btn-primary" onclick="openLiveMapModal()" style="background: linear-gradient(135deg, #0A6CFF 0%, #0284C7 100%);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+            <line x1="8" y1="2" x2="8" y2="18"></line>
+            <line x1="16" y1="6" x2="16" y2="22"></line>
+          </svg>
+          <span>مشاهدة الخريطة الحية وموقع المندوب</span>
+        </button>
+
+        <button class="btn-secondary" onclick="exitToMyOrdersDirect()" style="font-weight: 700;">
+          الانتقال إلى قائمة طلباتي دايركت 📦
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal الخريطة المباشرة لموقع المندوب (Live GPS Map Simulation) -->
+  <div class="sheet-backdrop" id="liveMapModal">
+    <div class="bottom-sheet" style="padding: 20px; max-height: 92vh;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h3 style="font-size: 1.1rem; font-weight: 800; margin: 0; color: var(--text);">تتبع المندوب على الخريطة 🗺️</h3>
+        <button onclick="document.getElementById('liveMapModal').classList.remove('active')" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- محاكاة الخريطة التفاعلية الفائقة -->
+      <div style="position: relative; height: 260px; background: #E2E8F0; border-radius: 16px; overflow: hidden; margin-bottom: 14px; border: 2px solid #CBD5E1;">
+        <!-- خلفية الشوارع المصغرة -->
+        <svg width="100%" height="100%" viewBox="0 0 400 260" preserveAspectRatio="none" style="position: absolute; inset: 0;">
+          <rect width="400" height="260" fill="#E2E8F0"/>
+          <!-- مسارات الشوارع -->
+          <line x1="0" y1="80" x2="400" y2="80" stroke="#FFFFFF" stroke-width="14"/>
+          <line x1="0" y1="180" x2="400" y2="180" stroke="#FFFFFF" stroke-width="18"/>
+          <line x1="120" y1="0" x2="120" y2="260" stroke="#FFFFFF" stroke-width="16"/>
+          <line x1="280" y1="0" x2="280" y2="260" stroke="#FFFFFF" stroke-width="14"/>
+          <!-- مسار الشحنة باللون الأزرق -->
+          <path d="M 60 80 L 120 80 L 120 180 L 280 180" fill="none" stroke="#0A6CFF" stroke-width="5" stroke-dasharray="6,4"/>
+        </svg>
+
+        <!-- نقطة المندوب المتحركة -->
+        <div style="position: absolute; top: 165px; left: 190px; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center;">
+          <div style="background: #0A6CFF; color: #FFF; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(10,108,255,0.4); border: 2px solid #FFF;">
+            🚚
+          </div>
+          <span style="font-size: 0.7rem; font-weight: 800; background: #0F172A; color: #FFF; padding: 2px 6px; border-radius: 4px; margin-top: 2px;">
+            المندوب فهد
+          </span>
+        </div>
+
+        <!-- نقطة الوصول (الوجهة) -->
+        <div style="position: absolute; top: 165px; left: 280px; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center;">
+          <div style="background: #16A34A; color: #FFF; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(22,163,74,0.4); border: 2px solid #FFF;">
+            📍
+          </div>
+          <span style="font-size: 0.7rem; font-weight: 800; background: #166534; color: #FFF; padding: 2px 6px; border-radius: 4px; margin-top: 2px;">
+            الوجهة المحددة
+          </span>
+        </div>
+      </div>
+
+      <!-- تفاصيل كابتن التوصيل -->
+      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 44px; height: 44px; border-radius: 50%; background: #E0E7FF; color: #4338CA; display: flex; align-items: center; justify-content: center; font-weight: 800;">
+            ف د
+          </div>
+          <div>
+            <strong style="font-size: 0.92rem; color: var(--text);">الكابتن فهد الدوسري</strong>
+            <div style="font-size: 0.76rem; color: #64748B;">تويوتا يارس أبيض · لوحة: (أ ب ح ٩٢١٤)</div>
+          </div>
+        </div>
+        <a href="tel:+966501234567" style="background: #DCFCE7; color: #166534; padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; text-decoration: none;">
+          📞 اتصال بالمندوب
+        </a>
+      </div>
+
+      <button class="btn-primary" onclick="exitToMyOrdersDirect()">
+        الانتقال إلى قائمة طلباتي دايركت 📦
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal تفاصيل التعليقات وآراء الناس على القطعة -->
+  <div class="sheet-backdrop" id="reviewsModal">
+    <div class="bottom-sheet" style="padding: 22px; max-height: 85vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0;" id="reviewsModalPartTitle">آراء وتقييمات المشترين</h3>
+          <div style="font-size: 0.78rem; color: #64748B;">تقييمات موثقة من عملاء قاموا بالشراء والتركيب</div>
+        </div>
+        <button onclick="document.getElementById('reviewsModal').classList.remove('active')" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div id="reviewsListBody" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+        <!-- يتم ملؤها ديناميكياً -->
+      </div>
+
+      <button class="btn-primary" onclick="document.getElementById('reviewsModal').classList.remove('active')">
+        إغلاق
       </button>
     </div>
   </div>
@@ -174,176 +501,184 @@
   <script src="assets/js/store.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
-    let selectedPaymentMethod = 'cod';
+    let selectedDest = 'home';
+    let selectedPayment = 'applepay';
 
-    function selectPayment(method) {
-      selectedPaymentMethod = method;
-      document.getElementById('payOptionCod').classList.toggle('active', method === 'cod');
-      document.getElementById('payOptionWallet').classList.toggle('active', method === 'wallet');
+    function selectDestination(dest) {
+      selectedDest = dest;
+      document.getElementById('btnDestHome').classList.toggle('active', dest === 'home');
+      document.getElementById('btnDestWorkshop').classList.toggle('active', dest === 'workshop');
+      document.getElementById('destHomeBox').style.display = dest === 'home' ? 'block' : 'none';
+      document.getElementById('destWorkshopBox').style.display = dest === 'workshop' ? 'block' : 'none';
+      document.getElementById('finalDestLabel').textContent = dest === 'home' ? 'التسليم في المنزل (حي الملز)' : 'التسليم في ورشة الصيانة';
+    }
+
+    function selectPayGateway(gw) {
+      selectedPayment = gw;
+      document.getElementById('payApplePay').classList.toggle('active', gw === 'applepay');
+      document.getElementById('payCard').classList.toggle('active', gw === 'card');
+      document.getElementById('payCod').classList.toggle('active', gw === 'cod');
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // شريط التنقل السفلي الموحد (السلة أصبحت في الأعلى)
+      // شريط التنقل مع إخفاء السلة لأنها الصفحة الحالية
       KafuApp.renderBottomNav('');
 
+      renderCartRich();
+
+      // فتح وإغلاق الشيت
+      document.getElementById('btnProceedToCheckout').addEventListener('click', () => {
+        document.getElementById('checkoutSheet').classList.add('active');
+      });
+      document.getElementById('btnCloseCheckout').addEventListener('click', () => {
+        document.getElementById('checkoutSheet').classList.remove('active');
+      });
+      document.getElementById('btnClearAllCart').addEventListener('click', () => {
+        if (confirm('هل أنت متأكد من تفريغ السلة؟')) {
+          KafuStore.clearCart();
+          renderCartRich();
+          KafuApp.showToast('تم تفريغ السلة');
+        }
+      });
+    });
+
+    function renderCartRich() {
       const itemsContainer = document.getElementById('cartItemsContainer');
       const summaryCard = document.getElementById('orderSummaryCard');
       const checkoutWrapper = document.getElementById('checkoutBtnWrapper');
       const emptyView = document.getElementById('emptyCartView');
       const clearBtn = document.getElementById('btnClearAllCart');
 
-      const checkoutSheet = document.getElementById('checkoutSheet');
-      const btnOpenCheckout = document.getElementById('btnProceedToCheckout');
-      const btnCloseCheckout = document.getElementById('btnCloseCheckout');
-      const btnConfirmOrder = document.getElementById('btnConfirmOrder');
+      const cart = KafuStore.getCart();
+      const totals = KafuStore.getCartTotals();
 
-      function renderCart() {
-        const cart = KafuStore.getCart();
-        const totals = KafuStore.getCartTotals();
+      if (cart.length === 0) {
+        itemsContainer.innerHTML = '';
+        summaryCard.style.display = 'none';
+        checkoutWrapper.style.display = 'none';
+        clearBtn.style.display = 'none';
+        emptyView.style.display = 'block';
+        return;
+      }
 
-        if (cart.length === 0) {
-          itemsContainer.innerHTML = '';
-          summaryCard.style.display = 'none';
-          checkoutWrapper.style.display = 'none';
-          clearBtn.style.display = 'none';
-          emptyView.style.display = 'block';
-          return;
-        }
+      emptyView.style.display = 'none';
+      summaryCard.style.display = 'block';
+      checkoutWrapper.style.display = 'block';
+      clearBtn.style.display = 'block';
 
-        emptyView.style.display = 'none';
-        summaryCard.style.display = 'flex';
-        checkoutWrapper.style.display = 'block';
-        clearBtn.style.display = 'block';
+      itemsContainer.innerHTML = cart.map(item => {
+        // العثور على تفاصيل القطعة الكاملة من PRODUCTS
+        const fullProd = PRODUCTS.find(p => p.id === item.id) || {
+          brand: 'Toyota OEM',
+          oem: '04465-33480',
+          specs: { warranty: 'ضمان 12 شهر معتمد', origin: 'اليابان' },
+          rating: 4.9,
+          reviewsCount: 38,
+          conditionLabel: 'أصلي وكالة'
+        };
 
-        itemsContainer.innerHTML = cart.map(item => `
-          <div class="cart-item-card glass">
-            <div class="cart-img-box">
-              <img src="${item.image}" alt="${item.name}" style="max-width: 80%; max-height: 80%; object-fit: contain;">
+        const warrantyText = fullProd.specs && fullProd.specs.warranty ? fullProd.specs.warranty : 'ضمان 12 شهر شامل الاستبدال';
+        const hasWarranty = !warrantyText.includes('لا يوجد');
+        const warrantyBadgeClass = hasWarranty ? 'warranty-badge-gold' : 'warranty-badge-green';
+
+        return `
+          <div class="cart-item-card-rich">
+            <div style="display: flex; gap: 12px; margin-bottom: 10px;">
+              <div style="width: 76px; height: 76px; background: #F8FAFC; border-radius: 12px; display: flex; align-items: center; justify-content: center; padding: 6px; border: 1px solid #E2E8F0; flex-shrink: 0;">
+                <img src="${item.image}" alt="${item.name}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+              </div>
+              <div style="flex: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <span style="font-size: 0.76rem; font-weight: 700; color: #64748B;">${fullProd.brand || 'كفو الأصلي'}</span>
+                  <button onclick="KafuStore.removeFromCart('${item.id}'); renderCartRich();" style="background: none; border: none; color: #EF4444; font-size: 0.78rem; font-weight: 700; cursor: pointer;">
+                    حذف ✕
+                  </button>
+                </div>
+                <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text); margin: 3px 0;">${item.name}</h3>
+                <div style="font-size: 0.75rem; color: #64748B;">رقم OEM: <span class="ltr font-mono">${fullProd.oem || 'N/A'}</span></div>
+              </div>
             </div>
-            <div class="cart-item-details">
-              <h3 class="cart-item-title">${item.name}</h3>
-              <span class="cart-item-seller">${item.seller || 'متجر كفو للقطع'}</span>
-              <span class="cart-item-price">${KafuStore.formatPrice(item.price)}</span>
+
+            <!-- تفاصيل الضمان والتعليقات المطلوبة نصاً -->
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: space-between; border-top: 1px dashed #E2E8F0; padding-top: 8px; margin-bottom: 10px;">
+              <span class="${warrantyBadgeClass}">
+                🛡️ ${warrantyText}
+              </span>
+              <button onclick="openProductReviews('${item.name}', ${fullProd.rating || 4.9}, ${fullProd.reviewsCount || 24})" style="background: none; border: none; font-size: 0.76rem; color: var(--primary); font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 3px;">
+                ⭐ ${fullProd.rating || 4.9} (${fullProd.reviewsCount || 24} تقييم) · آراء المشترين 💬
+              </button>
             </div>
-            <div class="stepper-vertical">
-              <button class="stepper-btn" onclick="KafuStore.updateQuantity('${item.id}', 1)" title="زيادة الكمية">
-                +
-              </button>
-              <span class="stepper-val">${KafuStore.formatNumber(item.quantity)}</span>
-              <button class="stepper-btn" onclick="KafuStore.updateQuantity('${item.id}', -1)" title="إنقاص الكمية">
-                −
-              </button>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="font-size: 0.75rem; color: #64748B;">سعر القطعة:</span>
+                <span style="font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-right: 4px;">${KafuStore.formatPrice(item.price)}</span>
+              </div>
+              <div class="stepper-vertical" style="flex-direction: row; height: 34px; width: 100px;">
+                <button class="stepper-btn" onclick="KafuStore.updateQuantity('${item.id}', -1); renderCartRich();" style="width: 32px; height: 100%;">−</button>
+                <span class="stepper-val" style="width: 36px;">${KafuStore.formatNumber(item.quantity)}</span>
+                <button class="stepper-btn" onclick="KafuStore.updateQuantity('${item.id}', 1); renderCartRich();" style="width: 32px; height: 100%;">+</button>
+              </div>
             </div>
           </div>
-        `).join('');
-
-        document.getElementById('summarySubtotal').textContent = KafuStore.formatPrice(totals.subtotal);
-        document.getElementById('summaryVat').textContent = KafuStore.formatPrice(totals.vat);
-
-        // تمييز مهندس الورشة بخصم 15% وبونص نقاط كاش باك
-        const currentRole = KafuStore.getRole();
-        let finalTotal = totals.total;
-        let existingWorkshopBanner = document.getElementById('workshopCartPerk');
-
-        if (currentRole === 'workshop' && cart.length > 0) {
-          const discount15 = Math.round(totals.subtotal * 0.15);
-          finalTotal = Math.max(0, totals.total - discount15);
-          const earnedPoints = Math.round(finalTotal * 0.5);
-
-          if (!existingWorkshopBanner) {
-            existingWorkshopBanner = document.createElement('div');
-            existingWorkshopBanner.id = 'workshopCartPerk';
-            summaryCard.parentNode.insertBefore(existingWorkshopBanner, summaryCard);
-          }
-          existingWorkshopBanner.style.cssText = 'background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%); border: 1.5px solid #FCD34D; border-radius: 16px; padding: 12px 14px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;';
-          existingWorkshopBanner.innerHTML = `
-            <div>
-              <span style="font-size: 0.76rem; font-weight: 700; color: #92400E; background: #FDE68A; padding: 2px 8px; border-radius: 6px;">⭐ مهندس ورشة معتمد</span>
-              <div style="font-size: 0.88rem; font-weight: 700; color: #B45309; margin-top: 4px;">خصم الورش (15%) + كاش باك +${earnedPoints} نقطة</div>
-            </div>
-            <span style="font-weight: 800; color: #15803D; font-size: 0.95rem;">- ${KafuStore.formatPrice(discount15)}</span>
-          `;
-        } else if (existingWorkshopBanner) {
-          existingWorkshopBanner.remove();
-        }
-
-        document.getElementById('summaryTotal').textContent = KafuStore.formatPrice(finalTotal);
-        document.getElementById('sheetTotalAmount').textContent = KafuStore.formatPrice(finalTotal);
-      }
-
-      function renderShippingAddressInSheet() {
-        const addresses = KafuStore.getAddresses();
-        const addressBox = document.getElementById('addressDisplayBox');
-        if (addresses.length > 0) {
-          const def = addresses.find(a => a.isDefault) || addresses[0];
-          addressBox.innerHTML = `
-            <div style="background: rgba(10, 108, 255, 0.08); border: 1.5px solid var(--primary); border-radius: var(--radius-md); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <div style="font-weight: 700; color: var(--text); font-size: 0.95rem;">${def.tag} - ${def.fullName}</div>
-                <div style="font-size: 0.82rem; color: var(--text-muted);">${def.city}، ${def.district}، ${def.street}</div>
-              </div>
-              <a href="addresses.html" style="font-size: 0.82rem; font-weight: 700; color: var(--primary);">تغيير</a>
-            </div>
-          `;
-        } else {
-          addressBox.innerHTML = `
-            <a href="addresses.html" class="address-select-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-              <span>إضافة عنوان جديد</span>
-            </a>
-          `;
-        }
-      }
-
-      renderCart();
-
-      window.addEventListener('kafu_store_update', (e) => {
-        if (e.detail.key === 'cart') renderCart();
-      });
-
-      clearBtn.addEventListener('click', () => {
-        if (confirm('هل أنت متأكد من رغبتك في تفريغ السلة؟')) {
-          KafuStore.clearCart();
-          KafuApp.showToast('تم تفريغ السلة');
-        }
-      });
-
-      btnOpenCheckout.addEventListener('click', () => {
-        renderShippingAddressInSheet();
-        checkoutSheet.classList.add('active');
-      });
-
-      btnCloseCheckout.addEventListener('click', () => {
-        checkoutSheet.classList.remove('active');
-      });
-
-      checkoutSheet.addEventListener('click', (e) => {
-        if (e.target === checkoutSheet) checkoutSheet.classList.remove('active');
-      });
-
-      btnConfirmOrder.addEventListener('click', () => {
-        const addresses = KafuStore.getAddresses();
-        const address = addresses.length > 0 ? (addresses.find(a => a.isDefault) || addresses[0]) : { tag: 'الافتراضي', city: 'الرياض' };
-
-        const order = KafuStore.createOrder({
-          shippingAddress: address,
-          paymentMethod: selectedPaymentMethod === 'cod' ? 'الدفع عند الاستلام' : 'المحفظة'
-        });
-
-        checkoutSheet.classList.remove('active');
-
-        const successModal = document.getElementById('orderSuccessModal');
-        document.getElementById('orderSuccessDetails').innerHTML = `
-          رقم الطلب: <strong>${order.id}</strong><br>
-          طريقة الدفع: ${order.paymentMethod}<br>
-          التوصيل إلى: ${address.city || 'الرياض'} (${address.district || ''})
         `;
-        successModal.classList.add('active');
+      }).join('');
+
+      document.getElementById('summarySubtotal').textContent = KafuStore.formatPrice(totals.subtotal);
+      document.getElementById('summaryVat').textContent = KafuStore.formatPrice(totals.vat);
+      document.getElementById('summaryTotal').textContent = KafuStore.formatPrice(totals.total);
+      document.getElementById('sheetFinalTotal').textContent = KafuStore.formatPrice(totals.total);
+    }
+
+    function openProductReviews(partName, rating, count) {
+      document.getElementById('reviewsModalPartTitle').textContent = `آراء المشترين: ${partName}`;
+      const list = document.getElementById('reviewsListBody');
+      list.innerHTML = `
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 10px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <strong style="font-size: 0.84rem;">فيصل الحربي (كامري 2024)</strong>
+            <span style="color: #F59E0B; font-size: 0.78rem;">★★★★★</span>
+          </div>
+          <p style="font-size: 0.8rem; color: #475569; margin: 0;">قطعة أصلية وكالة ومطابقة 100%، ركبتها في الورشة وانتهى صوت الطقطقة تماماً. شكراً كفو على التوصيل السريع.</p>
+        </div>
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 10px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <strong style="font-size: 0.84rem;">م. سامي الشمري</strong>
+            <span style="color: #F59E0B; font-size: 0.78rem;">★★★★★</span>
+          </div>
+          <p style="font-size: 0.8rem; color: #475569; margin: 0;">الضمان معتمد والفاتورة الضريبية وصلتني فوراً على الإيميل. جودة ممتازة وسعر أرخص من السوق.</p>
+        </div>
+      `;
+      document.getElementById('reviewsModal').classList.add('active');
+    }
+
+    // تأكيد الطلب وعرض سير عملية الشحن
+    function executeOrderAndShowLiveTracking() {
+      const order = KafuStore.createOrder({
+        shippingAddress: {
+          destinationType: selectedDest,
+          label: selectedDest === 'home' ? 'المنزل - حي الملز' : 'ورشة الصيانة المعتمدة',
+          city: 'الرياض'
+        },
+        paymentMethod: selectedPayment === 'applepay' ? 'Apple Pay' : (selectedPayment === 'card' ? 'مدى / فيزا' : 'الدفع عند الاستلام')
       });
-    });
+
+      document.getElementById('checkoutSheet').classList.remove('active');
+      document.getElementById('orderIdDisplay').textContent = `طلب رقم #${order.id}`;
+
+      // فتح شيت تتبع الشحنة المباشر
+      document.getElementById('liveTrackingSheet').classList.add('active');
+      KafuApp.showToast('تم تأكيد طلبك بنجاح وجاري تجهيز الشحنة 🚀');
+    }
+
+    function openLiveMapModal() {
+      document.getElementById('liveMapModal').classList.add('active');
+    }
+
+    // الانتقال إلى قائمة طلباتي دايركت كما طلب المستخدم نصاً
+    function exitToMyOrdersDirect() {
+      window.location.href = 'library.html#orders';
+    }
   </script>
 </body>
 </html>

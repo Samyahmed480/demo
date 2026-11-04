@@ -3,14 +3,176 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>كفو | المكتبة</title>
-  <meta name="description" content="مكتبة كفو - كتالوجات قطع الغيار، كتيب الصيانة، الفواتير، والقطع المحفوظة.">
+  <title>كفو | مركبتي والكتالوج والمكتبة</title>
+  <meta name="description" content="مركبتي ومكتبة كفو - جدول الصيانة الدورية، الفواتير والضمان، اهتماماتي، طلباتي، نقاط المكافآت، وتقرير رقم الهيكل VIN.">
   <!-- خطوط عربية فائقة الوضوح والجمال من Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/components.css">
+
+  <style>
+    /* ==========================================================================
+       ستايلات صفحة مركبتي والكتالوج - مطابقة 100% لمتطلبات العميل
+       ========================================================================== */
+    .vehicles-slider-row {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 18px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .vehicles-slider-row::-webkit-scrollbar { display: none; }
+
+    .vehicle-item-card {
+      flex-shrink: 0;
+      width: 260px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #FFFFFF;
+      border: 1.8px solid #E2E8F0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.22s ease;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    }
+    .vehicle-item-card.active {
+      background: linear-gradient(135deg, #0A2540 0%, #0066FF 100%);
+      color: #FFFFFF;
+      border-color: #0066FF;
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.22);
+    }
+    .vehicle-item-card.active .vehicle-sub-text {
+      color: rgba(255, 255, 255, 0.85);
+    }
+    .add-vehicle-btn-card {
+      flex-shrink: 0;
+      width: 140px;
+      border: 2px dashed #0066FF;
+      border-radius: 18px;
+      background: #F8FAFF;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      color: #0066FF;
+      font-weight: 700;
+      font-size: 0.88rem;
+      transition: all 0.2s ease;
+    }
+    .add-vehicle-btn-card:hover {
+      background: #EFF6FF;
+      transform: translateY(-2px);
+    }
+
+    /* كروت الأقسام الرئيسية */
+    .library-section-card {
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+    }
+    .library-section-card:hover {
+      border-color: #0066FF;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 102, 255, 0.10);
+    }
+    .section-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* تبويبات حالات الطلبات */
+    .orders-status-nav {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .orders-status-nav::-webkit-scrollbar { display: none; }
+    .order-status-pill {
+      flex-shrink: 0;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: #F1F5F9;
+      color: #64748B;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .order-status-pill.active {
+      background: #0066FF;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);
+    }
+
+    /* زوايا الصفحة للتعديل والإلغاء */
+    .action-corner-btn {
+      background: rgba(15, 23, 42, 0.06);
+      border: none;
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #475569;
+      transition: all 0.18s ease;
+    }
+    .action-corner-btn:hover {
+      background: #EFF6FF;
+      color: #0066FF;
+    }
+    .action-corner-btn.delete:hover {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+
+    /* كارت نصائح الذكاء الاصطناعي */
+    .ai-advisor-card {
+      background: linear-gradient(135deg, #0A2540 0%, #1E3A8A 100%);
+      color: #FFFFFF;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ai-advisor-pulse {
+      position: absolute;
+      top: -15px;
+      left: -15px;
+      width: 70px;
+      height: 70px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+  </style>
 </head>
 <body>
 
@@ -23,14 +185,23 @@
 
   <div class="app-container">
 
-    <!-- رأس صفحة الكتالوج والمكتبة -->
-    <header class="page-header" style="margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;">
+    <!-- رأس الصفحة: مركبتي أو سيارتي والكتالوج مع زر + لإضافة مركبات متعددة -->
+    <header class="page-header" style="margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;">
       <div>
-        <h1 class="page-title" style="margin-bottom: 2px;">الكتالوج والمكتبة</h1>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">كتالوجات قطع الغيار ومخططات الصيانة والفواتير</p>
+        <h1 class="page-title" style="margin-bottom: 2px;">مركبتي والكتالوج</h1>
+        <p style="font-size: 0.84rem; color: var(--text-muted);">إدارة المركبات، جدول الصيانة، والطلبات والضمان</p>
       </div>
+
       <div style="display: flex; align-items: center; gap: 8px;">
-        <a href="cart.html" class="btn-icon-glass" style="position: relative; background: rgba(255,255,255,0.85); color: var(--text);" title="سلة المشتريات">
+        <!-- زر + لإضافة مركبة جديدة مباشرة بجانب العنوان -->
+        <button type="button" class="btn-icon-glass" onclick="openAddVehicleModal()" style="background: #0066FF; color: #FFFFFF; border: none; box-shadow: 0 4px 12px rgba(0,102,255,0.3);" title="إضافة مركبة جديدة (+)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+
+        <a href="cart.html" class="btn-icon-glass" style="position: relative; background: rgba(255,255,255,0.88); color: var(--text);" title="سلة المشتريات">
           <span class="badge-count header-cart-badge" style="display:none">0</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="8" cy="21" r="1.25"/>
@@ -38,48 +209,74 @@
             <path d="M2.05 2.05h2.4l2.5 12.2a2 2 0 0 0 1.96 1.6h9.8a2 2 0 0 0 1.96-1.6l1.5-7.4H5.2"/>
           </svg>
         </a>
-        <a href="account.html" class="btn-icon-glass" style="background: rgba(255,255,255,0.85); color: var(--text);" title="الملف الشخصي">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-          </svg>
-        </a>
       </div>
     </header>
 
-    <!-- كارت كتالوج السيارة النشطة -->
-    <div class="glass" style="padding: 18px 20px; border-radius: var(--radius-sheet); background: var(--gradient-hero); color: #FFF; margin-bottom: 20px; position: relative; overflow: hidden;">
+    <!-- سلايدر المركبات المضافة: سيارتي مع زر + لإضافة أكثر من مركبة -->
+    <div class="vehicles-slider-row" id="vehiclesSliderRow">
+      <!-- 1. المركبة النشطة الحالية -->
+      <div class="vehicle-item-card active" onclick="selectActiveCar('camry')">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.72rem; background: rgba(255,255,255,0.22); padding: 2px 8px; border-radius: 999px; font-weight: 700;">المركبة النشطة</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>
+        </div>
+        <strong style="font-size: 1.15rem; margin-top: 4px;">Toyota Camry 2025</strong>
+        <span class="vehicle-sub-text" style="font-size: 0.8rem;">المحرك 2.5L Hybrid · العداد: 42,500 كم</span>
+        <span style="font-size: 0.72rem; font-family: monospace; opacity: 0.85;">VIN: 4T1B11HK5MU129841</span>
+      </div>
+
+      <!-- 2. مركبة إضافية مسجلة -->
+      <div class="vehicle-item-card" onclick="selectActiveCar('patrol')">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.72rem; background: #F1F5F9; color: #475569; padding: 2px 8px; border-radius: 999px; font-weight: 700;">مركبة مسجلة</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>
+        </div>
+        <strong style="font-size: 1.15rem; margin-top: 4px; color: #0F172A;">Nissan Patrol 2023</strong>
+        <span style="font-size: 0.8rem; color: #64748B;">المحرك V8 5.6L · العداد: 78,000 كم</span>
+        <span style="font-size: 0.72rem; font-family: monospace; color: #94A3B8;">VIN: JN8AY2NC7P931204</span>
+      </div>
+
+      <!-- 3. زر كارت إضافة مركبة جديدة (+) -->
+      <div class="add-vehicle-btn-card" onclick="openAddVehicleModal()">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: #EFF6FF; display: flex; align-items: center; justify-content: center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </div>
+        <span>إضافة مركبة +</span>
+      </div>
+    </div>
+
+    <!-- كارت كتالوج الوكالة ومخطط السيارة النشطة -->
+    <div class="glass" style="padding: 16px 18px; border-radius: var(--radius-sheet); background: linear-gradient(135deg, #0A2540 0%, #0066FF 100%); color: #FFF; margin-bottom: 18px; position: relative; overflow: hidden;">
       <div style="display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 2;">
         <div>
-          <span style="font-size: 0.78rem; background: rgba(255,255,255,0.22); padding: 3px 10px; border-radius: 999px; font-weight: 600;">كتالوج الوكالة الرسمي</span>
-          <h2 style="font-size: 1.35rem; font-weight: 700; margin-top: 6px;" id="libCarTitle">Toyota Camry 2025</h2>
-          <p style="font-size: 0.85rem; opacity: 0.9; margin-top: 2px;">مخططات تفصيلية لجميع أجزاء المحرك والهيكل</p>
+          <span style="font-size: 0.75rem; background: rgba(255,255,255,0.22); padding: 3px 10px; border-radius: 999px; font-weight: 600;">كتالوج الوكالة الرسمي المعتمد</span>
+          <h2 style="font-size: 1.25rem; font-weight: 700; margin-top: 6px;" id="libCarTitle">Toyota Camry 2025</h2>
+          <p style="font-size: 0.82rem; opacity: 0.9; margin-top: 2px;">مخططات تفصيلية للمحرك، الجير، البودي، والعضلات</p>
         </div>
-        <div style="width: 52px; height: 52px; background: rgba(255,255,255,0.2); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
-            <path d="M6 6h10"/>
-            <path d="M6 10h10"/>
-          </svg>
+        <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
         </div>
       </div>
       <div style="margin-top: 14px; display: flex; gap: 8px;">
-        <button class="btn-secondary" style="height: 38px; padding: 0 16px; font-size: 0.82rem; background: #FFF; color: var(--primary);" onclick="KafuApp.showToast('تم فتح كتالوج الأجزاء الرقمي')">
-          تصفح المخططات
+        <button class="btn-secondary" style="height: 36px; padding: 0 14px; font-size: 0.82rem; background: #FFF; color: var(--primary);" onclick="openVinReport()">
+          تصفح مخططات السيارة
         </button>
-        <button class="btn-icon-glass" style="width: 38px; height: 38px;" onclick="KafuApp.openVehicleModal()" title="تغيير السيارة">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF" stroke-width="2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>
+        <button class="btn-secondary" style="height: 36px; padding: 0 14px; font-size: 0.82rem; background: rgba(255,255,255,0.2); color: #FFF; border: none;" onclick="openAddVehicleModal()">
+          إدارة سياراتي
         </button>
       </div>
     </div>
 
-    <!-- أقسام المكتبة -->
+    <!-- =========================================================================
+         أقسام المكتبة والكتالوج الرئيسية الستة
+         ========================================================================= -->
     <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
 
-      <!-- 1. كتيب جدول الصيانة الدورية -->
-      <div class="glass glass-card-interactive" style="padding: 16px; border-radius: var(--radius-card); display: flex; align-items: center; justify-content: space-between;" onclick="openMaintenanceSchedule()">
+      <!-- 1. جدول الصيانة الدورية -->
+      <div class="library-section-card" onclick="openMaintenanceSchedule()">
         <div style="display: flex; align-items: center; gap: 14px;">
-          <div style="width: 46px; height: 46px; border-radius: 14px; background: #DCEAFE; color: var(--primary); display: flex; align-items: center; justify-content: center;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <div class="section-icon-wrap" style="background: #DCEAFE; color: #0066FF;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
               <line x1="16" y1="2" x2="16" y2="6"/>
               <line x1="8" y1="2" x2="8" y2="6"/>
@@ -87,20 +284,23 @@
             </svg>
           </div>
           <div>
-            <h3 style="font-size: 0.98rem; font-weight: 700; color: var(--text);">جدول الصيانة الدورية</h3>
-            <span style="font-size: 0.8rem; color: var(--text-muted);">مواعيد تبديل الزيوت، الفحمات، والبواجي</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <h3 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">جدول الصيانة الدورية</h3>
+              <span style="font-size: 0.7rem; background: #EFF6FF; color: #0066FF; font-weight: 700; padding: 1px 6px; border-radius: 6px;">بالكيلومترات + AI</span>
+            </div>
+            <span style="font-size: 0.8rem; color: #64748B;">تسجيل العداد، لقطة الكيلو، الزيوت، الكفرات، والفحمات</span>
           </div>
         </div>
-        <span style="color: var(--text-muted);">
+        <span style="color: #94A3B8;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
         </span>
       </div>
 
-      <!-- 2. الفواتير ومستندات الشراء -->
-      <div class="glass glass-card-interactive" style="padding: 16px; border-radius: var(--radius-card); display: flex; align-items: center; justify-content: space-between;" onclick="openInvoicesList()">
+      <!-- 2. فواتيري والضمان -->
+      <div class="library-section-card" onclick="openInvoicesList()">
         <div style="display: flex; align-items: center; gap: 14px;">
-          <div style="width: 46px; height: 46px; border-radius: 14px; background: var(--tile-peach); color: var(--tile-peach-icon); display: flex; align-items: center; justify-content: center;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <div class="section-icon-wrap" style="background: #FEF3C7; color: #D97706;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
               <line x1="16" y1="13" x2="8" y2="13"/>
@@ -108,48 +308,96 @@
             </svg>
           </div>
           <div>
-            <h3 style="font-size: 0.98rem; font-weight: 700; color: var(--text);">فواتير الشراء والضمان</h3>
-            <span style="font-size: 0.8rem; color: var(--text-muted);">سجل الفواتير الضريبية وشهادات الضمان</span>
+            <h3 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">فواتيري والضمان</h3>
+            <span style="font-size: 0.8rem; color: #64748B;">سجل الفواتير الضريبية وشهادات الضمان المعتمدة لكل شراء</span>
           </div>
         </div>
-        <span style="color: var(--text-muted);">
+        <span style="color: #94A3B8;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
         </span>
       </div>
 
-      <!-- 3. القطع المحفوظة في المفضلة -->
-      <div class="glass glass-card-interactive" style="padding: 16px; border-radius: var(--radius-card); display: flex; align-items: center; justify-content: space-between;" onclick="openFavoritesList()">
+      <!-- 3. اهتماماتي (وشعار القلب ♥) -->
+      <div class="library-section-card" onclick="openFavoritesList()">
         <div style="display: flex; align-items: center; gap: 14px;">
-          <div style="width: 46px; height: 46px; border-radius: 14px; background: var(--tile-lavender); color: var(--tile-lavender-icon); display: flex; align-items: center; justify-content: center;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <div class="section-icon-wrap" style="background: #FEE2E2; color: #E11D48;">
+            <!-- شعار القلب الواضح -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#E11D48" stroke="#E11D48" stroke-width="1">
               <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
             </svg>
           </div>
           <div>
-            <h3 style="font-size: 0.98rem; font-weight: 700; color: var(--text);">القطع المحفوظة</h3>
-            <span style="font-size: 0.8rem; color: var(--text-muted);">قائمة القطع التي قمت بحفظها لسيارتك</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <h3 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">اهتماماتي</h3>
+              <span style="color: #E11D48; font-size: 0.9rem;">♥</span>
+            </div>
+            <span style="font-size: 0.8rem; color: #64748B;">القطع المحفوظة للمقارنة ومتابعة الأسعار بدون شراء</span>
           </div>
         </div>
-        <span style="color: var(--text-muted);">
+        <span style="color: #94A3B8;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
         </span>
       </div>
 
-      <!-- 4. تقارير الفحص ورقم الهيكل (VIN) -->
-      <div class="glass glass-card-interactive" style="padding: 16px; border-radius: var(--radius-card); display: flex; align-items: center; justify-content: space-between;" onclick="openVinReport()">
+      <!-- 4. مربع طلباتي (إعادة الشراء، المعلقة، التجهيز، الشحن، المسترجعات) -->
+      <div class="library-section-card" onclick="openMyOrdersModal()">
         <div style="display: flex; align-items: center; gap: 14px;">
-          <div style="width: 46px; height: 46px; border-radius: 14px; background: #CBEAE7; color: #0F766E; display: flex; align-items: center; justify-content: center;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <div class="section-icon-wrap" style="background: #EFF6FF; color: #0066FF;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <h3 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">مربع طلباتي</h3>
+              <span style="font-size: 0.7rem; background: #DCFCE7; color: #15803D; font-weight: 700; padding: 1px 6px; border-radius: 6px;">إعادة الشراء والتتبع</span>
+            </div>
+            <span style="font-size: 0.8rem; color: #64748B;">السابقة، المعلقة، قيد التجهيز، تم الشحن، المسترجعات، والتقييم</span>
+          </div>
+        </div>
+        <span style="color: #94A3B8;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+        </span>
+      </div>
+
+      <!-- 5. مربع نقاط المكافآت (عميل مميز ونقاط يجمعها) -->
+      <div class="library-section-card" onclick="openRewardsModal()">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div class="section-icon-wrap" style="background: #EDE9FE; color: #7C3AED;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <h3 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">نقاط المكافآت والولاء</h3>
+              <span style="font-size: 0.72rem; background: #EDE9FE; color: #7C3AED; font-weight: 800; padding: 1px 8px; border-radius: 6px;">١٬٤٥٠ نقطة</span>
+            </div>
+            <span style="font-size: 0.8rem; color: #64748B;">عميل كفو المميز، استبدال النقاط بخصومات نقدية</span>
+          </div>
+        </div>
+        <span style="color: #94A3B8;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+        </span>
+      </div>
+
+      <!-- 6. تقرير رقم الهيكل (VIN) والكتالوج وإضاءات الطبلون -->
+      <div class="library-section-card" onclick="openVinReport()">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div class="section-icon-wrap" style="background: #CCFBF1; color: #0F766E;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
               <path d="m9 12 2 2 4-4"/>
             </svg>
           </div>
           <div>
-            <h3 style="font-size: 0.98rem; font-weight: 700; color: var(--text);">تقرير رقم الهيكل (VIN)</h3>
-            <span style="font-size: 0.8rem; color: var(--text-muted);">فك تشفير الشاسيه وتطابق أرقام OEM</span>
+            <h3 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">تقرير رقم الهيكل (VIN) ودليل الطبلون</h3>
+            <span style="font-size: 0.8rem; color: #64748B;">كتالوج البودي والمحركات، لمبات الطبلون، ونصائح مرورية</span>
           </div>
         </div>
-        <span style="color: var(--text-muted);">
+        <span style="color: #94A3B8;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
         </span>
       </div>
@@ -158,19 +406,74 @@
 
   </div>
 
-  <!-- مودال تفاعلي لمحتويات المكتبة -->
+  <!-- مودال تفاعلي موحد لمحتويات المكتبة والكتالوج -->
   <div class="sheet-backdrop" id="libraryModal">
-    <div class="bottom-sheet">
+    <div class="bottom-sheet" style="max-height: 88vh; overflow-y: auto;">
       <div class="sheet-header">
         <div class="sheet-title-col">
           <h2 class="sheet-title" id="libModalTitle">عنوان</h2>
           <p class="sheet-subtitle" id="libModalDesc">وصف</p>
         </div>
-        <button class="btn-close-sheet" onclick="closeLibraryModal()">
+        <button type="button" class="btn-close-sheet" onclick="closeLibraryModal()">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </div>
       <div id="libModalContent"></div>
+    </div>
+  </div>
+
+  <!-- نافذة إضافة مركبة جديدة (+) -->
+  <div class="sheet-backdrop" id="addVehicleModal" onclick="closeAddVehicleModal(event)">
+    <div class="bottom-sheet" style="max-height: 85vh; overflow-y: auto;">
+      <div class="sheet-header">
+        <div class="sheet-title-col">
+          <h2 class="sheet-title">إضافة مركبة جديدة (+)</h2>
+          <p class="sheet-subtitle">أدخل بيانات سيارتك لضمان مطابقة القطع بنسبة 100%</p>
+        </div>
+        <button type="button" class="btn-close-sheet" onclick="closeAddVehicleModalDirect()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+        <div>
+          <label style="font-size: 0.82rem; font-weight: 700; color: #334155;">الشركة المصنعة</label>
+          <select id="newCarMake" style="width: 100%; height: 46px; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 0 12px; font-family: inherit; font-size: 0.95rem; margin-top: 4px; background: #FFF;">
+            <option value="Toyota">تويوتا (Toyota)</option>
+            <option value="Nissan">نيسان (Nissan)</option>
+            <option value="Hyundai">هيونداي (Hyundai)</option>
+            <option value="Honda">هوندا (Honda)</option>
+            <option value="Ford">فورد (Ford)</option>
+            <option value="Kia">كيا (Kia)</option>
+            <option value="Lexus">لكزس (Lexus)</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-size: 0.82rem; font-weight: 700; color: #334155;">الموديل</label>
+          <input type="text" id="newCarModel" placeholder="مثال: كامري، لاندكروزر، ألتيما..." style="width: 100%; height: 46px; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 0 12px; font-family: inherit; font-size: 0.95rem; margin-top: 4px; box-sizing: border-box;" value="Land Cruiser">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; color: #334155;">سنة الصنع</label>
+            <input type="number" id="newCarYear" placeholder="2025" value="2025" style="width: 100%; height: 46px; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 0 12px; font-family: inherit; font-size: 0.95rem; margin-top: 4px; box-sizing: border-box;">
+          </div>
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; color: #334155;">عداد الكيلو الحالي</label>
+            <input type="number" id="newCarOdo" placeholder="25000" value="15000" style="width: 100%; height: 46px; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 0 12px; font-family: inherit; font-size: 0.95rem; margin-top: 4px; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 0.82rem; font-weight: 700; color: #334155;">رقم الهيكل VIN (اختياري)</label>
+          <input type="text" id="newCarVin" placeholder="4T1B11HK5MU12****" style="width: 100%; height: 46px; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 0 12px; font-family: monospace; font-size: 0.95rem; margin-top: 4px; direction: ltr; box-sizing: border-box;">
+        </div>
+
+        <button type="button" class="btn-primary" onclick="saveNewVehicle()" style="margin-top: 10px;">
+          حفظ وإضافة المركبة
+        </button>
+      </div>
     </div>
   </div>
 
@@ -199,104 +502,537 @@
       if (e.target === modalBackdrop) closeLibraryModal();
     });
 
+    // -------------------------------------------------------------------------
+    // 1. جدول الصيانة الدورية (بالكيلومترات + تسجيل العداد + تعديل وإلغاء + AI)
+    // -------------------------------------------------------------------------
+    let maintenanceRecords = [
+      {
+        id: 'm1',
+        km: '10,000 كم',
+        date: '2026-02-15',
+        type: 'تغيير زيت المحرك التخليقي 0W-20 + فلتر أصلي',
+        parts: 'فلتر زيت كفو، زيت تخليقي 5 علب',
+        odo: '10,240 كم',
+        status: 'مكتمل ومؤكد',
+        statusColor: '#16A34A',
+        nextChange: 'بعد 9,760 كم (عند 20,000 كم)'
+      },
+      {
+        id: 'm2',
+        km: '20,000 كم',
+        date: '2026-06-10',
+        type: 'فحص فحمات الفرامل وتدوير الكفرات + فلتر مكيف',
+        parts: 'فلتر مكيف بكتيري، فحص كفرات ميشلان',
+        odo: '20,110 كم',
+        status: 'مكتمل ومؤكد',
+        statusColor: '#16A34A',
+        nextChange: 'تمت الصيانة بنجاح'
+      },
+      {
+        id: 'm3',
+        km: '40,000 كم',
+        date: '2026-10-04',
+        type: 'صيانة كبرى: بواجي ليزر، زيت جير، وبطارية',
+        parts: 'طقم بواجي إيريديوم، بطارية 70 أمبير، فحمات سيراميك',
+        odo: '42,500 كم',
+        status: 'مستحقة الآن',
+        statusColor: '#EA580C',
+        nextChange: 'يُنصح بالإجراء خلال هذا الأسبوع'
+      }
+    ];
+
     function openMaintenanceSchedule() {
-      openModalWith('جدول الصيانة الدورية', 'مواعيد الصيانة الموصى بها لموديل سيارتك', `
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <div style="background:rgba(0,0,0,0.03); padding:12px; border-radius:var(--radius-md);">
-            <div style="display:flex; justify-content:space-between; font-weight:700;">
-              <span>صيانة 10,000 كم</span>
-              <span style="color:#16A34A;">موصى بها</span>
-            </div>
-            <div style="font-size:0.84rem; color:var(--text-muted); margin-top:4px;">تغيير زيت المحرك التخليقي بالكامل 5W-30 + فلتر الزيت الأصلي وفحص السوائل.</div>
-          </div>
-          <div style="background:rgba(0,0,0,0.03); padding:12px; border-radius:var(--radius-md);">
-            <div style="display:flex; justify-content:space-between; font-weight:700;">
-              <span>صيانة 20,000 كم</span>
-              <span style="color:var(--primary);">دورية</span>
-            </div>
-            <div style="font-size:0.84rem; color:var(--text-muted); margin-top:4px;">فحص فحمات الفرامل الأمامية والخلفية، فلتر الهواء، وفلتر المكيف.</div>
-          </div>
-          <div style="background:rgba(0,0,0,0.03); padding:12px; border-radius:var(--radius-md);">
-            <div style="display:flex; justify-content:space-between; font-weight:700;">
-              <span>صيانة 40,000 كم</span>
-              <span style="color:var(--text-secondary);">شاملة</span>
-            </div>
-            <div style="font-size:0.84rem; color:var(--text-muted); margin-top:4px;">استبدال بواجي الليزر إيريديوم، زيت الفرامل، وفحص المساعدات والتعليق.</div>
-          </div>
-        </div>
-      `);
+      renderMaintenanceModal();
     }
 
-    function openInvoicesList() {
-      const orders = KafuStore.getOrders();
-      if (orders.length === 0) {
-        openModalWith('فواتير الشراء والضمان', 'سجل الفواتير الضريبية المعتمدة', `
-          <div style="text-align:center; padding:20px 0;">
-            <p style="color:var(--text-muted); margin-bottom:14px;">لا توجد فواتير سابقة حتى الآن.</p>
-            <a href="index.html" class="btn-primary" style="display:inline-flex; width:auto; padding:0 24px;">تسوق الآن</a>
-          </div>
-        `);
-      } else {
-        const html = orders.map(o => `
-          <div style="padding:12px; border-radius:var(--radius-md); background:rgba(0,0,0,0.03); margin-bottom:10px;">
-            <div style="display:flex; justify-content:space-between; font-weight:700;">
-              <span>فاتورة: ${o.id}</span>
-              <span style="color:var(--primary); font-size:0.85rem;">${KafuStore.formatPrice(o.totals.total)}</span>
-            </div>
-            <div style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">التاريخ: ${o.date} | شاملة ضريبة القيمة المضافة 15%</div>
-            <button class="btn-secondary" style="height:34px; padding:0 12px; font-size:0.8rem; margin-top:8px;" onclick="KafuApp.showToast('تم تحميل الفاتورة الضريبية PDF ✓')">
-              تحميل الفاتورة PDF
+    function renderMaintenanceModal() {
+      const recordsHtml = maintenanceRecords.map((r, idx) => `
+        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 14px; margin-bottom: 12px; position: relative;">
+          <!-- زوايا الصفحة للتعديل والإلغاء كما طلب العميل -->
+          <div style="position: absolute; top: 12px; left: 12px; display: flex; gap: 6px;">
+            <button type="button" class="action-corner-btn" onclick="editMaintenanceRecord('${r.id}')" title="تعديل هذا البيان">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            </button>
+            <button type="button" class="action-corner-btn delete" onclick="deleteMaintenanceRecord('${r.id}')" title="إلغاء وحذف البيان">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
             </button>
           </div>
-        `).join('');
-        openModalWith('فواتير الشراء والضمان', 'جميع فواتيرك وشهادات الضمان الصادرة من كفو', html);
+
+          <div style="display: flex; align-items: baseline; gap: 8px;">
+            <strong style="font-size: 1.05rem; color: #0F172A;">${r.km}</strong>
+            <span style="font-size: 0.76rem; background: #DCFCE7; color: ${r.statusColor}; font-weight: 700; padding: 1px 7px; border-radius: 6px;">${r.status}</span>
+          </div>
+
+          <div style="font-size: 0.86rem; font-weight: 600; color: #1E293B; margin-top: 6px;">${r.type}</div>
+          <div style="font-size: 0.8rem; color: #64748B; margin-top: 4px;">القطع المستبدلة: <strong>${r.parts}</strong></div>
+          <div style="font-size: 0.78rem; color: #0066FF; font-weight: 700; margin-top: 4px;">قراءة العداد المسجلة: ${r.odo} | موعد الغيار القادم: ${r.nextChange}</div>
+        </div>
+      `).join('');
+
+      const html = `
+        <!-- كارت مساعد الذكاء الاصطناعي للنصح والإرشاد -->
+        <div class="ai-advisor-card">
+          <div class="ai-advisor-pulse"></div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <strong style="font-size: 0.95rem; color: #38BDF8;">مساعد كفو الذكي (AI Advisor)</strong>
+          </div>
+          <p style="font-size: 0.84rem; opacity: 0.95; line-height: 1.5; margin: 0;">
+            بناءً على قراءة عدادك الحالية (42,500 كم) لسيارتك كامري 2025: نوصي بتغيير زيت لزوجة <strong>0W-20 التخليقي بالكامل</strong> مع فحص سماكة فحمات الفرامل وتغيير فلتر الهواء لضمان كفاءة استهلاك الوقود.
+          </p>
+        </div>
+
+        <!-- قسم إضافة وتسجيل عداد الكيلو مع خيار لقطة العداد -->
+        <div style="background: #FFFFFF; border: 1.8px dashed #0066FF; border-radius: 14px; padding: 14px; margin-bottom: 16px;">
+          <h4 style="font-size: 0.92rem; font-weight: 700; color: #0F172A; margin: 0 0 8px;">تسجيل قراءة العداد وأخذ لقطة لتوثيق الكيلو:</h4>
+          
+          <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+            <input type="number" id="inputNewOdo" placeholder="أدخل قراءة العداد الحالية (كم)..." style="flex: 1; height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 12px; font-family: inherit; font-size: 0.9rem;" value="42500">
+            <button type="button" onclick="takeOdometerPhoto()" style="background: #EFF6FF; color: #0066FF; border: 1.5px solid #93C5FD; border-radius: 10px; padding: 0 12px; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span>لقطة للعداد</span>
+            </button>
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="inputMaintenanceDesc" placeholder="ماذا غيّرت؟ (زيت، فحمات، كفرات، بطارية...)" style="flex: 1; height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 12px; font-family: inherit; font-size: 0.9rem;">
+            <button type="button" class="btn-primary" onclick="addNewMaintenanceEntry()" style="width: auto; height: 42px; padding: 0 16px; font-size: 0.85rem;">
+              حفظ البيان
+            </button>
+          </div>
+        </div>
+
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #0F172A; margin: 0 0 10px;">سجل الصيانات المسجلة (مع إمكانية التعديل والإلغاء):</h4>
+        ${recordsHtml}
+      `;
+
+      openModalWith('جدول الصيانة الدورية', 'جدول الصيانة بالكيلوات ومطابقة الزيوت والفحمات مع الذكاء الاصطناعي', html);
+    }
+
+    function takeOdometerPhoto() {
+      KafuApp.showToast('جاري فتح الكاميرا لأخذ لقطة لعداد السيارة...');
+      setTimeout(() => {
+        KafuApp.showToast('تم التقاط صورة العداد بنجاح وتوثيق قراءة 42,500 كم ✓');
+      }, 700);
+    }
+
+    function addNewMaintenanceEntry() {
+      const odo = document.getElementById('inputNewOdo').value.trim();
+      const desc = document.getElementById('inputMaintenanceDesc').value.trim() || 'صيانة دورية وتغيير زيت وفلتر';
+      if (!odo) {
+        KafuApp.showToast('يرجى إدخال قراءة العداد أولاً');
+        return;
+      }
+
+      maintenanceRecords.unshift({
+        id: 'm_' + Date.now(),
+        km: `${KafuStore.formatNumber(odo)} كم`,
+        date: new Date().toISOString().split('T')[0],
+        type: desc,
+        parts: 'قطع أصلية معتمدة من كفو',
+        odo: `${KafuStore.formatNumber(odo)} كم`,
+        status: 'مسجل حديثاً',
+        statusColor: '#0066FF',
+        nextChange: 'بعد 10,000 كم'
+      });
+
+      KafuApp.showToast('تم حفظ بيان الصيانة بنجاح مع إمكانية التعديل والإلغاء ✓');
+      renderMaintenanceModal();
+    }
+
+    function editMaintenanceRecord(id) {
+      const rec = maintenanceRecords.find(r => r.id === id);
+      if (!rec) return;
+      const newType = prompt('تعديل وصف الصيانة والقطع المستبدلة:', rec.type);
+      if (newType !== null && newType.trim() !== '') {
+        rec.type = newType.trim();
+        KafuApp.showToast('تم تحديث البيان بنجاح ✓');
+        renderMaintenanceModal();
       }
     }
 
-    function openFavoritesList() {
-      const favIds = KafuStore.getFavorites();
-      const favs = PRODUCTS.filter(p => favIds.includes(p.id));
-      if (favs.length === 0) {
-        openModalWith('القطع المحفوظة', 'قائمتك المفضلة', `
-          <div style="text-align:center; padding:20px 0;">
-            <p style="color:var(--text-muted); margin-bottom:14px;">لم تقم بحفظ أي قطع في المفضلة بعد.</p>
-            <a href="search.html" class="btn-primary" style="display:inline-flex; width:auto; padding:0 24px;">استعراض القطع</a>
+    function deleteMaintenanceRecord(id) {
+      if (confirm('هل أنت متأكد من رغبتك في إلغاء وحذف هذا البيان من السجل؟')) {
+        maintenanceRecords = maintenanceRecords.filter(r => r.id !== id);
+        KafuApp.showToast('تم حذف البيان من جدول الصيانة');
+        renderMaintenanceModal();
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 2. فواتيري والضمان (لكل عملية شراء مع شهادات الضمان وحالته)
+    // -------------------------------------------------------------------------
+    function openInvoicesList() {
+      const invoices = [
+        {
+          id: 'INV-2026-8812',
+          date: '2026-10-28',
+          items: 'طقم فحمات فرامل أمامية سيراميك + فلتر زيت وكالة',
+          amount: '٣٤٠ ر.س',
+          warranty: 'ضمان سنة كاملة ضد العيوب المصنعية (ساري)',
+          warrantyStatus: 'active'
+        },
+        {
+          id: 'INV-2026-7490',
+          date: '2026-08-14',
+          items: 'مساعد هيدروليك يمين + كراسي مساعدات',
+          amount: '٦٢٠ ر.س',
+          warranty: 'ضمان سنتين وكالة كفو (ساري)',
+          warrantyStatus: 'active'
+        },
+        {
+          id: 'INV-2026-5120',
+          date: '2026-04-02',
+          items: 'بطارية 70 أمبير جافة + طقم كويلات',
+          amount: '٤٨٠ ر.س',
+          warranty: 'ضمان 12 شهر (منتهي)',
+          warrantyStatus: 'expired'
+        }
+      ];
+
+      const html = invoices.map(inv => `
+        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 14px; margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <strong style="color: #0F172A; font-size: 0.98rem;">فاتورة رقم: ${inv.id}</strong>
+            <span style="font-size: 0.95rem; font-weight: 800; color: #0066FF;">${inv.amount}</span>
           </div>
-        `);
-      } else {
-        const html = favs.map(p => `
-          <div style="display:flex; align-items:center; gap:12px; padding:10px; background:rgba(0,0,0,0.02); border-radius:var(--radius-md); margin-bottom:10px;">
-            <img src="${p.image}" style="width:50px; height:50px; object-fit:contain; border-radius:8px; background:#FFF;">
-            <div style="flex:1;">
-              <h4 style="font-size:0.95rem; font-weight:700;">${p.name}</h4>
-              <span style="font-size:0.85rem; color:var(--primary); font-weight:700;">${KafuStore.formatPrice(p.price)}</span>
+          <div style="font-size: 0.84rem; color: #334155; margin-top: 6px;">القطع: <strong>${inv.items}</strong></div>
+          <div style="font-size: 0.78rem; color: #64748B; margin-top: 4px;">تاريخ الشراء: ${inv.date} | ضريبة القيمة المضافة 15% مشمولة</div>
+
+          <!-- بطاقة الضمان المعتمدة -->
+          <div style="background: ${inv.warrantyStatus === 'active' ? '#F0FDF4' : '#F1F5F9'}; border: 1px solid ${inv.warrantyStatus === 'active' ? '#86EFAC' : '#CBD5E1'}; border-radius: 10px; padding: 8px 12px; margin-top: 10px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${inv.warrantyStatus === 'active' ? '#16A34A' : '#64748B'}" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span style="font-size: 0.8rem; font-weight: 700; color: ${inv.warrantyStatus === 'active' ? '#15803D' : '#475569'};">${inv.warranty}</span>
             </div>
-            <a href="product.html?id=${p.id}" class="btn-secondary" style="height:36px; padding:0 12px; font-size:0.82rem;">عرض</a>
+            ${inv.warrantyStatus === 'active' ? `
+              <button type="button" onclick="KafuApp.showToast('تم فتح طلب مطالبة الضمان وسيتم التواصل معك فوراً')" style="background: none; border: none; color: #0066FF; font-size: 0.76rem; font-weight: 700; cursor: pointer; text-decoration: underline;">
+                طلب مطالبة ضمان
+              </button>
+            ` : ''}
           </div>
-        `).join('');
-        openModalWith('القطع المحفوظة', 'القطع المحفوظة في مفضلتك', html);
-      }
-    }
 
-    function openVinReport() {
-      openModalWith('تقرير رقم الهيكل (VIN)', 'فحص وتشفير هيكل السيارة ومطابقة الكتالوج', `
-        <div style="display:flex; flex-direction:column; gap:12px;">
-          <input type="text" id="vinInput" placeholder="أدخل رقم الهيكل (17 حرف/رقم)" value="4T1B11HK5SU123456" style="border:1.5px solid rgba(0,0,0,0.12); padding:12px; border-radius:var(--radius-md); font-family:monospace; direction:ltr; text-align:center; font-size:1.05rem; font-weight:700; background:#FFF;">
-          <button class="btn-primary" onclick="KafuApp.showToast('تم التحقق: Toyota Camry 2025 مطابقة 100% ✓')">
-            فحص وتطابق القطع
+          <button class="btn-secondary" style="height: 36px; padding: 0 14px; font-size: 0.82rem; margin-top: 10px; width: 100%;" onclick="KafuApp.showToast('تم تحميل الفاتورة الضريبية الرسمية وشهادة الضمان PDF ✓')">
+            تحميل الفاتورة الضريبية وشهادة الضمان PDF
           </button>
         </div>
-      `);
+      `).join('');
+
+      openModalWith('فواتيري والضمان', 'سجل الفواتير الضريبية وشهادات الضمان المحفوظة لجميع مشترياتك', html);
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. اهتماماتي (وشعار القلب ♥ للقطع التي يتابعها الزبون ولم يشترها بعد)
+    // -------------------------------------------------------------------------
+    function openFavoritesList() {
+      const favIds = KafuStore.getFavorites();
+      let favs = PRODUCTS.filter(p => favIds.includes(p.id));
+      if (favs.length === 0) {
+        favs = PRODUCTS.slice(0, 3); // عينات افتراضية
+      }
+
+      const html = `
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; background: #FFF1F2; border: 1px solid #FECDD3; border-radius: 12px; padding: 10px 14px;">
+          <span style="font-size: 1.2rem; color: #E11D48;">♥</span>
+          <span style="font-size: 0.84rem; color: #9F1239; font-weight: 600;">
+            قائمة اهتماماتك بالقطع لمتابعة توفرها وتغيرات الأسعار لتسهيل الشراء لاحقاً
+          </span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          ${favs.map(p => `
+            <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 14px;">
+              <img src="${p.image}" alt="${p.name}" style="width: 58px; height: 58px; object-fit: contain; border-radius: 10px; background: #FFF; padding: 4px;">
+              <div style="flex: 1;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: #0F172A; margin: 0;">${p.name}</h4>
+                <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
+                  <span style="font-size: 0.78rem; color: #64748B;">الشركة: ${p.brand}</span>
+                  <span style="font-size: 0.72rem; color: #16A34A; font-weight: 700;">✓ متطابقة</span>
+                </div>
+                <div style="font-size: 0.98rem; font-weight: 800; color: #0066FF; margin-top: 4px;">${KafuStore.formatPrice(p.price)}</div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <button type="button" class="btn-primary" style="height: 34px; padding: 0 14px; font-size: 0.8rem; width: auto;" onclick="KafuStore.addToCart(PRODUCTS.find(x => x.id === '${p.id}')); KafuApp.showToast('تم نقل القطعة إلى سلتك ✓');">
+                  شراء الآن
+                </button>
+                <button type="button" onclick="KafuStore.toggleFavorite('${p.id}'); openFavoritesList();" style="background: none; border: none; color: #94A3B8; font-size: 0.76rem; cursor: pointer;">
+                  إزالة من اهتماماتي
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      openModalWith('اهتماماتي ♥', 'القطع المحفوظة في مفضلتك لمتابعة توفرها وتغيرات أسعارها', html);
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. مربع طلباتي (السابقة، إعادة الشراء، المعلقة، التجهيز، الشحن، المسترجعات)
+    // -------------------------------------------------------------------------
+    let currentOrderTab = 'all';
+    function openMyOrdersModal() {
+      renderMyOrdersContent();
+    }
+
+    function setOrdersSubTab(tab) {
+      currentOrderTab = tab;
+      renderMyOrdersContent();
+    }
+
+    function renderMyOrdersContent() {
+      const sampleOrders = [
+        {
+          id: 'KAFU-92018',
+          statusKey: 'shipping',
+          statusText: 'تم الشحن (مع المندوب)',
+          statusColor: '#0066FF',
+          date: 'اليوم، 04:20 م',
+          items: 'مساعدات تويوتا كامري أصلية (عدد 2)',
+          total: '٥٨٠ ر.س',
+          canReorder: true,
+          trackingActive: true
+        },
+        {
+          id: 'KAFU-88412',
+          statusKey: 'processing',
+          statusText: 'قيد التجهيز (طلب خاص)',
+          statusColor: '#D97706',
+          date: 'أمس، 02:15 م',
+          items: 'كمبروسر مكيف دينسو ياباني',
+          total: '١٬١٥٠ ر.س',
+          canReorder: false,
+          trackingActive: false
+        },
+        {
+          id: 'KAFU-81204',
+          statusKey: 'completed',
+          statusText: 'تم التوصيل بنجاح',
+          statusColor: '#16A34A',
+          date: '2026-10-18',
+          items: 'فحمات سيراميك + فلتر زيت',
+          total: '٢٢٠ ر.س',
+          canReorder: true,
+          trackingActive: false
+        },
+        {
+          id: 'KAFU-73190',
+          statusKey: 'returns',
+          statusText: 'مسترجع وتم استرداد المبلغ',
+          statusColor: '#DC2626',
+          date: '2026-09-02',
+          items: 'مرآة جانبية كهربائية يسار',
+          total: '٣٤٠ ر.س',
+          canReorder: true,
+          trackingActive: false
+        }
+      ];
+
+      const filtered = currentOrderTab === 'all' 
+        ? sampleOrders 
+        : sampleOrders.filter(o => o.statusKey === currentOrderTab);
+
+      const html = `
+        <!-- شريط تبويبات حالات الطلبات المطلوبة بدقة -->
+        <div class="orders-status-nav">
+          <button type="button" class="order-status-pill ${currentOrderTab === 'all' ? 'active' : ''}" onclick="setOrdersSubTab('all')">الكل</button>
+          <button type="button" class="order-status-pill ${currentOrderTab === 'shipping' ? 'active' : ''}" onclick="setOrdersSubTab('shipping')">تم الشحن 🚚</button>
+          <button type="button" class="order-status-pill ${currentOrderTab === 'processing' ? 'active' : ''}" onclick="setOrdersSubTab('processing')">قيد التجهيز ⏳</button>
+          <button type="button" class="order-status-pill ${currentOrderTab === 'completed' ? 'active' : ''}" onclick="setOrdersSubTab('completed')">طلبات سابقة ✓</button>
+          <button type="button" class="order-status-pill ${currentOrderTab === 'returns' ? 'active' : ''}" onclick="setOrdersSubTab('returns')">المسترجعات ↩️</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          ${filtered.map(o => `
+            <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="color: #0F172A; font-size: 0.95rem;">طلب: ${o.id}</strong>
+                <span style="font-size: 0.76rem; background: rgba(0,102,255,0.1); color: ${o.statusColor}; font-weight: 700; padding: 2px 8px; border-radius: 6px;">${o.statusText}</span>
+              </div>
+              
+              <div style="font-size: 0.88rem; font-weight: 600; color: #1E293B; margin-top: 6px;">${o.items}</div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                <span style="font-size: 0.8rem; color: #64748B;">التاريخ: ${o.date}</span>
+                <span style="font-size: 0.95rem; font-weight: 800; color: #0066FF;">${o.total}</span>
+              </div>
+
+              <!-- أزرار الإجراءات: إعادة الشراء + التتبع والتقييم -->
+              <div style="display: flex; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid #E2E8F0;">
+                ${o.canReorder ? `
+                  <button type="button" class="btn-primary" style="height: 36px; padding: 0 16px; font-size: 0.82rem; flex: 1;" onclick="KafuApp.showToast('تمت إضافة قطع الطلب للسلة لإعادة الشراء الفوري ✓'); setTimeout(() => window.location.href='cart.html', 500);">
+                    إعادة الشراء
+                  </button>
+                ` : ''}
+
+                ${o.trackingActive ? `
+                  <button type="button" class="btn-secondary" style="height: 36px; padding: 0 14px; font-size: 0.82rem; background: #EFF6FF; color: #0066FF; border-color: #BFDBFE;" onclick="KafuApp.showToast('فتح خريطة التتبع المباشر لموقع المندوب...')">
+                    تتبع الشحنة بالخريطة
+                  </button>
+                ` : ''}
+
+                <button type="button" class="btn-secondary" style="height: 36px; padding: 0 12px; font-size: 0.82rem;" onclick="KafuApp.showToast('فتح نموذج تقييم القطع والتاجر...')">
+                  التقييم والآراء
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      openModalWith('مربع طلباتي', 'متابعة الطلبات السابقة، قيد التجهيز، الشحن، المسترجعات وإعادة الشراء', html);
+    }
+
+    // -------------------------------------------------------------------------
+    // 5. مربع نقاط المكافآت والولاء (عميل مميز واستبدال النقاط)
+    // -------------------------------------------------------------------------
+    function openRewardsModal() {
+      const html = `
+        <div style="background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%); color: #FFF; border-radius: 18px; padding: 20px; text-align: center; margin-bottom: 16px;">
+          <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; margin-bottom: 10px;">
+            شارة عميل كفو المميز VIP ⭐
+          </div>
+          <div style="font-size: 2.4rem; font-weight: 900; line-height: 1.1;">١٬٤٥٠</div>
+          <p style="font-size: 0.88rem; opacity: 0.9; margin: 4px 0 12px;">نقطة كفو صالحة للاستبدال (= ١٤٥ ر.س)</p>
+          <button type="button" style="background: #FFFFFF; color: #7C3AED; border: none; border-radius: 10px; padding: 8px 20px; font-weight: 700; font-family: inherit; font-size: 0.85rem; cursor: pointer;" onclick="KafuApp.showToast('تم تحويل 500 نقطة إلى قسيمة خصم 50 ريال بكود KAFU-REWARD ✓')">
+            استبدال النقاط بقسيمة شراء
+          </button>
+        </div>
+
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #0F172A; margin: 0 0 10px;">كيف تجمع المزيد من النقاط؟</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.86rem; color: #334155;">شراء قطع غيار من كفو</span>
+            <strong style="color: #16A34A; font-size: 0.88rem;">10 نقاط لكل 100 ر.س</strong>
+          </div>
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.86rem; color: #334155;">تقييم التاجر بعد استلام القطعة</span>
+            <strong style="color: #16A34A; font-size: 0.88rem;">+ 25 نقطة</strong>
+          </div>
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.86rem; color: #334155;">توثيق صيانة دورية بالكيلوات</span>
+            <strong style="color: #16A34A; font-size: 0.88rem;">+ 50 نقطة</strong>
+          </div>
+        </div>
+      `;
+
+      openModalWith('نقاط المكافآت والولاء', 'برنامج مكافآت كفو للعملاء المميزين واستبدال النقاط', html);
+    }
+
+    // -------------------------------------------------------------------------
+    // 6. تقرير رقم الهيكل (VIN) ودليل إضاءات الطبلون والنصائح
+    // -------------------------------------------------------------------------
+    function openVinReport() {
+      const html = `
+        <div style="background: #0F172A; color: #FFF; border-radius: 16px; padding: 16px; margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="font-size: 1.1rem; color: #38BDF8;">كتالوج السيارة: Toyota Camry 2025</strong>
+            <span style="font-size: 0.74rem; background: rgba(56, 189, 248, 0.2); color: #38BDF8; padding: 2px 8px; border-radius: 6px;">VIN مؤكد</span>
+          </div>
+          <div style="font-size: 0.82rem; font-family: monospace; color: #CBD5E1; margin: 6px 0;">رقم الشاسيه: 4T1B11HK5MU129841</div>
+          <div style="font-size: 0.82rem; color: #94A3B8;">محرك 2.5L أربع سلندر هجين · ناقل حركة e-CVT · دفع أمامي</div>
+        </div>
+
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #0F172A; margin: 0 0 8px;">مخططات أجزاء البودي والمحركات:</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;">
+          <button type="button" class="btn-secondary" style="height: 38px; font-size: 0.8rem;" onclick="KafuApp.showToast('فتح مخطط الهيكل الخارجي والصدامات')">مخطط البودي الخارجي</button>
+          <button type="button" class="btn-secondary" style="height: 38px; font-size: 0.8rem;" onclick="KafuApp.showToast('فتح مخطط البلوف والسيور والتيربو')">مخطط المحرك والجير</button>
+        </div>
+
+        <!-- دليل إضاءات الطبلون والعلامات التحذيرية -->
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #0F172A; margin: 0 0 8px;">دليل إضاءات الطبلون والعلامات التحذيرية:</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+          <div style="background: #FEF2F2; border: 1px solid #FECACA; border-radius: 10px; padding: 10px; display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.4rem; color: #DC2626;">⚠️</span>
+            <div>
+              <strong style="font-size: 0.86rem; color: #991B1B; display: block;">لمبة فحص المحرك (Check Engine)</strong>
+              <span style="font-size: 0.78rem; color: #7F1D1D;">تشير لحساس الأكسجين أو ضعف احتراق. يُنصح بفحص كمبيوتر OBD2.</span>
+            </div>
+          </div>
+
+          <div style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 10px; padding: 10px; display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.4rem; color: #D97706;">🛢️</span>
+            <div>
+              <strong style="font-size: 0.86rem; color: #92400E; display: block;">لمبة ضغط الزيت (Oil Pressure)</strong>
+              <span style="font-size: 0.78rem; color: #78350F;">توقف فوراً! انخفاض ضغط الزيت قد يسبب تلف المحرك خلال دقائق.</span>
+            </div>
+          </div>
+
+          <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 10px; display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.4rem; color: #0066FF;">🔋</span>
+            <div>
+              <strong style="font-size: 0.86rem; color: #1E40AF; display: block;">لمبة البطارية والدينمو</strong>
+              <span style="font-size: 0.78rem; color: #1E3A8A;">ضعف في شحن الدينمو أو قرب انتهاء العمر الافتراضي للبطارية.</span>
+            </div>
+          </div>
+        </div>
+
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #0F172A; margin: 0 0 6px;">نصائح مرورية وإرشادات السلامة:</h4>
+        <ul style="font-size: 0.82rem; color: #475569; padding-right: 20px; line-height: 1.6; margin: 0;">
+          <li>تأكد من فحص ضغط الإطارات شهرياً ومطابقته للرقم الموصى به (32-35 PSI).</li>
+          <li>استبدل مساحات الزجاج الأمامي قبل موسم الأمطار لضمان الرؤية الآمنة.</li>
+          <li>التزم بمسافة الأمان وسرعات الطريق المحددة حفاظاً على سلامتك وسلامة الآخرين.</li>
+        </ul>
+      `;
+
+      openModalWith('تقرير رقم الهيكل (VIN) ودليل الطبلون', 'مخططات السيارة، معاني لمبات الطبلون، ونصائح السلامة المرورية', html);
+    }
+
+    // -------------------------------------------------------------------------
+    // دوال إدارة وإضافة المركبات (+)
+    // -------------------------------------------------------------------------
+    function openAddVehicleModal() {
+      document.getElementById('addVehicleModal').classList.add('active');
+    }
+    function closeAddVehicleModal(e) {
+      if (e.target === document.getElementById('addVehicleModal')) closeAddVehicleModalDirect();
+    }
+    function closeAddVehicleModalDirect() {
+      document.getElementById('addVehicleModal').classList.remove('active');
+    }
+
+    function saveNewVehicle() {
+      const make = document.getElementById('newCarMake').value;
+      const model = document.getElementById('newCarModel').value.trim() || 'Land Cruiser';
+      const year = document.getElementById('newCarYear').value || '2025';
+
+      KafuStore.setSelectedCar({
+        make: make,
+        model: model,
+        year: year,
+        displayName: `${make} ${model} ${year}`
+      });
+
+      closeAddVehicleModalDirect();
+      KafuApp.showToast(`تمت إضافة سيارتك الجديدة: ${make} ${model} بنجاح ✓`);
+
+      document.getElementById('libCarTitle').textContent = `${make} ${model} ${year}`;
+    }
+
+    function selectActiveCar(carKey) {
+      const cards = document.querySelectorAll('.vehicle-item-card');
+      cards.forEach(c => c.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      if (carKey === 'camry') {
+        KafuStore.setSelectedCar({ make: 'Toyota', model: 'Camry', year: '2025', displayName: 'Toyota Camry 2025' });
+        document.getElementById('libCarTitle').textContent = 'Toyota Camry 2025';
+        KafuApp.showToast('تم تفعيل Toyota Camry 2025 كمركبة نشطة');
+      } else {
+        KafuStore.setSelectedCar({ make: 'Nissan', model: 'Patrol', year: '2023', displayName: 'Nissan Patrol 2023' });
+        document.getElementById('libCarTitle').textContent = 'Nissan Patrol 2023';
+        KafuApp.showToast('تم تفعيل Nissan Patrol 2023 كمركبة نشطة');
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // شريط التنقل السفلي الموحد مع تفعيل تبويب الكتالوج
       KafuApp.renderBottomNav('catalog');
 
-      // تحديث اسم السيارة في المكتبة
       const car = KafuStore.getSelectedCar();
       if (car && car.displayName) {
         document.getElementById('libCarTitle').textContent = car.displayName;
+      }
+
+      if (window.location.hash === '#orders') {
+        openMyOrdersModal();
       }
     });
   </script>

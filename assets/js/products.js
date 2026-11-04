@@ -115,6 +115,51 @@ const PartGraphics = {
       <rect x="72" y="74" width="16" height="34" fill="#94A3B8"/>
       <rect x="78" y="108" width="4" height="12" fill="#E2E8F0"/>
     </svg>
+  `)}`,
+
+  bumper: `data:image/svg+xml;utf8,${encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="100%" height="100%">
+      <defs>
+        <linearGradient id="bumperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#334155"/>
+          <stop offset="50%" stop-color="#475569"/>
+          <stop offset="100%" stop-color="#1E293B"/>
+        </linearGradient>
+      </defs>
+      <path d="M16 68 C24 50 136 50 144 68 L138 98 C128 108 32 108 22 98 Z" fill="url(#bumperGrad)" stroke="#0F172A" stroke-width="2.5"/>
+      <rect x="36" y="74" width="88" height="18" rx="4" fill="#0F172A" opacity="0.8"/>
+      <line x1="42" y1="83" x2="118" y2="83" stroke="#64748B" stroke-width="1.5"/>
+      <circle cx="30" cy="83" r="5" fill="#38BDF8"/>
+      <circle cx="130" cy="83" r="5" fill="#38BDF8"/>
+    </svg>
+  `)}`,
+
+  radiator: `data:image/svg+xml;utf8,${encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="100%" height="100%">
+      <rect x="28" y="32" width="104" height="96" rx="8" fill="#1E293B" stroke="#475569" stroke-width="2.5"/>
+      <rect x="36" y="42" width="88" height="76" rx="4" fill="#0F172A"/>
+      <!-- Fins -->
+      <line x1="44" y1="42" x2="44" y2="118" stroke="#38BDF8" stroke-width="1.8" opacity="0.6"/>
+      <line x1="56" y1="42" x2="56" y2="118" stroke="#38BDF8" stroke-width="1.8" opacity="0.6"/>
+      <line x1="68" y1="42" x2="68" y2="118" stroke="#38BDF8" stroke-width="1.8" opacity="0.6"/>
+      <line x1="80" y1="42" x2="80" y2="118" stroke="#38BDF8" stroke-width="1.8" opacity="0.6"/>
+      <line x1="92" y1="42" x2="92" y2="118" stroke="#38BDF8" stroke-width="1.8" opacity="0.6"/>
+      <line x1="104" y1="42" x2="104" y2="118" stroke="#38BDF8" stroke-width="1.8" opacity="0.6"/>
+      <line x1="116" y1="42" x2="116" y2="118" stroke="#38BDF8" stroke-width="1.8" opacity="0.6"/>
+      <circle cx="120" cy="38" r="5" fill="#EF4444"/>
+    </svg>
+  `)}`,
+
+  mount: `data:image/svg+xml;utf8,${encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="100%" height="100%">
+      <circle cx="80" cy="80" r="48" fill="#334155" stroke="#1E293B" stroke-width="3"/>
+      <circle cx="80" cy="80" r="28" fill="#0F172A"/>
+      <circle cx="80" cy="80" r="12" fill="#94A3B8" stroke="#64748B" stroke-width="2"/>
+      <circle cx="80" cy="42" r="5" fill="#F8FAFC"/>
+      <circle cx="118" cy="80" r="5" fill="#F8FAFC"/>
+      <circle cx="42" cy="80" r="5" fill="#F8FAFC"/>
+      <circle cx="80" cy="118" r="5" fill="#F8FAFC"/>
+    </svg>
   `)}`
 };
 
@@ -131,7 +176,7 @@ const CATEGORIES = [
   { id: 'lighting', name: 'الإضاءة', iconClass: 'tile-lighting', icon: 'lighting', color: 'var(--tile-yellow)' }
 ];
 
-// قائمة المنتجات مع أرقام الهيكل المتوافقة (VIN / Chassis Number)
+// قائمة المنتجات مع أرقام الهيكل المتوافقة (VIN / Chassis Number) - صور قطع غيار حقيقية وأسعار محددة
 const PRODUCTS = [
   {
     id: 'prod-1',
@@ -139,8 +184,10 @@ const PRODUCTS = [
     brand: 'Toyota OEM',
     oem: 'OP010-13101',
     category: 'engine',
+    condition: 'original',
+    conditionLabel: 'أصلي وكالة (OEM)',
     price: 480,
-    image: PartGraphics.piston,
+    image: 'assets/images/products/part_piston.jpg',
     available: true,
     rating: 4.9,
     reviewsCount: 18,
@@ -171,17 +218,19 @@ const PRODUCTS = [
   },
   {
     id: 'prod-2',
-    name: 'فلتر زيت أصلي',
-    brand: 'Toyota',
+    name: 'زيت محرك تخليقي وفلتر أصلي',
+    brand: 'Toyota Genuine',
     oem: 'YZZD1-90915',
     category: 'oils',
-    price: 38,
-    image: PartGraphics.oilFilter,
+    condition: 'original',
+    conditionLabel: 'أصلي وكالة (OEM)',
+    price: 85,
+    image: 'assets/images/products/synthetic_oil.jpg',
     available: true,
     rating: 5.0,
     reviewsCount: 42,
     seller: 'كفو إكسبرس · جدة',
-    description: 'فلتر زيت أصلي يضمن تدفق الزيت النقي وتصفية الشوائب بدقة عالية للحفاظ على عمر المحرك.',
+    description: 'فلتر زيت أصلي مع زيت تخليقي يضمن تدفق الزيت النقي وتصفية الشوائب بدقة عالية للحفاظ على عمر المحرك.',
     merchantSpecs: {
       partName: 'فلتر زيت محرك أصلي (Engine Oil Filter)',
       vinNumber: 'JTNB11RE8P...... (إن وجد)',
@@ -200,7 +249,7 @@ const PRODUCTS = [
       { make: 'تويوتا', model: 'لاندكروزر', years: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'], vinPrefixes: ['JTMH'] }
     ],
     specs: {
-      origin: 'تايلاند (مصنع تويوتا الأصلي)',
+      origin: 'اليابان',
       warranty: 'أصلي مضمون 100%',
       weight: '350 جرام',
       material: 'صمام سيليكون مضاد للرجوع مع ألياف دقيقة'
@@ -212,8 +261,10 @@ const PRODUCTS = [
     brand: 'Akebono OEM',
     oem: '04465-33480',
     category: 'brakes',
+    condition: 'commercial',
+    conditionLabel: 'تجاري درجة أولى',
     price: 195,
-    image: PartGraphics.brakes,
+    image: 'assets/images/products/part_brake_pads.jpg',
     available: true,
     rating: 4.8,
     reviewsCount: 29,
@@ -248,8 +299,10 @@ const PRODUCTS = [
     brand: 'Bosch S4',
     oem: 'S4008-570',
     category: 'electrical',
+    condition: 'original',
+    conditionLabel: 'أصلي معتمد (OEM)',
     price: 340,
-    image: PartGraphics.battery,
+    image: 'assets/images/products/part_battery.jpg',
     available: true,
     rating: 4.9,
     reviewsCount: 35,
@@ -283,8 +336,10 @@ const PRODUCTS = [
     brand: 'KYB Japan',
     oem: '3340156-KY',
     category: 'suspension',
+    condition: 'commercial',
+    conditionLabel: 'تجاري ياباني درجة أولى',
     price: 260,
-    image: PartGraphics.shock,
+    image: 'assets/images/products/suspension_shock.jpg',
     available: true,
     rating: 4.7,
     reviewsCount: 14,
@@ -313,37 +368,253 @@ const PRODUCTS = [
   },
   {
     id: 'prod-6',
-    name: 'شمعة إضاءة LED رئيسية أصلية',
-    brand: 'Koito OEM',
-    oem: '81110-06C70',
-    category: 'lighting',
-    price: 890,
-    image: PartGraphics.headlight,
+    name: 'دينمو كهرباء عالي الكفاءة 130 أمبير',
+    brand: 'Denso OEM',
+    oem: '27060-0V210',
+    category: 'electrical',
+    condition: 'original',
+    conditionLabel: 'أصلي وكالة (OEM)',
+    price: 680,
+    image: 'assets/images/products/part_alternator.jpg',
     available: true,
     rating: 5.0,
-    reviewsCount: 8,
+    reviewsCount: 18,
     seller: 'متجر كفو للقطع · الرياض',
-    description: 'شمعة أمامية أصلية بتقنية LED كاملة وعدسات إضاءة واضحة ومقاومة للاصفرار والحرارة.',
+    description: 'دينمو كهرباء دينسو أصلي ياباني يولد شحناً ثابتاً ومستقراً لجميع أجهزة السيارة الإلكترونية.',
     merchantSpecs: {
-      partName: 'شمعة إضاءة LED رئيسية (LED Headlight Assembly)',
+      partName: 'دينمو كهرباء (Alternator Assembly)',
       vinNumber: '4T1B21HK5MU...... (إن وجد)',
-      oemNumber: '81110-06C70',
+      oemNumber: '27060-0V210',
       vehicleMake: 'تويوتا (Toyota)',
       vehicleModel: 'كامري (Camry)',
-      yearsRange: '2021 – 2025',
-      engine: 'جميع الفئات (All Trims)',
-      position: 'أمامي يمين / يسار (Front R/L)',
+      yearsRange: '2018 – 2025',
+      engine: '2.5L',
+      position: 'حجرة المحرك (Engine Bay)',
       compatibility: 'مؤكد (Confirmed)'
     },
     compatibleCars: [
-      { make: 'تويوتا', model: 'كامري', years: ['2021', '2022', '2023', '2024', '2025'], vinPrefixes: ['4T1B', 'JTDK'] }
+      { make: 'تويوتا', model: 'كامري', years: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'], vinPrefixes: ['4T1B', 'JTDK'] }
     ],
     specs: {
       origin: 'اليابان',
       warranty: 'ضمان سنتين',
-      weight: '3.1 كجم',
-      material: 'بولي كربونات معالج ضد الأشعة فوق البنفسجية'
+      weight: '5.2 كجم',
+      material: 'نحاس نقي وألومنيوم مقاوم لدرجات الحرارة'
     }
+  },
+  {
+    id: 'prod-7',
+    name: 'هوب فرامل بريمبو مخرم ومبرد للحرارة',
+    brand: 'Brembo Sport',
+    oem: '43512-06150',
+    category: 'brakes',
+    condition: 'original',
+    conditionLabel: 'أصلي وكالة (OEM)',
+    price: 340,
+    image: 'assets/images/products/part_brake_rotor.jpg',
+    available: true,
+    rating: 4.9,
+    reviewsCount: 22,
+    seller: 'متجر كفو للقطع · الرياض',
+    description: 'هوب فرامل مخرم بتصميم إيطالي يقلل حرارة المكابح ويمنع رجة الفرامل ويوفر توقفاً فورياً.',
+    specs: {
+      origin: 'إيطاليا',
+      warranty: 'ضمان سنتين كاملتين',
+      weight: '7.8 كجم',
+      material: 'حديد زهر معالج بالكربون عالي الكثافة'
+    },
+    compatibleCars: [
+      { make: 'تويوتا', model: 'كامري', years: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'], vinPrefixes: ['4T1B', 'JTDK'] }
+    ]
+  },
+  {
+    id: 'prod-8',
+    name: 'طقم بواجى ليزر إيريديوم 4 حبات',
+    brand: 'NGK Laser Iridium',
+    oem: '90919-01253',
+    category: 'engine',
+    condition: 'commercial',
+    conditionLabel: 'تجاري درجة أولى',
+    price: 85,
+    image: 'assets/images/products/part_spark_plug.jpg',
+    available: true,
+    rating: 4.9,
+    reviewsCount: 38,
+    seller: 'مركز قطع الغيار السريعة · جدة',
+    description: 'بواجي ليزر إيريديوم تمنح شرارة إشعال مركزة وتوفيراً ملحوظاً في صرفية الوقود.',
+    specs: {
+      origin: 'اليابان (معتمد NGK)',
+      warranty: 'ضمان 100,000 كم',
+      weight: '250 جرام',
+      material: 'قطب إيريديوم دقيق مع طلاء بلاتين'
+    },
+    compatibleCars: [
+      { make: 'تويوتا', model: 'كامري', years: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'], vinPrefixes: ['4T1B', 'JTDK'] }
+    ]
+  },
+  {
+    id: 'prod-9',
+    name: 'شاحن توربيني تشليح أصلي بحالة ممتازة',
+    brand: 'تشليح كفو المعتمد',
+    oem: '17201-11080-USED',
+    category: 'engine',
+    condition: 'scrap',
+    conditionLabel: 'تشليح وسكراب مضمون',
+    price: 850,
+    image: 'assets/images/products/part_turbo.jpg',
+    available: true,
+    rating: 4.8,
+    reviewsCount: 15,
+    seller: 'تشليح الحائر المعتمد · الرياض',
+    description: 'توربو أصلي مفكوك من سيارة وارد وكالة بحالة ممتازة ومفحوص ضغط الريش والزيت.',
+    specs: {
+      origin: 'اليابان (مستعمل وكالة)',
+      warranty: 'ضمان تشغيل وسلامة 30 يوم مع إمكانية الاسترجاع',
+      weight: '6.4 كجم',
+      material: 'تيتانيوم وسبائك ألومنيوم'
+    },
+    compatibleCars: [
+      { make: 'تويوتا', model: 'كامري', years: ['2020', '2021', '2022', '2023', '2024', '2025'], vinPrefixes: ['4T1B', 'JTDK'] }
+    ]
+  },
+  {
+    id: 'prod-10',
+    name: 'دبة شكمان وعادم ستانلس ستيل مع الحساس',
+    brand: 'Bosal Exhaust',
+    oem: '17420-0V120',
+    category: 'engine',
+    condition: 'commercial',
+    conditionLabel: 'تجاري درجة أولى',
+    price: 520,
+    image: 'assets/images/products/exhaust_system.jpg',
+    available: true,
+    rating: 4.7,
+    reviewsCount: 19,
+    seller: 'كفو إكسبرس · الرياض',
+    description: 'شكمان ستانلس ستيل مقاوم للصدأ مطابق للمقاسات الأصلية مع فتحات تثبيت الحساسات.',
+    specs: {
+      origin: 'أوروبي',
+      warranty: 'ضمان سنتين ضد الصدأ',
+      weight: '7.6 كجم',
+      material: 'ستانلس ستيل SUS304'
+    },
+    compatibleCars: [
+      { make: 'تويوتا', model: 'كامري', years: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'], vinPrefixes: ['4T1B', 'JTDK'] }
+    ]
+  },
+  {
+    id: 'prod-11',
+    name: 'مساعد هيدروليكي تشليح وكالة نظيف جداً',
+    brand: 'تشليح كفو المعتمد',
+    oem: '48510-80542-USED',
+    category: 'suspension',
+    condition: 'scrap',
+    conditionLabel: 'تشليح وسكراب مضمون',
+    price: 160,
+    image: 'assets/images/products/suspension_shock.jpg',
+    available: true,
+    rating: 4.8,
+    reviewsCount: 11,
+    seller: 'تشليح كفو المركزي · جدة',
+    description: 'مساعد أصلي مفكوك من سيارة حديثة سليم 100% بدون أي تسريب زيت ومفحوص على أجهزة الاختبار.',
+    specs: {
+      origin: 'اليابان (مستعمل أصلي)',
+      warranty: 'ضمان شهر كامل مع الاستبدال',
+      weight: '4.2 كجم',
+      material: 'صلب شد بلد'
+    },
+    compatibleCars: [
+      { make: 'تويوتا', model: 'كامري', years: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'], vinPrefixes: ['4T1B', 'JTDK'] }
+    ]
+  },
+  {
+    id: 'prod-12',
+    name: 'مجموعة تروس وجير أوتوماتيكي وكالة',
+    brand: 'Aisin Warner',
+    oem: '35000-33620',
+    category: 'engine',
+    condition: 'original',
+    conditionLabel: 'أصلي وكالة (OEM)',
+    price: 1180,
+    image: 'assets/images/welcome-gear.jpg',
+    available: true,
+    rating: 5.0,
+    reviewsCount: 26,
+    seller: 'مركز الجيربوكس المتخصص · الرياض',
+    description: 'مجموعة تروس وجير أوتوماتيكي كاملة يابانية الصنع معتمدة تضمن تبديل ناعم وسلس.',
+    specs: {
+      origin: 'اليابان',
+      warranty: 'ضمان سنة كاملة',
+      weight: '14.5 كجم',
+      material: 'فولاذ كربوني مقسى'
+    },
+    compatibleCars: [
+      { make: 'تويوتا', model: 'كامري', years: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'], vinPrefixes: ['4T1B', 'JTDK'] }
+    ]
+  }
+];
+
+// قاعدة بيانات ورش الصيانة المعتمدة
+const WORKSHOPS_DATABASE = [
+  {
+    id: 'ws-1',
+    name: 'مركز النخبة المتخصص للميكانيكا والمحركات',
+    specialty: 'mechanics',
+    specialtyLabel: 'ميكانيكا وتوضيب',
+    rating: 4.9,
+    reviewsCount: 184,
+    distance: '2.4 كم',
+    district: 'صناعية الدائري - الرياض',
+    phone: '+966 50 882 1990',
+    services: ['توضيب قير ومكينة', 'فحص دوري شامل', 'تبديل مساعدات وعضلات'],
+    discountPercent: 15,
+    verified: true,
+    image: '🔧'
+  },
+  {
+    id: 'ws-2',
+    name: 'ورشة الوفاء للسمكرة ورش البوية بالفرن',
+    specialty: 'bodywork',
+    specialtyLabel: 'سمكرة وبودي ودهان',
+    rating: 4.8,
+    reviewsCount: 215,
+    distance: '3.8 كم',
+    district: 'صناعية أم الحمام - الرياض',
+    phone: '+966 55 410 8872',
+    services: ['سمكرة حوادث على البارد', 'رش بوية أصلية بالفرن', 'سحب شاص وميزان ليزر'],
+    discountPercent: 15,
+    verified: true,
+    image: '🎨'
+  },
+  {
+    id: 'ws-3',
+    name: 'مركز دقة التشخيص للكهرباء والتكييف وبرمجة الكمبيوتر',
+    specialty: 'electrical',
+    specialtyLabel: 'كهرباء وتكييف وفحص',
+    rating: 5.0,
+    reviewsCount: 96,
+    distance: '4.1 كم',
+    district: 'صناعية العاصمة - الرياض',
+    phone: '+966 53 119 4433',
+    services: ['فحص كمبيوتر وكشف أعطال OBD', 'إصلاح كمبروسر وشحن فريون', 'برمجة حساسات ومفاتيح'],
+    discountPercent: 10,
+    verified: true,
+    image: '⚡'
+  },
+  {
+    id: 'ws-4',
+    name: 'ورشة أوتو فكس لميزان الأذرعة والمساعدات',
+    specialty: 'suspension',
+    specialtyLabel: 'عضلات ومساعدات وميزان',
+    rating: 4.7,
+    reviewsCount: 142,
+    distance: '5.6 كم',
+    district: 'صناعية الشفاء - الرياض',
+    phone: '+966 54 992 3311',
+    services: ['وزن أذرعة بالليزر ثلاثي الأبعاد', 'تغيير كراسي مساعدات ومقصات', 'فحص أصوات القرقرة والهبوط'],
+    discountPercent: 15,
+    verified: true,
+    image: '🛠️'
   }
 ];
 

@@ -655,6 +655,112 @@
       opacity: 0.88;
     }
 
+    .auth-alt-actions-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      margin-top: clamp(6px, 1.2vh, 10px);
+    }
+
+    .btn-nafath {
+      flex: 1;
+      height: clamp(38px, 5vh, 42px);
+      border-radius: 12px;
+      background: #007A3D;
+      color: #FFFFFF;
+      border: none;
+      font-family: inherit;
+      font-size: clamp(0.78rem, 2.3vw, 0.84rem);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0, 122, 61, 0.22);
+      transition: all 0.2s ease;
+    }
+
+    .btn-nafath:hover {
+      background: #006633;
+      transform: translateY(-1px);
+    }
+
+    .btn-quick-otp {
+      flex: 1;
+      height: clamp(38px, 5vh, 42px);
+      border-radius: 12px;
+      background: #F8FAFC;
+      color: #0F172A;
+      border: 1.5px solid #CBD5E1;
+      font-family: inherit;
+      font-size: clamp(0.78rem, 2.3vw, 0.84rem);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-quick-otp:hover {
+      background: #EDF2F7;
+      border-color: #94A3B8;
+      transform: translateY(-1px);
+    }
+
+    .signup-link-bold-btn {
+      color: var(--primary-blue);
+      font-weight: 800;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+      transition: all 0.2s ease;
+    }
+
+    .signup-link-bold-btn:hover {
+      opacity: 0.85;
+    }
+
+    .nafath-code-display {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: #007A3D;
+      letter-spacing: 6px;
+      background: #F0FDF4;
+      border: 2px dashed #86EFAC;
+      border-radius: 16px;
+      padding: 10px 24px;
+      margin: 12px auto;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .terms-box-agree {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #F8FAFC;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #E2E8F0;
+      margin: 12px 0 16px;
+      font-size: 0.82rem;
+      color: #334155;
+    }
+
+    .terms-box-agree input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary-blue);
+      cursor: pointer;
+    }
+
     /* --------------------------------------------------------------------------
        9. تذييل الصفحة: سيارة كفو وعبارة الشعار (بدون أي قطع وتلائم كل الشاشات)
        -------------------------------------------------------------------------- */
@@ -1023,24 +1129,23 @@
       <form id="loginForm" onsubmit="handleLoginSubmit(event)" novalidate>
         <div class="inputs-form-group">
           
-          <!-- حقل رقم الجوال مع كود الدولة في جهة اليسار -->
+          <!-- حقل البريد الإلكتروني أو رقم الهاتف مع كود الدولة في جهة اليسار -->
           <div class="form-input-box" id="phoneBox">
             <div class="input-field-right">
               <span class="input-icon-blue">
-                <!-- أيقونة الهاتف الجوال -->
+                <!-- أيقونة البريد أو الهاتف -->
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
-                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
               </span>
               <input 
-                type="tel" 
+                type="text" 
                 id="phoneInput" 
                 class="native-text-input" 
-                placeholder="رقم الجوال" 
+                placeholder="البريد الإلكتروني أو رقم الهاتف" 
                 dir="rtl"
-                autocomplete="tel"
-                maxlength="14"
+                autocomplete="username"
               />
             </div>
             
@@ -1111,76 +1216,9 @@
         </button>
       </form>
 
-      <!-- فاصل: أو تسجيل الدخول بصفتك -->
-      <div class="section-divider-row">
-        <div class="divider-line-subtle"></div>
-        <span class="divider-text-caption">أو تسجيل الدخول بصفتك</span>
-        <div class="divider-line-subtle"></div>
-      </div>
 
-      <!-- كروت الأدوار الأربعة المتجاورة في صف واحد (تاجر - مندوب مبيعات - مهندس ورشة - مندوب توصيل) -->
-      <div class="roles-four-grid">
-        
-        <!-- 1. تاجر -->
-        <button type="button" class="role-grid-card" onclick="openSubModal('merchant')" title="تسجيل الدخول كتاجر">
-          <div class="role-card-svg">
-            <!-- أيقونة المتجر مع مظلة الواجهة المطابقة للأصل -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l1-5h16l1 5"></path>
-              <path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"></path>
-              <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path>
-              <path d="M10 21v-6h4v6"></path>
-            </svg>
-          </div>
-          <span class="role-card-caption">تاجر</span>
-        </button>
-
-        <!-- 2. مندوب مبيعات -->
-        <button type="button" class="role-grid-card" onclick="openSubModal('rep')" title="تسجيل الدخول كمندوب مبيعات">
-          <div class="role-card-svg">
-            <!-- أيقونة مندوب المبيعات مع ربطة العنق والبطاقة -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="10" cy="7" r="4"></circle>
-              <path d="M10 11l1 3 2-1-1 4-1-1"></path>
-              <rect x="16" y="11" width="6" height="8" rx="1.5"></rect>
-              <path d="M19 11V9a1 1 0 0 0-1-1"></path>
-            </svg>
-          </div>
-          <span class="role-card-caption">مندوب مبيعات</span>
-        </button>
-
-        <!-- 3. مهندس ورشة -->
-        <button type="button" class="role-grid-card" onclick="selectRoleAndEnter('workshop')" title="تسجيل الدخول كمهندس ورشة">
-          <div class="role-card-svg">
-            <!-- مفاتيح أدوات صيانة وورشة متقاطعة -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-            </svg>
-          </div>
-          <span class="role-card-caption">مهندس ورشة</span>
-        </button>
-
-        <!-- 4. مندوب توصيل -->
-        <button type="button" class="role-grid-card" onclick="selectRoleAndEnter('courier')" title="تسجيل الدخول كمندوب توصيل">
-          <div class="role-card-svg">
-            <!-- شاحنة توصيل سريعة مع خطوط حركة -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="1" y="3" width="14" height="13" rx="1"></rect>
-              <polygon points="15 8 19 8 22 11 22 16 15 16 15 8"></polygon>
-              <circle cx="5.5" cy="18.5" r="2.5"></circle>
-              <circle cx="17.5" cy="18.5" r="2.5"></circle>
-              <line x1="1" y1="8" x2="3" y2="8"></line>
-              <line x1="1" y1="11" x2="4" y2="11"></line>
-            </svg>
-          </div>
-          <span class="role-card-caption">مندوب توصيل</span>
-        </button>
-
-      </div>
-
-      <!-- 8. زر تصفح كعميل / زائر: النص على اليسار وسماعة الدعم على اليمين كما بالتصميم الأصلي -->
-      <button type="button" class="visitor-outline-btn" onclick="selectRoleAndEnter('customer')" title="تصفح كعميل أو زائر">
+      <!-- زر تصفح كزائر -->
+      <button type="button" class="visitor-outline-btn" onclick="selectRoleAndEnter('customer')" title="تصفح كزائر">
         <span class="visitor-icon-wrap">
           <!-- أيقونة سماعة الدعم والعميل -->
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -1189,13 +1227,32 @@
             <path d="M8 21v-1a4 4 0 0 1 4-4h1"></path>
           </svg>
         </span>
-        <span>تصفح كعميل / زائر</span>
+        <span>تصفح كزائر</span>
       </button>
 
-      <!-- 9. رابط الانتقال لإنشاء حساب جديد -->
+      <!-- خيارات الدخول عبر نفاذ والدخول السريع برمز OTP -->
+      <div class="auth-alt-actions-row">
+        <button type="button" class="btn-nafath" onclick="openNafathModal()" title="الدخول عبر النفاذ الوطني الموحد">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+          <span>دخول عبر نفاذ</span>
+        </button>
+
+        <button type="button" class="btn-quick-otp" onclick="openQuickOtpModal()" title="الدخول السريع برمز التحقق">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+            <line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+          <span>الدخول السريع</span>
+        </button>
+      </div>
+
+      <!-- رابط التسجيل وإنشاء حساب جديد مع قائمة الفئات والشروط -->
       <div class="signup-prompt-box">
         <span>ليس لديك حساب؟</span>
-        <a href="register.html" class="signup-link-bold">إنشاء حساب جديد</a>
+        <button type="button" class="signup-link-bold-btn" onclick="openRegisterSheet()">تسجيل جديد (اختر فئتك)</button>
       </div>
 
     </div>
@@ -1212,6 +1269,214 @@
     </footer>
 
   </main>
+
+  <!-- =========================================================================
+       1. نافذة إنشاء الحساب واختيار الفئة (Register Category Sheet)
+       ========================================================================= -->
+  <div class="bottom-sheet-backdrop" id="registerSheetBackdrop" onclick="closeRegisterSheet(event)">
+    <div class="bottom-sheet-content" style="max-height: 88vh; overflow-y: auto;">
+      <div class="sheet-drag-handle"></div>
+      <h3 class="sheet-title-text">إنشاء حساب جديد في كفو</h3>
+      <p class="sheet-desc-text">اختر فئة الحساب التي تنتمي إليها للبدء</p>
+
+      <div class="sheet-options-stack">
+        <!-- 1. عميل عادي -->
+        <button type="button" class="sheet-btn-option" onclick="handleCategorySelection('customer', 'عميل / أفراد')">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; border-radius:10px; background:#EFF6FF; color:#0066FF; display:flex; align-items:center; justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div style="display:flex; flex-direction:column; text-align:right;">
+              <strong style="color: #0F172A; font-size: 0.95rem;">عميل / أفراد</strong>
+              <span style="font-size:0.78rem; color:#64748B;">تصفح وشراء قطع الغيار لسيارتي بضمان التوافق</span>
+            </div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <!-- 2. تاجر قطع جديدة -->
+        <button type="button" class="sheet-btn-option" onclick="handleCategorySelection('merchant_new', 'تاجر قطع غيار جديدة')">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; border-radius:10px; background:#FEF3C7; color:#D97706; display:flex; align-items:center; justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l1-5h16l1 5"></path><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path></svg>
+            </div>
+            <div style="display:flex; flex-direction:column; text-align:right;">
+              <strong style="color: #0F172A; font-size: 0.95rem;">تاجر قطع غيار جديدة</strong>
+              <span style="font-size:0.78rem; color:#64748B;">محلات وموزعي القطع الأصلية والتجارية المعتمدة</span>
+            </div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <!-- 3. تشليح ومستعمل -->
+        <button type="button" class="sheet-btn-option" onclick="handleCategorySelection('merchant_scrap', 'تشليح ومستعمل (سكراب)')">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; border-radius:10px; background:#FEE2E2; color:#DC2626; display:flex; align-items:center; justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><circle cx="17" cy="18.5" r="2.5"/><circle cx="7" cy="18.5" r="2.5"/></svg>
+            </div>
+            <div style="display:flex; flex-direction:column; text-align:right;">
+              <strong style="color: #0F172A; font-size: 0.95rem;">تشليح ومستعمل (سكراب)</strong>
+              <span style="font-size:0.78rem; color:#64748B;">بيع وشراء قطع غيار التشاليح والسيارات المصدومة</span>
+            </div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <!-- 4. مهندس ورشة صيانة -->
+        <button type="button" class="sheet-btn-option" onclick="handleCategorySelection('workshop', 'مهندس ورشة صيانة')">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; border-radius:10px; background:#E0F2FE; color:#0284C7; display:flex; align-items:center; justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <div style="display:flex; flex-direction:column; text-align:right;">
+              <strong style="color: #0F172A; font-size: 0.95rem;">مهندس ورشة صيانة</strong>
+              <span style="font-size:0.78rem; color:#64748B;">طلب فوري للورش مع خصم خاص 15% وتوصيل سريع</span>
+            </div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <!-- 5. مندوب مبيعات -->
+        <button type="button" class="sheet-btn-option" onclick="handleCategorySelection('rep_oem', 'مندوب مبيعات وتسويق')">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; border-radius:10px; background:#EDE9FE; color:#7C3AED; display:flex; align-items:center; justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <div style="display:flex; flex-direction:column; text-align:right;">
+              <strong style="color: #0F172A; font-size: 0.95rem;">مندوب مبيعات وتسويق</strong>
+              <span style="font-size:0.78rem; color:#64748B;">إدارة عروض الأسعار والطلبات الميدانية والعمولات</span>
+            </div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <!-- 6. مندوب توصيل -->
+        <button type="button" class="sheet-btn-option" onclick="handleCategorySelection('courier', 'مندوب توصيل لوجستي')">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; border-radius:10px; background:#DCFCE7; color:#15803D; display:flex; align-items:center; justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            </div>
+            <div style="display:flex; flex-direction:column; text-align:right;">
+              <strong style="color: #0F172A; font-size: 0.95rem;">مندوب توصيل لوجستي</strong>
+              <span style="font-size:0.78rem; color:#64748B;">استلام وتوصيل طلبات القطع للعملاء والورش</span>
+            </div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      </div>
+
+      <!-- خانة الموافقة على الشروط والأحكام -->
+      <div class="terms-box-agree">
+        <input type="checkbox" id="registerTermsCheck" checked>
+        <label for="registerTermsCheck">
+          أوافق على <a href="javascript:void(0)" onclick="openTermsModal()" style="color:#0066FF; font-weight:700; text-decoration:underline;">شروط الاستخدام وسياسة الخصوصية</a> لمنظومة كفو
+        </label>
+      </div>
+
+      <button type="button" class="sheet-close-btn" onclick="closeRegisterSheetDirect()">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       2. نافذة الدخول عبر نفاذ (Nafath Modal)
+       ========================================================================= -->
+  <div class="bottom-sheet-backdrop" id="nafathSheetBackdrop" onclick="closeNafathModal(event)">
+    <div class="bottom-sheet-content" style="text-align: center;">
+      <div class="sheet-drag-handle"></div>
+      <div style="width: 54px; height: 54px; border-radius: 50%; background: #E6F4EA; color: #007A3D; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+      </div>
+      <h3 class="sheet-title-text" style="color: #007A3D;">النفاذ الوطني الموحد</h3>
+      <p class="sheet-desc-text">أدخل رقم الهوية الوطنية أو الإقامة لتسجيل الدخول السريع عبر تطبيق نفاذ</p>
+
+      <div style="margin: 14px 0;">
+        <input type="tel" id="nafathIdInput" class="native-text-input" placeholder="رقم الهوية الوطنية / الإقامة (10 أرقام)" maxlength="10" dir="ltr" style="text-align: center; font-size: 1.15rem; font-weight: 700; height: 48px; border: 1.8px solid #CBD5E1; border-radius: 12px; width: 100%;" />
+      </div>
+
+      <div id="nafathStepTwo" style="display: none;">
+        <p style="font-size: 0.88rem; color: #475569; margin-bottom: 6px;">افتح تطبيق نفاذ على جوالك واختر الرقم التالي:</p>
+        <div class="nafath-code-display" id="nafathRandomCode">47</div>
+        <p style="font-size: 0.78rem; color: #64748B;">بانتظار قبول الطلب من تطبيق نفاذ...</p>
+      </div>
+
+      <button type="button" class="btn-primary" id="btnNafathAction" onclick="submitNafathRequest()" style="background: #007A3D; margin-top: 10px; width: 100%;">
+        إرسال طلب المصادقة
+      </button>
+
+      <button type="button" class="sheet-close-btn" onclick="closeNafathModalDirect()">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       3. نافذة الدخول السريع برمز OTP (Quick OTP Modal)
+       ========================================================================= -->
+  <div class="bottom-sheet-backdrop" id="otpSheetBackdrop" onclick="closeQuickOtpModal(event)">
+    <div class="bottom-sheet-content" style="text-align: center;">
+      <div class="sheet-drag-handle"></div>
+      <div style="width: 52px; height: 52px; border-radius: 50%; background: #EFF6FF; color: #0066FF; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      </div>
+      <h3 class="sheet-title-text">الدخول السريع برمز التحقق</h3>
+      <p class="sheet-desc-text">أدخل رقم هاتفك وسنرسل لك رمز تحقق فوري دون الحاجة لكلمة مرور</p>
+
+      <div style="margin: 14px 0;">
+        <input type="tel" id="quickPhoneInput" class="native-text-input" placeholder="05XXXXXXXX" maxlength="10" dir="ltr" style="text-align: center; font-size: 1.1rem; font-weight: 700; height: 48px; border: 1.8px solid #CBD5E1; border-radius: 12px; width: 100%;" />
+      </div>
+
+      <div id="quickOtpDigitsBox" style="display: none; margin: 12px 0;">
+        <p style="font-size: 0.84rem; color: #475569; margin-bottom: 8px;">أدخل رمز التحقق المكون من 4 أرقام المرسل لجوالك:</p>
+        <div style="display: flex; gap: 8px; justify-content: center; direction: ltr;">
+          <input type="tel" class="otp-digit" maxlength="1" value="8" style="width: 48px; height: 52px; text-align: center; font-size: 1.4rem; font-weight: 800; border: 1.8px solid #0066FF; border-radius: 10px; background: #FFF;" />
+          <input type="tel" class="otp-digit" maxlength="1" value="4" style="width: 48px; height: 52px; text-align: center; font-size: 1.4rem; font-weight: 800; border: 1.8px solid #0066FF; border-radius: 10px; background: #FFF;" />
+          <input type="tel" class="otp-digit" maxlength="1" value="9" style="width: 48px; height: 52px; text-align: center; font-size: 1.4rem; font-weight: 800; border: 1.8px solid #0066FF; border-radius: 10px; background: #FFF;" />
+          <input type="tel" class="otp-digit" maxlength="1" value="2" style="width: 48px; height: 52px; text-align: center; font-size: 1.4rem; font-weight: 800; border: 1.8px solid #0066FF; border-radius: 10px; background: #FFF;" />
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" id="btnQuickOtpAction" onclick="submitQuickOtpRequest()" style="margin-top: 8px; width: 100%;">
+        إرسال رمز الدخول السريع
+      </button>
+
+      <button type="button" class="sheet-close-btn" onclick="closeQuickOtpModalDirect()">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       4. نافذة الشروط والأحكام والموافقة عليها (Terms Modal)
+       ========================================================================= -->
+  <div class="bottom-sheet-backdrop" id="termsSheetBackdrop" onclick="closeTermsModal(event)">
+    <div class="bottom-sheet-content" style="max-height: 85vh; overflow-y: auto;">
+      <div class="sheet-drag-handle"></div>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+        <div style="width: 42px; height: 42px; border-radius: 12px; background: #EFF6FF; color: #0066FF; display: flex; align-items: center; justify-content: center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div>
+          <h3 class="sheet-title-text" style="margin: 0;">الشروط والأحكام وسياسة الاستخدام</h3>
+          <p class="sheet-desc-text" style="margin: 0;">منظومة كفو لقطع غيار السيارات والخدمات اللوجستية</p>
+        </div>
+      </div>
+
+      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px; font-size: 0.85rem; line-height: 1.6; color: #334155; max-height: 320px; overflow-y: auto; text-align: right;">
+        <h4 style="font-weight: 700; color: #0F172A; margin-bottom: 6px;">1. أحكام عامة ومطابقة القطع:</h4>
+        <p style="margin-bottom: 10px;">تضمن منظومة كفو مطابقة قطع الغيار المباعة بنسبة 100% وفق رقم الهيكل (VIN) المعتمد والمدرج في التطبيق. في حال عدم التطابق، يتحمل البائع استرجاع القطعة فوراً مجاناً.</p>
+
+        <h4 style="font-weight: 700; color: #0F172A; margin-bottom: 6px;">2. الضمان والاسترجاع:</h4>
+        <p style="margin-bottom: 10px;">تخضع جميع القطع الجديدة لضمان الوكالة أو الموزع المعتمد لمدة لا تقل عن سنة كاملة. قطع التشاليح تخضع لضمان تشغيلي يبدأ من 14 يوماً حتى 30 يوماً بحسب تصنيف التاجر.</p>
+
+        <h4 style="font-weight: 700; color: #0F172A; margin-bottom: 6px;">3. سرية وأمان البيانات:</h4>
+        <p style="margin-bottom: 10px;">يلتزم التطبيق بحماية خصوصية العملاء والتجار والتكامل الآمن مع النفاذ الوطني وبوابات الدفع الإلكتروني المصرحة من البنك المركزي السعودي.</p>
+
+        <h4 style="font-weight: 700; color: #0F172A; margin-bottom: 6px;">4. حقوق والتزامات الورش والمندوبين:</h4>
+        <p>يحق لمهندس الورشة المسجل الحصول على الخصومات المعتمدة وبونص النقاط، ويلتزم مندوب التوصيل بتسليم الشحنات وفق مسار التتبع المباشر.</p>
+      </div>
+
+      <button type="button" class="btn-primary" onclick="acceptTermsAndClose()" style="margin-top: 14px; width: 100%;">
+        الموافقة على الشروط والمتابعة
+      </button>
+      <button type="button" class="sheet-close-btn" onclick="closeTermsModalDirect()">إلغاء</button>
+    </div>
+  </div>
 
   <!-- =========================================================================
        نافذة التخصص الفرعي للأدوار (تاجر / مندوب)
@@ -1465,6 +1730,118 @@
 
       showToast('تم تسجيل الدخول بنجاح!', 'success');
       proceedToApp('customer');
+    }
+
+    // -------------------------------------------------------------------------
+    // دوال التسجيل باختيار الفئة والشروط
+    // -------------------------------------------------------------------------
+    function openRegisterSheet() {
+      document.getElementById('registerSheetBackdrop').classList.add('active');
+    }
+    function closeRegisterSheet(e) {
+      if (e.target === document.getElementById('registerSheetBackdrop')) closeRegisterSheetDirect();
+    }
+    function closeRegisterSheetDirect() {
+      document.getElementById('registerSheetBackdrop').classList.remove('active');
+    }
+    function handleCategorySelection(roleId, title) {
+      const termsChecked = document.getElementById('registerTermsCheck').checked;
+      if (!termsChecked) {
+        showToast('يرجى الموافقة على الشروط والأحكام أولاً للمتابعة', 'error');
+        return;
+      }
+      closeRegisterSheetDirect();
+      showToast(`تم اختيار الفئة: ${title} - جاري تهيئة حسابك`, 'success');
+      setTimeout(() => {
+        selectRoleAndEnter(roleId);
+      }, 500);
+    }
+
+    // -------------------------------------------------------------------------
+    // دوال نفاذ الوطني الموحد
+    // -------------------------------------------------------------------------
+    function openNafathModal() {
+      document.getElementById('nafathStepTwo').style.display = 'none';
+      document.getElementById('btnNafathAction').textContent = 'إرسال طلب المصادقة';
+      document.getElementById('nafathIdInput').value = '';
+      document.getElementById('nafathSheetBackdrop').classList.add('active');
+    }
+    function closeNafathModal(e) {
+      if (e.target === document.getElementById('nafathSheetBackdrop')) closeNafathModalDirect();
+    }
+    function closeNafathModalDirect() {
+      document.getElementById('nafathSheetBackdrop').classList.remove('active');
+    }
+    function submitNafathRequest() {
+      const idVal = document.getElementById('nafathIdInput').value.trim();
+      if (!idVal || idVal.length < 10) {
+        showToast('يرجى إدخال رقم الهوية الوطنية / الإقامة (10 أرقام)', 'error');
+        return;
+      }
+      const stepTwo = document.getElementById('nafathStepTwo');
+      if (stepTwo.style.display === 'none') {
+        stepTwo.style.display = 'block';
+        const randomNum = Math.floor(10 + Math.random() * 89);
+        document.getElementById('nafathRandomCode').textContent = randomNum;
+        document.getElementById('btnNafathAction').textContent = 'تأكيد قبول الطلب في نفاذ';
+        showToast(`تم إرسال الطلب! افتح نفاذ واختر الرقم ${randomNum}`, 'success');
+      } else {
+        closeNafathModalDirect();
+        showToast('تم التحقق بنجاح عبر نفاذ! مرحباً بك', 'success');
+        proceedToApp('customer');
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // دوال الدخول السريع برمز OTP
+    // -------------------------------------------------------------------------
+    function openQuickOtpModal() {
+      document.getElementById('quickOtpDigitsBox').style.display = 'none';
+      document.getElementById('btnQuickOtpAction').textContent = 'إرسال رمز الدخول السريع';
+      document.getElementById('quickPhoneInput').value = '';
+      document.getElementById('otpSheetBackdrop').classList.add('active');
+    }
+    function closeQuickOtpModal(e) {
+      if (e.target === document.getElementById('otpSheetBackdrop')) closeQuickOtpModalDirect();
+    }
+    function closeQuickOtpModalDirect() {
+      document.getElementById('otpSheetBackdrop').classList.remove('active');
+    }
+    function submitQuickOtpRequest() {
+      const phoneVal = document.getElementById('quickPhoneInput').value.trim();
+      const digitsBox = document.getElementById('quickOtpDigitsBox');
+      if (!phoneVal && digitsBox.style.display === 'none') {
+        showToast('يرجى إدخال رقم الهاتف الجوال', 'error');
+        return;
+      }
+      if (digitsBox.style.display === 'none') {
+        digitsBox.style.display = 'block';
+        document.getElementById('btnQuickOtpAction').textContent = 'تحقق ودخول فوري';
+        showToast('تم إرسال رمز التحقق إلى رقمك', 'success');
+      } else {
+        closeQuickOtpModalDirect();
+        showToast('تم التحقق بنجاح ودخول التطبيق!', 'success');
+        proceedToApp('customer');
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // دوال الشروط والأحكام
+    // -------------------------------------------------------------------------
+    function openTermsModal() {
+      document.getElementById('termsSheetBackdrop').classList.add('active');
+    }
+    function closeTermsModal(e) {
+      if (e.target === document.getElementById('termsSheetBackdrop')) closeTermsModalDirect();
+    }
+    function closeTermsModalDirect() {
+      document.getElementById('termsSheetBackdrop').classList.remove('active');
+    }
+    function acceptTermsAndClose() {
+      const chk = document.getElementById('registerTermsCheck');
+      if (chk) chk.checked = true;
+      closeTermsModalDirect();
+      showToast('تمت الموافقة على الشروط والأحكام وسياسة الخصوصية', 'success');
     }
 
     // -------------------------------------------------------------------------

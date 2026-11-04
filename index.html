@@ -11,6 +11,500 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/components.css">
+
+  <style>
+    /* ==========================================================================
+       ستايلات الواجهة الرئيسية المحدثة لكفو - مطابقة 100% لمتطلبات العميل
+       ========================================================================== */
+    /* 1. القائمة الجانبية (3 شرطات فوق بعض) */
+    .btn-hamburger-menu {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-hamburger-menu:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: scale(1.04);
+    }
+    .btn-hamburger-menu:active {
+      transform: scale(0.96);
+    }
+
+    .side-drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .side-drawer-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .side-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 320px;
+      max-width: 86vw;
+      background: #FFFFFF;
+      z-index: 10000;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -10px 0 36px rgba(15, 23, 42, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .side-drawer-backdrop.active .side-drawer {
+      transform: translateX(0);
+    }
+    .drawer-header {
+      background: linear-gradient(135deg, #0A2540 0%, #0066FF 100%);
+      color: #FFFFFF;
+      padding: 24px 20px 20px;
+      position: relative;
+    }
+    .drawer-close-btn {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #FFF;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .drawer-user-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .drawer-avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2.5px solid #FFFFFF;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .drawer-menu-list {
+      padding: 16px 12px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .drawer-menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: #1E293B;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      font-family: inherit;
+      transition: background 0.18s ease;
+    }
+    .drawer-menu-item:hover {
+      background: #F1F5F9;
+    }
+    .drawer-item-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .drawer-item-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #EFF6FF;
+      color: #0066FF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* التبديل المفتاحي (Toggle Switch) */
+    .switch-toggle {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    .switch-toggle input { opacity: 0; width: 0; height: 0; }
+    .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #CBD5E1;
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+    .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    input:checked + .switch-slider {
+      background-color: #0066FF;
+    }
+    input:checked + .switch-slider:before {
+      transform: translateX(20px);
+    }
+
+    /* 2. شريط البحث مع كاميرا رقم الهيكل */
+    .vin-camera-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #0066FF;
+      color: #FFFFFF;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-left: 4px;
+      transition: all 0.2s ease;
+      box-shadow: 0 3px 10px rgba(0, 102, 255, 0.25);
+    }
+    .vin-camera-btn:hover {
+      background: #0052D4;
+      transform: scale(1.05);
+    }
+
+    /* بطاقة التعرف الفوري على الهيكل */
+    .vin-detection-card {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      color: #FFFFFF;
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin: 12px 0 16px;
+      display: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+      animation: fadeInSlide 0.3s ease;
+    }
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 3. علامات السيارات الشهيرة */
+    .brands-grid-slider {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 6px 2px 12px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .brands-grid-slider::-webkit-scrollbar { display: none; }
+    .brand-logo-pill {
+      flex-shrink: 0;
+      width: 82px;
+      height: 82px;
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+    .brand-logo-pill:hover {
+      border-color: #0066FF;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0, 102, 255, 0.15);
+      background: #F8FAFF;
+    }
+    .brand-logo-pill svg {
+      width: 32px;
+      height: 32px;
+      color: #0066FF;
+    }
+    .brand-logo-pill span {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    /* 4. شريط مستطيل الاختصارات */
+    .shortcuts-strip-wrap {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 2px 14px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .shortcuts-strip-wrap::-webkit-scrollbar { display: none; }
+    .shortcut-chip {
+      flex-shrink: 0;
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #1E293B;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03);
+    }
+    .shortcut-chip:hover {
+      background: #EFF6FF;
+      border-color: #0066FF;
+      color: #0066FF;
+      transform: translateY(-1px);
+    }
+    .shortcut-chip svg {
+      width: 17px;
+      height: 17px;
+      color: #0066FF;
+    }
+
+    /* 5. سلايدر العروض والإعلانات المتحركة */
+    .promo-banner-card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 14px 0 20px;
+      box-shadow: 0 10px 28px rgba(0, 102, 255, 0.14);
+      background: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%);
+      color: #FFFFFF;
+      padding: 20px 22px;
+    }
+    .promo-badge-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(8px);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .promo-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+    .promo-desc {
+      font-size: 0.86rem;
+      opacity: 0.94;
+      margin-bottom: 14px;
+      max-width: 80%;
+    }
+    .promo-indicators {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .promo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .promo-dot.active {
+      width: 22px;
+      border-radius: 6px;
+      background: #FFFFFF;
+    }
+
+    /* 6. مربع عناية السيارات ومستلزماتها */
+    .car-care-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .care-item-card {
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 14px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .care-item-card:hover {
+      border-color: #0066FF;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 102, 255, 0.08);
+    }
+    .care-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .admin-approved-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      font-size: 0.65rem;
+      background: #DCFCE7;
+      color: #15803D;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 6px;
+    }
+
+    /* 7. تبويبات (لك / الأكثر طلباً) */
+    .tabs-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .pill-tabs-control {
+      display: flex;
+      background: #E2E8F0;
+      border-radius: 999px;
+      padding: 3px;
+    }
+    .pill-tab-btn {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #64748B;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pill-tab-btn.active {
+      background: #FFFFFF;
+      color: #0066FF;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+    }
+
+    /* نافذة قطع العلامة التجارية مربعة الشكل كالمتاجر العالمية */
+    .brand-parts-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .brand-parts-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .brand-parts-sheet {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 540px;
+      max-height: 86vh;
+      border-radius: 26px 26px 0 0;
+      padding: 20px 18px 30px;
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .brand-parts-modal.active .brand-parts-sheet {
+      transform: translateY(0);
+    }
+    .brand-parts-grid-squares {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .square-part-tile {
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 18px;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .square-part-tile:hover {
+      background: #EFF6FF;
+      border-color: #0066FF;
+      transform: translateY(-2px);
+    }
+    .square-part-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
   <script>
     // التوجيه الفوري لواجهة الترحيب واختيار الأدوار عند فتح التطبيق أول مرة
     if (!sessionStorage.getItem('kafu_splash_passed') && !new URLSearchParams(window.location.search).has('skip_welcome')) {
@@ -36,32 +530,35 @@
         <path d="M85 45h-6.2a34.8 34.8 0 0 0-4-9.6l4.4-4.4a3 3 0 0 0 0-4.2l-7-7a3 3 0 0 0-4.2 0l-4.4 4.4a34.8 34.8 0 0 0-9.6-4V15a3 3 0 0 0-3-3h-10a3 3 0 0 0-3 3v6.2a34.8 34.8 0 0 0-9.6 4l-4.4-4.4a3 3 0 0 0-4.2 0l-7 7a3 3 0 0 0 0 4.2l4.4 4.4a34.8 34.8 0 0 0-4 9.6H15a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h6.2a34.8 34.8 0 0 0 4 9.6l-4.4 4.4a3 3 0 0 0 0 4.2l7 7a3 3 0 0 0 4.2 0l4.4-4.4a34.8 34.8 0 0 0 9.6 4V85a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-6.2a34.8 34.8 0 0 0 9.6-4l4.4 4.4a3 3 0 0 0 4.2 0l7-7a3 3 0 0 0 0-4.2l-4.4-4.4a34.8 34.8 0 0 0 4-9.6H85a3 3 0 0 0 3-3V48a3 3 0 0 0-3-3z"/>
       </svg>
 
-      <!-- الشريط العلوي داخل الهيرو: الملف الشخصي والاسم باليمين، وأزرار اللغة والإشعارات والسلة باليسار -->
+      <!-- الشريط العلوي داخل الهيرو: زر 3 شرطات فوق بعض + أزرار الإجراءات والسلة في الأعلى -->
       <div class="hero-top-bar">
-        <!-- الملف الشخصي والصورة على اليمين في RTL (بديلاً للشعار القديم) -->
-        <a href="account.html" class="hero-user-profile" title="الملف الشخصي والحساب" aria-label="الملف الشخصي والحساب">
-          <div class="hero-user-avatar-wrap">
-            <img src="assets/images/avatar.jpg" alt="صورة الملف الشخصي" class="hero-user-avatar">
-            <span class="hero-user-status-dot"></span>
-          </div>
-        </a>
-
-        <!-- أزرار الإجراءات على اليسار: اللغة، الإشعارات، والسلة في الأعلى -->
-        <div class="hero-actions">
-          <button class="btn-icon-glass" id="btnLanguage" title="تغيير اللغة" aria-label="تغيير اللغة">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9.5"/>
-              <path d="M12 2.5a14 14 0 0 0 0 19 14 14 0 0 0 0-19"/>
-              <path d="M2.5 12h19"/>
+        <!-- زر القائمة الجانبية (3 شرطات فوق بعض) + بروفايل المستخدم -->
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <button type="button" class="btn-hamburger-menu" onclick="openSideDrawer()" title="القائمة الرئيسية" aria-label="القائمة الرئيسية">
+            <!-- أيقونة 3 شرطات فوق بعض ☰ -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <button class="btn-icon-glass" id="btnNotifications" title="الإشعارات" aria-label="الإشعارات">
+
+          <a href="account.html" class="hero-user-profile" title="الملف الشخصي والحساب">
+            <div class="hero-user-avatar-wrap">
+              <img src="assets/images/avatar.jpg" alt="صورة الملف الشخصي" class="hero-user-avatar">
+              <span class="hero-user-status-dot"></span>
+            </div>
+          </a>
+        </div>
+
+        <!-- أزرار الإجراءات على اليسار: اللغة، الإشعارات، والسلة -->
+        <div class="hero-actions">
+          <button class="btn-icon-glass" id="btnNotifications" onclick="openDrawerSection('notifications')" title="الإشعارات" aria-label="الإشعارات">
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
               <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
             </svg>
           </button>
-          <!-- السلة انتقلت للأعلى متبقاش تحت مع عداد ديناميكي -->
           <a href="cart.html" class="btn-icon-glass hero-cart-btn" id="heroCartBtn" title="سلة المشتريات" aria-label="سلة المشتريات">
             <span class="badge-count" id="heroCartBadge" style="display:none">0</span>
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -73,7 +570,7 @@
         </div>
       </div>
 
-      <!-- الترحيب والسيارة والدور (بدون أي تكرار وبدون أي إيموجي) -->
+      <!-- الترحيب والسيارة والدور -->
       <div class="hero-content">
         <h1 class="hero-title">أهلاً بك، <span id="heroUserName">محمد أحمد</span></h1>
         <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
@@ -84,47 +581,22 @@
             <span id="heroSubtitle">Toyota Camry 2025</span>
           </div>
 
-          <!-- شارة نوع الحساب بريميوم بدون أي إيموجي وبدون تبديل -->
           <div id="heroRoleBadge" class="hero-role-pill">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
             </svg>
-            <span id="heroRoleTitle">متجر قطع غيار جديدة</span>
+            <span id="heroRoleTitle">عميل كفو المميز</span>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- 2. شريط البحث الموحد: "ابحث باسم القطعة أو رقم الهيكل" مع زر الفحص بالصورة -->
-    <div class="search-bar-wrap">
-      <div class="search-pill glass">
-        <button id="btnHomeSearch" class="search-icon-right" title="بحث" aria-label="بحث">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="7.5"/>
-            <path d="m21 21-4.35-4.35"/>
-          </svg>
-        </button>
-        <input 
-          type="text" 
-          id="mainSearchInput" 
-          class="search-input" 
-          placeholder="ابحث باسم القطعة أو رقم الهيكل" 
-          autocomplete="off"
-        >
-        <a href="image-search.html" class="search-scan-btn" title="البحث بالصورة" aria-label="البحث بالصورة">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-            <circle cx="12" cy="13" r="4"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-
-    <!-- 3. كارت سيارة المطابقة -->
-    <div class="vehicle-match-card glass glass-card-interactive" id="homeVehicleCard">
+    <!-- =========================================================================
+         1. سيارة المطابقة بالأول (أول عنصر في الشاشة الرئيسية)
+         ========================================================================= -->
+    <div class="vehicle-match-card glass glass-card-interactive" id="homeVehicleCard" style="margin-bottom: 14px;">
       <div class="vehicle-match-info">
-        <div class="vehicle-icon-box">
+        <div class="vehicle-icon-box" style="background: #DCEAFE; color: #0066FF;">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
             <path d="M15 18H9"/>
@@ -134,122 +606,291 @@
           </svg>
         </div>
         <div class="vehicle-text-col">
-          <span class="vehicle-meta-label">سيارة المطابقة</span>
-          <span class="vehicle-active-name">Toyota Camry 2025</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="vehicle-meta-label">سيارة المطابقة النشطة</span>
+            <span style="font-size: 0.7rem; background: #DCFCE7; color: #15803D; font-weight: 700; padding: 1px 6px; border-radius: 999px;">مطابقة 100%</span>
+          </div>
+          <span class="vehicle-active-name" style="font-size: 1.05rem;">Toyota Camry 2025 (المحرك 2.5L)</span>
+          <span style="font-size: 0.74rem; color: #64748B; font-family: monospace;">رقم الهيكل VIN: 4T1B11HK5MU129841</span>
         </div>
       </div>
-      <span class="vehicle-chevron">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m15 18-6-6 6-6"/>
-        </svg>
-      </span>
+      <button class="btn-icon-glass" style="width: 36px; height: 36px; background: rgba(0,102,255,0.08); color: #0066FF; border: none;" title="تغيير أو إضافة سيارة">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
     </div>
 
-    <!-- 4. تصفح حسب الفئة - أيقونات بريميوم عصرية فائقة النقاء والتفاصيل -->
-    <section>
-      <div class="section-header">
-        <h2 class="section-title">تصفح حسب الفئة</h2>
+    <!-- =========================================================================
+         2. البحث باسم القطعة أو رقم الهيكل وبجانبه مربع الكاميرا لتصوير رقم الهيكل
+         ========================================================================= -->
+    <div class="search-bar-wrap" style="margin-bottom: 8px;">
+      <div class="search-pill glass" style="height: 52px; padding: 0 12px;">
+        <button id="btnHomeSearch" class="search-icon-right" title="بحث" aria-label="بحث" style="cursor: pointer; background: none; border: none; color: #0066FF; display: flex; align-items: center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7.5"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+        <input 
+          type="text" 
+          id="mainSearchInput" 
+          class="search-input" 
+          placeholder="ابحث باسم القطعة أو رقم الهيكل (VIN)..." 
+          autocomplete="off"
+          oninput="handleSearchInputChange(this.value)"
+        >
+        <!-- مربع الكاميرا المخصص لتصوير رقم الهيكل وبجانبه البحث بالصورة -->
+        <button type="button" class="vin-camera-btn" onclick="triggerVinScanner()" title="تصوير رقم الهيكل (VIN Scanner)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- بطاقة التعرف الفوري على الهيكل والقطع -->
+    <div class="vin-detection-card" id="vinDetectionCard">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: #22C55E; display: inline-block;"></span>
+          <strong style="font-size: 0.92rem; color: #38BDF8;" id="vinDetectedTitle">تم التعرف على رقم الهيكل!</strong>
+        </div>
+        <span style="font-size: 0.74rem; background: rgba(56, 189, 248, 0.2); color: #38BDF8; padding: 2px 8px; border-radius: 999px;">تطابق OEM فوري</span>
+      </div>
+      <p style="font-size: 0.82rem; color: #CBD5E1; margin: 0 0 8px;" id="vinDetectedDesc">
+        Toyota Camry 2025 - محرك 2.5L Hybrid (القطع المعروضة مطابقة بالكامل لهيكلك)
+      </p>
+      <div style="display: flex; gap: 8px;">
+        <button type="button" onclick="showVinMatchedParts()" style="background: #0066FF; color: #FFF; border: none; border-radius: 8px; padding: 6px 14px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">
+          عرض القطع المتوافقة (28 قطعة)
+        </button>
+        <button type="button" onclick="dismissVinCard()" style="background: rgba(255,255,255,0.1); color: #FFF; border: none; border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; cursor: pointer;">
+          إغلاق
+        </button>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         3. تصفح حسب الفئة (علامات السيارات الشهيرة: تويوتا، نيسان، هيونداي، هوندا...)
+         ========================================================================= -->
+    <section style="margin-top: 14px;">
+      <div class="section-header" style="margin-bottom: 10px;">
+        <div>
+          <h2 class="section-title" style="margin: 0; font-size: 1.15rem;">تصفح حسب فئة سيارتك</h2>
+          <span style="font-size: 0.78rem; color: #64748B;">اختر العلامة التجارية لتصفح جميع القطع كالمتاجر العالمية</span>
+        </div>
       </div>
 
-      <div class="categories-grid-two-rows">
-        <!-- الصف الأول: 3 عناصر -->
-        <!-- 1. المحرك -->
-        <a href="search.html?category=engine" class="category-item" title="قطع المحرك">
-          <div class="category-tile-box-lg tile-engine">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <!-- كتلة المحرك التوربيني الدقيقة -->
-              <path d="M4 8h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8z"/>
-              <path d="M2 11h2v4H2z"/>
-              <path d="M20 11h2v4h-2z"/>
-              <path d="M8 4v4"/>
-              <path d="M12 4v4"/>
-              <path d="M16 4v4"/>
-              <circle cx="12" cy="14" r="2.5"/>
-            </svg>
+      <div class="brands-grid-slider">
+        <!-- 1. تويوتا -->
+        <button type="button" class="brand-logo-pill" onclick="openBrandPartsModal('Toyota', 'تويوتا')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="12" rx="10" ry="7"/>
+            <ellipse cx="12" cy="10" rx="5" ry="3"/>
+            <path d="M12 7v10"/>
+          </svg>
+          <span>تويوتا</span>
+        </button>
+
+        <!-- 2. نيسان -->
+        <button type="button" class="brand-logo-pill" onclick="openBrandPartsModal('Nissan', 'نيسان')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <rect x="7" y="10" width="10" height="4" rx="1"/>
+          </svg>
+          <span>نيسان</span>
+        </button>
+
+        <!-- 3. هيونداي -->
+        <button type="button" class="brand-logo-pill" onclick="openBrandPartsModal('Hyundai', 'هيونداي')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="12" rx="9" ry="6"/>
+            <path d="M9 8c0 3 6 5 6 8M9 16c0-3 6-5 6-8"/>
+          </svg>
+          <span>هيونداي</span>
+        </button>
+
+        <!-- 4. هوندا -->
+        <button type="button" class="brand-logo-pill" onclick="openBrandPartsModal('Honda', 'هوندا')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="3"/>
+            <path d="M8 7v10M16 7v10M8 12h8"/>
+          </svg>
+          <span>هوندا</span>
+        </button>
+
+        <!-- 5. فورد -->
+        <button type="button" class="brand-logo-pill" onclick="openBrandPartsModal('Ford', 'فورد')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="12" rx="10" ry="5"/>
+            <path d="M7 12h10"/>
+          </svg>
+          <span>فورد</span>
+        </button>
+
+        <!-- 6. كيا -->
+        <button type="button" class="brand-logo-pill" onclick="openBrandPartsModal('Kia', 'كيا')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8 12h8M12 8v8"/>
+          </svg>
+          <span>كيا</span>
+        </button>
+
+        <!-- 7. شيفروليه -->
+        <button type="button" class="brand-logo-pill" onclick="openBrandPartsModal('Chevrolet', 'شيفروليه')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 10h14v4H5z"/>
+            <path d="M10 7h4v10h-4z"/>
+          </svg>
+          <span>شيفروليه</span>
+        </button>
+
+        <!-- 8. لكزس -->
+        <button type="button" class="brand-logo-pill" onclick="openBrandPartsModal('Lexus', 'لكزس')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8 8v8h8"/>
+          </svg>
+          <span>لكزس</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         4. شريط مستطيل بمربعات الاختصارات (الشاشات، المساعدات، الأجهزة، الميكانيكا، المرايات...)
+         ========================================================================= -->
+    <div class="shortcuts-strip-wrap">
+      <a href="search.html?category=screens" class="shortcut-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+        <span>الشاشات والوسائط</span>
+      </a>
+
+      <a href="search.html?category=suspension" class="shortcut-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4"/><path d="M8 6h8"/><path d="m8 8 8 2-8 2 8 2-8 2 8 2-8 2"/><path d="M8 20h8"/><path d="M12 20v2.5"/></svg>
+        <span>المساعدات واليايات</span>
+      </a>
+
+      <a href="search.html?category=electronics" class="shortcut-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M9 2v2M15 20v2M9 20v2M2 15h2M2 9h2M20 15h2M20 9h2"/></svg>
+        <span>الأجهزة الإلكترونية</span>
+      </a>
+
+      <a href="search.html?category=mechanical" class="shortcut-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>الميكانيكا وعضلات السيارة</span>
+      </a>
+
+      <a href="search.html?category=mirrors" class="shortcut-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>المرايات والزجاج</span>
+      </a>
+
+      <a href="search.html?category=ac" class="shortcut-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93 4.93 19.07"/></svg>
+        <span>التكييف والكمبروسر</span>
+      </a>
+
+      <a href="search.html?category=tires" class="shortcut-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="22"/><line x1="2" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="22" y2="12"/></svg>
+        <span>الإطارات والجنوط</span>
+      </a>
+
+      <a href="search.html?category=battery" class="shortcut-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="13" rx="2"/><path d="M6 7V4h4v3M14 7V4h4v3M12 11v5M9.5 13.5h5"/></svg>
+        <span>البطاريات والشحن</span>
+      </a>
+    </div>
+
+    <!-- =========================================================================
+         5. مربع مستطيل للعروض والإعلانات التفاعلية المتحركة بصورة واقعية في الخلفية
+         ========================================================================= -->
+    <div class="promo-banner-card" id="promoBannerCard" style="position: relative; overflow: hidden; padding: 22px 20px 16px; border-radius: 20px; background: linear-gradient(to left, rgba(10, 45, 120, 0.95) 0%, rgba(10, 65, 170, 0.82) 55%, rgba(10, 65, 170, 0.25) 100%), url('assets/images/welcome-parts.jpg') center/cover no-repeat; color: #FFF; box-shadow: 0 12px 30px rgba(10, 108, 255, 0.25); margin-bottom: 22px; min-height: 172px; display: flex; flex-direction: column; justify-content: space-between;">
+      <div style="position: relative; z-index: 2; max-width: 72%;">
+        <span class="promo-badge-tag" id="promoBadge" style="display: inline-block; background: rgba(255,255,255,0.22); backdrop-filter: blur(8px); padding: 4px 12px; border-radius: 999px; font-size: 0.76rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.35); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">عرض خاص 25%</span>
+        <h3 class="promo-title" id="promoTitle" style="font-size: 1.18rem; font-weight: 800; line-height: 1.35; margin: 8px 0 6px; text-shadow: 0 2px 6px rgba(0,0,0,0.4);">خصم 25% على المساعدات والفرامل</h3>
+        <p class="promo-desc" id="promoDesc" style="font-size: 0.83rem; opacity: 0.95; line-height: 1.45; margin-bottom: 14px; text-shadow: 0 1px 4px rgba(0,0,0,0.35);">مطابقة أصلية 100% مع ضمان سنة واستبدال فوري لسيارتك النشطة</p>
+        <a href="search.html?offer=discount25" id="promoLink" class="btn-primary" style="display: inline-flex; width: auto; height: 38px; padding: 0 20px; font-size: 0.84rem; font-weight: 700; background: #FFFFFF; color: #0052D4; border-radius: 999px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); text-decoration: none;">
+          استفد من العرض الآن
+        </a>
+      </div>
+      <div class="promo-indicators" style="margin-top: 14px; position: relative; z-index: 2;">
+        <span class="promo-dot active" onclick="setPromoSlide(0)"></span>
+        <span class="promo-dot" onclick="setPromoSlide(1)"></span>
+        <span class="promo-dot" onclick="setPromoSlide(2)"></span>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         6. مربع يهتم بأشياء السيارات (الكفرات، الشحوم، الورش، والعروض المدفوعة) مع صور توضيحية
+         ========================================================================= -->
+    <section style="margin-bottom: 22px;">
+      <div class="section-header" style="margin-bottom: 8px;">
+        <div>
+          <h2 class="section-title" style="margin: 0; font-size: 1.15rem;">عناية السيارات والخدمات</h2>
+          <span style="font-size: 0.78rem; color: #64748B;">كفرات، زيوت تخليقية، ورش معتمدة، وعروض مدفوعة</span>
+        </div>
+        <span style="font-size: 0.75rem; background: #EFF6FF; color: #0066FF; font-weight: 700; padding: 3px 8px; border-radius: 6px;">معتمد من الإدارة</span>
+      </div>
+
+      <div class="car-care-grid">
+        <!-- 1. الكفرات والإطارات -->
+        <a href="search.html?category=tires" class="care-item-card">
+          <div class="care-icon-box" style="background: #0F172A; color: #FFF; overflow: hidden; padding: 6px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
           </div>
-          <span class="category-name-lg">المحرك</span>
+          <div>
+            <strong style="font-size: 0.9rem; color: #0F172A; display: block;">الكفرات والإطارات</strong>
+            <span style="font-size: 0.76rem; color: #64748B;">بريدجستون، ميشلان، هانكوك</span>
+          </div>
         </a>
 
-        <!-- 2. الفرامل -->
-        <a href="search.html?category=brakes" class="category-item" title="الفرامل والفحمات">
-          <div class="category-tile-box-lg tile-brakes">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <!-- هوب فرامل مهوّى مع كليبر رياضي -->
-              <circle cx="12" cy="12" r="9"/>
-              <circle cx="12" cy="12" r="3.5"/>
-              <path d="M6 12a6 6 0 0 1 6-6v3a3 3 0 0 0-3 3H6z"/>
-              <line x1="12" y1="3" x2="12" y2="4.5"/>
-              <line x1="12" y1="19.5" x2="12" y2="21"/>
-              <line x1="3" y1="12" x2="4.5" y2="12"/>
-              <line x1="19.5" y1="12" x2="21" y2="12"/>
-            </svg>
+        <!-- 2. الشحوم والزيوت التخليقية -->
+        <a href="search.html?category=oils" class="care-item-card">
+          <div class="care-icon-box" style="background: #FEF3C7; color: #D97706; overflow: hidden; padding: 6px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M12 2.5a4.5 4.5 0 0 1 4.5 4.5c0 3.5-4.5 8-4.5 8s-4.5-4.5-4.5-8A4.5 4.5 0 0 1 12 2.5z"/><path d="M5 18h14v2.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V18z"/></svg>
           </div>
-          <span class="category-name-lg">الفرامل</span>
+          <div>
+            <strong style="font-size: 0.9rem; color: #0F172A; display: block;">الزيوت والشحوم</strong>
+            <span style="font-size: 0.76rem; color: #64748B;">تخليقي 5W-30 و 0W-20 معتمد</span>
+          </div>
         </a>
 
-        <!-- 3. الكهرباء -->
-        <a href="search.html?category=electrical" class="category-item" title="النظام الكهربائي والبطارية">
-          <div class="category-tile-box-lg tile-electrical">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <!-- بطارية احترافية وأقطاب كهربائية -->
-              <rect x="3" y="7" width="18" height="13" rx="2.5"/>
-              <path d="M7 4v3"/>
-              <path d="M17 4v3"/>
-              <path d="M13 10.5l-3 4h4l-2 4"/>
-            </svg>
+        <!-- 3. ورش الصيانة والسمكرة المعتمدة -->
+        <a href="search.html?type=workshops" class="care-item-card">
+          <div class="care-icon-box" style="background: #E0F2FE; overflow: hidden; padding: 4px;">
+            <img src="assets/images/welcome-gear.png" alt="ورش صيانة" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
-          <span class="category-name-lg">الكهرباء</span>
+          <div>
+            <strong style="font-size: 0.9rem; color: #0F172A; display: block;">ورش الصيانة</strong>
+            <span style="font-size: 0.76rem; color: #64748B;">حجز فوري وخصم 15%</span>
+          </div>
         </a>
 
-        <!-- الصف الثاني: 3 عناصر -->
-        <!-- 4. الزيوت والفلاتر -->
-        <a href="search.html?category=oils" class="category-item" title="الزيوت وفلاتر الصيانة">
-          <div class="category-tile-box-lg tile-oils">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <!-- عبوة زيت وفلتر انسيابي -->
-              <path d="M12 2.5a4.5 4.5 0 0 1 4.5 4.5c0 3.5-4.5 8-4.5 8s-4.5-4.5-4.5-8A4.5 4.5 0 0 1 12 2.5z"/>
-              <path d="M5 18h14v2.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V18z"/>
-              <line x1="9" y1="18" x2="9" y2="22"/>
-              <line x1="15" y1="18" x2="15" y2="22"/>
-            </svg>
+        <!-- 4. العروض المميزة المدفوعة (التحكم من الإدارة) -->
+        <a href="search.html?sponsored=1" class="care-item-card">
+          <span class="admin-approved-badge">إعلان معتمد</span>
+          <div class="care-icon-box" style="background: #FEE2E2; overflow: hidden; padding: 4px;">
+            <img src="assets/images/welcome-car.png" alt="عروض سيارات" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
-          <span class="category-name-lg">الزيوت والفلاتر</span>
-        </a>
-
-        <!-- 5. التعليق -->
-        <a href="search.html?category=suspension" class="category-item" title="المساعدات ونظام التعليق">
-          <div class="category-tile-box-lg tile-suspension">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <!-- مساعد رياضي وياي حلزوني دقيق -->
-              <path d="M12 2v4"/>
-              <path d="M8 6h8"/>
-              <path d="m8 8 8 2-8 2 8 2-8 2 8 2-8 2"/>
-              <path d="M8 20h8"/>
-              <path d="M12 20v2.5"/>
-            </svg>
+          <div>
+            <strong style="font-size: 0.9rem; color: #0F172A; display: block;">العروض الترويجية</strong>
+            <span style="font-size: 0.76rem; color: #64748B;">باقات صيانة موثقة</span>
           </div>
-          <span class="category-name-lg">التعليق</span>
-        </a>
-
-        <!-- 6. الإضاءة -->
-        <a href="search.html?category=lighting" class="category-item" title="الإنارة والشمعات">
-          <div class="category-tile-box-lg tile-lighting">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <!-- شمعة إضاءة LED بروجكتر حديثة مع حزمة إشعاع -->
-              <path d="M12 3a7 7 0 0 0-7 7c0 2.4 1.2 4.5 3 5.8V18a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.2c1.8-1.3 3-3.4 3-5.8a7 7 0 0 0-7-7z"/>
-              <path d="M10 22h4"/>
-              <line x1="12" y1="7" x2="12" y2="11"/>
-            </svg>
-          </div>
-          <span class="category-name-lg">الإضاءة</span>
         </a>
       </div>
     </section>
 
-    <!-- 5. قسم مختارة لك (مع ظهور زر عرض الكل كاملاً دون أن يغطيه الشريط) -->
+    <!-- =========================================================================
+         7. مستطيل لاقتراحات "لك" (For You) أو آخر عمليات بحث
+         ========================================================================= -->
     <section>
-      <div class="section-header">
-        <h2 class="section-title">مختارة لك</h2>
+      <div class="tabs-header-row">
+        <div class="pill-tabs-control">
+          <button type="button" class="pill-tab-btn active" id="tabForYou" onclick="switchProductTab('foryou')">لك (For You)</button>
+          <button type="button" class="pill-tab-btn" id="tabPopular" onclick="switchProductTab('popular')">الأكثر طلباً</button>
+        </div>
         <a href="search.html" class="section-link">
           <span>عرض الكل</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -265,43 +906,485 @@
 
   </div>
 
+  <!-- =========================================================================
+       القائمة الجانبية (3 شرطات فوق بعض)
+       ========================================================================= -->
+  <div class="side-drawer-backdrop" id="sideDrawerBackdrop" onclick="closeSideDrawer(event)">
+    <div class="side-drawer" id="sideDrawer">
+      <!-- رأس القائمة: كارت الحساب -->
+      <div class="drawer-header">
+        <button type="button" class="drawer-close-btn" onclick="closeSideDrawerDirect()" aria-label="إغلاق">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        
+        <div class="drawer-user-info">
+          <img src="assets/images/avatar.jpg" alt="محمد أحمد" class="drawer-avatar">
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; margin: 0;" id="drawerName">محمد أحمد</h3>
+            <span style="font-size: 0.8rem; opacity: 0.9; display: block;" id="drawerHandle">@mohammed_ahmed</span>
+            <span style="font-size: 0.78rem; opacity: 0.85;" id="drawerPhone">+966 50 123 4567</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- عناصر القائمة الجانبية -->
+      <div class="drawer-menu-list">
+        <!-- 1. الحساب -->
+        <a href="account.html" class="drawer-menu-item">
+          <div class="drawer-item-right">
+            <div class="drawer-item-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <span>الملف الشخصي والحساب</span>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+        </a>
+
+        <!-- 2. تسجيل الدخول بخطوتين (2FA) -->
+        <div class="drawer-menu-item" style="cursor: default;">
+          <div class="drawer-item-right">
+            <div class="drawer-item-icon" style="background: #DCFCE7; color: #16A34A;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div>
+              <span style="display: block;">تسجيل الدخول بخطوتين</span>
+              <span style="font-size: 0.72rem; color: #64748B;">حماية الحساب برمز OTP</span>
+            </div>
+          </div>
+          <label class="switch-toggle">
+            <input type="checkbox" id="twoFaToggle" checked onchange="handleTwoFaToggle(this.checked)">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- 3. الإشعارات -->
+        <button type="button" class="drawer-menu-item" onclick="openDrawerSection('notifications')">
+          <div class="drawer-item-right">
+            <div class="drawer-item-icon" style="background: #FEF3C7; color: #D97706;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            </div>
+            <span>مركز الإشعارات والتنبيهات</span>
+          </div>
+          <span style="background: #EF4444; color: #FFF; font-size: 0.72rem; font-weight: 700; padding: 2px 7px; border-radius: 999px;">3 جديدة</span>
+        </button>
+
+        <!-- 4. الإعدادات والألوان -->
+        <button type="button" class="drawer-menu-item" onclick="openDrawerSection('settings')">
+          <div class="drawer-item-right">
+            <div class="drawer-item-icon" style="background: #EDE9FE; color: #7C3AED;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </div>
+            <span>الإعدادات والمظهر والألوان</span>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+
+        <!-- 5. الشكاوى والدعم الفني -->
+        <button type="button" class="drawer-menu-item" onclick="openDrawerSection('complaints')">
+          <div class="drawer-item-right">
+            <div class="drawer-item-icon" style="background: #FEE2E2; color: #DC2626;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <span>تقديم شكوى أو بلاغ</span>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+
+        <!-- 6. الآراء نرفعها للإدارة -->
+        <button type="button" class="drawer-menu-item" onclick="openDrawerSection('feedback')">
+          <div class="drawer-item-right">
+            <div class="drawer-item-icon" style="background: #E0F2FE; color: #0284C7;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div>
+              <span style="display: block;">الآراء والمقترحات</span>
+              <span style="font-size: 0.72rem; color: #64748B;">نرفعها مباشرة للإدارة العليا</span>
+            </div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+      </div>
+
+      <!-- زر تسجيل الخروج في أسفل القائمة الجانبية -->
+      <div style="margin-top: auto; padding: 16px 20px 24px; border-top: 1px solid #E2E8F0;">
+        <button type="button" onclick="window.location.href='welcome.html'" style="width: 100%; height: 44px; border-radius: 12px; background: #FEE2E2; color: #DC2626; border: none; font-weight: 700; font-family: inherit; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       نافذة قطع العلامة التجارية مربعة الشكل كالمتاجر العالمية
+       ========================================================================= -->
+  <div class="brand-parts-modal" id="brandPartsModal" onclick="closeBrandPartsModal(event)">
+    <div class="brand-parts-sheet">
+      <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #E2E8F0; padding-bottom: 12px;">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0;" id="brandModalTitle">قطع غيار تويوتا (Toyota)</h3>
+          <span style="font-size: 0.8rem; color: #64748B;">تصفح جميع فئات القطع مربعة الشكل كالمتاجر العالمية</span>
+        </div>
+        <button type="button" class="btn-close-sheet" onclick="closeBrandPartsModalDirect()" style="background: none; border: none; cursor: pointer;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="brand-parts-grid-squares">
+        <!-- 1. زينة وإكسسوارات -->
+        <a href="search.html?cat=accessories" class="square-part-tile">
+          <div class="square-part-icon" style="background: #FEF3C7; color: #D97706;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="square-part-title">زينة وإكسسوارات</span>
+          <span class="square-part-count">١٤٠+ قطعة متوفرة</span>
+        </a>
+
+        <!-- 2. المساعدات ونظام التعليق -->
+        <a href="search.html?cat=suspension" class="square-part-tile">
+          <div class="square-part-icon" style="background: #EFF6FF; color: #0066FF;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4"/><path d="M8 6h8"/><path d="m8 8 8 2-8 2 8 2-8 2 8 2-8 2"/><path d="M8 20h8"/></svg>
+          </div>
+          <span class="square-part-title">المساعدات والتعليق</span>
+          <span class="square-part-count">٨٥+ قطعة متوفرة</span>
+        </a>
+
+        <!-- 3. قطع البودي والهيكل الخارجي -->
+        <a href="search.html?cat=body" class="square-part-tile">
+          <div class="square-part-icon" style="background: #FEE2E2; color: #DC2626;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
+          </div>
+          <span class="square-part-title">قطع البودي والهيكل</span>
+          <span class="square-part-count">٢١٠+ قطعة متوفرة</span>
+        </a>
+
+        <!-- 4. المحركات وقطع الجير -->
+        <a href="search.html?cat=engine" class="square-part-tile">
+          <div class="square-part-icon" style="background: #DCFCE7; color: #16A34A;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8z"/><path d="M8 4v4M12 4v4M16 4v4"/><circle cx="12" cy="14" r="2.5"/></svg>
+          </div>
+          <span class="square-part-title">المحركات والجير</span>
+          <span class="square-part-count">١٩٥+ قطعة متوفرة</span>
+        </a>
+
+        <!-- 5. الفرامل والفحمات -->
+        <a href="search.html?cat=brakes" class="square-part-tile">
+          <div class="square-part-icon" style="background: #EDE9FE; color: #7C3AED;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M6 12a6 6 0 0 1 6-6v3a3 3 0 0 0-3 3H6z"/></svg>
+          </div>
+          <span class="square-part-title">الفرامل والهوبات</span>
+          <span class="square-part-count">٩٢+ قطعة متوفرة</span>
+        </a>
+
+        <!-- 6. الزيوت والفلاتر -->
+        <a href="search.html?cat=oils" class="square-part-tile">
+          <div class="square-part-icon" style="background: #FEF3C7; color: #B45309;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.5a4.5 4.5 0 0 1 4.5 4.5c0 3.5-4.5 8-4.5 8s-4.5-4.5-4.5-8A4.5 4.5 0 0 1 12 2.5z"/><path d="M5 18h14v2.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20.5V18z"/></svg>
+          </div>
+          <span class="square-part-title">الزيوت وفلاتر الصيانة</span>
+          <span class="square-part-count">٦٤+ قطعة متوفرة</span>
+        </a>
+
+        <!-- 7. الكهرباء والإنارة -->
+        <a href="search.html?cat=lighting" class="square-part-tile">
+          <div class="square-part-icon" style="background: #E0F2FE; color: #0284C7;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a7 7 0 0 0-7 7c0 2.4 1.2 4.5 3 5.8V18a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.2c1.8-1.3 3-3.4 3-5.8a7 7 0 0 0-7-7z"/><path d="M10 22h4"/></svg>
+          </div>
+          <span class="square-part-title">الشمعات والكهرباء</span>
+          <span class="square-part-count">١١٠+ قطعة متوفرة</span>
+        </a>
+
+        <!-- 8. التكييف والتبريد -->
+        <a href="search.html?cat=ac" class="square-part-tile">
+          <div class="square-part-icon" style="background: #CCFBF1; color: #0F766E;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93 4.93 19.07"/></svg>
+          </div>
+          <span class="square-part-title">التكييف والرديتر</span>
+          <span class="square-part-count">٧٨+ قطعة متوفرة</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       نافذة الشكاوى والاقتراحات الموجهة للإدارة (تفتح فقط عند طلبها من القائمة الجانبية ☰)
+       ========================================================================= -->
+  <div class="sheet-backdrop" id="complaintsSheetBackdrop" onclick="closeFeedbackSheet(event)">
+    <div class="bottom-sheet" style="padding: 24px; max-height: 85vh; overflow-y: auto;">
+      <div class="sheet-header">
+        <div class="sheet-title-col">
+          <h2 class="sheet-title" id="feedbackModalTitle">تقديم شكوى أو بلاغ</h2>
+          <p class="sheet-subtitle" id="feedbackModalDesc">فريق خدمة العملاء والإدارة في خدمتك لحل أي مشكلة</p>
+        </div>
+        <button type="button" class="btn-close-sheet" onclick="closeFeedbackSheetDirect()" aria-label="إغلاق">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div style="margin: 14px 0; display: flex; flex-direction: column; gap: 10px;">
+        <input type="text" id="feedbackOrderNumber" placeholder="رقم الطلب (إن وجد)" dir="rtl" style="height: 44px; border: 1.5px solid #CBD5E1; border-radius: 10px; width: 100%; padding: 0 12px; font-family: inherit; font-size: 0.9rem; box-sizing: border-box;" />
+        <textarea id="feedbackDetails" rows="4" placeholder="اكتب تفاصيل الشكوى أو المقترح الموجه للإدارة..." dir="rtl" style="border: 1.5px solid #CBD5E1; border-radius: 10px; width: 100%; padding: 12px; font-family: inherit; font-size: 0.9rem; box-sizing: border-box;"></textarea>
+      </div>
+
+      <button type="button" class="btn-primary" onclick="submitFeedbackForm()" style="width: 100%;">
+        إرسال للإدارة فوراً
+      </button>
+    </div>
+  </div>
+
   <!-- سكربتات التطبيق -->
   <script src="assets/js/products.js"></script>
   <script src="assets/js/store.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
+    // -------------------------------------------------------------------------
+    // القائمة الجانبية (3 شرطات فوق بعض)
+    // -------------------------------------------------------------------------
+    function openSideDrawer() {
+      document.getElementById('sideDrawerBackdrop').classList.add('active');
+    }
+    function closeSideDrawer(e) {
+      if (e.target === document.getElementById('sideDrawerBackdrop')) closeSideDrawerDirect();
+    }
+    function closeSideDrawerDirect() {
+      document.getElementById('sideDrawerBackdrop').classList.remove('active');
+    }
+
+    function handleTwoFaToggle(enabled) {
+      if (enabled) {
+        KafuApp.showToast('تم تفعيل تسجيل الدخول بخطوتين (2FA) بنجاح لحماية حسابك ✓');
+      } else {
+        KafuApp.showToast('تم إيقاف تسجيل الدخول بخطوتين');
+      }
+    }
+
+    function openDrawerSection(sec) {
+      closeSideDrawerDirect();
+      if (sec === 'notifications') {
+        KafuApp.showToast('لديك 3 إشعارات: شحنتك قيد التوصيل، خصم 25% جديد، وتأكيد صيانة');
+      } else if (sec === 'settings') {
+        KafuApp.showToast('إعدادات المظهر: مفعّل الوضع الانسيابي الفاتح المعتمد');
+      } else if (sec === 'complaints') {
+        document.getElementById('feedbackModalTitle').textContent = 'تقديم شكوى أو بلاغ';
+        document.getElementById('feedbackModalDesc').textContent = 'فريق الجودة والإدارة يتابع شكواك خلال أقل من 15 دقيقة';
+        document.getElementById('complaintsSheetBackdrop').classList.add('active');
+      } else if (sec === 'feedback') {
+        document.getElementById('feedbackModalTitle').textContent = 'رفع رأي أو مقترح للإدارة';
+        document.getElementById('feedbackModalDesc').textContent = 'مقترحاتكم محل اهتمام الإدارة العليا لتطوير منظومة كفو';
+        document.getElementById('complaintsSheetBackdrop').classList.add('active');
+      }
+    }
+
+    function closeFeedbackSheet(e) {
+      if (e.target === document.getElementById('complaintsSheetBackdrop')) closeFeedbackSheetDirect();
+    }
+    function closeFeedbackSheetDirect() {
+      document.getElementById('complaintsSheetBackdrop').classList.remove('active');
+    }
+    function submitFeedbackForm() {
+      const details = document.getElementById('feedbackDetails').value.trim();
+      if (!details) {
+        KafuApp.showToast('يرجى كتابة تفاصيل الشكوى أو المقترح أولاً');
+        return;
+      }
+      closeFeedbackSheetDirect();
+      document.getElementById('feedbackDetails').value = '';
+      KafuApp.showToast('تم استلام رسالتك ورفعها لإدارة كفو بنجاح! شكراً لك ✓');
+    }
+
+    // -------------------------------------------------------------------------
+    // تصوير رقم الهيكل (VIN Scanner) والتعرف الفوري
+    // -------------------------------------------------------------------------
+    function triggerVinScanner() {
+      KafuApp.showToast('جاري فتح الكاميرا لمسح رقم الهيكل (VIN)...');
+      setTimeout(() => {
+        const sampleVin = '4T1B11HK5MU129841';
+        document.getElementById('mainSearchInput').value = sampleVin;
+        handleSearchInputChange(sampleVin);
+        KafuApp.showToast('تم التقاط رقم الهيكل وتحديده بنجاح! ✓');
+      }, 700);
+    }
+
+    function handleSearchInputChange(val) {
+      const card = document.getElementById('vinDetectionCard');
+      const clean = val.trim().toUpperCase();
+      if (clean.length >= 7 || clean.includes('VIN') || clean.startsWith('4T1') || clean.startsWith('JT')) {
+        document.getElementById('vinDetectedTitle').textContent = `تم فحص الهيكل: ${clean.substring(0, 17)}`;
+        document.getElementById('vinDetectedDesc').textContent = 'Toyota Camry 2025 - محرك 2.5L Hybrid (القطع المعروضة مطابقة بالكامل لهيكلك)';
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    }
+
+    function showVinMatchedParts() {
+      const val = document.getElementById('mainSearchInput').value.trim();
+      window.location.href = `search.html?vin=${encodeURIComponent(val || '4T1B11HK5MU129841')}`;
+    }
+
+    function dismissVinCard() {
+      document.getElementById('vinDetectionCard').style.display = 'none';
+    }
+
+    // -------------------------------------------------------------------------
+    // نافذة تصفح قطع العلامة التجارية (مثل المتاجر العالمية)
+    // -------------------------------------------------------------------------
+    function openBrandPartsModal(brandKey, brandNameAr) {
+      document.getElementById('brandModalTitle').textContent = `قطع غيار ${brandNameAr} (${brandKey})`;
+      document.getElementById('brandPartsModal').classList.add('active');
+    }
+    function closeBrandPartsModal(e) {
+      if (e.target === document.getElementById('brandPartsModal')) closeBrandPartsModalDirect();
+    }
+    function closeBrandPartsModalDirect() {
+      document.getElementById('brandPartsModal').classList.remove('active');
+    }
+
+    // -------------------------------------------------------------------------
+    // سلايدر العروض والإعلانات المتحركة
+    // -------------------------------------------------------------------------
+    const PROMO_SLIDES = [
+      {
+        badge: 'عرض خاص 25%',
+        title: 'خصم 25% على المساعدات والفرامل',
+        desc: 'مطابقة أصلية 100% مع ضمان سنة واستبدال فوري لسيارتك النشطة',
+        link: 'search.html?offer=discount25',
+        bg: "linear-gradient(to left, rgba(10, 45, 120, 0.95) 0%, rgba(10, 65, 170, 0.82) 55%, rgba(10, 65, 170, 0.25) 100%), url('assets/images/welcome-parts.jpg') center/cover no-repeat"
+      },
+      {
+        badge: 'ورش الصيانة المعتمدة',
+        title: 'فحص ميكانيكا وعضلات بخصم 15%',
+        desc: 'بالتعاون مع أكثر من 180 ورشة صيانة معتمدة لتركيب القطع مع الضمان',
+        link: 'search.html?type=workshops',
+        bg: "linear-gradient(to left, rgba(15, 100, 95, 0.95) 0%, rgba(13, 140, 130, 0.82) 55%, rgba(13, 140, 130, 0.25) 100%), url('assets/images/welcome-gear.jpg') center/cover no-repeat"
+      },
+      {
+        badge: 'شحن وتوصيل فوري',
+        title: 'شحن مجاني لجميع مناطق المملكة',
+        desc: 'للطلبات فوق 300 ريال مع ميزة التوصيل المباشر لمنزلك أو لورشتك',
+        link: 'search.html?offer=freeshipping',
+        bg: "linear-gradient(to left, rgba(76, 29, 149, 0.95) 0%, rgba(99, 102, 241, 0.82) 55%, rgba(99, 102, 241, 0.25) 100%), url('assets/images/welcome-car.jpg') center/cover no-repeat"
+      }
+    ];
+
+    let currentSlideIdx = 0;
+    function setPromoSlide(idx) {
+      currentSlideIdx = idx;
+      const slide = PROMO_SLIDES[idx];
+      const card = document.getElementById('promoBannerCard');
+      if (card && slide) {
+        card.style.background = slide.bg;
+        document.getElementById('promoBadge').textContent = slide.badge;
+        document.getElementById('promoTitle').textContent = slide.title;
+        document.getElementById('promoDesc').textContent = slide.desc;
+        const pLink = document.getElementById('promoLink');
+        if (pLink && slide.link) pLink.href = slide.link;
+      }
+      const dots = document.querySelectorAll('.promo-dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === idx);
+      });
+    }
+
+    setInterval(() => {
+      currentSlideIdx = (currentSlideIdx + 1) % PROMO_SLIDES.length;
+      setPromoSlide(currentSlideIdx);
+    }, 4500);
+
+    // -------------------------------------------------------------------------
+    // تبويبات (لك / الأكثر طلباً)
+    // -------------------------------------------------------------------------
+    let currentTabMode = 'foryou';
+    function switchProductTab(mode) {
+      currentTabMode = mode;
+      document.getElementById('tabForYou').classList.toggle('active', mode === 'foryou');
+      document.getElementById('tabPopular').classList.toggle('active', mode === 'popular');
+      renderHomeProducts();
+    }
+
+    function renderHomeProducts() {
+      const container = document.getElementById('featuredProductsList');
+      if (!container) return;
+      const car = KafuStore.getSelectedCar();
+
+      let list = currentTabMode === 'foryou' ? PRODUCTS.slice(0, 4) : PRODUCTS.slice(2, 6);
+      if (list.length === 0) list = PRODUCTS.slice(0, 4);
+
+      container.innerHTML = list.map(p => {
+        const comp = checkCompatibility(p, car);
+        const compBadge = comp.status === 'compatible' 
+          ? `<span style="font-size:0.74rem; color:#15803D; font-weight:700;">✓ متوافق مع سيارتك</span>` 
+          : '';
+
+        return `
+          <div class="product-card glass glass-card-interactive" onclick="window.location.href='product.html?id=${p.id}'">
+            <div class="product-img-box">
+              <img src="${p.image}" alt="${p.name}" loading="lazy">
+            </div>
+            <div class="product-info-col">
+              <div class="product-top-row">
+                <span class="product-brand">${p.brand}</span>
+                <span class="badge-available">متوفر</span>
+              </div>
+              <h3 class="product-title">${p.name}</h3>
+              <div class="product-oem-row">
+                <span>رقم القطعة</span>
+                <span class="oem-code ltr">${p.oem}</span>
+              </div>
+              ${compBadge}
+              <div class="product-bottom-row">
+                <span class="product-price">${KafuStore.formatPrice(p.price)}</span>
+                <button 
+                  class="btn-add-cart-mini" 
+                  title="أضف إلى السلة" 
+                  aria-label="أضف إلى السلة"
+                  onclick="event.stopPropagation(); KafuStore.addToCart(PRODUCTS.find(x => x.id === '${p.id}')); KafuApp.showToast('تمت إضافة ${p.name} للسلة ✓');"
+                >
+                  ${KafuApp.ICONS.plus}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // -------------------------------------------------------------------------
+    // تهيئة الصفحة
+    // -------------------------------------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
-      // 0. التوجيه لواجهة الترحيب واختيار الأدوار عند فتح التطبيق أول مرة
       if (!sessionStorage.getItem('kafu_splash_passed') && !new URLSearchParams(window.location.search).has('skip_welcome')) {
         window.location.href = 'welcome.html';
         return;
       }
 
-      // 0. تحديث شارة نوع الحساب واسم المستخدم بالهيرو (بدون أي إيموجي)
+      // تحديث شارة الدور
       const updateHeroRole = () => {
         const role = KafuStore.getRoleData();
         const titleEl = document.getElementById('heroRoleTitle');
         if (titleEl) {
-          titleEl.textContent = role.shortTitle || 'متجر قطع جديدة';
+          titleEl.textContent = role.shortTitle || 'عميل كفو المميز';
         }
         const userEl = document.getElementById('heroUserName');
         if (userEl) {
           userEl.textContent = role.name || 'محمد أحمد';
         }
+        const drawerName = document.getElementById('drawerName');
+        if (drawerName) drawerName.textContent = role.name || 'محمد أحمد';
       };
       updateHeroRole();
       window.addEventListener('kafu_store_update', (e) => {
         if (e.detail.key === 'role') updateHeroRole();
       });
 
-      // 1. تثبيت شريط التنقل السفلي مع تحديد تبويب 'home'
+      // تثبيت شريط التنقل السفلي
       KafuApp.renderBottomNav('home');
 
-      // 2. ربط كارت سيارة المطابقة
+      // ربط كارت سيارة المطابقة
       const vehicleCard = document.getElementById('homeVehicleCard');
       KafuApp.bindVehicleCard(vehicleCard);
 
-      // تحديث سطر الهيرو عند اختيار سيارة
+      // تحديث السيارة
       const updateHeroCar = () => {
         const car = KafuStore.getSelectedCar();
         const heroSub = document.getElementById('heroSubtitle');
@@ -317,10 +1400,13 @@
       };
       updateHeroCar();
       window.addEventListener('kafu_store_update', (e) => {
-        if (e.detail.key === 'car') updateHeroCar();
+        if (e.detail.key === 'car') {
+          updateHeroCar();
+          renderHomeProducts();
+        }
       });
 
-      // 3. بحث باسم القطعة أو برقم الهيكل
+      // البحث
       const searchInput = document.getElementById('mainSearchInput');
       const homeLensBtn = document.getElementById('btnHomeSearch');
       const executeHomeSearch = () => {
@@ -332,61 +1418,7 @@
       });
       if (homeLensBtn) homeLensBtn.addEventListener('click', executeHomeSearch);
 
-      // 4. عرض منتجات "مختارة لك"
-      const container = document.getElementById('featuredProductsList');
-      const renderProducts = () => {
-        const car = KafuStore.getSelectedCar();
-        container.innerHTML = PRODUCTS.slice(0, 4).map(p => {
-          const comp = checkCompatibility(p, car);
-          const compBadge = comp.status === 'compatible' 
-            ? `<span style="font-size:0.74rem; color:#15803D; font-weight:700;">✓ متوافق مع سيارتك</span>` 
-            : '';
-
-          return `
-            <div class="product-card glass glass-card-interactive" onclick="window.location.href='product.html?id=${p.id}'">
-              <div class="product-img-box">
-                <img src="${p.image}" alt="${p.name}" loading="lazy">
-              </div>
-              <div class="product-info-col">
-                <div class="product-top-row">
-                  <span class="product-brand">${p.brand}</span>
-                  <span class="badge-available">متوفر</span>
-                </div>
-                <h3 class="product-title">${p.name}</h3>
-                <div class="product-oem-row">
-                  <span>رقم القطعة</span>
-                  <span class="oem-code ltr">${p.oem}</span>
-                </div>
-                ${compBadge}
-                <div class="product-bottom-row">
-                  <span class="product-price">${KafuStore.formatPrice(p.price)}</span>
-                  <button 
-                    class="btn-add-cart-mini" 
-                    title="أضف إلى السلة" 
-                    aria-label="أضف إلى السلة"
-                    onclick="event.stopPropagation(); KafuStore.addToCart(PRODUCTS.find(x => x.id === '${p.id}')); KafuApp.showToast('تمت إضافة ${p.name} للسلة ✓');"
-                  >
-                    ${KafuApp.ICONS.plus}
-                  </button>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
-      };
-
-      renderProducts();
-      window.addEventListener('kafu_store_update', (e) => {
-        if (e.detail.key === 'car') renderProducts();
-      });
-
-      // أزرار الهيرو
-      document.getElementById('btnNotifications')?.addEventListener('click', () => {
-        KafuApp.showToast('لا توجد إشعارات جديدة حالياً');
-      });
-      document.getElementById('btnLanguage')?.addEventListener('click', () => {
-        KafuApp.showToast('اللغة الحالية: العربية (السعودية)');
-      });
+      renderHomeProducts();
     });
   </script>
 </body>

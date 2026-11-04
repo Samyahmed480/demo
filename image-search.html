@@ -3,14 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>كفو | ابحث بصورة القطعة</title>
-  <meta name="description" content="ابحث عن قطع غيار السيارات بمجرد التقاط صورة للقطعة أو رفعها.">
+  <title>كفو | البحث الذكي والكاميرا ومساعد الأعطال</title>
+  <meta name="description" content="صوّر القطعة العطلانة أو عطل السيارة أو الحادث، وسيقوم الذكاء الاصطناعي بتشخيص المشكلة وتوفير القطع المناسبة وأفضل الورش.">
   <!-- خطوط عربية فائقة الوضوح والجمال من Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/components.css">
+  <style>
+    .scanner-box {
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      border: 2px dashed rgba(10, 108, 255, 0.35);
+      border-radius: var(--radius-card);
+      padding: 24px 16px;
+      text-align: center;
+      transition: all var(--transition-fast);
+      cursor: pointer;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .scanner-box:hover, .scanner-box.dragover {
+      border-color: var(--primary);
+      background: rgba(235, 243, 255, 0.95);
+    }
+    .scan-laser {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #0A6CFF, #60A5FA, transparent);
+      box-shadow: 0 0 16px #0A6CFF;
+      display: none;
+      animation: scanAnim 2s infinite ease-in-out;
+      z-index: 10;
+    }
+    @keyframes scanAnim {
+      0% { top: 0%; opacity: 0.8; }
+      50% { top: 96%; opacity: 1; }
+      100% { top: 0%; opacity: 0.8; }
+    }
+    .sample-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFFFFF;
+      border: 1px solid var(--glass-border);
+      padding: 8px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-fast);
+    }
+    .sample-pill-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
+    .crash-card {
+      background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+      border: 1.5px solid #FDBA74;
+      border-radius: var(--radius-card);
+      padding: 18px 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(234, 88, 12, 0.08);
+    }
+    .assist-box {
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+      border: 1.5px solid #86EFAC;
+      border-radius: var(--radius-card);
+      padding: 18px 16px;
+      margin-bottom: 80px;
+    }
+    /* محادثة الشاشة الكاملة */
+    .fullscreen-ai-chat {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #F8FAFC;
+      display: none;
+      flex-direction: column;
+    }
+    .fullscreen-ai-chat.active {
+      display: flex;
+    }
+    .chat-header {
+      background: #FFFFFF;
+      border-bottom: 1px solid #E2E8F0;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+    .chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .chat-bubble {
+      max-width: 88%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+    .chat-bubble-ai {
+      background: #FFFFFF;
+      color: var(--text);
+      align-self: flex-start;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border: 1px solid #E2E8F0;
+    }
+    .chat-bubble-user {
+      background: var(--primary);
+      color: #FFFFFF;
+      align-self: flex-end;
+      border-bottom-left-radius: 4px;
+    }
+    .chat-footer {
+      background: #FFFFFF;
+      border-top: 1px solid #E2E8F0;
+      padding: 12px 16px;
+    }
+    .quick-chips-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      scrollbar-width: none;
+    }
+    .quick-chips-bar::-webkit-scrollbar { display: none; }
+    .chat-reply-chip {
+      white-space: nowrap;
+      background: #EFF6FF;
+      color: var(--primary);
+      border: 1px solid #BFDBFE;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
@@ -23,16 +168,15 @@
 
   <div class="app-container">
 
-    <!-- شريط علوي أنيق مع زر الرجوع -->
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding-top: 4px;">
-      <a href="index.html" class="btn-icon-glass" style="background: rgba(255,255,255,0.75); color: var(--text);" title="رجوع للرئيسية" aria-label="رجوع للرئيسية">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
+    <!-- شريط علوي مع زر الرجوع والسلة -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-top: 4px;">
+      <a href="index.html" class="btn-icon-glass" style="background: rgba(255,255,255,0.85); color: var(--text);" title="الرجوع للرئيسية">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"/>
         </svg>
       </a>
-      <span style="font-size: 1.05rem; font-weight: 700; color: var(--text);">البحث بالصورة</span>
-      <a href="cart.html" class="btn-icon-glass hero-cart-btn" style="background: rgba(255,255,255,0.75); color: var(--text); position: relative;" title="سلة المشتريات">
+      <span style="font-size: 1.1rem; font-weight: 700; color: var(--text);">البحث الذكي والكاميرا (AI)</span>
+      <a href="cart.html" class="btn-icon-glass hero-cart-btn" style="background: rgba(255,255,255,0.85); color: var(--text); position: relative;" title="سلة المشتريات">
         <span class="badge-count header-cart-badge" style="display:none">0</span>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="8" cy="21" r="1.25"/>
@@ -42,78 +186,342 @@
       </a>
     </div>
 
-    <!-- 1. الكارت العلوي المطابق للقطة الشاشة الأصلية -->
-    <div class="scan-hero-card glass">
+    <!-- كارت تعريفي بالمساعد البصري -->
+    <div class="scan-hero-card glass" style="margin-bottom: 16px;">
       <div class="scan-icon-circle">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
-          <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
-          <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
-          <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
         </svg>
       </div>
-
-      <h1 class="scan-hero-title">ابحث بصورة القطعة</h1>
+      <h1 class="scan-hero-title">المساعد البصري وتشخيص الأعطال</h1>
       <p class="scan-hero-desc">
-        صوّر القطعة أو اختر صورتها. راجع النتيجة قبل الشراء.
+        صوّر القطعة العطلانة أو عطل السيارة أو الحادث، وسيقوم الذكاء الاصطناعي بتشخيص المشكلة وتوفير القطع والورش فوراً.
       </p>
     </div>
 
-    <!-- 2. منطقة المعاينة Dropzone المطابقة للصورة -->
-    <div class="scan-dropzone glass" id="scanDropzone">
-      <div class="scan-beam" id="scanBeam"></div>
+    <!-- 1. مربع الكاميرا بالمنتصف: صور القطعة العطلانة أو عطل السيارة -->
+    <div class="scanner-box" id="mainScannerBox">
+      <div class="scan-laser" id="mainScanLaser"></div>
 
-      <div id="dropzoneEmpty">
-        <div style="width: 60px; height: 60px; margin: 0 auto 12px; color: #94A3B8; display: flex; align-items: center; justify-content: center;">
-          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-            <circle cx="9" cy="9" r="2"/>
-            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+      <div id="scannerEmptyState">
+        <div style="width: 68px; height: 68px; border-radius: 50%; background: #EFF6FF; color: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+            <circle cx="12" cy="13" r="3"/>
           </svg>
         </div>
-        <span style="font-size: 0.95rem; color: var(--text-muted); font-weight: 500;">لم تختر صورة بعد</span>
+        <div style="font-weight: 700; font-size: 1.05rem; color: var(--text); margin-bottom: 4px;">
+          صوّر القطعة العطلانة أو عطل السيارة
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+          انقر هنا لفتح الكاميرا أو رفع صورة من المعرض
+        </div>
+        <button class="btn-primary" id="btnTriggerCamera" style="max-width: 280px; margin: 0 auto;" onclick="event.stopPropagation(); document.getElementById('cameraFileInput').click();">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <span>التقاط صورة العطل</span>
+        </button>
       </div>
 
-      <div id="dropzonePreview" style="display: none; width: 100%; text-align: center;">
-        <img id="previewImg" class="scan-dropzone-img" src="" alt="صورة القطعة">
-        <div id="scanStatusText" style="font-size: 0.88rem; font-weight: 600; color: var(--primary); margin-top: 12px;">
-          جاري تحليل الصورة والتعرف على القطعة ورقم OEM...
+      <div id="scannerPreviewState" style="display: none;">
+        <img id="scannedImgPreview" src="" alt="معاينة الصورة" style="max-height: 180px; max-width: 100%; border-radius: var(--radius-md); object-fit: contain; box-shadow: var(--shadow);">
+        <div id="scannerStatusText" style="font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-top: 12px;">
+          جاري الفحص البصري وتشخيص العطل بالذكاء الاصطناعي...
         </div>
       </div>
 
-      <!-- Input للملفات مع دعم الكاميرا المباشرة -->
-      <input type="file" id="fileInput" accept="image/*" capture="environment" style="display: none;">
+      <!-- Input الكاميرا والملفات -->
+      <input type="file" id="cameraFileInput" accept="image/*" capture="environment" style="display: none;">
     </div>
 
-    <!-- 3. زر اختيار الصورة المطابق للقطة الشاشة -->
-    <button class="btn-primary" id="btnTriggerScan" style="margin-bottom: 22px;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
-        <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
-        <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
-        <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
-      </svg>
-      <span>اختر صورة القطعة</span>
-    </button>
-
-    <!-- عينات تجريبية سريعة -->
+    <!-- نماذج تجريبية سريعة لفحص الأعطال -->
     <div style="margin-bottom: 20px;">
-      <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; text-align: center;">
-        أو جرب البحث بهذه النماذج الجاهزة:
+      <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">
+        أو جرب تشخيص عطل فوري بنماذج جاهزة:
       </div>
-      <div id="samplePartsGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-        <!-- يتم ملؤها ديناميكياً بواسطة جافاسكريبت -->
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <button class="sample-pill-btn" onclick="simulateDiagnostic('shocks')">
+          <span>🚘 طقطقة مساعدات وتسريب زيت</span>
+        </button>
+        <button class="sample-pill-btn" onclick="simulateDiagnostic('brakes')">
+          <span>🛑 صفير وتآكل فحمات الفرامل</span>
+        </button>
+        <button class="sample-pill-btn" onclick="simulateDiagnostic('radiator')">
+          <span>💧 حرارة مرتفعة وتسريب ماء</span>
+        </button>
       </div>
     </div>
 
-    <!-- نتائج التعرف بالصورة -->
-    <div id="scanResultsSection" style="display: none; margin-top: 24px;">
-      <div class="section-header">
-        <h2 class="section-title">نتائج التعرف على الصورة</h2>
+    <!-- كارت نتيجة التشخيص والمحادثة (يظهر بعد الفحص) -->
+    <div id="diagnosticResultCard" class="glass" style="display: none; padding: 18px 16px; border-radius: var(--radius-card); border: 2px solid var(--primary); margin-bottom: 22px; background: rgba(255, 255, 255, 0.96);">
+      <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #DCFCE7; color: #16A34A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <div>
+          <span style="font-size: 0.76rem; font-weight: 700; color: #16A34A; background: #F0FDF4; padding: 2px 8px; border-radius: 4px;">تشخيص الذكاء الاصطناعي (دقة 97%)</span>
+          <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text); margin-top: 4px;" id="diagTitle">
+            تلف في كراسي المساعدات وتسريب زيت هيدروليك
+          </h3>
+        </div>
       </div>
-      <div id="scanResultsList"></div>
+
+      <p style="font-size: 0.88rem; color: #334155; line-height: 1.5; margin-bottom: 14px;" id="diagDesc">
+        تم رصد تسريب زيت من عمود المساعد الأمامي واهتراء جلبة الكرسي، وهو المسبب المباشر لأصوات الطقطقة عند المطبات وعدم اتزان السيارة.
+      </p>
+
+      <div style="background: #EFF6FF; border-radius: var(--radius-md); padding: 12px; margin-bottom: 14px; border: 1px solid #BFDBFE;">
+        <div style="font-size: 0.95rem; font-weight: 800; color: var(--primary); margin-bottom: 4px;">
+          هل تبحث عن الإصلاح؟
+        </div>
+        <div style="font-size: 0.82rem; color: #1E3A8A;">
+          انطلق في محادثة كاملة مع المساعد الذكي لاختيار القطع المضمونة وورش التركيب المعتمدة.
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="openFullscreenAiChat()" style="background: linear-gradient(135deg, #0A6CFF 0%, #7B5CFF 100%);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span>نعم، سنحل المشكلة معاً (ابدأ المحادثة)</span>
+      </button>
     </div>
 
+    <!-- 2. مستطيل تحت: هل تحطمت سيارتك؟ صور سيارتك المحطمة أو بعد الاصطدام -->
+    <div class="crash-card">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.5rem;">🚗💥</span>
+          <h2 style="font-size: 1.05rem; font-weight: 800; color: #9A3412; margin: 0;">هل تحطمت سيارتك أو حدث اصطدام؟</h2>
+        </div>
+        <span style="font-size: 0.72rem; font-weight: 700; color: #C2410C; background: #FFEDD5; border: 1px solid #FDBA74; padding: 2px 8px; border-radius: 999px;">فحص الحوادث AI</span>
+      </div>
+
+      <p style="font-size: 0.85rem; color: #7C2D12; line-height: 1.5; margin-bottom: 14px;">
+        صوّر سيارتك المتضررة بعد الحادث، وسيتعرف الذكاء الاصطناعي على نوع السيارة ويحصر قطع الغيار المتضررة (جديد أو تشليح وسكراب) وينقلك لقائمة البحث فوراً.
+      </p>
+
+      <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+        <button class="btn-primary" style="background: #EA580C; height: 44px; font-size: 0.88rem;" onclick="triggerCrashScan()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <span>تصوير أضرار الاصطدام</span>
+        </button>
+        <button class="btn-secondary" style="height: 44px; font-size: 0.82rem; white-space: nowrap;" onclick="simulateCrashSample()">
+          تجربة نموذج حادث
+        </button>
+      </div>
+
+      <!-- نتائج فحص الحادث (تظهر عند الفحص) -->
+      <div id="crashAnalysisResult" style="display: none; background: #FFFFFF; border-radius: var(--radius-md); padding: 14px; border: 1.5px solid #FDBA74; margin-top: 14px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <span style="font-size: 0.82rem; font-weight: 700; color: #EA580C;">السيارة: تويوتا كامري 2025</span>
+          <span style="font-size: 0.75rem; background: #FEE2E2; color: #DC2626; font-weight: 700; padding: 2px 8px; border-radius: 4px;">صدمة أمامية يمنى</span>
+        </div>
+        <div style="font-size: 0.84rem; font-weight: 700; color: var(--text); margin-bottom: 8px;">
+          حصر القطع المتضررة وتكلفتها التقديرية:
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.8rem; color: #475569; margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #E2E8F0; padding-bottom: 4px;">
+            <span>1. صدام أمامي كامل بالشبك</span>
+            <span style="font-weight: 700; color: var(--text);">أصلي 940 | تشليح 490 ر.س</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #E2E8F0; padding-bottom: 4px;">
+            <span>2. شمعة LED رئيسية يمين</span>
+            <span style="font-weight: 700; color: var(--text);">أصلي 890 ر.س</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #E2E8F0; padding-bottom: 4px;">
+            <span>3. رديتر ماء تبريد وتكييف</span>
+            <span style="font-weight: 700; color: var(--text);">أصلي 520 ر.س</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span>4. رفرف أمامي يمين أصلي</span>
+            <span style="font-weight: 700; color: var(--text);">تشليح سليم 380 ر.س</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <a href="search.html?q=صدام كامري 2025" class="btn-primary" style="height: 40px; font-size: 0.82rem; background: #0A6CFF;">
+            انتقل لشراء قطع الحادث
+          </a>
+          <button class="btn-secondary" style="height: 40px; font-size: 0.82rem;" onclick="openAccidentGuide()">
+            إرشادات تقدير ونجم
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. مستطيل تحتها: بماذا أساعدك؟ مساعد ذكي لتصوير أي شيء -->
+    <div class="assist-box">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        <span style="font-size: 1.4rem;">🤖</span>
+        <h2 style="font-size: 1.05rem; font-weight: 800; color: #166534; margin: 0;">بماذا أساعدك؟ سنحل المشكلة معاً</h2>
+      </div>
+      <p style="font-size: 0.85rem; color: #14532D; margin-bottom: 12px;">
+        مساعد ذكي لتصوير أو وصف أي شيء في سيارتك للحصول على مشورة هندسية سريعة.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px;">
+        <button class="sample-pill-btn" onclick="startAssistTopic('طبلون')" style="justify-content: center;">
+          ⚠️ لمبات الطبلون
+        </button>
+        <button class="sample-pill-btn" onclick="startAssistTopic('تهريب')" style="justify-content: center;">
+          💧 تهريب الزيوت
+        </button>
+        <button class="sample-pill-btn" onclick="startAssistTopic('كفرات')" style="justify-content: center;">
+          🛞 تآكل الكفرات
+        </button>
+        <button class="sample-pill-btn" onclick="startAssistTopic('حرارة')" style="justify-content: center;">
+          🌡️ حرارة المحرك
+        </button>
+      </div>
+
+      <div class="search-pill" style="background: #FFFFFF; height: 48px; border: 1.5px solid #86EFAC;">
+        <input type="text" id="assistInput" class="search-input" placeholder="اكتب عطل سيارتك أو استفسارك هنا..." style="font-size: 0.88rem;">
+        <button onclick="submitAssistText()" style="background: none; border: none; color: #16A34A; cursor: pointer; padding: 6px;" title="إرسال">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- محادثة شاشة كاملة (Full-Screen AI Chat Modal) المطابقة لطلب العميل -->
+  <div class="fullscreen-ai-chat" id="fullscreenAiChat">
+    <!-- رأس المحادثة -->
+    <div class="chat-header">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #0A6CFF 0%, #7B5CFF 100%); display: flex; align-items: center; justify-content: center; color: #FFF;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+            <rect x="4" y="6" width="16" height="12" rx="2"/>
+            <circle cx="9" cy="12" r="1"/>
+            <circle cx="15" cy="12" r="1"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size: 0.95rem; font-weight: 700; color: var(--text);">مساعد كفو للتشخيص والإصلاح</div>
+          <div style="font-size: 0.75rem; color: #16A34A; display: flex; align-items: center; gap: 4px;">
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: #16A34A; display: inline-block;"></span>
+            متصل الآن · تشخيص دقيق بالذكاء الاصطناعي
+          </div>
+        </div>
+      </div>
+      <button onclick="closeFullscreenAiChat()" style="background: #F1F5F9; border: none; width: 36px; height: 36px; border-radius: 50%; color: #475569; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+        ✕
+      </button>
+    </div>
+
+    <!-- جسم المحادثة والرسائل -->
+    <div class="chat-body" id="chatMessages">
+      <div class="chat-bubble chat-bubble-ai">
+        مرحباً بك! لقد قمت بتحليل صورة العطل، والتأكد من توافق سيارتك (تويوتا كامري 2025).<br>
+        <strong>التشخيص النهائي:</strong> تلف كراسي المساعدات الأمامية مع تسريب هيدروليك. هل تبحث عن الإصلاح؟
+      </div>
+
+      <div class="chat-bubble chat-bubble-ai">
+        إليك القطع المطابقة 100% المتوفرة لدى التجار المعتمدين مع الأسعار والضمان:
+        <!-- كروت القطع المضمنة داخل المحادثة -->
+        <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
+          <!-- قطعة 1 -->
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 10px; display: flex; gap: 10px; align-items: center;">
+            <img id="chatProdShockImg" src="" style="width: 50px; height: 50px; object-fit: contain; background: #FFF; border-radius: 8px; padding: 4px;" alt="مساعد">
+            <div style="flex: 1;">
+              <div style="font-weight: 700; font-size: 0.85rem; color: var(--text);">مساعد أمامي هيدروليك ياباني</div>
+              <div style="font-size: 0.75rem; color: #64748B;">KYB Japan · ضمان سنة</div>
+              <div style="font-weight: 800; color: var(--primary); font-size: 0.9rem; margin-top: 2px;">260 ر.س</div>
+            </div>
+            <button class="btn-primary" style="height: 34px; padding: 0 12px; font-size: 0.78rem; width: auto;" onclick="KafuStore.addToCart(PRODUCTS.find(p=>p.id==='prod-5')); KafuApp.showToast('تمت إضافة المساعد للسلة ✓');">
+              شراء
+            </button>
+          </div>
+          <!-- قطعة 2 -->
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 10px; display: flex; gap: 10px; align-items: center;">
+            <img id="chatProdMountImg" src="" style="width: 50px; height: 50px; object-fit: contain; background: #FFF; border-radius: 8px; padding: 4px;" alt="كراسي مساعد">
+            <div style="flex: 1;">
+              <div style="font-weight: 700; font-size: 0.85rem; color: var(--text);">طقم كراسي مساعدات وعضلات</div>
+              <div style="font-size: 0.75rem; color: #64748B;">Toyota OEM أصلي وكالة</div>
+              <div style="font-weight: 800; color: var(--primary); font-size: 0.9rem; margin-top: 2px;">310 ر.س</div>
+            </div>
+            <button class="btn-primary" style="height: 34px; padding: 0 12px; font-size: 0.78rem; width: auto;" onclick="KafuStore.addToCart(PRODUCTS.find(p=>p.id==='prod-11')); KafuApp.showToast('تمت إضافة الكراسي للسلة ✓');">
+              شراء
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble chat-bubble-ai">
+        كما رشحت لك أفضل ورشتين لصيانة العضلات والمساعدات مع ميزان ليزر وخصم 15% لأعضاء كفو:
+        <!-- كروت الورش -->
+        <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px; padding: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 0.85rem; color: #166534;">ورشة أوتو فكس لميزان الأذرعة</span>
+              <span style="font-size: 0.75rem; background: #DCFCE7; color: #15803D; font-weight: 700; padding: 2px 6px; border-radius: 4px;">خصم 15%</span>
+            </div>
+            <div style="font-size: 0.78rem; color: #475569; margin: 4px 0;">صناعية الشفاء · 5.6 كم · تقييم 4.7 ⭐</div>
+            <a href="tel:+966549923311" style="display: inline-block; font-size: 0.78rem; font-weight: 700; color: var(--primary); text-decoration: underline;">حجز موعد فحص وميزان</a>
+          </div>
+
+          <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 0.85rem; color: #1E40AF;">مركز النخبة للميكانيكا</span>
+              <span style="font-size: 0.75rem; background: #DBEAFE; color: #1D4ED8; font-weight: 700; padding: 2px 6px; border-radius: 4px;">خصم 15%</span>
+            </div>
+            <div style="font-size: 0.78rem; color: #475569; margin: 4px 0;">صناعية الدائري · 2.4 كم · تقييم 4.9 ⭐</div>
+            <a href="tel:+966508821990" style="display: inline-block; font-size: 0.78rem; font-weight: 700; color: var(--primary); text-decoration: underline;">حجز موعد ميكانيكا</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- تذييل المحادثة والخيارات السريعة -->
+    <div class="chat-footer">
+      <div class="quick-chips-bar">
+        <button class="chat-reply-chip" onclick="sendQuickReply('كم تكلفة شغل اليد التقريبية؟')">كم تكلفة شغل اليد؟</button>
+        <button class="chat-reply-chip" onclick="sendQuickReply('هل القطع مشمولة بالضمان؟')">هل القطع مضمونة؟</button>
+        <button class="chat-reply-chip" onclick="sendQuickReply('هل المشي عليها يضر السيارة؟')">هل المشي عليها يضر؟</button>
+        <button class="chat-reply-chip" onclick="sendQuickReply('أريد توصيل القطع للورشة مباشرة')">توصيل للورشة</button>
+      </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <input type="text" id="chatInputText" class="search-input" placeholder="اكتب ردك أو استفسارك هنا..." style="height: 46px; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 999px; padding: 0 16px;">
+        <button class="btn-primary" style="width: 46px; height: 46px; border-radius: 50%; padding: 0; flex-shrink: 0;" onclick="handleChatSend()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة إرشادات الحوادث ونجم (Accident Guidelines Modal) -->
+  <div class="sheet-backdrop" id="accidentGuideModal">
+    <div class="bottom-sheet" style="padding: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text); margin: 0;">إرشادات الحوادث ونجم وتقدير 📑</h3>
+        <button onclick="document.getElementById('accidentGuideModal').classList.remove('active')" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+      <div style="font-size: 0.88rem; color: #334155; line-height: 1.6; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+        <div><strong>1. توثيق الحادث:</strong> افتح تطبيق "نجم" وارفع صور الحادث من الزوايا الأربع دون تحريك المركبة إلا بتوجيه نجم.</div>
+        <div><strong>2. حجز موعد تقدير:</strong> احصل على تقرير الحادث ورقم الحالة وتوجه لأحد مراكز "تقدير" لحصر الأضرار وقطع الغيار.</div>
+        <div><strong>3. تسعير القطع عبر كفو:</strong> ارفع تقرير القطع المطلوب في كفو للحصول على تسعيرات معتمدة فورية (أصلي / تجاري / تشليح) مقبولة لدى شركات التأمين.</div>
+      </div>
+      <button class="btn-primary" onclick="document.getElementById('accidentGuideModal').classList.remove('active')">
+        فهمت ذلك ✓
+      </button>
+    </div>
   </div>
 
   <!-- سكربتات التطبيق -->
@@ -121,144 +529,158 @@
   <script src="assets/js/store.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
-    const fileInput = document.getElementById('fileInput');
-    const dropzone = document.getElementById('scanDropzone');
-    const dropEmpty = document.getElementById('dropzoneEmpty');
-    const dropPreview = document.getElementById('dropzonePreview');
-    const previewImg = document.getElementById('previewImg');
-    const scanBeam = document.getElementById('scanBeam');
-    const statusText = document.getElementById('scanStatusText');
-    const resultsSection = document.getElementById('scanResultsSection');
-    const resultsList = document.getElementById('scanResultsList');
+    const cameraInput = document.getElementById('cameraFileInput');
+    const scannerLaser = document.getElementById('mainScanLaser');
+    const emptyState = document.getElementById('scannerEmptyState');
+    const previewState = document.getElementById('scannerPreviewState');
+    const previewImg = document.getElementById('scannedImgPreview');
+    const statusText = document.getElementById('scannerStatusText');
+    const diagCard = document.getElementById('diagnosticResultCard');
+    const diagTitle = document.getElementById('diagTitle');
+    const diagDesc = document.getElementById('diagDesc');
 
     document.addEventListener('DOMContentLoaded', () => {
-      // شريط التنقل السفلي الموحد (تبويب الكاميرا نشط)
+      // تفعيل شريط التنقل السفلي مع تبويب الكاميرا
       KafuApp.renderBottomNav('camera');
 
-      // تعبئة نماذج البحث بالصور
-      const samplesGrid = document.getElementById('samplePartsGrid');
-      if (samplesGrid) {
-        samplesGrid.innerHTML = `
-          <button class="sample-part-btn glass" onclick="simulateSample('prod-1')">
-            <img src="${PRODUCTS[0].image}" alt="مكبس">
-            <span class="sample-part-name">مكبس محرك</span>
-          </button>
-          <button class="sample-part-btn glass" onclick="simulateSample('prod-4')">
-            <img src="${PRODUCTS[3].image}" alt="فلتر زيت">
-            <span class="sample-part-name">فلتر زيت</span>
-          </button>
-          <button class="sample-part-btn glass" onclick="simulateSample('prod-2')">
-            <img src="${PRODUCTS[1].image}" alt="فحمات فرامل">
-            <span class="sample-part-name">فحمات فرامل</span>
-          </button>
-        `;
-      }
+      // تعيين صور القطع داخل المحادثة
+      const img1 = document.getElementById('chatProdShockImg');
+      if (img1) img1.src = PartGraphics.shock;
+      const img2 = document.getElementById('chatProdMountImg');
+      if (img2) img2.src = PartGraphics.mount;
 
-      document.getElementById('btnTriggerScan').addEventListener('click', () => {
-        fileInput.click();
-      });
-
-      dropzone.addEventListener('click', () => {
-        fileInput.click();
-      });
-
-      fileInput.addEventListener('change', (e) => {
+      // مستمع الكاميرا
+      cameraInput.addEventListener('change', (e) => {
         if (e.target.files && e.target.files[0]) {
           const file = e.target.files[0];
           const reader = new FileReader();
           reader.onload = (re) => {
-            startAnalysis(re.target.result, 'prod-1');
-          };
-          reader.readAsDataURL(file);
-        }
-      });
-
-      ['dragenter', 'dragover'].forEach(name => {
-        dropzone.addEventListener(name, (e) => {
-          e.preventDefault();
-          dropzone.classList.add('dragover');
-        });
-      });
-
-      ['dragleave', 'drop'].forEach(name => {
-        dropzone.addEventListener(name, (e) => {
-          e.preventDefault();
-          dropzone.classList.remove('dragover');
-        });
-      });
-
-      dropzone.addEventListener('drop', (e) => {
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-          const file = e.dataTransfer.files[0];
-          const reader = new FileReader();
-          reader.onload = (re) => {
-            startAnalysis(re.target.result, 'prod-1');
+            runScanProcess(re.target.result, 'shocks');
           };
           reader.readAsDataURL(file);
         }
       });
     });
 
-    function simulateSample(productId) {
-      const prod = PRODUCTS.find(p => p.id === productId);
-      if (prod) {
-        startAnalysis(prod.image, prod.id);
+    function runScanProcess(imgSrc, type) {
+      emptyState.style.display = 'none';
+      previewState.style.display = 'block';
+      previewImg.src = imgSrc;
+      scannerLaser.style.display = 'block';
+      statusText.textContent = 'جاري الفحص البصري وتشخيص العطل بالذكاء الاصطناعي...';
+      diagCard.style.display = 'none';
+
+      setTimeout(() => {
+        scannerLaser.style.display = 'none';
+        statusText.innerHTML = '<span style="color: #16A34A;">✓ تم تشخيص العطل بنجاح بالذكاء الاصطناعي!</span>';
+
+        if (type === 'shocks') {
+          diagTitle.textContent = 'تلف في كراسي المساعدات وتسريب زيت هيدروليك';
+          diagDesc.textContent = 'تم رصد تسريب زيت هيدروليك من عمود المساعد الأمامي واهتراء جلبة الكرسي، وهو المسبب المباشر لأصوات الطقطقة عند المطبات وعدم اتزان السيارة.';
+        } else if (type === 'brakes') {
+          diagTitle.textContent = 'تآكل شديد في فحمات الفرامل واحتكاك الهوب';
+          diagDesc.textContent = 'مستوى سماكة الفحمات أقل من 2 ملم مع وجود خطوط احتكاك على قرص الهوب، يرجى الاستبدال الفوري لتجنب تلف الهوبات.';
+        } else if (type === 'radiator') {
+          diagTitle.textContent = 'تسريب في طبات الرديتر العلوية ومكثف التبريد';
+          diagDesc.textContent = 'رصد ترسبات خضراء ناتجة عن تسريب ماء الرديتر مما يسبب ارتفاع درجة حرارة المحرك في الزحام أو تشغيل المكيف.';
+        }
+
+        diagCard.style.display = 'block';
+        diagCard.scrollIntoView({ behavior: 'smooth' });
+      }, 1500);
+    }
+
+    function simulateDiagnostic(type) {
+      let imgSrc = PartGraphics.shock;
+      if (type === 'brakes') imgSrc = PartGraphics.brakes;
+      if (type === 'radiator') imgSrc = PartGraphics.radiator;
+      runScanProcess(imgSrc, type);
+    }
+
+    // محادثة الشاشة الكاملة
+    function openFullscreenAiChat() {
+      document.getElementById('fullscreenAiChat').classList.add('active');
+    }
+
+    function closeFullscreenAiChat() {
+      document.getElementById('fullscreenAiChat').classList.remove('active');
+    }
+
+    function sendQuickReply(text) {
+      appendChatMessage(text, 'user');
+
+      setTimeout(() => {
+        let reply = '';
+        if (text.includes('شغل اليد')) {
+          reply = 'تكلفة شغل اليد التقريبية لتغيير طقم المساعدات مع كراسيها في الورش المعتمدة تتراوح بين 180 إلى 250 ر.س، ويحصل أعضاء كفو على خصم 15% إضافي.';
+        } else if (text.includes('الضمان')) {
+          reply = 'جميع قطع كفو تشمل ضمان الوكيل المعتمد: مساعدات KYB تشمل ضمان سنة كاملة، والقطع الأصلية تشمل ضمان استبدال فوري.';
+        } else if (text.includes('يضر')) {
+          reply = 'المشي على كراسي مساعدات تالفة يسبب تآكل غير منتظم في الكفرات الأمامية ويؤثر على توازن السيارة والفرملة المفاجئة، لذلك يُفضل الإصلاح خلال 200 كم.';
+        } else {
+          reply = 'بالتأكيد! يمكنك اختيار توصيل القطع مباشرة إلى ورشة أوتو فكس أو مركز النخبة عبر صفحة إتمام الطلب وسيتسلمها المهندس باسمك.';
+        }
+        appendChatMessage(reply, 'ai');
+      }, 700);
+    }
+
+    function handleChatSend() {
+      const input = document.getElementById('chatInputText');
+      const val = input.value.trim();
+      if (!val) return;
+      appendChatMessage(val, 'user');
+      input.value = '';
+
+      setTimeout(() => {
+        appendChatMessage('تم استلام استفسارك! سأقوم بمطابقة أفضل الخيارات لك وسنحل المشكلة معاً خطوة بخطوة.', 'ai');
+      }, 800);
+    }
+
+    function appendChatMessage(text, sender) {
+      const chatBody = document.getElementById('chatMessages');
+      const bubble = document.createElement('div');
+      bubble.className = `chat-bubble chat-bubble-${sender}`;
+      bubble.textContent = text;
+      chatBody.appendChild(bubble);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    // فحص الحوادث
+    function triggerCrashScan() {
+      cameraInput.click();
+    }
+
+    function simulateCrashSample() {
+      const resultBox = document.getElementById('crashAnalysisResult');
+      resultBox.style.display = 'block';
+      resultBox.scrollIntoView({ behavior: 'smooth' });
+      KafuApp.showToast('تم فحص أضرار الحادث وحصر القطع بنجاح ✓');
+    }
+
+    function openAccidentGuide() {
+      document.getElementById('accidentGuideModal').classList.add('active');
+    }
+
+    // بماذا أساعدك
+    function startAssistTopic(topic) {
+      openFullscreenAiChat();
+      if (topic === 'طبلون') {
+        sendQuickReply('مولعة عندي لمبة فحص المحرك Check Engine، ما السبب؟');
+      } else if (topic === 'تهريب') {
+        sendQuickReply('عندي تسريب زيت خفيف تحت المحرك عند الوقوف، كيف أتحقق منه؟');
+      } else if (topic === 'كفرات') {
+        sendQuickReply('كيف أعرف أن الكفرات تحتاج تبديل وهل المسح من الأطراف طبيعي؟');
+      } else if (topic === 'حرارة') {
+        sendQuickReply('حرارة السيارة ترتفع مع تشغيل المكيف في الظهر، ما الحل؟');
       }
     }
 
-    function startAnalysis(imgSrc, matchedId) {
-      dropEmpty.style.display = 'none';
-      dropPreview.style.display = 'block';
-      previewImg.src = imgSrc;
-      scanBeam.style.display = 'block';
-      statusText.textContent = 'جاري مسح القطعة وتحديد رقم OEM والمطابقة...';
-      resultsSection.style.display = 'none';
-
-      setTimeout(() => {
-        scanBeam.style.display = 'none';
-        statusText.innerHTML = '<span style="color: #16A34A;">✓ تم التعرف على القطعة بنجاح!</span>';
-        showMatchedResults(matchedId);
-      }, 1400);
-    }
-
-    function showMatchedResults(targetId) {
-      const matched = PRODUCTS.find(p => p.id === targetId) || PRODUCTS[0];
-      const alternatives = PRODUCTS.filter(p => p.id !== matched.id).slice(0, 2);
-      const allResults = [matched, ...alternatives];
-
-      resultsList.innerHTML = allResults.map((p, idx) => {
-        const score = idx === 0 ? '97% تطابق مؤكد' : (idx === 1 ? '84% بديل متوافق' : '72% بديل مقترح');
-        return `
-          <div class="product-card glass" style="margin-bottom: 12px; border: ${idx === 0 ? '1.5px solid var(--primary)' : '1px solid var(--glass-border)'};">
-            <div class="product-img-box">
-              <img src="${p.image}" alt="${p.name}">
-            </div>
-            <div class="product-info-col">
-              <div class="product-top-row">
-                <span class="product-brand">${p.brand}</span>
-                <span style="font-size:0.75rem; color:${idx === 0 ? '#16A34A' : 'var(--text-muted)'}; font-weight:700;">${score}</span>
-              </div>
-              <h3 class="product-title">${p.name}</h3>
-              <div class="product-oem-row">
-                <span>رقم القطعة:</span>
-                <span class="oem-code ltr">${p.oem}</span>
-              </div>
-              <div class="product-bottom-row">
-                <span class="product-price">${KafuStore.formatPrice(p.price)}</span>
-                <div style="display:flex; gap:8px;">
-                  <a href="product.html?id=${p.id}" class="btn-secondary" style="height:36px; padding:0 12px; font-size:0.82rem;">التفاصيل</a>
-                  <button class="btn-primary" style="height:36px; padding:0 14px; font-size:0.82rem; width:auto;" onclick="KafuStore.addToCart(PRODUCTS.find(x => x.id === '${p.id}')); KafuApp.showToast('تمت إضافة ${p.name} للسلة ✓');">
-                    شراء
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      resultsSection.style.display = 'block';
-      resultsSection.scrollIntoView({ behavior: 'smooth' });
+    function submitAssistText() {
+      const text = document.getElementById('assistInput').value.trim();
+      if (!text) return;
+      openFullscreenAiChat();
+      sendQuickReply(text);
+      document.getElementById('assistInput').value = '';
     }
   </script>
 </body>
