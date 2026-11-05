@@ -340,7 +340,7 @@
       </div>
 
       <!-- 4. مربع طلباتي (إعادة الشراء، المعلقة، التجهيز، الشحن، المسترجعات) -->
-      <div class="library-section-card" onclick="openMyOrdersModal()">
+      <div class="library-section-card" onclick="window.location.href='orders.html?tab=tracking'">
         <div style="display: flex; align-items: center; gap: 14px;">
           <div class="section-icon-wrap" style="background: #EFF6FF; color: #0066FF;">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -351,10 +351,32 @@
           </div>
           <div>
             <div style="display: flex; align-items: center; gap: 6px;">
-              <h3 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">مربع طلباتي</h3>
-              <span style="font-size: 0.7rem; background: #DCFCE7; color: #15803D; font-weight: 700; padding: 1px 6px; border-radius: 6px;">إعادة الشراء والتتبع</span>
+              <h3 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">مربع طلباتي والتتبع الحي</h3>
+              <span style="font-size: 0.7rem; background: #DCFCE7; color: #15803D; font-weight: 700; padding: 1px 6px; border-radius: 6px;">تتبع لحظي 4 مراحل</span>
             </div>
-            <span style="font-size: 0.8rem; color: #64748B;">السابقة، المعلقة، قيد التجهيز، تم الشحن، المسترجعات، والتقييم</span>
+            <span style="font-size: 0.8rem; color: #64748B;">استلام الطلب 👈 تجهيز القطعة 👈 خرج مع المندوب 👈 تم التسليم</span>
+          </div>
+        </div>
+        <span style="color: #94A3B8;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+        </span>
+      </div>
+
+      <!-- 4-ب. مربع المرتجعات والضمان (قائمة مستقلة تحت طلباتي بمعايير صور الاستلام الأربع) -->
+      <div class="library-section-card" onclick="window.location.href='orders.html?tab=returns'">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div class="section-icon-wrap" style="background: #FEF2F2; color: #DC2626;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <h3 style="font-size: 1rem; font-weight: 700; color: #0F172A; margin: 0;">المرتجعات وبلاغات الضمان</h3>
+              <span style="font-size: 0.7rem; background: #FEE2E2; color: #DC2626; font-weight: 700; padding: 1px 6px; border-radius: 6px;">معايير الصور الأربع</span>
+            </div>
+            <span style="font-size: 0.8rem; color: #64748B;">فتح بلاغ إرجاع فوري، تصوير الصور الأربع، واسترداد المبلغ</span>
           </div>
         </div>
         <span style="color: #94A3B8;">
