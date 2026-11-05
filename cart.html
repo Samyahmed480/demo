@@ -526,9 +526,9 @@
 
       renderCartRich();
 
-      // فتح وإغلاق الشيت
+      // الانتقال إلى صفحة إتمام الطلب والدفع الكاملة (Full-page Checkout)
       document.getElementById('btnProceedToCheckout').addEventListener('click', () => {
-        document.getElementById('checkoutSheet').classList.add('active');
+        window.location.href = 'checkout.html';
       });
       document.getElementById('btnCloseCheckout').addEventListener('click', () => {
         document.getElementById('checkoutSheet').classList.remove('active');

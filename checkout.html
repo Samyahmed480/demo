@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>كفو | إتمام الطلب وتأكيد الشراء (Checkout)</title>
+  <meta name="description" content="إتمام طلب قطع الغيار في كفو - تجميع حسب التجار (Alibaba Style)، خيارات التوصيل للمنزل أو الورشة، تقسيط تابي وتمارا، وبوابات الدفع المعتمدة مدى وApple Pay.">
+
+  <!-- Google Fonts: IBM Plex Sans Arabic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+
+  <style>
+    :root {
+      --checkout-primary: #0A6CFF;
+      --checkout-primary-light: #EFF6FF;
+      --checkout-dark: #0F172A;
+      --checkout-card-bg: #FFFFFF;
+      --checkout-border: #E2E8F0;
+      --checkout-text-muted: #64748B;
+      --checkout-tabby: #3EEDB4;
+      --checkout-tamara: #FF6436;
+      --checkout-mada: #007A3D;
+      --checkout-success: #16A34A;
+      --checkout-warning: #F59E0B;
+    }
+
+    body {
+      background: #F8FAFC;
+      font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--checkout-dark);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .checkout-app-wrapper {
+      max-width: 500px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #F8FAFC;
+      position: relative;
+      padding-bottom: 120px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.06);
+    }
+
+    /* أعلى الصفحة (Top Bar) */
+    .checkout-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--checkout-border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .checkout-header-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--checkout-border);
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--checkout-dark);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .checkout-header-btn:active {
+      transform: scale(0.94);
+      background: #F1F5F9;
+    }
+
+    .checkout-header-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--checkout-dark);
+      text-align: center;
+      margin: 0;
+    }
+
+    .checkout-trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--checkout-success);
+      background: #DCFCE7;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #BBF7D0;
+    }
+
+    /* شريط تقدم مراحل الشراء (Stepper) */
+    .checkout-stepper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F1F5F9;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+    .stepper-step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #94A3B8;
+    }
+    .stepper-step.done {
+      color: var(--checkout-success);
+    }
+    .stepper-step.active {
+      color: var(--checkout-primary);
+    }
+    .stepper-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      background: #E2E8F0;
+      color: #64748B;
+    }
+    .stepper-step.done .stepper-num {
+      background: var(--checkout-success);
+      color: #FFF;
+    }
+    .stepper-step.active .stepper-num {
+      background: var(--checkout-primary);
+      color: #FFF;
+      box-shadow: 0 0 0 3px rgba(10, 108, 255, 0.2);
+    }
+    .stepper-divider {
+      flex: 1;
+      height: 2px;
+      background: #E2E8F0;
+      margin: 0 8px;
+    }
+    .stepper-divider.done {
+      background: var(--checkout-success);
+    }
+
+    /* قسم العناوين والوجهة (Section 1) */
+    .checkout-section {
+      padding: 16px;
+      border-bottom: 8px solid #F1F5F9;
+      background: #FFFFFF;
+    }
+    .checkout-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .checkout-section-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--checkout-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .address-toggle {
+      display: flex;
+      background: #F1F5F9;
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .address-toggle-btn {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 9px;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--checkout-text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .address-toggle-btn.active {
+      background: #FFFFFF;
+      color: var(--checkout-primary);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    }
+
+    .address-card-selected {
+      background: #F8FAFC;
+      border: 1.5px solid var(--checkout-primary);
+      border-radius: 14px;
+      padding: 14px;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(10, 108, 255, 0.04);
+    }
+    .address-badge-gps {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--checkout-primary);
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    .address-estimate-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #047857;
+      background: #ECFDF5;
+      border: 1px dashed #6EE7B7;
+      padding: 6px 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    /* قسم الموردين والقطع - Alibaba Style (Section 2) */
+    .merchant-group-card {
+      background: #FFFFFF;
+      border: 1px solid var(--checkout-border);
+      border-radius: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+    }
+    .merchant-group-header {
+      background: #F8FAFC;
+      border-bottom: 1px solid #E2E8F0;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .merchant-info-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .merchant-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0A6CFF 0%, #0284C7 100%);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .merchant-avatar.scrap {
+      background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+    }
+    .merchant-meta {
+      display: flex;
+      flex-direction: column;
+    }
+    .merchant-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .merchant-name {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--checkout-dark);
+    }
+    .verified-seller-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--checkout-primary);
+      background: #EFF6FF;
+      padding: 1px 6px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .merchant-subline {
+      font-size: 0.74rem;
+      color: var(--checkout-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .merchant-rating-tag {
+      color: #D97706;
+      font-weight: 700;
+    }
+
+    .merchant-chat-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--checkout-dark);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .merchant-chat-btn:active {
+      background: #F1F5F9;
+      transform: scale(0.96);
+    }
+
+    /* كروت القطع تحت كل مورد */
+    .merchant-items-container {
+      padding: 12px 14px;
+    }
+    .checkout-item-row {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px dashed #E2E8F0;
+    }
+    .checkout-item-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .checkout-item-thumb {
+      width: 76px;
+      height: 76px;
+      border-radius: 12px;
+      background: #F1F5F9;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid #E2E8F0;
+    }
+    .checkout-item-details {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .checkout-item-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--checkout-dark);
+      margin: 0 0 4px;
+      line-height: 1.35;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .checkout-item-sku-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .sku-badge {
+      font-size: 0.7rem;
+      font-family: monospace;
+      font-weight: 700;
+      background: #F1F5F9;
+      color: #475569;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .compat-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #15803D;
+      background: #DCFCE7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .review-badge-inline {
+      font-size: 0.7rem;
+      color: #92400E;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .checkout-item-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+    .checkout-item-price {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--checkout-primary);
+    }
+    .checkout-item-qty {
+      display: inline-flex;
+      align-items: center;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 8px;
+      background: #FFFFFF;
+      overflow: hidden;
+    }
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--checkout-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+    .qty-btn:active {
+      background: #F1F5F9;
+    }
+    .qty-count {
+      width: 30px;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--checkout-dark);
+    }
+
+    .merchant-shipping-summary {
+      background: #F8FAFC;
+      border-top: 1px solid #F1F5F9;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.76rem;
+      color: #64748B;
+    }
+    .merchant-shipping-badge {
+      color: var(--checkout-success);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* قسم بوابات الدفع (Section 3 - Payment Methods & BNPL) */
+    .payment-radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .payment-card-option {
+      border: 2px solid var(--checkout-border);
+      border-radius: 14px;
+      background: #FFFFFF;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .payment-card-option:hover {
+      border-color: #CBD5E1;
+    }
+    .payment-card-option.active {
+      border-color: var(--checkout-primary);
+      background: #FAF5FF;
+      background: #F0F7FF;
+      box-shadow: 0 4px 14px rgba(10, 108, 255, 0.1);
+    }
+    .payment-card-option.active-tabby {
+      border-color: #059669;
+      background: #F0FDF4;
+      box-shadow: 0 4px 14px rgba(62, 237, 180, 0.15);
+    }
+    .payment-card-option.active-tamara {
+      border-color: #EA580C;
+      background: #FFF7ED;
+      box-shadow: 0 4px 14px rgba(234, 88, 12, 0.15);
+    }
+
+    .payment-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .payment-card-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .payment-logo-box {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      padding: 2px 6px;
+    }
+
+    .tabby-badge-logo {
+      background: #3EEDB4;
+      color: #0F172A;
+      font-weight: 900;
+      font-size: 0.95rem;
+      letter-spacing: -0.5px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-family: sans-serif;
+    }
+    .tamara-badge-logo {
+      background: #FF6436;
+      color: #FFFFFF;
+      font-weight: 900;
+      font-size: 0.95rem;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-family: sans-serif;
+    }
+    .apple-pay-badge {
+      background: #000000;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .mada-card-badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mada-pill {
+      background: #007A3D;
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .visa-pill {
+      background: #1A1F71;
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .master-pill {
+      background: #EB001B;
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .custom-radio-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #CBD5E1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .payment-card-option.active .custom-radio-circle {
+      border-color: var(--checkout-primary);
+    }
+    .payment-card-option.active .custom-radio-circle::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--checkout-primary);
+    }
+    .payment-card-option.active-tabby .custom-radio-circle {
+      border-color: #059669;
+    }
+    .payment-card-option.active-tabby .custom-radio-circle::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #059669;
+    }
+    .payment-card-option.active-tamara .custom-radio-circle {
+      border-color: #EA580C;
+    }
+    .payment-card-option.active-tamara .custom-radio-circle::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #EA580C;
+    }
+
+    .bnpl-calc-pill {
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .bnpl-calc-pill.tabby {
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+    }
+    .bnpl-calc-pill.tamara {
+      color: #9A3412;
+      border: 1px solid #FED7AA;
+    }
+
+    /* حقول البطاقة البنكية عند التفعيل */
+    .card-inputs-panel {
+      display: none;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed #CBD5E1;
+    }
+    .card-inputs-panel.visible {
+      display: block;
+    }
+    .checkout-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 9px 12px;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      background: #FFFFFF;
+      outline: none;
+      transition: border-color 0.2s ease;
+      margin-bottom: 8px;
+    }
+    .checkout-input:focus {
+      border-color: var(--checkout-primary);
+    }
+
+    /* قسم ملخص الفاتورة والحسابات (Section 4 - Order Breakdown) */
+    .coupon-box {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .coupon-input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1.5px solid var(--checkout-border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .coupon-btn {
+      padding: 10px 16px;
+      background: #0F172A;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s ease;
+    }
+    .coupon-btn:active {
+      background: #334155;
+    }
+    .coupon-tag-applied {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      background: #DCFCE7;
+      color: #166534;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .receipt-summary-card {
+      background: #F8FAFC;
+      border: 1px solid var(--checkout-border);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .receipt-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.86rem;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+    .receipt-row.discount {
+      color: var(--checkout-success);
+      font-weight: 700;
+    }
+    .receipt-row.total {
+      border-top: 1.5px dashed #CBD5E1;
+      padding-top: 10px;
+      margin-top: 10px;
+      margin-bottom: 0;
+      color: var(--checkout-dark);
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+    .vat-annotation {
+      font-size: 0.7rem;
+      color: #94A3B8;
+      font-weight: 500;
+    }
+
+    /* الشريط السفلي العائم لتأكيد الطلب والدفع */
+    .checkout-sticky-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid var(--checkout-border);
+      padding: 12px 16px 16px;
+      z-index: 60;
+      box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
+    }
+    .checkout-sticky-content {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .btn-checkout-confirm {
+      width: 100%;
+      background: linear-gradient(135deg, #0A6CFF 0%, #0052CC 100%);
+      color: #FFFFFF;
+      border: none;
+      padding: 15px 18px;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 16px rgba(10, 108, 255, 0.35);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-checkout-confirm:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 8px rgba(10, 108, 255, 0.25);
+    }
+    .btn-checkout-confirm:disabled {
+      background: #94A3B8;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .trust-guarantee-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      font-size: 0.7rem;
+      color: #64748B;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* النوافذ المنبثقة التفاعلية (Modals) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-sheet {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 24px 24px 0 0;
+      padding: 20px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    /* شاشة معالجة الدفع والنجاح */
+    .processing-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 110;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #FFF;
+      text-align: center;
+      padding: 24px;
+    }
+    .spinner-pulse {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #0A6CFF;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin-bottom: 18px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="checkout-app-wrapper">
+
+    <!-- شريط الهيدر العلوي الثابت -->
+    <header class="checkout-header">
+      <a href="cart.html" class="checkout-header-btn" title="الرجوع للسلة">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+
+      <div>
+        <h1 class="checkout-header-title">إتمام الطلب والدفع</h1>
+      </div>
+
+      <div class="checkout-trust-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+        </svg>
+        <span>دفع آمن 100%</span>
+      </div>
+    </header>
+
+    <!-- شريط تقدم المراحل (Stepper) -->
+    <div class="checkout-stepper">
+      <div class="stepper-step done">
+        <span class="stepper-num">✓</span>
+        <span>السلة</span>
+      </div>
+      <div class="stepper-divider done"></div>
+      <div class="stepper-step active">
+        <span class="stepper-num">٢</span>
+        <span>الشحن والدفع</span>
+      </div>
+      <div class="stepper-divider"></div>
+      <div class="stepper-step">
+        <span class="stepper-num">٣</span>
+        <span>تتبع الشحنة</span>
+      </div>
+    </div>
+
+    <!-- 1. قسم وجهة التوصيل والعنوان (Section 1: Delivery & Address) -->
+    <section class="checkout-section">
+      <div class="checkout-section-header">
+        <h2 class="checkout-section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A6CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span>وجهة التوصيل والاستلام</span>
+        </h2>
+        <button class="merchant-chat-btn" onclick="openAddressModal()" style="color: var(--checkout-primary); font-size: 0.74rem;">
+          تغيير العنوان ✏️
+        </button>
+      </div>
+
+      <!-- محول وجهة التوصيل: المنزل vs الورشة -->
+      <div class="address-toggle">
+        <button class="address-toggle-btn active" id="btnDestHome" onclick="switchDeliveryMode('home')">
+          <span>🏠 التوصيل إلى المنزل</span>
+        </button>
+        <button class="address-toggle-btn" id="btnDestWorkshop" onclick="switchDeliveryMode('workshop')">
+          <span>🔧 التوصيل مباشرة للورشة</span>
+        </button>
+      </div>
+
+      <!-- كارت تفاصيل التوصيل إلى المنزل -->
+      <div id="destHomeCard" class="address-card-selected">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <span class="address-badge-gps">📍 موقع GPS دقيق</span>
+            <strong style="display: block; font-size: 0.94rem; color: var(--checkout-dark); margin-bottom: 3px;" id="dispAddressTitle">
+              عنوان المنزل (الرئيسي)
+            </strong>
+            <p style="margin: 0; font-size: 0.82rem; color: #475569; line-height: 1.4;" id="dispAddressDetails">
+              الرياض · حي الملز · شارع صلاح الدين الأيوبي · عمارة الرائد رقم ٢٤
+            </p>
+            <div style="font-size: 0.78rem; color: #64748B; margin-top: 4px;">
+              المستلم: <span id="dispRecipientName">سامي أحمد</span> · <span dir="ltr">+966 50 123 4567</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="address-estimate-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          <span>وقت الوصول المتوقع: <strong>خلال ٤٥ دقيقة</strong> (شحن فوري مع كابتن كفو)</span>
+        </div>
+      </div>
+
+      <!-- كارت تفاصيل التوصيل مباشرة للورشة -->
+      <div id="destWorkshopCard" class="address-card-selected" style="display: none; border-color: #0284C7; background: #F0F9FF;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <span class="address-badge-gps" style="background: #E0F2FE; color: #0369A1; border-color: #BAE6FD;">
+              📍 ورشة معتمدة برمز التحقق
+            </span>
+            <strong style="display: block; font-size: 0.94rem; color: #0369A1; margin-bottom: 3px;" id="dispWorkshopName">
+              مركز كفو المتخصص لصيانة السيارات (معتمد)
+            </strong>
+            <p style="margin: 0; font-size: 0.82rem; color: #334155; line-height: 1.4;" id="dispWorkshopAddress">
+              الرياض · صناعية الدائري · مخرج ١٧ · صالة الاستقبال رقم ٤
+            </p>
+            <div style="font-size: 0.78rem; color: #0284C7; margin-top: 5px; font-weight: 700;">
+              🔧 سيتم تسليم القطع مباشرة للمهندس المشرف بعد مطابقة رقم الهيكل (VIN).
+            </div>
+          </div>
+        </div>
+
+        <div class="address-estimate-badge" style="color: #0369A1; background: #E0F2FE; border-color: #7DD3FC;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>التوصيل مباشرة ليد الفني: <strong>خلال ٣٠ دقيقة</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. قسم الموردين والقطع المشحونة - Alibaba Style (Section 2) -->
+    <section class="checkout-section">
+      <div class="checkout-section-header">
+        <h2 class="checkout-section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A6CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span>القطع المطلوبة حسب التاجر والمورد</span>
+        </h2>
+        <span style="font-size: 0.76rem; color: #64748B;" id="itemsCountBadge">٢ قطع</span>
+      </div>
+
+      <!-- حاوية مجموعات التجار (تنشأ ديناميكياً) -->
+      <div id="merchantGroupsContainer">
+        <!-- تجار وقطع ديناميكية -->
+      </div>
+    </section>
+
+    <!-- 3. قسم بوابات الدفع الإلكتروني والتقسيط (Section 3: Payment Methods & BNPL) -->
+    <section class="checkout-section">
+      <div class="checkout-section-header">
+        <h2 class="checkout-section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A6CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+            <line x1="1" y1="10" x2="23" y2="10"></line>
+          </svg>
+          <span>طرق الدفع والتقسيط المعتمدة</span>
+        </h2>
+        <span style="font-size: 0.72rem; color: #059669; font-weight: 700; background: #DCFCE7; padding: 2px 8px; border-radius: 999px;">
+          مرخصة من SAMA 🇸🇦
+        </span>
+      </div>
+
+      <div class="payment-radio-group">
+
+        <!-- بطاقة Apple Pay -->
+        <div class="payment-card-option active" id="payOptApplePay" onclick="selectPaymentMethod('applepay')">
+          <div class="payment-card-top">
+            <div class="payment-card-brand">
+              <span class="apple-pay-badge">Pay</span>
+              <div>
+                <strong style="font-size: 0.9rem; color: var(--checkout-dark);">Apple Pay</strong>
+                <div style="font-size: 0.74rem; color: #64748B;">دفع فوري وآمن بلمسة واحدة Face ID</div>
+              </div>
+            </div>
+            <div class="custom-radio-circle"></div>
+          </div>
+        </div>
+
+        <!-- بطاقة تابي (Tabby) - BNPL -->
+        <div class="payment-card-option" id="payOptTabby" onclick="selectPaymentMethod('tabby')">
+          <div class="payment-card-top">
+            <div class="payment-card-brand">
+              <span class="tabby-badge-logo">tabby</span>
+              <div>
+                <strong style="font-size: 0.9rem; color: var(--checkout-dark);">تابي (Tabby) · قسّمها على ٤ دفعات</strong>
+                <div style="font-size: 0.74rem; color: #64748B;">بدون فوائد وبدون أي رسوم تأخير</div>
+              </div>
+            </div>
+            <div class="custom-radio-circle"></div>
+          </div>
+          <div class="bnpl-calc-pill tabby" id="tabbyInstallmentPill">
+            <span>الدفعة الأولى الآن: <strong id="tabbyQuarter">٠ ر.س</strong></span>
+            <span>٣ أقساط شهرية متساوية</span>
+          </div>
+        </div>
+
+        <!-- بطاقة تمارا (Tamara) - BNPL -->
+        <div class="payment-card-option" id="payOptTamara" onclick="selectPaymentMethod('tamara')">
+          <div class="payment-card-top">
+            <div class="payment-card-brand">
+              <span class="tamara-badge-logo">tamara</span>
+              <div>
+                <strong style="font-size: 0.9rem; color: var(--checkout-dark);">تمارا (Tamara) · ادفع على ٤ أشهر</strong>
+                <div style="font-size: 0.74rem; color: #64748B;">متوافق مع الضوابط الشرعية الإسلامية</div>
+              </div>
+            </div>
+            <div class="custom-radio-circle"></div>
+          </div>
+          <div class="bnpl-calc-pill tamara" id="tamaraInstallmentPill">
+            <span>ادفع اليوم: <strong id="tamaraQuarter">٠ ر.س</strong></span>
+            <span>والباقي على ٣ أشهر مريحة</span>
+          </div>
+        </div>
+
+        <!-- بطاقة مدى / فيزا / ماستركارد -->
+        <div class="payment-card-option" id="payOptCard" onclick="selectPaymentMethod('card')">
+          <div class="payment-card-top">
+            <div class="payment-card-brand">
+              <div class="mada-card-badges">
+                <span class="mada-pill">مدى</span>
+                <span class="visa-pill">VISA</span>
+                <span class="master-pill">MC</span>
+              </div>
+              <div>
+                <strong style="font-size: 0.9rem; color: var(--checkout-dark);">بطاقة مدى / فيزا / ماستركارد</strong>
+                <div style="font-size: 0.74rem; color: #64748B;">البطاقات البنكية والائتمانية السعودية</div>
+              </div>
+            </div>
+            <div class="custom-radio-circle"></div>
+          </div>
+
+          <!-- تفاصيل حقول البطاقة البنكية -->
+          <div class="card-inputs-panel" id="cardInputsPanel">
+            <input type="text" class="checkout-input" id="cardNumberInput" placeholder="رقم البطاقة (١٦ رقماً)" maxlength="19" value="4283 5500 8921 4410">
+            <div style="display: flex; gap: 8px;">
+              <input type="text" class="checkout-input" placeholder="تاريخ الانتهاء MM/YY" maxlength="5" value="09/28" style="flex: 1;">
+              <input type="text" class="checkout-input" placeholder="رمز الأمان CVV" maxlength="4" value="842" style="width: 100px;">
+            </div>
+            <input type="text" class="checkout-input" placeholder="اسم حامل البطاقة كما يظهر عليها" value="SAMY AHMED AL-HARBI" style="text-transform: uppercase;">
+            <div style="font-size: 0.72rem; color: #059669; display: flex; align-items: center; gap: 4px; font-weight: 700;">
+              <span>🔒 تشفير 3D Secure مباشر مع مصرفك المحلي</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- الدفع عند الاستلام كاش أو شبكة (COD) -->
+        <div class="payment-card-option" id="payOptCod" onclick="selectPaymentMethod('cod')">
+          <div class="payment-card-top">
+            <div class="payment-card-brand">
+              <span style="font-size: 1.4rem;">💵</span>
+              <div>
+                <strong style="font-size: 0.9rem; color: var(--checkout-dark);">الدفع عند الاستلام (كاش أو شبكة POS)</strong>
+                <div style="font-size: 0.74rem; color: #64748B;">ادفع مع مندوب التوصيل بعد المعاينة والفحص</div>
+              </div>
+            </div>
+            <div class="custom-radio-circle"></div>
+          </div>
+          <div style="font-size: 0.74rem; color: #475569; margin-top: 6px; padding: 4px 8px; background: #F1F5F9; border-radius: 6px;">
+            💳 يتوفر جهاز نقاط بيع (مدى / Apple Pay) متنقل مع الكابتن.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. قسم تفاصيل الفاتورة والإجمالي (Section 4: Order Breakdown & Summary) -->
+    <section class="checkout-section">
+      <div class="checkout-section-header">
+        <h2 class="checkout-section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A6CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>ملخص الفاتورة ورسوم الطلب</span>
+        </h2>
+      </div>
+
+      <!-- إدخال كوبون الخصم -->
+      <div class="coupon-box">
+        <input type="text" class="coupon-input" id="couponInput" placeholder="أدخل كود الخصم (جرب: KAFU10)">
+        <button class="coupon-btn" onclick="applyCoupon()">تطبيق الكوبون</button>
+      </div>
+
+      <div class="coupon-tag-applied" id="couponAppliedBadge">
+        <span>🎉 تم تطبيق خصم ١٠٪ (كوبون: KAFU10)</span>
+        <button onclick="removeCoupon()" style="background: none; border: none; color: #166534; font-weight: 800; cursor: pointer;">إلغاء ✕</button>
+      </div>
+
+      <!-- بطاقة الفاتورة التفصيلية -->
+      <div class="receipt-summary-card">
+        <div class="receipt-row">
+          <span>مجموع المنتجات:</span>
+          <span id="sumSubtotal">٠ ر.س</span>
+        </div>
+
+        <div class="receipt-row">
+          <span>رسوم الشحن والتوصيل الفوري:</span>
+          <span id="sumShipping" style="color: var(--checkout-success); font-weight: 700;">مجاناً (عرض كفو)</span>
+        </div>
+
+        <div class="receipt-row discount" id="rowDiscount" style="display: none;">
+          <span>خصم الكوبون الترويجي:</span>
+          <span id="sumDiscount">-٠ ر.س</span>
+        </div>
+
+        <div class="receipt-row">
+          <span>
+            ضريبة القيمة المضافة (١٥٪):
+            <span class="vat-annotation">شاملة الفاتورة الضريبية ZATCA</span>
+          </span>
+          <span id="sumVat">٠ ر.س</span>
+        </div>
+
+        <div class="receipt-row total">
+          <span>المبلغ الإجمالي النهائي:</span>
+          <span id="sumFinalTotal" style="color: var(--checkout-primary); font-size: 1.25rem;">٠ ر.س</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- الشريط السفلي الثابت للدفع والتأكيد -->
+    <div class="checkout-sticky-footer">
+      <div class="checkout-sticky-content">
+        <button class="btn-checkout-confirm" id="btnConfirmPayment" onclick="processOrderCheckout()">
+          <span id="btnPayLabel">تأكيد الطلب والدفع 🔒</span>
+          <span id="btnPayAmount">٠ ر.س</span>
+        </button>
+
+        <div class="trust-guarantee-row">
+          <div class="trust-item">
+            <span>🔒 دفع مشفّر 256-bit</span>
+          </div>
+          <div class="trust-item">
+            <span>🛡️ ضمان الاسترجاع ١٤ يوم</span>
+          </div>
+          <div class="trust-item">
+            <span>🇸🇦 مرخص من وزارة التجارة</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal تغيير العنوان / الورشة -->
+  <div class="modal-backdrop" id="addressModal">
+    <div class="modal-sheet">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h3 style="margin: 0; font-size: 1.05rem; font-weight: 800;">اختر وجهة التوصيل</h3>
+        <button onclick="closeAddressModal()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+        <!-- العنوان 1 -->
+        <div style="border: 1.5px solid #0A6CFF; background: #F0F7FF; border-radius: 12px; padding: 12px; cursor: pointer;" onclick="selectSavedAddress('المنزل (الرئيسي)', 'الرياض · حي الملز · شارع صلاح الدين الأيوبي', 'سامي أحمد')">
+          <strong style="color: #0A6CFF; font-size: 0.9rem;">🏠 المنزل (الرئيسي)</strong>
+          <div style="font-size: 0.8rem; color: #475569; margin-top: 2px;">الرياض · حي الملز · شارع صلاح الدين الأيوبي</div>
+        </div>
+
+        <!-- العنوان 2 -->
+        <div style="border: 1px solid #CBD5E1; border-radius: 12px; padding: 12px; cursor: pointer;" onclick="selectSavedAddress('مقر العمل / المكتب', 'الرياض · حي المروج · طريق الملك عبد العزيز', 'سامي أحمد')">
+          <strong style="color: #0F172A; font-size: 0.9rem;">🏢 العمل / المكتب</strong>
+          <div style="font-size: 0.8rem; color: #475569; margin-top: 2px;">الرياض · حي المروج · طريق الملك عبد العزيز</div>
+        </div>
+
+        <!-- ورشة 1 -->
+        <div style="border: 1px solid #CBD5E1; border-radius: 12px; padding: 12px; cursor: pointer;" onclick="selectSavedWorkshop('مركز كفو المتخصص لصيانة السيارات (معتمد)', 'الرياض · صناعية الدائري · مخرج ١٧')">
+          <strong style="color: #0369A1; font-size: 0.9rem;">🔧 مركز كفو المتخصص (مخرج ١٧)</strong>
+          <div style="font-size: 0.8rem; color: #475569; margin-top: 2px;">صناعية الدائري مخرج ١٧ · تسليم الفني مباشر</div>
+        </div>
+      </div>
+
+      <button class="btn-checkout-confirm" onclick="closeAddressModal()" style="justify-content: center;">
+        تم تأكيد الوجهة
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal المحادثة المباشرة مع التاجر (Direct Seller Chat) -->
+  <div class="modal-backdrop" id="sellerChatModal">
+    <div class="modal-sheet">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #F1F5F9; padding-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="merchant-avatar" id="modalMerchantAvatar">ك</div>
+          <div>
+            <strong style="font-size: 0.92rem; color: var(--checkout-dark);" id="modalMerchantName">متجر القطع</strong>
+            <div style="font-size: 0.72rem; color: #16A34A; font-weight: 700;">متصل الآن ومستعد للإجابة 🟢</div>
+          </div>
+        </div>
+        <button onclick="closeSellerChat()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+
+      <!-- صندوق الرسائل -->
+      <div id="chatMessagesBox" style="height: 180px; overflow-y: auto; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px 10px 10px 0; padding: 8px 12px; font-size: 0.82rem; max-width: 85%;">
+          مرحباً بك في متجرنا عبر كفو! القطعة متوفرة على الرف، ومطابقة برقم الشاسيه الخاص بسيارتك Toyota Camry 2025. كيف يمكنني خدمتك؟
+        </div>
+      </div>
+
+      <!-- إدخال الرد -->
+      <div style="display: flex; gap: 6px;">
+        <input type="text" class="checkout-input" id="sellerChatInput" placeholder="اكتب استفسارك للتاجر هنا..." style="margin-bottom: 0;">
+        <button class="coupon-btn" onclick="sendSellerMessage()" style="background: var(--checkout-primary);">
+          إرسال
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- شاشة المعالجة وتأكيد الدفع (Processing & Confirmation Screen) -->
+  <div class="processing-overlay" id="processingOverlay">
+    <div class="spinner-pulse"></div>
+    <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 6px;" id="procTitle">جاري معالجة الدفع والربط البنكي...</h3>
+    <p style="font-size: 0.85rem; color: #94A3B8; max-width: 320px; line-height: 1.4;" id="procSubtitle">
+      يتم فحص وتأكيد القطع مع التاجر وإصدار بوليصة الشحن الفوري عبر كفو إكسبرس.
+    </p>
+  </div>
+
+  <!-- سكربتات التطبيق والمتجر -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script>
+    // حالة صفحة إتمام الطلب والدفع
+    let checkoutState = {
+      deliveryMode: 'home', // 'home' | 'workshop'
+      paymentMethod: 'applepay', // 'applepay' | 'tabby' | 'tamara' | 'card' | 'cod'
+      couponApplied: false,
+      couponDiscountRate: 0.10, // 10%
+      items: [],
+      totals: { subtotal: 0, shipping: 0, discount: 0, vat: 0, total: 0 }
+    };
+
+    // عناصر تجريبية افتراضية للموردين لتوضيح أسلوب Alibaba إذا كانت السلة فارغة
+    const SAMPLE_CHECKOUT_ITEMS = [
+      {
+        id: 'prod-3',
+        name: 'طقم فحمات فرامل أمامية سيراميك عالية الأداء',
+        sku: '04465-33480',
+        brand: 'Akebono OEM',
+        price: 190,
+        quantity: 1,
+        image: 'assets/images/products/part_brake_pads.jpg',
+        rating: 4.9,
+        reviewsCount: 120,
+        conditionLabel: 'أصلي وكالة (OEM)',
+        compatibility: 'متوافق مع Toyota Camry 2025',
+        merchant: {
+          id: 'merchant-autostore',
+          name: 'شركة أوتو ستور العالمية - وكيل معتمد',
+          badge: 'تاجر موثّق معتمد',
+          rating: '4.9 ★',
+          location: 'الرياض · حي الصناعية القديمة',
+          avatarText: 'أو',
+          isScrap: false,
+          shippingText: 'شحن فوري خلال ٤٥ دقيقة (كابتن كفو إكسبرس)'
+        }
+      },
+      {
+        id: 'prod-4',
+        name: 'مساعد أمامي هيدروليك ياباني أصلي بالضمان',
+        sku: '3340156-KYB',
+        brand: 'KYB Japan',
+        price: 260,
+        quantity: 1,
+        image: 'assets/images/products/suspension_shock.jpg',
+        rating: 4.8,
+        reviewsCount: 86,
+        conditionLabel: 'تشليح نظيف مع ضمان',
+        compatibility: 'متوافق مع Toyota Camry 2025',
+        merchant: {
+          id: 'merchant-haer',
+          name: 'تشاليح الحائر الكبرى المعتمدة',
+          badge: 'تاجر تشاليح معتمد',
+          rating: '4.8 ★',
+          location: 'الرياض · تشاليح الحائر',
+          avatarText: 'حا',
+          isScrap: true,
+          shippingText: 'شحن مباشر من التشليح مع فحص المعاينة'
+        }
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initCheckoutData();
+      renderMerchantGroupedCheckout();
+      updateCalculations();
+    });
+
+    function initCheckoutData() {
+      const cart = KafuStore.getCart();
+      if (cart && cart.length > 0) {
+        // تحويل عناصر السلة مع إثراء بيانات المورد
+        checkoutState.items = cart.map(cartItem => {
+          const fullProduct = (typeof PRODUCTS !== 'undefined' ? PRODUCTS.find(p => p.id === cartItem.id) : null);
+          return {
+            id: cartItem.id,
+            name: cartItem.name || (fullProduct ? fullProduct.name : 'قطعة غيار معتمدة'),
+            sku: (fullProduct && fullProduct.oem) ? fullProduct.oem : 'OEM-394201',
+            brand: (fullProduct && fullProduct.brand) ? fullProduct.brand : 'Toyota Genuine',
+            price: cartItem.price || 150,
+            quantity: cartItem.quantity || 1,
+            image: cartItem.image || (fullProduct ? fullProduct.image : 'assets/images/products/part_brake_pads.jpg'),
+            rating: (fullProduct && fullProduct.rating) ? fullProduct.rating : 4.9,
+            reviewsCount: (fullProduct && fullProduct.reviewsCount) ? fullProduct.reviewsCount : 52,
+            conditionLabel: (fullProduct && fullProduct.conditionLabel) ? fullProduct.conditionLabel : 'أصلي وكالة',
+            compatibility: 'متوافق مع Toyota Camry 2025',
+            merchant: getMerchantForProduct(fullProduct || cartItem)
+          };
+        });
+      } else {
+        // استخدام العناصر الافتراضية الثرية بأسلوب Alibaba
+        checkoutState.items = JSON.parse(JSON.stringify(SAMPLE_CHECKOUT_ITEMS));
+      }
+    }
+
+    function getMerchantForProduct(prod) {
+      if (prod.condition === 'scrap' || (prod.conditionLabel && prod.conditionLabel.includes('تشليح'))) {
+        return {
+          id: 'merchant-haer',
+          name: 'تشاليح الحائر الكبرى المعتمدة',
+          badge: 'تاجر تشاليح معتمد',
+          rating: '4.8 ★',
+          location: 'الرياض · تشاليح الحائر',
+          avatarText: 'حا',
+          isScrap: true,
+          shippingText: 'شحن مباشر من التشليح مع فحص المعاينة'
+        };
+      }
+      return {
+        id: 'merchant-autostore',
+        name: 'شركة أوتو ستور العالمية - وكيل معتمد',
+        badge: 'تاجر موثّق معتمد',
+        rating: '4.9 ★',
+        location: 'الرياض · حي الصناعية القديمة',
+        avatarText: 'أو',
+        isScrap: false,
+        shippingText: 'شحن فوري خلال ٤٥ دقيقة (كابتن كفو إكسبرس)'
+      };
+    }
+
+    // تجميع القطع حسب التاجر (Alibaba Style Grouping)
+    function renderMerchantGroupedCheckout() {
+      const container = document.getElementById('merchantGroupsContainer');
+      const countBadge = document.getElementById('itemsCountBadge');
+      
+      const totalUnits = checkoutState.items.reduce((s, it) => s + it.quantity, 0);
+      countBadge.textContent = `${KafuStore.formatNumber(totalUnits)} قطع`;
+
+      // تجميع حسب معرف التاجر
+      const groups = {};
+      checkoutState.items.forEach(item => {
+        const mId = item.merchant.id;
+        if (!groups[mId]) {
+          groups[mId] = {
+            merchant: item.merchant,
+            items: []
+          };
+        }
+        groups[mId].items.push(item);
+      });
+
+      let html = '';
+      Object.values(groups).forEach(group => {
+        const m = group.merchant;
+        html += `
+          <div class="merchant-group-card">
+            <!-- هيدر المورد (Alibaba Merchant Badge) -->
+            <div class="merchant-group-header">
+              <div class="merchant-info-block">
+                <div class="merchant-avatar ${m.isScrap ? 'scrap' : ''}">${m.avatarText}</div>
+                <div class="merchant-meta">
+                  <div class="merchant-name-row">
+                    <span class="merchant-name">${m.name}</span>
+                    <span class="verified-seller-badge">✓ ${m.badge}</span>
+                  </div>
+                  <div class="merchant-subline">
+                    <span class="merchant-rating-tag">${m.rating}</span>
+                    <span>•</span>
+                    <span>${m.location}</span>
+                  </div>
+                </div>
+              </div>
+              <button class="merchant-chat-btn" onclick="openSellerChat('${m.name}', '${m.avatarText}')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>محادثة التاجر</span>
+              </button>
+            </div>
+
+            <!-- كروت القطع الخاصة بهذا المورد -->
+            <div class="merchant-items-container">
+              ${group.items.map(item => `
+                <div class="checkout-item-row" id="item-row-${item.id}">
+                  <img src="${item.image}" alt="${item.name}" class="checkout-item-thumb" onerror="this.src='assets/images/products/part_brake_pads.jpg'">
+                  <div class="checkout-item-details">
+                    <div>
+                      <h4 class="checkout-item-title">${item.name}</h4>
+                      <div class="checkout-item-sku-row">
+                        <span class="sku-badge">رقم القطعة: ${item.sku}</span>
+                        <span class="compat-badge">✓ ${item.compatibility}</span>
+                        <span class="review-badge-inline">★ ${item.rating} (${item.reviewsCount} تقييم)</span>
+                      </div>
+                    </div>
+                    <div class="checkout-item-footer">
+                      <span class="checkout-item-price">${KafuStore.formatNumber(item.price)} ر.س</span>
+                      <div class="checkout-item-qty">
+                        <button class="qty-btn" onclick="changeItemQty('${item.id}', -1)" title="تقليل">-</button>
+                        <span class="qty-count">${KafuStore.formatNumber(item.quantity)}</span>
+                        <button class="qty-btn" onclick="changeItemQty('${item.id}', 1)" title="زيادة">+</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- شريط الشحن الخاص بالمورد -->
+            <div class="merchant-shipping-summary">
+              <span>🚚 طريقة الشحن:</span>
+              <span class="merchant-shipping-badge">✓ ${m.shippingText}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function changeItemQty(itemId, delta) {
+      const item = checkoutState.items.find(i => i.id === itemId);
+      if (!item) return;
+
+      item.quantity += delta;
+      if (item.quantity <= 0) {
+        if (confirm('هل ترغب في حذف هذه القطعة من الطلب؟')) {
+          checkoutState.items = checkoutState.items.filter(i => i.id !== itemId);
+          KafuStore.removeFromCart(itemId);
+        } else {
+          item.quantity = 1;
+        }
+      } else {
+        // تحديث في مخزن المتجر أيضاً
+        KafuStore.updateQuantity(itemId, delta);
+      }
+
+      if (checkoutState.items.length === 0) {
+        // إعادة تعيين عناصر تجريبية إذا حذفت كلها
+        checkoutState.items = JSON.parse(JSON.stringify(SAMPLE_CHECKOUT_ITEMS));
+      }
+
+      renderMerchantGroupedCheckout();
+      updateCalculations();
+    }
+
+    // تبديل وجهة التوصيل بين المنزل والورشة
+    function switchDeliveryMode(mode) {
+      checkoutState.deliveryMode = mode;
+      const btnHome = document.getElementById('btnDestHome');
+      const btnWorkshop = document.getElementById('btnDestWorkshop');
+      const cardHome = document.getElementById('destHomeCard');
+      const cardWorkshop = document.getElementById('destWorkshopCard');
+
+      if (mode === 'home') {
+        btnHome.classList.add('active');
+        btnWorkshop.classList.remove('active');
+        cardHome.style.display = 'block';
+        cardWorkshop.style.display = 'none';
+      } else {
+        btnHome.classList.remove('active');
+        btnWorkshop.classList.add('active');
+        cardHome.style.display = 'none';
+        cardWorkshop.style.display = 'block';
+      }
+    }
+
+    // اختيار طريقة الدفع
+    function selectPaymentMethod(method) {
+      checkoutState.paymentMethod = method;
+
+      // إزالة الفئات النشطة
+      ['payOptApplePay', 'payOptTabby', 'payOptTamara', 'payOptCard', 'payOptCod'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.remove('active', 'active-tabby', 'active-tamara');
+        }
+      });
+
+      const cardInputs = document.getElementById('cardInputsPanel');
+      if (cardInputs) cardInputs.classList.remove('visible');
+
+      if (method === 'applepay') {
+        document.getElementById('payOptApplePay').classList.add('active');
+        document.getElementById('btnPayLabel').textContent = 'ادفع عبر Apple Pay ';
+      } else if (method === 'tabby') {
+        document.getElementById('payOptTabby').classList.add('active', 'active-tabby');
+        document.getElementById('btnPayLabel').textContent = 'تقسيط عبر تابي (٤ دفعات) 💳';
+      } else if (method === 'tamara') {
+        document.getElementById('payOptTamara').classList.add('active', 'active-tamara');
+        document.getElementById('btnPayLabel').textContent = 'تقسيط عبر تمارا (٤ أشهر) 💳';
+      } else if (method === 'card') {
+        document.getElementById('payOptCard').classList.add('active');
+        if (cardInputs) cardInputs.classList.add('visible');
+        document.getElementById('btnPayLabel').textContent = 'تأكيد الدفع بالبطاقة 💳';
+      } else if (method === 'cod') {
+        document.getElementById('payOptCod').classList.add('active');
+        document.getElementById('btnPayLabel').textContent = 'تأكيد الطلب والدفع عند الاستلام 💵';
+      }
+    }
+
+    // تحديث كافة الحسابات والأسعار والأقساط
+    function updateCalculations() {
+      const subtotal = checkoutState.items.reduce((s, it) => s + (it.price * it.quantity), 0);
+      const discount = checkoutState.couponApplied ? Math.round(subtotal * checkoutState.couponDiscountRate) : 0;
+      const taxable = Math.max(0, subtotal - discount);
+      const vat = Math.round(taxable * 0.15);
+      const total = taxable + vat;
+
+      checkoutState.totals = { subtotal, shipping: 0, discount, vat, total };
+
+      document.getElementById('sumSubtotal').textContent = `${KafuStore.formatNumber(subtotal)} ر.س`;
+      document.getElementById('sumVat').textContent = `${KafuStore.formatNumber(vat)} ر.س`;
+      document.getElementById('sumFinalTotal').textContent = `${KafuStore.formatNumber(total)} ر.س`;
+      document.getElementById('btnPayAmount').textContent = `${KafuStore.formatNumber(total)} ر.س`;
+
+      const rowDiscount = document.getElementById('rowDiscount');
+      if (checkoutState.couponApplied) {
+        rowDiscount.style.display = 'flex';
+        document.getElementById('sumDiscount').textContent = `-${KafuStore.formatNumber(discount)} ر.س`;
+      } else {
+        rowDiscount.style.display = 'none';
+      }
+
+      // حساب أقساط تابي وتمارا (الدفع على 4 دفعات)
+      const quarterAmount = (total / 4).toFixed(2);
+      document.getElementById('tabbyQuarter').textContent = `${KafuStore.formatNumber(quarterAmount)} ر.س`;
+      document.getElementById('tamaraQuarter').textContent = `${KafuStore.formatNumber(quarterAmount)} ر.س`;
+    }
+
+    function applyCoupon() {
+      const input = document.getElementById('couponInput');
+      const val = input.value.trim().toUpperCase();
+      if (!val) {
+        alert('يرجى إدخال كود الكوبون');
+        return;
+      }
+      if (val === 'KAFU10' || val === 'KAFU' || val === 'خصم') {
+        checkoutState.couponApplied = true;
+        document.getElementById('couponAppliedBadge').style.display = 'flex';
+        input.value = '';
+        updateCalculations();
+        KafuApp.showToast('🎉 تم تطبيق خصم ١٠٪ بنجاح!');
+      } else {
+        alert('كود الخصم غير صحيح أو منتهي الصلاحية. جرب: KAFU10');
+      }
+    }
+
+    function removeCoupon() {
+      checkoutState.couponApplied = false;
+      document.getElementById('couponAppliedBadge').style.display = 'none';
+      updateCalculations();
+      KafuApp.showToast('تم إلغاء كود الخصم');
+    }
+
+    // فتح وإغلاق النوافذ المنبثقة
+    function openAddressModal() {
+      document.getElementById('addressModal').classList.add('active');
+    }
+    function closeAddressModal() {
+      document.getElementById('addressModal').classList.remove('active');
+    }
+
+    function selectSavedAddress(title, details, recipient) {
+      document.getElementById('dispAddressTitle').textContent = `عنوان ${title}`;
+      document.getElementById('dispAddressDetails').textContent = details;
+      document.getElementById('dispRecipientName').textContent = recipient;
+      switchDeliveryMode('home');
+      closeAddressModal();
+      KafuApp.showToast('تم تحديث عنوان التوصيل');
+    }
+
+    function selectSavedWorkshop(name, address) {
+      document.getElementById('dispWorkshopName').textContent = name;
+      document.getElementById('dispWorkshopAddress').textContent = address;
+      switchDeliveryMode('workshop');
+      closeAddressModal();
+      KafuApp.showToast('تم اختيار ورشة الصيانة المعتمدة');
+    }
+
+    // نافذة محادثة التاجر
+    function openSellerChat(merchantName, avatar) {
+      document.getElementById('modalMerchantName').textContent = merchantName;
+      document.getElementById('modalMerchantAvatar').textContent = avatar;
+      document.getElementById('sellerChatModal').classList.add('active');
+    }
+    function closeSellerChat() {
+      document.getElementById('sellerChatModal').classList.remove('active');
+    }
+
+    function sendSellerMessage() {
+      const input = document.getElementById('sellerChatInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const box = document.getElementById('chatMessagesBox');
+      const userMsgDiv = document.createElement('div');
+      userMsgDiv.style.cssText = 'background: #0A6CFF; color: #FFF; border-radius: 10px 10px 0 10px; padding: 8px 12px; font-size: 0.82rem; align-self: flex-start; max-width: 85%;';
+      userMsgDiv.textContent = msg;
+      box.appendChild(userMsgDiv);
+      input.value = '';
+      box.scrollTop = box.scrollHeight;
+
+      // محاكاة رد فوري من التاجر
+      setTimeout(() => {
+        const replyDiv = document.createElement('div');
+        replyDiv.style.cssText = 'background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px 10px 10px 0; padding: 8px 12px; font-size: 0.82rem; max-width: 85%;';
+        replyDiv.textContent = 'أهلاً بك! تم تأكيد طلبك وسنقوم بتسليم القطعة فوراً للكابتن بمجرد إتمام الدفع.';
+        box.appendChild(replyDiv);
+        box.scrollTop = box.scrollHeight;
+      }, 1000);
+    }
+
+    // إتمام الطلب والدفع
+    function processOrderCheckout() {
+      const overlay = document.getElementById('processingOverlay');
+      const title = document.getElementById('procTitle');
+      const subtitle = document.getElementById('procSubtitle');
+
+      overlay.style.display = 'flex';
+
+      // محاكاة معالجة البوابة البنكية والربط
+      let step = 0;
+      const interval = setInterval(() => {
+        step++;
+        if (step === 1) {
+          title.textContent = 'جاري التحقق من مطابقة القطع مع سيارتك...';
+          subtitle.textContent = 'تم تأكيد التوافق بنسبة ١٠٠٪ مع Toyota Camry 2025';
+        } else if (step === 2) {
+          title.textContent = 'جاري تفويض عملية الدفع الآمنة...';
+          subtitle.textContent = 'تم الربط مع شبكة المدفوعات السعودية بنجاح';
+        } else if (step === 3) {
+          clearInterval(interval);
+          title.textContent = '🎉 تم تأكيد الطلب بنجاح!';
+          subtitle.textContent = 'جاري توجيهك لشاشة متابعة الطلب وتتبع الشحنة لحظة بلحظة...';
+
+          // إنشاء الطلب في مخزن كفو المحلي
+          const newOrder = KafuStore.createOrder({
+            shippingAddress: {
+              mode: checkoutState.deliveryMode,
+              title: checkoutState.deliveryMode === 'home' ? 'عنوان المنزل (الرئيسي)' : 'ورشة الصيانة المعتمدة',
+              details: checkoutState.deliveryMode === 'home' 
+                ? 'الرياض · حي الملز · شارع صلاح الدين الأيوبي'
+                : 'الرياض · صناعية الدائري · مخرج ١٧'
+            },
+            paymentMethod: checkoutState.paymentMethod,
+            total: checkoutState.totals.total
+          });
+
+          // الانتقال لشاشة تتبع الطلب في orders.html
+          setTimeout(() => {
+            window.location.href = `orders.html?tab=tracking&orderId=${newOrder.id}`;
+          }, 1200);
+        }
+      }, 800);
+    }
+  </script>
+
+</body>
+</html>

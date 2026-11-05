@@ -763,11 +763,27 @@
       // شريط التنقل السفلي
       KafuApp.renderBottomNav('library');
 
-      // قراءة التبويب من الـ URL
+      // قراءة التبويب ومعرف الطلب من الـ URL
       const urlParams = new URLSearchParams(window.location.search);
       const tabParam = urlParams.get('tab');
+      const orderIdParam = urlParams.get('orderId');
+
       if (tabParam === 'returns') {
         switchMasterOrdersTab('returns');
+      } else if (tabParam === 'tracking') {
+        switchMasterOrdersTab('tracking');
+      }
+
+      if (orderIdParam) {
+        const orderIdCodeEl = document.querySelector('.order-id-code');
+        if (orderIdCodeEl) {
+          orderIdCodeEl.textContent = `#${orderIdParam}`;
+        }
+        setTimeout(() => {
+          if (typeof KafuApp !== 'undefined') {
+            KafuApp.showToast(`تم استلام طلبك #${orderIdParam} وبدء التجهيز الفوري 🚀`);
+          }
+        }, 500);
       }
 
       // تحديث شارة السلة
