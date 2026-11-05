@@ -35,9 +35,10 @@ const KafuMerchantOrders = {
       part: {
         name: 'فحمات / قماشات الفرامل الأمامية (Brake Pad)',
         oem: '04465-33480',
+        crossOems: ['04465-02220', '04465-06100', '04465-AZ001'],
         category: 'نظام الفرامل',
         condition: 'أصلي وكالة (Genuine OEM)',
-        warranty: 'ضمان كفو 6 أشهر ضد عيوب التصنيع',
+        financialGuarantee: 'حماية مالية معتمدة من كفو (تحصيل ودفع آمن 100%)',
         quantity: 1,
         unitPrice: 169.57,
         tax: 25.43,
@@ -45,11 +46,12 @@ const KafuMerchantOrders = {
       },
       status: 'incoming', // incoming | review | on_hold | confirmed | with_courier | delivered | rejected
       statusLabel: 'طلب وارد جديد',
+      countdownSeconds: 885, // مؤقت 15 دقيقة لقبول الطلب أو تحويله لتاجر آخر
       notes: 'العميل يرغب بالتسليم السريع قبل الساعة 2 ظهراً',
       courier: null,
       timeline: [
         { time: '10:45 ص', text: 'تم إنشاء الطلب وسداد القيمة عبر تطبيق كفو' },
-        { time: '10:46 ص', text: 'تم إرسال الطلب لمتجرك بانتظار التأكيد والتجهيز' }
+        { time: '10:46 ص', text: 'تم إرسال الطلب لمتجرك بانتظار التأكيد والتجهيز (مهلة 15 دقيقة)' }
       ]
     },
     {
@@ -73,9 +75,10 @@ const KafuMerchantOrders = {
       part: {
         name: 'طقم مكبس محرك كامل (Complete Engine Piston Set)',
         oem: 'OP010-13101',
+        crossOems: ['OP010-13100', 'OP010-13102'],
         category: 'المحرك وملحقاته',
         condition: 'أصلي وكالة معتمد',
-        warranty: 'ضمان سنة كاملة ضد عيوب التصنيع',
+        financialGuarantee: 'حماية مالية معتمدة من كفو (تحصيل ودفع آمن 100%)',
         quantity: 1,
         unitPrice: 417.39,
         tax: 62.61,
@@ -112,9 +115,10 @@ const KafuMerchantOrders = {
       part: {
         name: 'طلمبة بنزين كاملة أصلية مع الفلتر (Fuel Pump Module)',
         oem: '31110-C1000',
+        crossOems: ['31110-C1100', '31110-C1050'],
         category: 'نظام الوقود',
         condition: 'أصلي وكالة',
-        warranty: 'ضمان 6 أشهر',
+        financialGuarantee: 'حماية مالية معتمدة من كفو (تحصيل ودفع آمن 100%)',
         quantity: 1,
         unitPrice: 539.13,
         tax: 80.87,
@@ -298,22 +302,24 @@ const KafuMerchantOrders = {
       part: {
         name: 'كمبروسر مكيف سيارة أصلي كامل مع الكلتش',
         oem: '97701-3R000',
+        crossOems: ['97701-3R100', '97701-3R200'],
         category: 'التكييف والتبريد',
         condition: 'أصلي وكالة',
-        warranty: 'ضمان 6 أشهر',
+        financialGuarantee: 'حماية مالية معتمدة من كفو (تحصيل ودفع آمن 100%)',
         quantity: 1,
         unitPrice: 956.52,
         tax: 143.48,
         total: 1100
       },
       status: 'rejected',
-      statusLabel: 'مرفوض من المتجر',
-      rejectReason: 'نفاد الكمية وعدم توفر القطعة لدى الوكيل المعتمد حالياً',
-      notes: 'تم إشعار العميل وإرجاع المبلغ لمحفظته تلقائياً',
+      statusLabel: 'مرفوض / مرتجع لعدم المطابقة',
+      rejectReason: 'عدم مطابقة كود القطعة لرقم الهيكل والمواصفات الفنية للسيارة',
+      courierInspectionNote: 'تقرير فحص ومعاينة المندوب: تبين أثناء المعاينة الفنية اختلاف فيش الكهرباء وقاعدة التثبيت مع رقم شاسيه كادينزا 2019، تم توثيق الحالة وإلغاء التسليم وإرجاع المبلغ لمحفظة العميل فوراً.',
+      notes: 'تم إشعار العميل وإرجاع المبلغ لمحفظته تلقائياً بناءً على تقرير فحص المندوب',
       courier: null,
       timeline: [
-        { time: 'أمس 11:20 ص', text: 'استلام طلب الشراء' },
-        { time: 'أمس 11:35 ص', text: 'رفض الطلب لعدم توفر المخزون، وتم إشعار العميل فوراً' }
+        { time: 'أمس 11:20 ص', text: 'استلام طلب الشراء ومطابقة المواصفات' },
+        { time: 'أمس 11:35 ص', text: 'إلغاء وإرجاع لعدم مطابقة الشاسيه حسب تقرير المندوب الفني' }
       ]
     }
   ],
@@ -801,13 +807,35 @@ const KafuMerchantOrders = {
 
     const order = orders[idx];
     order.status = 'rejected';
-    order.statusLabel = 'مرفوض من المتجر';
-    order.rejectReason = reason || 'القطعة غير متوفرة حالياً';
+    order.statusLabel = 'مرفوض / مرتجع لعدم المطابقة';
+    order.rejectReason = reason || 'عدم مطابقة القطعة لمواصفات شاسيه السيارة';
 
     const now = new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
     order.timeline.unshift({
       time: now,
-      text: `تم رفض الطلب: ${order.rejectReason}`
+      text: `تم تسجيل عدم مطابقة / إرجاع: ${order.rejectReason}`
+    });
+
+    this.saveAllOrders(orders);
+    return order;
+  },
+
+  // 3-ب. إجراء: رفض أو إرجاع مع تقرير معاينة المندوب
+  rejectOrderWithCourierNote(orderId, reason, courierNote) {
+    const orders = this.getAllOrders();
+    const idx = orders.findIndex(o => o.id === orderId);
+    if (idx === -1) return false;
+
+    const order = orders[idx];
+    order.status = 'rejected';
+    order.statusLabel = 'مرفوض / مرتجع لعدم المطابقة';
+    order.rejectReason = reason || 'عدم مطابقة القطعة لرقم الهيكل';
+    order.courierInspectionNote = courierNote || 'تقرير المندوب: تم فحص القطعة بالمعاينة وتبين عدم تطابق المقاس أو الفيش، تقرر إرجاع القطعة لحماية العميل.';
+
+    const now = new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+    order.timeline.unshift({
+      time: now,
+      text: `عدم مطابقة القطعة وإرجاعها: ${order.rejectReason} (${order.courierInspectionNote})`
     });
 
     this.saveAllOrders(orders);
@@ -1075,33 +1103,74 @@ const KafuMerchantOrders = {
           </span>
         </div>
 
-        <!-- معلومات العميل وبيانات التواصل المباشر -->
-        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 9px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-          <div style="font-size: 0.82rem; color: #334155; line-height: 1.3;">
-            <div>العميل: <strong style="color: #0F172A;">${o.customer.name}</strong> (${o.customer.phoneMasked})</div>
-            <div style="font-size: 0.74rem; color: #64748B;">التوصيل إلى: ${o.customer.city} - ${o.customer.district}</div>
+        <!-- 1. معلومات العميل المحجوبة والمشفرة أمنياً (التواصل مع العميل محجوب والربط عبر كابتن كفو والورشة فقط) -->
+        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <div style="font-size: 0.84rem; color: #334155; line-height: 1.4;">
+            <div>العميل: <strong style="color: #0F172A;">${o.customer.name}</strong> <span style="font-size: 0.76rem; color: #64748B;">(الوجهة: ${o.customer.city} - ${o.customer.district})</span></div>
+            <div style="font-size: 0.73rem; color: #059669; font-weight: 700; margin-top: 3px; display: flex; align-items: center; gap: 5px;">
+              <span>🔒 قناة توصيل مشفرة ومحمية عبر كفو (التواصل مع العميل محجوب · التنسيق حصرياً مع كابتن التوصيل والورشة بدون مشاركة أرقام)</span>
+            </div>
           </div>
-          
-          <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
-            <!-- اتصال هاتفي مباشر -->
-            <a href="tel:${o.customer.phone}" title="اتصال هاتفي بالعميل" style="width: 32px; height: 32px; border-radius: 50%; background: #EFF6FF; border: 1px solid #BFDBFE; display: inline-flex; align-items: center; justify-content: center; color: #0066FF; text-decoration: none;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            </a>
-            <!-- محادثة واتساب فورية -->
-            <a href="https://wa.me/966${o.customer.phone.replace(/^0/, '')}?text=${encodeURIComponent('السلام عليكم بخصوص طلبك في كفو رقم ' + o.id)}" target="_blank" title="محادثة واتساب" style="width: 32px; height: 32px; border-radius: 50%; background: #ECFDF5; border: 1px solid #A7F3D0; display: inline-flex; align-items: center; justify-content: center; color: #16A34A; text-decoration: none;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
-            </a>
-          </div>
+          <span style="font-size: 0.72rem; background: #DCFCE7; color: #15803D; padding: 3px 8px; border-radius: 6px; font-weight: 800; white-space: nowrap;">
+            بيانات مشفرة 🛡️
+          </span>
         </div>
 
-        <!-- تفاصيل القطعة المطلوبة والـ OEM -->
-        <div style="font-size: 0.85rem; color: #334155; border-right: 3px solid #0066FF; padding-right: 10px;">
-          <div style="font-weight: 700; color: #0A2540; margin-bottom: 2px;">${o.part.name}</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 6px; font-size: 0.76rem; color: #64748B; margin-top: 4px;">
-            <span style="background: #F1F5F9; padding: 2px 7px; border-radius: 6px; font-family: monospace; font-weight: 700; color: #0F172A;">OEM: ${o.part.oem}</span>
-            <span style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 2px 7px; border-radius: 6px;">${o.part.condition}</span>
-            <span style="background: #F0FDF4; color: #15803D; padding: 2px 7px; border-radius: 6px; font-weight: 600;">✓ ${o.part.warranty}</span>
+        <!-- 2. مؤقت قبول الطلب التنازلي الحي (إذا لم يتم التأكيد يُنقل لتاجر آخر تلقائياً) -->
+        ${o.status === 'incoming' ? `
+          <div class="timer-badge-active" id="timerBadge-${o.id}" style="display: flex; align-items: center; justify-content: space-between; background: #FEF3C7; border: 1.5px solid #F59E0B; border-radius: 10px; padding: 8px 12px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <strong style="color: #92400E; font-size: 0.84rem;">مهلة قبول وتأكيد الطلب:</strong>
+              <span style="font-family: monospace; font-size: 0.95rem; font-weight: 900; color: #B45309;" id="timerDigits-${o.id}">14:45 دقيقة</span>
+            </div>
+            <span style="font-size: 0.72rem; color: #B45309; font-weight: 700;">ينتقل لتاجر آخر عند انتهاء الوقت ⚠️</span>
           </div>
+        ` : ''}
+
+        <!-- 3. تفاصيل القطعة المطلوبة والأرقام المطابقة / حجب OEM لتاجر التشليح -->
+        <div style="font-size: 0.85rem; color: #334155; border-right: 3px solid #0066FF; padding-right: 12px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+            <div style="font-weight: 800; color: #0A2540; font-size: 0.98rem;">${o.part.name}</div>
+            
+            <!-- أيقونة التفاصيل ومساعد AI بدلاً من شارة الضمان القديمة -->
+            <button type="button" onclick="KafuMerchantOrders.openPartDetailsAiModal('${o.id}')" style="background: #EFF6FF; border: 1.5px solid #BFDBFE; color: #0066FF; padding: 5px 12px; border-radius: 9px; font-size: 0.78rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(0, 102, 255, 0.1);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span>التفاصيل ومساعد AI 🤖</span>
+            </button>
+          </div>
+
+          <!-- السطر التعريفي بالحالة والضمان المالي -->
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; font-size: 0.76rem; color: #64748B; margin-top: 6px;">
+            ${((window.__kafu_force_role || (window.KafuStore && KafuStore.getRole ? KafuStore.getRole() : localStorage.getItem('kafu_user_role')) || '').toLowerCase().includes('scrap')) ? `
+              <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; padding: 2px 8px; border-radius: 6px; font-weight: 700;">تشليح ومستعمل مفحوص</span>
+              <span style="background: #F1F5F9; color: #475569; padding: 2px 8px; border-radius: 6px;">كود OEM (محمي بشاشة كفو · المطابقة بالاسم والفحص)</span>
+            ` : `
+              <span style="background: #F1F5F9; padding: 2px 8px; border-radius: 6px; font-family: monospace; font-weight: 800; color: #0F172A;">OEM: ${o.part.oem}</span>
+              <span style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 2px 8px; border-radius: 6px;">${o.part.condition}</span>
+            `}
+            <span style="background: #F0FDF4; color: #15803D; padding: 2px 8px; border-radius: 6px; font-weight: 700;">✓ حماية مالية ودفع آمن 100% من كفو</span>
+          </div>
+
+          <!-- الأرقام البديلة والمطابقة (تظهر لتاجر القطع الجديدة) -->
+          ${!((window.__kafu_force_role || (window.KafuStore && KafuStore.getRole ? KafuStore.getRole() : localStorage.getItem('kafu_user_role')) || '').toLowerCase().includes('scrap')) ? `
+            <div style="font-size: 0.76rem; color: #475569; margin-top: 6px; background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 8px; padding: 6px 10px;">
+              <span>🔄 <strong>الأرقام المطابقة والبديلة بالكتالوج:</strong> </span>
+              <strong style="color: #0066FF; font-family: monospace;">${(o.part.crossOems && o.part.crossOems.length > 0) ? o.part.crossOems.join('  ·  ') : (o.part.oem + '-ALT1 · ' + o.part.oem + '-ALT2')}</strong>
+            </div>
+          ` : ''}
+
+          <!-- خاصية منع الاحتيال والعلامة المائية الرقمية لتاجر التشليح -->
+          ${((window.__kafu_force_role || (window.KafuStore && KafuStore.getRole ? KafuStore.getRole() : localStorage.getItem('kafu_user_role')) || '').toLowerCase().includes('scrap')) ? `
+            <div style="margin-top: 8px; background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between;">
+              <div style="font-size: 0.76rem; color: #92400E;">
+                <strong>🛡️ خاصية منع الاحتيال:</strong> صورة القطعة مختومة بعلامة مائية رقمية (${o.id}).
+              </div>
+              <button type="button" onclick="KafuMerchantOrders.openWatermarkVerificationModal('${o.id}')" style="background: #D97706; color: #FFFFFF; border: none; padding: 4px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 800; cursor: pointer;">
+                مطابقة صور المندوب بالـ AI 📷
+              </button>
+            </div>
+          ` : ''}
         </div>
 
         <!-- تنبيهات الحالة الخاصة (انتظار / مراجعة / رفض) -->
@@ -1120,9 +1189,17 @@ const KafuMerchantOrders = {
         ` : ''}
 
         ${o.status === 'rejected' ? `
-          <div style="background: #FEF2F2; border: 1.5px solid #FECACA; border-radius: 12px; padding: 9px 12px; font-size: 0.8rem; color: #991B1B; display: flex; align-items: flex-start; gap: 8px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.3" style="flex-shrink:0; margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            <div><strong>سبب الرفض:</strong> ${o.rejectReason || 'نفاد المخزون وعدم توفر القطعة'}</div>
+          <div style="background: #FEF2F2; border: 1.5px solid #FECACA; border-radius: 12px; padding: 10px 14px; font-size: 0.82rem; color: #991B1B; display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.3" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              <div><strong>السبب:</strong> ${o.rejectReason || 'عدم مطابقة القطعة لمواصفات شاسيه السيارة'}</div>
+            </div>
+            ${o.courierInspectionNote ? `
+              <div style="background: #FFFFFF; border: 1px dashed #FCA5A5; border-radius: 8px; padding: 8px 10px; font-size: 0.77rem; color: #7F1D1D; line-height: 1.4;">
+                <strong style="color: #991B1B;">📋 تقرير فحص ومعاينة المندوب:</strong>
+                <div>${o.courierInspectionNote}</div>
+              </div>
+            ` : ''}
           </div>
         ` : ''}
 
@@ -1489,63 +1566,65 @@ const KafuMerchantOrders = {
     document.body.insertAdjacentHTML('beforeend', modalHtml);
   },
 
-  // 6. نافذة رفض الطلب (Reject Modal)
+  // 6. نافذة عدم مطابقة القطعة والإرجاع مع تقرير المندوب (Mismatch & Return Modal)
   openRejectModal(orderId) {
     const order = this.getOrder(orderId);
     if (!order) return;
 
     const modalHtml = `
       <div id="subActionModalContainer" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(6px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px;">
-        <div style="background: #FFFFFF; width: 100%; max-width: 440px; border-radius: 24px; padding: 22px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25); display: flex; flex-direction: column; gap: 14px;">
+        <div style="background: #FFFFFF; width: 100%; max-width: 480px; border-radius: 24px; padding: 22px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25); display: flex; flex-direction: column; gap: 14px;">
           
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 1.3rem;">✕</span>
-              <strong style="font-size: 1.1rem; color: #DC2626;">رفض طلب العميل</strong>
+              <span style="font-size: 1.3rem;">📋</span>
+              <strong style="font-size: 1.1rem; color: #DC2626;">تقرير عدم مطابقة القطعة والإرجاع</strong>
             </div>
             <button onclick="document.getElementById('subActionModalContainer').remove()" style="background: none; border: none; font-size: 1.2rem; color: #64748B; cursor: pointer;">✕</button>
           </div>
 
-          <p style="font-size: 0.84rem; color: #64748B; margin: 0;">هل أنت متأكد من رغبتك برفض طلب <strong style="color: #0F172A;">${order.id}</strong>؟ سيتم إعادة المبلغ تلقائياً لمحفظة العميل.</p>
+          <p style="font-size: 0.84rem; color: #64748B; margin: 0;">تسجيل عدم مطابقة طلب <strong style="color: #0F172A;">${order.id}</strong> (${order.part.name}). سيتم إرجاع القطعة وإعادة المبلغ لمحفظة العميل فوراً.</p>
 
           <div>
-            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; display: block; margin-bottom: 6px;">حدد سبب الرفض:</label>
+            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; display: block; margin-bottom: 6px;">سبب عدم المطابقة أو الإرجاع:</label>
             <div style="display: flex; flex-direction: column; gap: 6px;">
-              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #334155; cursor: pointer; padding: 6px 10px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 10px;">
-                <input type="radio" name="rejectReasonOpt" value="نفاد الكمية وعدم توفر القطعة لدى الوكيل حالياً" checked />
-                <span>نفاد الكمية وعدم توفر القطعة حالياً</span>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #334155; cursor: pointer; padding: 7px 10px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 10px;">
+                <input type="radio" name="rejectReasonOpt" value="كود القطعة لا يطابق رقم هيكل سيارة العميل (VIN Mismatch)" checked />
+                <span>كود القطعة لا يطابق رقم هيكل سيارة العميل (VIN Mismatch)</span>
               </label>
-              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #334155; cursor: pointer; padding: 6px 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px;">
-                <input type="radio" name="rejectReasonOpt" value="كود القطعة لا يطابق رقم هيكل سيارة العميل" />
-                <span>كود القطعة لا يطابق رقم هيكل سيارة العميل</span>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #334155; cursor: pointer; padding: 7px 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px;">
+                <input type="radio" name="rejectReasonOpt" value="اختلاف المقاس الفني أو الفيش الكهربائي عند معاينة المندوب والورشة" />
+                <span>اختلاف المقاس الفني أو الفيش عند معاينة المندوب والورشة</span>
               </label>
-              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #334155; cursor: pointer; padding: 6px 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px;">
-                <input type="radio" name="rejectReasonOpt" value="تلف أو عيب مصنعي في القطعة المتبقية بالمستودع" />
-                <span>تلف أو عيب مصنعي في القطعة بالمستودع</span>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #334155; cursor: pointer; padding: 7px 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px;">
+                <input type="radio" name="rejectReasonOpt" value="طلب إرجاع فوري من العميل / الورشة لعدم المطابقة" />
+                <span>طلب إرجاع فوري من العميل / الورشة لعدم المطابقة</span>
               </label>
             </div>
           </div>
 
-          <div>
-            <label style="font-size: 0.82rem; font-weight: 700; color: #334155; display: block; margin-bottom: 4px;">سبب آخر أو تفاصيل:</label>
-            <input type="text" id="customRejectNote" placeholder="اكتب توضيحاً للعميل..." style="width: 100%; height: 38px; padding: 0 10px; border: 1.5px solid #CBD5E1; border-radius: 10px; font-family: inherit; font-size: 0.84rem; outline: none; box-sizing: border-box;" />
+          <!-- تقرير ورسالة فحص المندوب الميداني (خاصة للمندوب) -->
+          <div style="background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 12px; padding: 10px 12px;">
+            <label style="font-size: 0.82rem; font-weight: 800; color: #92400E; display: flex; align-items: center; gap: 5px; margin-bottom: 6px;">
+              <span>🚚 رسالة وتقرير فحص المندوب الميداني (خاص بالمعاينة):</span>
+            </label>
+            <textarea id="courierInspectionInput" rows="3" placeholder="يكتب المندوب هنا تقرير المعاينة (مثال: تم فحص القطعة بالورشة وتبين أن قاعدة التثبيت مختلفة عن شاسيه السيارة، تم التقاط الصور وإلغاء الاستلام)..." style="width: 100%; padding: 8px 10px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-family: inherit; font-size: 0.82rem; outline: none; box-sizing: border-box; resize: vertical;">تم فحص القطعة ومطابقتها برقم الهيكل بالموقع وتبين عدم مطابقة المقاس الفني، تقرر إرجاع القطعة لحماية العميل.</textarea>
           </div>
 
-          <div style="display: flex; gap: 8px; margin-top: 6px;">
+          <div style="display: flex; gap: 8px; margin-top: 4px;">
             <button 
               type="button" 
               onclick="
                 const selected = document.querySelector('input[name=rejectReasonOpt]:checked').value;
-                const note = document.getElementById('customRejectNote').value.trim();
-                const reason = note ? (selected + ' - ' + note) : selected;
-                KafuMerchantOrders.rejectOrder('${orderId}', reason);
+                const courierNote = document.getElementById('courierInspectionInput').value.trim();
+                KafuMerchantOrders.rejectOrderWithCourierNote('${orderId}', selected, courierNote);
                 document.getElementById('subActionModalContainer').remove();
-                if (window.KafuApp && KafuApp.showToast) KafuApp.showToast('تم رفض الطلب وإشعار العميل');
+                if (window.KafuApp && KafuApp.showToast) KafuApp.showToast('تم تسجيل تقرير عدم المطابقة والإرجاع بنجاح');
                 KafuMerchantOrders.refreshOrdersModal();
               "
               style="flex: 1; height: 42px; background: #DC2626; color: #FFFFFF; border: none; border-radius: 12px; font-size: 0.88rem; font-weight: 800; cursor: pointer;"
             >
-              تأكيد الرفض والإلغاء
+              تأكيد عدم المطابقة والإرجاع
             </button>
             <button 
               type="button" 
@@ -1553,6 +1632,11 @@ const KafuMerchantOrders = {
               style="flex: 1; height: 42px; background: #F1F5F9; color: #475569; border: none; border-radius: 12px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"
             >
               تراجع
+            </button>
+          </div>
+
+        </div>
+      </div>
             </button>
           </div>
 
@@ -1650,6 +1734,221 @@ const KafuMerchantOrders = {
     `;
 
     document.body.insertAdjacentHTML('beforeend', modalHtml);
+  },
+
+  // 8. نافذة تفاصيل القطعة الكاملة ومساعد الذكاء الاصطناعي (AI Part Details & Verification)
+  openPartDetailsAiModal(orderId) {
+    const order = this.getOrder(orderId);
+    if (!order) return;
+
+    const role = (window.KafuStore && window.KafuStore.getRole) ? window.KafuStore.getRole() : 'merchant_new';
+    const isTashlih = (role === 'merchant_scrap' || role === 'rep_scrap');
+
+    const modalHtml = `
+      <div id="partAiDetailsModal" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(6px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px;">
+        <div style="background: #FFFFFF; width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; border-radius: 24px; padding: 22px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25); display: flex; flex-direction: column; gap: 14px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EDF2F7; padding-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.4rem;">🤖</span>
+              <div>
+                <strong style="font-size: 1.05rem; color: #0A2540;">مساعد كفو الذكي وتفاصيل القطعة</strong>
+                <div style="font-size: 0.72rem; color: #64748B;">فحص التوافق برقم الشاسيه والكتالوجات الهندسية</div>
+              </div>
+            </div>
+            <button onclick="document.getElementById('partAiDetailsModal').remove()" style="background: none; border: none; font-size: 1.2rem; color: #64748B; cursor: pointer;">✕</button>
+          </div>
+
+          <!-- بطاقة القطعة والسيارة -->
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 12px;">
+            <div style="font-weight: 800; color: #0F172A; font-size: 0.95rem; margin-bottom: 4px;">${order.part.name}</div>
+            <div style="font-size: 0.78rem; color: #64748B;">المركبة: <strong style="color: #0A6CFF;">${order.car.displayName}</strong> · سنة الصنع: ${order.car.year}</div>
+            <div style="font-size: 0.76rem; font-family: monospace; color: #475569; margin-top: 3px;">رقم الهيكل الكامل (VIN): ${order.car.vin}</div>
+          </div>
+
+          <!-- تفاصيل الأكواد والأرقام البديلة -->
+          <div style="border: 1px solid #E2E8F0; border-radius: 14px; padding: 12px; font-size: 0.82rem; display: flex; flex-direction: column; gap: 6px;">
+            ${isTashlih ? `
+              <div style="background: #FEF3C7; color: #92400E; padding: 6px 10px; border-radius: 8px; font-size: 0.76rem; font-weight: 700;">
+                🔒 نظام التشليح: رقم القطعة OEM محمي بشاشة إدارة كفو، ويظهر للتاجر اسم القطعة وبيانات السيارة والمطابقة بالصور الحقيقية فقط.
+              </div>
+            ` : `
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #64748B;">رقم OEM الأساسي:</span>
+                <strong style="font-family: monospace; color: #0066FF;">${order.part.oem}</strong>
+              </div>
+              <div style="border-top: 1px dashed #E2E8F0; padding-top: 6px;">
+                <span style="color: #64748B; display: block; margin-bottom: 4px;">الأرقام المطابقة والبديلة بالكتالوج (Cross-References):</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                  ${((order.part.crossOems && order.part.crossOems.length > 0) ? order.part.crossOems : ['04465-02220', '04465-06100', '04465-AZ001']).map(c => `
+                    <span style="background: #EFF6FF; color: #0066FF; padding: 2px 7px; border-radius: 6px; font-family: monospace; font-size: 0.75rem; font-weight: 700;">${c}</span>
+                  `).join('')}
+                </div>
+              </div>
+            `}
+            <div style="display: flex; justify-content: space-between; border-top: 1px dashed #E2E8F0; padding-top: 6px;">
+              <span style="color: #64748B;">تصنيف القطعة:</span>
+              <span style="font-weight: 700; color: #0F172A;">${order.part.condition}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: #64748B;">الضمان المالي:</span>
+              <span style="font-weight: 700; color: #16A34A;">✓ ضمان كفو المالي 100% (تحصيل وحماية الحقوق)</span>
+            </div>
+          </div>
+
+          <!-- تقرير الذكاء الاصطناعي لمطابقة القطعة (AI Compatibility Report) -->
+          <div style="background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%); border: 1.5px solid #86EFAC; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <strong style="color: #15803D; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+                <span>✨ نتيجة فحص كفو AI:</span>
+                <span style="background: #16A34A; color: #FFFFFF; font-size: 0.72rem; padding: 2px 8px; border-radius: 999px;">تطابق 100% مؤكد</span>
+              </strong>
+              <span style="font-size: 0.72rem; color: #166534; font-weight: 700;">فحص فوري</span>
+            </div>
+            <p style="margin: 0; font-size: 0.78rem; color: #14532D; line-height: 1.45;">
+              قام محرك الذكاء الاصطناعي بمطابقة أبعاد القطعة ومقاسات التثبيت مع رقم شاسيه سيارة العميل (${order.car.vin}) ومحرك 2.5L. الأرقام البديلة متطابقة تماماً ولا يوجد أي تعارض هندسي. القطعة جاهزة للتجهيز والتسليم للكابتن.
+            </p>
+          </div>
+
+          <button 
+            type="button" 
+            onclick="document.getElementById('partAiDetailsModal').remove()"
+            style="width: 100%; height: 42px; background: #0066FF; color: #FFFFFF; border: none; border-radius: 12px; font-size: 0.9rem; font-weight: 800; cursor: pointer; margin-top: 4px;"
+          >
+            إغلاق ومتابعة الطلب
+          </button>
+
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+  },
+
+  // 9. نافذة العلامة المائية ومطابقة صور المندوب بالـ AI لمنع الاحتيال (Tashlih Anti-Fraud)
+  openWatermarkVerificationModal(orderId) {
+    const order = this.getOrder(orderId);
+    if (!order) return;
+
+    const modalHtml = `
+      <div id="watermarkModal" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(6px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px;">
+        <div style="background: #FFFFFF; width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; border-radius: 24px; padding: 22px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25); display: flex; flex-direction: column; gap: 14px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EDF2F7; padding-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.3rem;">🛡️</span>
+              <div>
+                <strong style="font-size: 1.05rem; color: #0A2540;">نظام منع الاحتيال ومطابقة الصور المزدوجة</strong>
+                <div style="font-size: 0.72rem; color: #64748B;">العلامة المائية الرقمية + مطابقة صور المندوب بالذكاء الاصطناعي</div>
+              </div>
+            </div>
+            <button onclick="document.getElementById('watermarkModal').remove()" style="background: none; border: none; font-size: 1.2rem; color: #64748B; cursor: pointer;">✕</button>
+          </div>
+
+          <!-- توضيح المنظومة الأمنية -->
+          <div style="background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 12px; padding: 10px 12px; font-size: 0.78rem; color: #92400E; line-height: 1.4;">
+            <strong>معيار كفو الأمني لتشاليح المملكة:</strong>
+            يتم ختم صور القطعة من الرف بعلامة مائية رقمية غير قابلة للإزالة. وعند استلام المندوب يقوم بالتقاط صورة فورية، ليقوم نظام كفو بمطابقتهما بالـ AI بنسبة 100% لمنع تبديل القطع.
+          </div>
+
+          <!-- الصورتان جنباً إلى جنب مع العلامة المائية ونسبة التطابق -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <!-- صورة تاجر التشليح مع العلامة المائية -->
+            <div style="border: 1.5px solid #E2E8F0; border-radius: 14px; overflow: hidden; background: #F8FAFC;">
+              <div style="position: relative; height: 130px; background: #E2E8F0;">
+                <img src="assets/images/products/suspension_shock.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="صورة التشليح">
+                <!-- العلامة المائية الرقمية -->
+                <div style="position: absolute; inset: 0; background: rgba(15, 23, 42, 0.45); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #FFFFFF; font-size: 0.65rem; font-weight: 800; text-align: center; padding: 4px; pointer-events: none;">
+                  <span style="border: 1px dashed #FFFFFF; padding: 2px 6px; border-radius: 4px; margin-bottom: 2px;">كفو · تشليح معتمد</span>
+                  <span>#${order.id} | الحائر-104</span>
+                  <span dir="ltr">${new Date().toISOString().slice(0, 10)}</span>
+                </div>
+              </div>
+              <div style="padding: 6px 8px; font-size: 0.74rem; font-weight: 700; color: #0F172A; text-align: center; background: #FFFFFF;">
+                📷 صورة تاجر التشليح (الرف)
+              </div>
+            </div>
+
+            <!-- صورة المندوب المستلم -->
+            <div style="border: 1.5px solid #86EFAC; border-radius: 14px; overflow: hidden; background: #F0FDF4;">
+              <div style="position: relative; height: 130px; background: #DCFCE7;">
+                <img src="assets/images/products/suspension_shock.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="صورة المندوب">
+                <span style="position: absolute; top: 6px; right: 6px; background: #16A34A; color: #FFF; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">
+                  ✓ تم الفحص
+                </span>
+              </div>
+              <div style="padding: 6px 8px; font-size: 0.74rem; font-weight: 700; color: #166534; text-align: center; background: #FFFFFF;">
+                🚚 معاينة المندوب المستلم
+              </div>
+            </div>
+          </div>
+
+          <!-- شريط التطابق الذكي بنسبة 99.4% -->
+          <div style="background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.2rem;">🔬</span>
+              <div>
+                <strong style="color: #0066FF; font-size: 0.86rem;">نسبة التطابق البصري (AI Visual Match):</strong>
+                <div style="font-size: 0.74rem; color: #64748B;">تم التأكد أن القطعة المسلمة مطابقة لصورة العرض 100%</div>
+              </div>
+            </div>
+            <strong style="font-size: 1.15rem; color: #16A34A; font-family: monospace;">99.4%</strong>
+          </div>
+
+          <button 
+            type="button" 
+            onclick="document.getElementById('watermarkModal').remove()"
+            style="width: 100%; height: 42px; background: #D97706; color: #FFFFFF; border: none; border-radius: 12px; font-size: 0.9rem; font-weight: 800; cursor: pointer; margin-top: 4px;"
+          >
+            تأكيد سلامة المطابقة والمتابعة
+          </button>
+
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+  },
+
+  // 10. مؤقتات قبول الطلب الحية (15 دقيقة)
+  startCountdownTimers() {
+    if (this._timerInterval) clearInterval(this._timerInterval);
+    
+    this._timerInterval = setInterval(() => {
+      const orders = this.getAllOrders();
+      let updated = false;
+
+      orders.forEach(o => {
+        if (o.status === 'incoming') {
+          if (!o.countdownSeconds && o.countdownSeconds !== 0) {
+            o.countdownSeconds = 900; // 15 دقيقة افتراضية
+          }
+          if (o.countdownSeconds > 0) {
+            o.countdownSeconds--;
+            const mins = Math.floor(o.countdownSeconds / 60);
+            const secs = o.countdownSeconds % 60;
+            const text = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')} دقيقة`;
+            
+            const el = document.getElementById(`timerDigits-${o.id}`);
+            if (el) el.textContent = text;
+          } else {
+            // انتهاء المهلة: تحويل الطلب لتاجر آخر
+            o.status = 'rejected';
+            o.statusLabel = 'انتهت المهلة - تحويل لتاجر بديل';
+            o.rejectReason = 'انتهت مهلة الـ 15 دقيقة المحددة للقبول، تم نقل الطلب آلياً لتاجر آخر';
+            updated = true;
+          }
+        }
+      });
+
+      if (updated) {
+        this.saveAllOrders(orders);
+        this.refreshOrdersModal();
+        if (window.KafuApp && KafuApp.showToast) {
+          KafuApp.showToast('⚠️ انتهت مهلة تأكيد أحد الطلبات وتم تحويله تلقائياً لتاجر آخر');
+        }
+      }
+    }, 1000);
   }
 };
 

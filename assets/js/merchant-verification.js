@@ -16,12 +16,16 @@ const KafuMerchantVerification = {
   getRoleContext() {
     const rawRole = (window.__kafu_force_role || (window.KafuStore && KafuStore.getUserRole ? KafuStore.getUserRole() : localStorage.getItem('kafu_user_role')) || 'merchant_new').toLowerCase();
     if (rawRole.includes('courier')) return 'courier';
+    if (rawRole.includes('rep')) return 'rep';
+    if (rawRole.includes('scrap')) return 'scrap';
     return 'merchant';
   },
 
   getStorageKey() {
     const role = this.getRoleContext();
     if (role === 'courier') return 'kafu_courier_documents_v1';
+    if (role === 'rep') return 'kafu_rep_documents_v1';
+    if (role === 'scrap') return 'kafu_scrap_documents_v1';
     return 'kafu_merchant_documents_v1';
   },
 
@@ -317,6 +321,115 @@ const KafuMerchantVerification = {
     }
   },
 
+  defaultScrapDocs: {
+    nafath_absher: {
+      id: 'nafath_absher',
+      title: 'توثيق النفاذ الوطني الموحد وأبشر (Nafath & Absher)',
+      enTitle: 'National Single Sign-On Verification',
+      number: '1074829103',
+      ownerName: 'سعود بن تركي العتيبي',
+      idType: 'هوية وطنية موثقة رقمياً عبر تطبيق نفاذ',
+      expiryDate: '1454/06/15 هـ',
+      authority: 'مركز المعلومات الوطني - منصة نفاذ وأبشر',
+      status: 'verified',
+      statusText: 'موثق نفاذ وأبشر ✓',
+      statusBg: '#DCFCE7',
+      statusColor: '#15803D',
+      fileName: 'nafath_absher_verification_seal.pdf',
+      fileSize: '920 KB',
+      uploadDate: '2024/03/10',
+      fileType: 'application/pdf',
+      previewUrl: null,
+      icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`
+    },
+    tashlih_permit: {
+      id: 'tashlih_permit',
+      title: 'تصريح وترخيص نشاط التشليح وسكراب السيارات',
+      enTitle: 'Tashlih Scrap Yard Official Permit (Balady)',
+      number: 'TSH-774921-RUH',
+      entityName: 'مؤسسة تشاليح الحائر الكبرى للمركبات',
+      entityType: 'تشليح سيارات وتجارة قطع الغيار المستعملة والسكراب',
+      city: 'الرياض - تشاليح الحائر',
+      authority: 'أمانة منطقة الرياض - وزارة البلديات والإسكان (بلدي)',
+      issueDate: '1443/01/20 هـ',
+      expiryDate: '1448/01/19 هـ',
+      status: 'verified',
+      statusText: 'ترخيص تشليح ساري ✓',
+      statusBg: '#DCFCE7',
+      statusColor: '#15803D',
+      fileName: 'balady_tashlih_permit_774921.pdf',
+      fileSize: '1.6 MB',
+      uploadDate: '2024/03/10',
+      fileType: 'application/pdf',
+      previewUrl: null,
+      icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>`
+    },
+    cr: {
+      id: 'cr',
+      title: 'السجل التجاري لمركز التشليح',
+      enTitle: 'Scrap Commercial Registration (CR)',
+      number: '1010729384',
+      issueDate: '1442/08/10 هـ',
+      expiryDate: '1447/08/09 هـ',
+      entityName: 'مؤسسة تشاليح الحائر الكبرى للمركبات',
+      entityType: 'مؤسسة فردية - تشليح وتدوير هياكل المركبات وقطع الغيار المستعملة',
+      city: 'الرياض',
+      authority: 'وزارة التجارة',
+      status: 'verified',
+      statusText: 'سجل تجاري موثق ✓',
+      statusBg: '#DCFCE7',
+      statusColor: '#15803D',
+      fileName: 'cr_tashlih_1010729384.pdf',
+      fileSize: '1.4 MB',
+      uploadDate: '2024/03/10',
+      fileType: 'application/pdf',
+      previewUrl: null,
+      icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`
+    },
+    vat: {
+      id: 'vat',
+      title: 'الشهادة الضريبية للتشليح (ZATCA)',
+      enTitle: 'ZATCA VAT Certificate',
+      number: '310928471900003',
+      issueDate: '2022/01/01 م',
+      expiryDate: 'سارية ومجددة تلقائياً',
+      entityName: 'مؤسسة تشاليح الحائر الكبرى للمركبات',
+      entityType: 'مكلف خاضع لضريبة القيمة المضافة 15%',
+      city: 'الرياض',
+      authority: 'هيئة الزكاة والضريبة والجمارك (ZATCA)',
+      status: 'verified',
+      statusText: 'مفعل ZATCA ✓',
+      statusBg: '#DCFCE7',
+      statusColor: '#15803D',
+      fileName: 'zatca_vat_tashlih_310928471900003.pdf',
+      fileSize: '810 KB',
+      uploadDate: '2024/03/10',
+      fileType: 'application/pdf',
+      previewUrl: null,
+      icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M2 9.5h20"/><path d="M17 15h.01M12 15h.01"/></svg>`
+    },
+    bank: {
+      id: 'bank',
+      title: 'شهادة الآيبان البنكي لمستحقات التشليح',
+      enTitle: 'Bank Account & IBAN Certificate',
+      number: 'SA82 8000 0451 8901 2345 6789',
+      bankName: 'مصرف الراجحي (Al Rajhi Bank)',
+      beneficiary: 'مؤسسة تشاليح الحائر الكبرى للمركبات',
+      crNumber: '1010729384',
+      authority: 'البنك المركزي السعودي (ساما)',
+      status: 'verified',
+      statusText: 'آيبان مفعل للتحويل الفوري ✓',
+      statusBg: '#DCFCE7',
+      statusColor: '#15803D',
+      fileName: 'alrajhi_tashlih_iban_certified.pdf',
+      fileSize: '620 KB',
+      uploadDate: '2024/03/10',
+      fileType: 'application/pdf',
+      previewUrl: null,
+      icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="21" x2="21" y2="21"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="5 6 12 3 19 6"/><line x1="4" y1="10" x2="4" y2="21"/><line x1="20" y1="10" x2="20" y2="21"/></svg>`
+    }
+  },
+
   getDocs() {
     try {
       const key = this.getStorageKey();
@@ -330,6 +443,7 @@ const KafuMerchantVerification = {
     const role = this.getRoleContext();
     if (role === 'courier') return JSON.parse(JSON.stringify(this.defaultCourierDocs));
     if (role === 'rep') return JSON.parse(JSON.stringify(this.defaultRepDocs));
+    if (role === 'scrap') return JSON.parse(JSON.stringify(this.defaultScrapDocs));
     return JSON.parse(JSON.stringify(this.defaultMerchantDocs));
   },
 
@@ -369,6 +483,12 @@ const KafuMerchantVerification = {
       bannerNote = 'استعراض وتحديث رخصة القيادة واستمارة سير المركبة والتأمين الشامل المعتمد.';
       fullPageUrl = 'rep-verification.html';
       fullPageLabel = 'فتح صفحة توثيق كابتن التوصيل الكاملة ↗';
+    } else if (role === 'scrap') {
+      headerTitle = 'مركز تشليح وسكراب معتمد 100%';
+      headerSub = 'توثيق نفاذ وأبشر وتصريح بلدي وسجل التشليح';
+      bannerNote = 'تخضع منشآت التشليح للتحقق والربط المباشر مع النفاذ الوطني الموحد وأبشر وترخيص بلدي لحماية التعاملات المالية والحد من الاحتيال.';
+      fullPageUrl = 'merchant-verification.html';
+      fullPageLabel = 'وثائق وتراخيص التشليح المعتمدة ↗';
     }
 
     return `
@@ -404,6 +524,20 @@ const KafuMerchantVerification = {
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.72rem; opacity: 0.85; position: relative; z-index: 2;">
+            <span>تم التحقق عبر نفاذ وأبشر وزاتكا والجهات الرسمية</span>
+            <span>مشفر ومحمي 256-bit</span>
+          </div>
+        </div>
+
+        <!-- زر المصادقة الفورية وسحب البيانات عبر نفاذ وأبشر -->
+        <button 
+          type="button" 
+          onclick="KafuMerchantVerification.openNafathSyncModal()" 
+          style="display: flex; align-items: center; justify-content: center; gap: 8px; background: #007A3D; color: #FFFFFF; border: none; padding: 12px 14px; border-radius: 14px; font-weight: 800; font-size: 0.88rem; cursor: pointer; box-shadow: 0 4px 14px rgba(0,122,61,0.22); width: 100%; transition: all 0.2s;"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          <span>التحقق الفوري وسحب بيانات المنشأة عبر نفاذ (Nafath SSO) 🇸🇦</span>
+        </button>
             <span>تم التحقق عبر نفاذ وزاتكا والجهات الرسمية</span>
             <span>مشفر وآمن 256-bit</span>
           </div>
@@ -931,6 +1065,75 @@ const KafuMerchantVerification = {
           </div>
         </div>
       `;
+    } else if (docId === 'nafath_absher') {
+      previewContent = `
+        <div style="background: linear-gradient(135deg, #007A3D 0%, #064E3B 100%); color: #FFFFFF; border-radius: 16px; padding: 18px; position: relative; margin-bottom: 14px; box-shadow: 0 8px 24px rgba(0,122,61,0.25); font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <div style="font-size: 0.78rem; opacity: 0.85;">المملكة العربية السعودية · النفاذ الوطني الموحد</div>
+              <div style="font-size: 1rem; font-weight: 800; margin-top: 2px;">توثيق الحساب عبر نفاذ وأبشر</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;">
+              موثق نفاذ وأبشر 100% ✓
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 14px; margin: 16px 0;">
+            <div style="width: 60px; height: 75px; border-radius: 8px; background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.68rem;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              <span>نفاذ مفعل</span>
+            </div>
+            <div>
+              <div style="font-size: 0.74rem; opacity: 0.8;">اسم المالك / المفوض:</div>
+              <div style="font-weight: 800; font-size: 1.05rem;">${doc.ownerName || 'سعود بن تركي العتيبي'}</div>
+              <div style="font-size: 0.74rem; opacity: 0.8; margin-top: 6px;">رقم الهوية الوطنية:</div>
+              <div style="font-family: monospace; font-size: 1.1rem; font-weight: 800; letter-spacing: 1px;">${doc.number}</div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; font-size: 0.74rem; opacity: 0.9; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 8px;">
+            <span>الصلاحية: ${doc.expiryDate}</span>
+            <span>الربط: مركز المعلومات الوطني</span>
+          </div>
+        </div>
+      `;
+    } else if (docId === 'tashlih_permit') {
+      previewContent = `
+        <div style="background: #FFFFFF; border: 2px solid #D97706; border-radius: 14px; padding: 18px; position: relative; margin-bottom: 14px; box-shadow: 0 4px 14px rgba(217,119,6,0.12); font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #FDE68A; padding-bottom: 10px; margin-bottom: 12px;">
+            <div style="text-align: right;">
+              <div style="font-weight: 800; font-size: 0.95rem; color: #92400E;">وزارة البلديات والإسكان (بلدي)</div>
+              <div style="font-size: 0.8rem; color: #D97706; font-weight: 700;">تصريح مزاولة نشاط التشليح وسكراب المركبات</div>
+            </div>
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: #FEF3C7; border: 1.5px solid #F59E0B; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+              🏭
+            </div>
+          </div>
+
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 12px; margin-bottom: 10px;">
+            <div style="font-size: 0.74rem; color: #64748B;">رقم ترخيص التشليح المعتمد:</div>
+            <div style="font-family: monospace; font-size: 1.2rem; font-weight: 800; color: #B45309; letter-spacing: 1px; margin-top: 3px;">
+              ${doc.number}
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.78rem;">
+            <div style="background: #F1F5F9; padding: 8px; border-radius: 8px;">
+              <span style="color: #64748B; font-size: 0.7rem; display: block;">موقع التشليح:</span>
+              <strong>${doc.city || 'الرياض - تشاليح الحائر'}</strong>
+            </div>
+            <div style="background: #F1F5F9; padding: 8px; border-radius: 8px;">
+              <span style="color: #64748B; font-size: 0.7rem; display: block;">صلاحية الترخيص:</span>
+              <strong>${doc.expiryDate}</strong>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #E2E8F0; font-size: 0.72rem; color: #64748B;">
+            <span>مصرح ومعتمد للبيع الميداني وتفكيك القطع</span>
+            <span style="color: #15803D; font-weight: 700;">ترخيص ساري ومعتمد ✓</span>
+          </div>
+        </div>
+      `;
     } else if (docId === 'national_id') {
       // معاينة بطاقة الهوية الوطنية
       previewContent = `
@@ -1009,6 +1212,129 @@ const KafuMerchantVerification = {
         'بيانات الوثيقة الرسمية المعتمدة لدى المنصة',
         previewModalHtml
       );
+    }
+  },
+
+  openNafathSyncModal() {
+    const existing = document.getElementById('nafathSyncModalContainer');
+    if (existing) existing.remove();
+
+    const role = this.getRoleContext();
+    const isScrap = role === 'scrap';
+
+    const modalHtml = `
+      <div id="nafathSyncModalContainer" style="position: fixed; inset: 0; background: rgba(15,23,42,0.7); backdrop-filter: blur(5px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px; font-family: 'IBM Plex Sans Arabic', sans-serif;" dir="rtl">
+        <div style="background: #FFFFFF; border-radius: 22px; width: 100%; max-width: 440px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3); border: 2px solid #007A3D; padding: 22px; display: flex; flex-direction: column; gap: 14px; text-align: center;">
+          
+          <div style="width: 58px; height: 58px; border-radius: 50%; background: #E6F4EA; color: #007A3D; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          </div>
+
+          <div>
+            <h3 style="margin: 0; font-size: 1.15rem; font-weight: 900; color: #007A3D;">النفاذ الوطني الموحد (نفاذ)</h3>
+            <p style="margin: 4px 0 0; font-size: 0.78rem; color: #64748B;">
+              ${isScrap ? 'التحقق من هوية تاجر التشليح وربط السجل التجاري وترخيص بلدي تلقائياً' : 'توثيق هوية التاجر واستخراج بيانات السجل التجاري والضريبة'}
+            </p>
+          </div>
+
+          <div id="nafathSyncStepOne" style="display: flex; flex-direction: column; gap: 10px; margin-top: 4px;">
+            <div style="text-align: right;">
+              <label style="font-size: 0.78rem; font-weight: 700; color: #334155;">رقم الهوية الوطنية أو الإقامة للمالك / المفوض:</label>
+              <input type="tel" id="nafathSyncIdInput" placeholder="1XXXXXXXXX (10 أرقام)" maxlength="10" value="1074829103" style="width: 100%; height: 46px; border: 1.8px solid #CBD5E1; border-radius: 12px; padding: 0 12px; font-size: 1.05rem; font-weight: 800; text-align: center; font-family: monospace; letter-spacing: 1px; margin-top: 4px;" />
+            </div>
+
+            <button type="button" onclick="KafuMerchantVerification.submitNafathSync()" style="height: 46px; background: #007A3D; color: #FFFFFF; border: none; border-radius: 12px; font-size: 0.92rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <span>إرسال طلب التحقق لتطبيق نفاذ</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+          </div>
+
+          <div id="nafathSyncStepTwo" style="display: none; flex-direction: column; gap: 12px; align-items: center; padding: 10px 0;">
+            <p style="margin: 0; font-size: 0.85rem; color: #334155; font-weight: 700;">افتح تطبيق نفاذ على جوالك الآن واختر الرقم التالي:</p>
+            <div id="nafathSyncCode" style="width: 86px; height: 86px; border-radius: 18px; background: #007A3D; color: #FFFFFF; font-size: 2.4rem; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,122,61,0.35); animation: pulse 1.5s infinite;">
+              42
+            </div>
+            <div style="font-size: 0.76rem; color: #64748B; display: flex; align-items: center; gap: 6px;">
+              <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10B981;"></span>
+              <span>بانتظار تأكيدك داخل تطبيق نفاذ...</span>
+            </div>
+            <button type="button" onclick="KafuMerchantVerification.confirmNafathSync()" style="height: 42px; background: #F0FDF4; border: 1.5px solid #007A3D; color: #007A3D; border-radius: 10px; font-size: 0.84rem; font-weight: 800; cursor: pointer; width: 100%; margin-top: 4px;">
+              تم التأكيد في تطبيق نفاذ ✓
+            </button>
+          </div>
+
+          <button type="button" onclick="document.getElementById('nafathSyncModalContainer').remove()" style="height: 40px; background: #F1F5F9; border: none; border-radius: 10px; color: #64748B; font-weight: 700; font-size: 0.84rem; cursor: pointer;">
+            إلغاء
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+  },
+
+  submitNafathSync() {
+    const idInput = document.getElementById('nafathSyncIdInput');
+    const val = idInput ? idInput.value.trim() : '';
+    if (val.length < 10) {
+      alert('يرجى إدخال رقم هوية صحيح مكون من 10 أرقام');
+      return;
+    }
+
+    const stepOne = document.getElementById('nafathSyncStepOne');
+    const stepTwo = document.getElementById('nafathSyncStepTwo');
+    const codeEl = document.getElementById('nafathSyncCode');
+
+    const randomTwoDigits = Math.floor(10 + Math.random() * 89);
+    if (codeEl) codeEl.textContent = randomTwoDigits;
+
+    if (stepOne) stepOne.style.display = 'none';
+    if (stepTwo) stepTwo.style.display = 'flex';
+
+    setTimeout(() => {
+      if (document.getElementById('nafathSyncModalContainer')) {
+        this.confirmNafathSync();
+      }
+    }, 2800);
+  },
+
+  confirmNafathSync() {
+    const container = document.getElementById('nafathSyncModalContainer');
+    if (container) container.remove();
+
+    const role = this.getRoleContext();
+    const docs = this.getDocs();
+
+    if (docs.national_id) {
+      docs.national_id.status = 'verified';
+      docs.national_id.statusText = 'موثق عبر نفاذ وأبشر ✓';
+      docs.national_id.statusBg = '#DCFCE7';
+      docs.national_id.statusColor = '#15803D';
+    }
+    if (docs.nafath_absher) {
+      docs.nafath_absher.status = 'verified';
+      docs.nafath_absher.statusText = 'موثق عبر نفاذ وأبشر ✓';
+      docs.nafath_absher.statusBg = '#DCFCE7';
+      docs.nafath_absher.statusColor = '#15803D';
+    }
+    if (docs.cr) {
+      docs.cr.status = 'verified';
+      docs.cr.statusText = 'محدث عبر وزارة التجارة ✓';
+    }
+
+    this.saveDocs(docs);
+
+    if (window.renderPage) {
+      window.renderPage();
+    } else {
+      const mainContainer = document.getElementById('verificationMainContainer');
+      if (mainContainer) mainContainer.innerHTML = this.renderModalContent();
+    }
+
+    if (window.KafuApp && KafuApp.showToast) {
+      KafuApp.showToast('تمت المصادقة والتحقق من هويتك وسجلات المنشأة بنجاح عبر نفاذ وأبشر 🇸🇦✓');
+    } else {
+      alert('تمت المصادقة والتحقق من هويتك وسجلات المنشأة بنجاح عبر نفاذ وأبشر 🇸🇦✓');
     }
   },
 

@@ -19,6 +19,7 @@ const KafuMerchantWallet = {
     totalWithdrawn: 18520.00,
     vatCollected: 3215.20,
     vatNumber: '302918294800003',
+    kafuCommissionRate: '5%',
     bankAccount: {
       bankName: 'مصرف الراجحي (Al Rajhi Bank)',
       bankLogo: '🏛️',
@@ -27,6 +28,36 @@ const KafuMerchantWallet = {
       crNumber: '1010892019',
       isVerified: true
     },
+    disputes: [
+      {
+        id: 'DISP-7812',
+        orderId: 'ORD-8918',
+        title: 'اعتراض على تدقيق عمولة مبيعات',
+        date: 'اليوم، 11:30 ص',
+        category: 'عمولة المبيعات',
+        status: 'under_review',
+        statusLabel: 'قيد المراجعة المالية',
+        statusColor: '#B45309',
+        statusBg: '#FEF3C7',
+        amount: '24.00 ر.س',
+        details: 'طلب فحص نسبة العمولة المخصومة على طقم مكبس المحرك طبقاً للاتفاقية التجارية لنسبة الـ 5%.',
+        response: 'تم استلام الشكوى وجاري التدقيق المحاسبي من فريق كفو المالي خلال 4 ساعات عمل.'
+      },
+      {
+        id: 'DISP-7650',
+        orderId: 'ORD-8874',
+        title: 'تسوية وإعادة رسوم طلبية غير مطابقة',
+        date: 'أمس، 03:15 م',
+        category: 'إرجاع وعدم مطابقة',
+        status: 'resolved',
+        statusLabel: 'تم البت والتعويض ✓',
+        statusColor: '#15803D',
+        statusBg: '#DCFCE7',
+        amount: '1100.00 ر.س',
+        details: 'تم إرجاع القطعة من المندوب لعدم مطابقة الشاسيه، وتمت تسوية الرصيد ومحفظة التاجر تلقائياً.',
+        response: 'تم قبول طلب التسوية وإعادة كامل المبلغ لمحفظة العميل وإلغاء أي رسوم تشغيلية على المتجر.'
+      }
+    ],
     transactions: [
       {
         id: 'TXN-9841',
@@ -385,6 +416,7 @@ const KafuMerchantWallet = {
     const ctx = this.getRoleContext();
 
     let txns = data.transactions || [];
+    let disputes = data.disputes || [];
     if (activeTab === 'sales') {
       txns = txns.filter(t => t.type === 'sale');
     } else if (activeTab === 'payouts') {
@@ -396,6 +428,26 @@ const KafuMerchantWallet = {
     return `
       <div class="merchant-wallet-wrapper" style="display: flex; flex-direction: column; gap: 14px; font-family: inherit;">
         
+        <!-- كارت الشفافية: وضوح نسبة عمولة تطبيق كفو الثابتة 5% -->
+        <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 16px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 1.4rem;">⚖️</span>
+            <div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <strong style="font-size: 0.92rem; color: #166534;">نسبة عمولة تطبيق كفو: 5% ثابتة فقط</strong>
+                <span style="background: #16A34A; color: #FFFFFF; font-size: 0.68rem; padding: 2px 7px; border-radius: 4px; font-weight: 800;">شفافية 100% ✓</span>
+              </div>
+              <div style="font-size: 0.74rem; color: #15803D; margin-top: 3px;">
+                شاملة بوابات الدفع الإلكتروني (مدى، فيزا، Apple Pay)، التحصيل المالي، وضمان حقوق التاجر دون أي رسوم خفية.
+              </div>
+            </div>
+          </div>
+          <div style="text-align: left; flex-shrink: 0; background: #DCFCE7; padding: 6px 10px; border-radius: 8px;">
+            <span style="font-size: 0.68rem; color: #166534; font-weight: 700; display: block;">صافي أرباحك</span>
+            <strong style="font-size: 1.1rem; color: #15803D; font-family: monospace;">95% للتاجر</strong>
+          </div>
+        </div>
+
         <!-- 1. كارت الرصيد الرئيسي الفاخر المزدوج -->
         <div style="background: linear-gradient(135deg, #0A2540 0%, #0F3B66 100%); border-radius: 20px; padding: 18px; color: #FFFFFF; box-shadow: 0 10px 28px rgba(10, 37, 64, 0.25); position: relative; overflow: hidden;">
           
@@ -496,50 +548,105 @@ const KafuMerchantWallet = {
           </div>
         </div>
 
-        <!-- 5. سجل العمليات المالية والتحويلات مع فلاتر -->
+        <!-- 5. سجل العمليات والشكاوى مع التبويبات -->
         <div style="display: flex; flex-direction: column; gap: 8px;">
           
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <strong style="font-size: 0.88rem; color: #0F172A;">سجل العمليات المالية والتحويلات:</strong>
-            <span style="font-size: 0.74rem; color: #64748B;">(${txns.length} حركة)</span>
+            <strong style="font-size: 0.88rem; color: #0F172A;">الحركات المالية والشكاوى:</strong>
+            ${activeTab === 'disputes' ? `
+              <button 
+                type="button" 
+                onclick="KafuMerchantWallet.openNewDisputeModal()" 
+                style="background: #DC2626; color: #FFFFFF; border: none; padding: 4px 10px; border-radius: 8px; font-size: 0.76rem; font-weight: 800; cursor: pointer;"
+              >
+                + تقديم اعتراض جديد
+              </button>
+            ` : `
+              <span style="font-size: 0.74rem; color: #64748B;">(${txns.length} حركة)</span>
+            `}
           </div>
 
-          <!-- شريط فلاتر العمليات -->
+          <!-- شريط فلاتر العمليات + تبويب الشكاوى والنزاعات -->
           <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px;">
             ${this.renderTabBtn('all', 'الكل', data.transactions.length)}
             ${this.renderTabBtn('sales', ctx.salesTabLabel || 'مبيعات وأرباح (+)', data.transactions.filter(t => t.type === 'sale').length, '#15803D', '#DCFCE7')}
             ${this.renderTabBtn('payouts', 'سحوبات بنكية (-)', data.transactions.filter(t => t.type === 'payout').length, '#0369A1', '#E0F2FE')}
             ${this.renderTabBtn('pending', 'معلقة', data.transactions.filter(t => t.type === 'pending').length, '#B45309', '#FEF3C7')}
+            ${this.renderTabBtn('disputes', 'الشكاوى والنزاعات', (data.disputes || []).length, '#DC2626', '#FEE2E2')}
           </div>
 
-          <!-- قائمة الحركات المالية -->
-          <div style="display: flex; flex-direction: column; gap: 8px; max-height: 40vh; overflow-y: auto;">
-            ${txns.map(t => `
-              <div style="background: #FFFFFF; border: 1.4px solid #E2E8F0; border-radius: 14px; padding: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-                
-                <div style="display: flex; align-items: center; gap: 10px;">
-                  <div style="width: 36px; height: 36px; border-radius: 50%; background: ${t.amount > 0 ? '#DCFCE7' : '#E0F2FE'}; color: ${t.amount > 0 ? '#15803D' : '#0369A1'}; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0;">
-                    ${t.amount > 0 ? '↓' : '↑'}
+          <!-- محتوى تبويب الشكاوى أو الحركات المالية -->
+          ${activeTab === 'disputes' ? `
+            <!-- قائمة الشكاوى والاعتراضات المالية -->
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              ${(data.disputes && data.disputes.length > 0) ? data.disputes.map(d => `
+                <div style="background: #FFFFFF; border: 1.5px solid #FCA5A5; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                      <div style="display: flex; align-items: center; gap: 6px;">
+                        <strong style="color: #0F172A; font-size: 0.88rem;">شكوى رقم: ${d.id}</strong>
+                        <span style="font-size: 0.72rem; color: #64748B;">(طلب: ${d.orderId})</span>
+                      </div>
+                      <div style="font-size: 0.8rem; font-weight: 700; color: #991B1B; margin-top: 2px;">${d.title}</div>
+                    </div>
+                    <span style="font-size: 0.72rem; color: ${d.statusColor}; background: ${d.statusBg}; padding: 3px 8px; border-radius: 6px; font-weight: 800;">
+                      ${d.statusLabel}
+                    </span>
                   </div>
-                  <div>
-                    <strong style="font-size: 0.86rem; color: #0A2540; display: block;">${t.title}</strong>
-                    <span style="font-size: 0.74rem; color: #64748B; display: block;">${t.desc}</span>
-                    <span style="font-size: 0.70rem; color: #94A3B8;">${t.date} · <span style="font-family: monospace;">${t.refNumber}</span></span>
+
+                  <p style="margin: 0; font-size: 0.78rem; color: #475569; line-height: 1.35;">${d.details}</p>
+
+                  <div style="background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 8px; padding: 8px 10px; font-size: 0.75rem; color: #1E293B;">
+                    <strong>رد الإدارة المالية لمنصة كفو:</strong>
+                    <div>${d.response}</div>
+                  </div>
+
+                  <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #94A3B8; margin-top: 2px;">
+                    <span>تاريخ البلاغ: ${d.date}</span>
+                    <span>المبلغ المتنازع عليه: <strong style="color: #DC2626;">${d.amount}</strong></span>
                   </div>
                 </div>
-
-                <div style="text-align: left; flex-shrink: 0;">
-                  <strong style="font-size: 1.05rem; font-weight: 900; color: ${t.amount > 0 ? '#15803D' : '#0369A1'}; direction: ltr; display: block;" class="font-num">
-                    ${t.amount > 0 ? '+' : ''}${t.amount.toLocaleString('ar-SA', { minimumFractionDigits: 2 })} ر.س
-                  </strong>
-                  <span style="font-size: 0.70rem; color: ${t.statusColor}; background: ${t.statusBg}; padding: 2px 7px; border-radius: 6px; font-weight: 700; display: inline-block;">
-                    ${t.statusLabel}
-                  </span>
+              `).join('') : `
+                <div style="text-align: center; padding: 30px; background: #F8FAFC; border-radius: 14px; color: #64748B; font-size: 0.84rem;">
+                  لا توجد شكاوى أو نزاعات مالية معلقة حالياً ✓
                 </div>
+              `}
+            </div>
+          ` : `
+            <!-- قائمة الحركات المالية مع توضيح نسبة كفو 5% -->
+            <div style="display: flex; flex-direction: column; gap: 8px; max-height: 40vh; overflow-y: auto;">
+              ${txns.map(t => `
+                <div style="background: #FFFFFF; border: 1.4px solid #E2E8F0; border-radius: 14px; padding: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                  
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 36px; height: 36px; border-radius: 50%; background: ${t.amount > 0 ? '#DCFCE7' : '#E0F2FE'}; color: ${t.amount > 0 ? '#15803D' : '#0369A1'}; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0;">
+                      ${t.amount > 0 ? '↓' : '↑'}
+                    </div>
+                    <div>
+                      <strong style="font-size: 0.86rem; color: #0A2540; display: block;">${t.title}</strong>
+                      <span style="font-size: 0.74rem; color: #64748B; display: block;">${t.desc}</span>
+                      ${t.fee ? `
+                        <div style="font-size: 0.72rem; color: #64748B; margin-top: 3px; background: #F8FAFC; padding: 3px 6px; border-radius: 6px;">
+                          المبيعات: ${t.amount} ر.س · عمولة كفو 5%: <span style="color: #DC2626;">-${t.fee} ر.س</span> · الصافي: <strong style="color: #15803D;">${t.netProfit} ر.س</strong>
+                        </div>
+                      ` : ''}
+                      <span style="font-size: 0.70rem; color: #94A3B8; display: block; margin-top: 2px;">${t.date} · <span style="font-family: monospace;">${t.refNumber}</span></span>
+                    </div>
+                  </div>
 
-              </div>
-            `).join('')}
-          </div>
+                  <div style="text-align: left; flex-shrink: 0;">
+                    <strong style="font-size: 1.05rem; font-weight: 900; color: ${t.amount > 0 ? '#15803D' : '#0369A1'}; direction: ltr; display: block;" class="font-num">
+                      ${t.amount > 0 ? '+' : ''}${t.amount.toLocaleString('ar-SA', { minimumFractionDigits: 2 })} ر.س
+                    </strong>
+                    <span style="font-size: 0.70rem; color: ${t.statusColor}; background: ${t.statusBg}; padding: 2px 7px; border-radius: 6px; font-weight: 700; display: inline-block;">
+                      ${t.statusLabel}
+                    </span>
+                  </div>
+
+                </div>
+              `).join('')}
+            </div>
+          `}
 
         </div>
 
@@ -679,6 +786,130 @@ const KafuMerchantWallet = {
     `;
 
     document.body.insertAdjacentHTML('beforeend', modalHtml);
+  },
+
+  openNewDisputeModal() {
+    const existing = document.getElementById('disputeModalContainer');
+    if (existing) existing.remove();
+
+    const data = this.getData();
+    const orders = (data.transactions || []).filter(t => t.type === 'sale').map(t => {
+      const match = t.title.match(/ORD-\d+/);
+      return match ? match[0] : t.id;
+    });
+
+    const modalHtml = `
+      <div id="disputeModalContainer" style="position: fixed; inset: 0; background: rgba(15,23,42,0.65); backdrop-filter: blur(4px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px; font-family: 'IBM Plex Sans Arabic', sans-serif;" dir="rtl">
+        <div style="background: #FFFFFF; border-radius: 20px; width: 100%; max-width: 480px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1.5px solid #E2E8F0; padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 90vh; overflow-y: auto;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #F1F5F9; padding-bottom: 10px;">
+            <div>
+              <h3 style="margin: 0; font-size: 1.05rem; font-weight: 900; color: #991B1B; display: flex; align-items: center; gap: 6px;">
+                <span>⚠️</span>
+                <span>تقديم شكوى أو اعتراض مالي</span>
+              </h3>
+              <p style="margin: 2px 0 0; font-size: 0.74rem; color: #64748B;">ضمان كفو المالي 100% · فحص ومراجعة النزاع بواسطة إدارة الحسابات والامتثال</p>
+            </div>
+            <button type="button" onclick="document.getElementById('disputeModalContainer').remove()" style="border: none; background: #F1F5F9; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; color: #64748B; font-weight: 800; font-size: 1.1rem; line-height: 1;">✕</button>
+          </div>
+
+          <!-- نموذج إرسال الاعتراض -->
+          <form id="disputeForm" onsubmit="event.preventDefault(); KafuMerchantWallet.submitDispute();" style="display: flex; flex-direction: column; gap: 12px;">
+            
+            <div>
+              <label style="display: block; font-size: 0.8rem; font-weight: 800; color: #0F172A; margin-bottom: 4px;">رقم الطلب المرتبط بالنزاع:</label>
+              <select id="disputeOrderId" style="width: 100%; height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 10px; font-size: 0.86rem; font-family: inherit; background: #F8FAFC;">
+                ${orders.length > 0 ? orders.map(o => `<option value="${o}">الطلب: ${o}</option>`).join('') : '<option value="ORD-8921">الطلب: ORD-8921</option>'}
+                <option value="GENERAL">نزاع مالي عام / عمولة كفو / حوالات</option>
+              </select>
+            </div>
+
+            <div>
+              <label style="display: block; font-size: 0.8rem; font-weight: 800; color: #0F172A; margin-bottom: 4px;">نوع المشكلة أو الاعتراض:</label>
+              <select id="disputeCategory" style="width: 100%; height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 10px; font-size: 0.86rem; font-family: inherit; background: #F8FAFC;">
+                <option value="عمولة كفو 5%">خطأ في احتساب نسبة كفو (العمولة المعتمدة 5% فقط)</option>
+                <option value="تأخر الحوالة البنكية">تأخر وصول الحوالة البنكية إلى الآيبان</option>
+                <option value="إرجاع غير مبرر">إرجاع قطعة من العميل بدون مبرر ومطابقة للمواصفات</option>
+                <option value="خلاف مع مندوب التوصيل">اختلاف في فحص المندوب أو تسليم الشحنة</option>
+                <option value="أخرى">أخرى (ملاحظات تدقيق مالي)</option>
+              </select>
+            </div>
+
+            <div>
+              <label style="display: block; font-size: 0.8rem; font-weight: 800; color: #0F172A; margin-bottom: 4px;">المبلغ المتنازع عليه (ر.س):</label>
+              <input type="number" id="disputeAmount" placeholder="مثال: 95.00" step="0.5" required style="width: 100%; height: 42px; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0 10px; font-size: 0.90rem; font-family: inherit;" />
+            </div>
+
+            <div>
+              <label style="display: block; font-size: 0.8rem; font-weight: 800; color: #0F172A; margin-bottom: 4px;">تفاصيل الشكوى والشرح:</label>
+              <textarea id="disputeDetails" rows="3" placeholder="اشرح تفاصيل المشكلة بدقة وملاحظاتك لمراجع الحسابات في كفو..." required style="width: 100%; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 8px 10px; font-size: 0.82rem; font-family: inherit; resize: vertical;"></textarea>
+            </div>
+
+            <div style="background: #FEF2F2; border: 1px dashed #FCA5A5; border-radius: 10px; padding: 10px; font-size: 0.74rem; color: #991B1B; line-height: 1.4;">
+              🛡️ <strong>التزام كفو المالي:</strong> نحن نضمن تصفية كافة المستحقات بدقة 100% وفق كشف الحساب وعقود التشغيل. سيتم البت في الاعتراض خلال 24 ساعة عمل مع إمكانية تحويل التعويض مباشرة لمحفظتك.
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 6px;">
+              <button type="submit" style="flex: 1; height: 44px; background: #DC2626; color: #FFFFFF; border: none; border-radius: 12px; font-size: 0.90rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                <span>إرسال الاعتراض للإدارة المالية 🚀</span>
+              </button>
+              <button type="button" onclick="document.getElementById('disputeModalContainer').remove()" style="flex: 0.4; height: 44px; background: #F1F5F9; color: #475569; border: none; border-radius: 12px; font-size: 0.86rem; font-weight: 700; cursor: pointer;">
+                إلغاء
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+  },
+
+  submitDispute() {
+    const orderId = document.getElementById('disputeOrderId').value;
+    const category = document.getElementById('disputeCategory').value;
+    const amountVal = parseFloat(document.getElementById('disputeAmount').value) || 0;
+    const detailsVal = document.getElementById('disputeDetails').value.trim();
+
+    if (!detailsVal) {
+      alert('يرجى كتابة تفاصيل المشكلة');
+      return;
+    }
+
+    const data = this.getData();
+    if (!data.disputes) data.disputes = [];
+
+    const newDispute = {
+      id: 'DSP-' + Math.floor(1000 + Math.random() * 9000),
+      orderId: orderId,
+      title: `اعتراض: ${category}`,
+      date: 'اليوم ' + new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
+      category: category,
+      amount: `${amountVal.toFixed(2)} ر.س`,
+      status: 'reviewing',
+      statusLabel: 'قيد التدقيق المالي',
+      statusColor: '#B45309',
+      statusBg: '#FEF3C7',
+      details: detailsVal,
+      response: 'تم استلام الشكوى وجاري مطابقة السجلات مع الشؤون المالية واللوجستية.'
+    };
+
+    data.disputes.unshift(newDispute);
+    this.saveData(data);
+
+    const modal = document.getElementById('disputeModalContainer');
+    if (modal) modal.remove();
+
+    this.activeTab = 'disputes';
+    this.refreshModal();
+
+    if (window.KafuApp && KafuApp.showToast) {
+      KafuApp.showToast(`تم رفع الشكوى رقم #${newDispute.id} بنجاح! سيتم فحصها خلال 24 ساعة`);
+    } else {
+      alert(`تم تسجيل الشكوى برقم #${newDispute.id} وسيتم فحصها فوراً.`);
+    }
   }
 };
 

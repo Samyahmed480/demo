@@ -10,6 +10,10 @@ const KafuAddProduct = {
   uploadedImages: [],
   isScanning: false,
 
+  isScrap() {
+    return ((window.__kafu_force_role || (window.KafuStore && KafuStore.getUserRole ? KafuStore.getUserRole() : localStorage.getItem('kafu_user_role')) || '').toLowerCase().includes('scrap'));
+  },
+
   // عينات تجريبية جاهزة للذكاء الاصطناعي
   aiPresets: {
     brakes: {
@@ -168,17 +172,19 @@ const KafuAddProduct = {
   // الطريقة الثانية: كفو AI - المسح والملء التلقائي من الصورة
   // ---------------------------------------------------------------------------
   renderAiModeHtml() {
+    const isScrap = this.isScrap();
+
     return `
       <div style="display: flex; flex-direction: column; gap: 14px;">
         
         <!-- إشعار توضيحي ذكي -->
-        <div style="background: linear-gradient(135deg, #EFF6FF 0%, #E0F2FE 100%); border: 1.5px solid #BFDBFE; border-radius: 14px; padding: 12px; display: flex; align-items: flex-start; gap: 10px;">
-          <div style="width: 32px; height: 32px; border-radius: 50%; background: #0066FF; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem;">
-            ✨
+        <div style="background: ${isScrap ? 'linear-gradient(135deg, #FEF3C7 0%, #FEF9C3 100%)' : 'linear-gradient(135deg, #EFF6FF 0%, #E0F2FE 100%)'}; border: 1.5px solid ${isScrap ? '#FDE68A' : '#BFDBFE'}; border-radius: 14px; padding: 12px; display: flex; align-items: flex-start; gap: 10px;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: ${isScrap ? '#D97706' : '#0066FF'}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem;">
+            ${isScrap ? '📷' : '✨'}
           </div>
-          <div style="font-size: 0.82rem; line-height: 1.45; color: #1E3A8A;">
-            <strong>خاصية المسح والملء التلقائي (كفو AI):</strong>
-            <div>ارفع فقط صورة القطعة أو ملصق كود الـ OEM وسيقوم الذكاء الاصطناعي باستخراج كافة المواصفات والسيارات المتوافقة، وعليك فقط تحديد السعر والكمية.</div>
+          <div style="font-size: 0.82rem; line-height: 1.45; color: ${isScrap ? '#92400E' : '#1E3A8A'};">
+            <strong>${isScrap ? 'خاصية كفو AI للتشاليح (تصوير مباشر بدون كرتون):' : 'خاصية المسح والملء التلقائي (كفو AI):'}</strong>
+            <div>${isScrap ? 'التشليح لا يتطلب كرتون؛ التقط صورة أو فيديو حقيقي للقطعة من الرف أو المركبة المفككة مباشرة. يقوم الذكاء الاصطناعي بتصنيف القطعة (مستعمل أصلي / مستعمل تجاري) وتطبيق العلامة المائية الرقمية المانعة للاحتيال.' : 'ارفع فقط صورة القطعة أو ملصق كود الـ OEM وسيقوم الذكاء الاصطناعي باستخراج كافة المواصفات والسيارات المتوافقة، وعليك فقط تحديد السعر والكمية.'}</div>
           </div>
         </div>
 
@@ -188,7 +194,7 @@ const KafuAddProduct = {
           onclick="document.getElementById('aiFileInput').click()"
           style="
             background: #F8FAFC; 
-            border: 2px dashed #93C5FD; 
+            border: 2px dashed ${isScrap ? '#F59E0B' : '#93C5FD'}; 
             border-radius: 18px; 
             padding: 22px 14px; 
             text-align: center; 
@@ -201,17 +207,21 @@ const KafuAddProduct = {
           <input 
             type="file" 
             id="aiFileInput" 
-            accept="image/*" 
+            accept="image/*,video/*" 
             style="display: none;" 
             onchange="KafuAddProduct.handleImageUpload(event)"
           />
 
           <div id="aiDropzoneIdle">
-            <div style="width: 52px; height: 52px; border-radius: 50%; background: #EFF6FF; border: 1px solid #BFDBFE; color: #0066FF; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <div style="width: 52px; height: 52px; border-radius: 50%; background: ${isScrap ? '#FEF3C7' : '#EFF6FF'}; border: 1px solid ${isScrap ? '#FDE68A' : '#BFDBFE'}; color: ${isScrap ? '#D97706' : '#0066FF'}; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;">
+              ${isScrap ? '📸' : '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'}
             </div>
-            <strong style="display: block; font-size: 0.95rem; color: #0F172A; margin-bottom: 4px;">اضغط لرفع صورة القطعة أو كرتون الـ OEM</strong>
-            <span style="font-size: 0.78rem; color: #64748B;">يدعم الصور بصيغ JPG, PNG أو التقاط مباشر بالكاميرا</span>
+            <strong style="display: block; font-size: 0.95rem; color: #0F172A; margin-bottom: 4px;">
+              ${isScrap ? 'التقط صورة حقيقية أو فيديو للقطعة من الرف أو المركبة (بدون كرتون)' : 'اضغط لرفع صورة القطعة أو كرتون الـ OEM'}
+            </strong>
+            <span style="font-size: 0.78rem; color: #64748B;">
+              ${isScrap ? 'يدعم الصور وفيديو 360° مع خاصية العلامة المائية الرقمية الأمنية المانعة للتبديل' : 'يدعم الصور بصيغ JPG, PNG أو التقاط مباشر بالكاميرا'}
+            </span>
           </div>
 
           <!-- أنيميشن المسح بالليزر أثناء التحليل -->
@@ -219,10 +229,10 @@ const KafuAddProduct = {
             <div style="position: relative; width: 80px; height: 80px; margin: 0 auto 12px; border-radius: 14px; overflow: hidden; background: #E2E8F0; display: flex; align-items: center; justify-content: center;">
               <img id="aiPreviewImg" src="" style="width: 100%; height: 100%; object-fit: cover;" alt="معاينة" />
               <!-- خط المسح الليزري -->
-              <div style="position: absolute; left: 0; right: 0; height: 3px; background: #0066FF; box-shadow: 0 0 10px #0066FF; animation: laserScan 1.2s infinite ease-in-out;"></div>
+              <div style="position: absolute; left: 0; right: 0; height: 3px; background: ${isScrap ? '#D97706' : '#0066FF'}; box-shadow: 0 0 10px ${isScrap ? '#D97706' : '#0066FF'}; animation: laserScan 1.2s infinite ease-in-out;"></div>
             </div>
-            <strong style="color: #0066FF; font-size: 0.92rem; display: block;" id="aiScanText">جاري فحص القطعة وقراءة كود OEM بالذكاء الاصطناعي...</strong>
-            <span style="font-size: 0.76rem; color: #64748B;">مطابقة أرقام الهيكل وتوافق المحرك والسيارة</span>
+            <strong style="color: ${isScrap ? '#D97706' : '#0066FF'}; font-size: 0.92rem; display: block;" id="aiScanText">جاري فحص القطعة وتطبيق الحماية والعلامة المائية...</strong>
+            <span style="font-size: 0.76rem; color: #64748B;">تحليل الأبعاد، مطابقة طرازات السيارات، وتصنيف القطعة آلياً</span>
           </div>
 
         </div>
@@ -342,14 +352,16 @@ const KafuAddProduct = {
 
   // رسم الحقول المستخرجة تلقائياً مع تسليط الضوء على السعر والكمية
   renderAutoFilledFields(data, isInitial = false) {
+    const isScrap = this.isScrap();
+
     return `
       <!-- شريط نجاح التحليل واستخراج المواصفات الـ 9 -->
       <div style="background: #F0FDF4; border: 1.5px solid #BBF7D0; border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between;">
         <div style="font-size: 0.82rem; color: #15803D; font-weight: 700; display: flex; align-items: center; gap: 6px;">
           <span>✓</span>
-          <span>تم استخراج المواصفات الـ 9 وتأكيد المطابقة بنسبة 100%</span>
+          <span>${isScrap ? 'تم مسح القطعة وتأكيد سلامة الهيكل بنسبة 100%' : 'تم استخراج المواصفات الـ 9 وتأكيد المطابقة بنسبة 100%'}</span>
         </div>
-        <span style="font-size: 0.72rem; color: #047857; background: #DCFCE7; padding: 2px 8px; border-radius: 6px; font-weight: 800;">كفو AI متطابق</span>
+        <span style="font-size: 0.72rem; color: #047857; background: #DCFCE7; padding: 2px 8px; border-radius: 6px; font-weight: 800;">${isScrap ? 'كفو AI تشليح' : 'كفو AI متطابق'}</span>
       </div>
 
       <!-- الحقول المستخرجة تلقائياً (قابلة للتعديل عند الرغبة) -->
@@ -360,42 +372,63 @@ const KafuAddProduct = {
           <input type="text" id="aiPartName" value="${data.name}" class="form-input" style="font-weight: 700; color: #0A2540;">
         </div>
 
-        <!-- شبكة المواصفات الـ 9 المستخرجة -->
+        <!-- شبكة المواصفات المستخرجة والمحدثة -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
           
-          <div>
-            <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">رقم القطعة الأصلي (OEM)</label>
-            <input type="text" id="aiPartOem" value="${data.oem}" class="form-input ltr" style="text-align: right; font-family: monospace; font-weight: 800; color: #0066FF;">
-          </div>
+          ${isScrap ? `
+            <div style="background: #F1F5F9; border: 1.5px dashed #CBD5E1; border-radius: 8px; padding: 6px 10px;">
+              <label style="font-size: 0.72rem; font-weight: 700; color: #64748B; display: block;">رقم القطعة الأصلي (OEM)</label>
+              <span style="font-size: 0.76rem; font-weight: 800; color: #475569; display: block; margin-top: 2px;">🔒 محمي ومُدار في كفو</span>
+              <input type="hidden" id="aiPartOem" value="${data.oem}">
+            </div>
+          ` : `
+            <div>
+              <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">رقم القطعة الأصلي (OEM)</label>
+              <input type="text" id="aiPartOem" value="${data.oem}" class="form-input ltr" style="text-align: right; font-family: monospace; font-weight: 800; color: #0066FF;">
+            </div>
+          `}
 
           <div>
             <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">رقم الهيكل (VIN) إن وجد</label>
             <input type="text" id="aiPartVin" value="${data.vin || '4T1B11HK5SU89201'}" class="form-input ltr" style="text-align: right; font-family: monospace;">
           </div>
 
+          <!-- 1. نوع المركبة -->
           <div>
-            <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">نوع المركبة</label>
+            <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">نوع المركبة (الصانع) *</label>
             <input type="text" id="aiPartBrand" value="${data.brand}" class="form-input">
           </div>
 
+          <!-- 2. اسم المركبة (اسم السيارة) -->
           <div>
-            <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">الموديل</label>
-            <input type="text" id="aiPartModel" value="${data.model}" class="form-input">
+            <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">اسم المركبة (اسم السيارة) *</label>
+            <input type="text" id="aiPartModel" value="${data.model}" class="form-input" placeholder="مثل: كامري، كورولا، باترول">
           </div>
 
+          <!-- 3. الموديل (سنة الصنع) -->
           <div>
-            <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">سنة الصنع</label>
-            <input type="text" id="aiPartYear" value="${data.year}" class="form-input">
+            <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">الموديل (سنة الصنع) *</label>
+            <input type="text" id="aiPartYear" value="${data.year}" class="form-input" placeholder="مثل: 2024">
+          </div>
+
+          <!-- 4. فئة السيارة (بدل الموقع في المركبة) -->
+          <div>
+            <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">فئة السيارة (Trim / Grade) *</label>
+            <select id="aiPartTrim" class="form-input" style="width: 100%;">
+              <option selected>فل كامل (Full Option)</option>
+              <option>نص فل (Mid Option)</option>
+              <option>ستاندر (Standard)</option>
+              <option>بلاتينيوم (Platinum)</option>
+              <option>سيجنتشر (Signature)</option>
+              <option>ليمتد (Limited)</option>
+              <option>جي إل إكس (GLX)</option>
+              <option>سبورت (Sport)</option>
+            </select>
           </div>
 
           <div>
             <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">سعة ونوع المحرك</label>
             <input type="text" id="aiPartEngine" value="${data.engine}" class="form-input">
-          </div>
-
-          <div>
-            <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">الموقع في المركبة</label>
-            <input type="text" id="aiPartPosition" value="${data.position}" class="form-input">
           </div>
 
           <div>
@@ -405,52 +438,91 @@ const KafuAddProduct = {
 
         </div>
 
-        <div>
-          <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">حالة وتصنيف القطعة</label>
-          <select id="aiPartCondition" class="form-input" style="width: 100%;">
-            <option selected>${data.condition}</option>
-            <option>تجاري معتمد درجة أولى (Certified Tier-1)</option>
-            <option>تشليح ومستعمل مفحوص (Used Guaranteed)</option>
-          </select>
-        </div>
+        ${isScrap ? `
+          <div style="background: #FEF3C7; border: 1.5px solid #F59E0B; border-radius: 12px; padding: 10px 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <strong style="font-size: 0.8rem; color: #92400E;">🤖 تصنيف كفو AI التلقائي (يظهر للعميل بعد التحليل):</strong>
+              <span style="background: #D97706; color: #FFF; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">مستعمل أصلي تشليح</span>
+            </div>
+            <p style="margin: 4px 0 0; font-size: 0.72rem; color: #78350F; line-height: 1.35;">يحدد الذكاء الاصطناعي التصنيف تلقائياً للعميل عند قراءة صور وفيديو القطعة (مستعمل أصلي / مستعمل تجاري) دون تدخل يدوي لمنع أي احتيال.</p>
+            <input type="hidden" id="aiPartCondition" value="مستعمل أصلي (تشليح معتمد)">
+          </div>
+
+          <!-- علامة مائية رقمية ومطابقة مزدوجة مع المندوب -->
+          <div style="background: #EFF6FF; border: 1.5px solid #93C5FD; border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.2rem;">🛡️</span>
+              <div>
+                <strong style="font-size: 0.8rem; color: #1E40AF; display: block;">العلامة المائية الرقمية المانعة للاحتيال (Watermark Active)</strong>
+                <span style="font-size: 0.72rem; color: #3B82F6;">مطبوعة على صور وفيديو القطعة + مطابقة إلزامية مع تصوير مندوب التوصيل قبل الاستلام</span>
+              </div>
+            </div>
+            <span style="font-size: 0.74rem; font-weight: 800; color: #15803D; background: #DCFCE7; padding: 3px 8px; border-radius: 6px;">تطابق 99.4% ✓</span>
+          </div>
+        ` : `
+          <div>
+            <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">حالة وتصنيف القطعة</label>
+            <select id="aiPartCondition" class="form-input" style="width: 100%;">
+              <option selected>أصلي وكالة (Genuine OEM)</option>
+              <option>تجاري معتمد درجة أولى (Certified Tier-1)</option>
+            </select>
+          </div>
+        `}
 
       </div>
 
       <!-- =====================================================================
-           الحقول التي يحددها التاجر فقط (السعر والكمية) مميزة بإطار متوهج
+           الحقول التي يحددها التاجر (السعر الأساسي، السعر المنافس، والكمية)
            ===================================================================== -->
-      <div style="background: #EFF6FF; border: 2px solid #0066FF; border-radius: 16px; padding: 14px; box-shadow: 0 4px 16px rgba(0, 102, 255, 0.12); display: flex; flex-direction: column; gap: 8px;">
+      <div style="background: #EFF6FF; border: 2px solid #0066FF; border-radius: 16px; padding: 14px; box-shadow: 0 4px 16px rgba(0, 102, 255, 0.12); display: flex; flex-direction: column; gap: 10px;">
         <div style="display: flex; align-items: center; justify-content: space-between;">
-          <strong style="font-size: 0.88rem; color: #0066FF;">⚡ حدد سعر البيع والكمية المتوفرة:</strong>
+          <strong style="font-size: 0.88rem; color: #0066FF;">⚡ تحديد الأسعار والكمية بالمستودع:</strong>
           <span style="font-size: 0.72rem; color: #0066FF; background: #DBEAFE; padding: 2px 8px; border-radius: 6px; font-weight: 700;">خطوة أخيرة</span>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div>
-            <label style="font-size: 0.80rem; font-weight: 800; color: #0F172A; display: block; margin-bottom: 4px;">سعر البيع للعميل (ر.س) *</label>
+            <label style="font-size: 0.78rem; font-weight: 800; color: #0F172A; display: block; margin-bottom: 4px;">سعر القطعة الأساسي (ر.س) *</label>
             <input 
               type="number" 
               id="aiSellingPrice" 
               value="${data.suggestedPrice || 195}" 
               class="form-input font-num" 
-              style="height: 44px; font-size: 1.15rem; font-weight: 900; color: #0066FF; border-color: #0066FF; background: #FFFFFF;"
+              style="height: 42px; font-size: 1.1rem; font-weight: 900; color: #0066FF; border-color: #CBD5E1; background: #FFFFFF;"
             />
           </div>
 
           <div>
-            <label style="font-size: 0.80rem; font-weight: 800; color: #0F172A; display: block; margin-bottom: 4px;">الكمية المتوفرة بالمستودع *</label>
+            <label style="font-size: 0.78rem; font-weight: 800; color: #15803D; display: block; margin-bottom: 4px;">السعر المنافس (ر.س) ⚡</label>
             <input 
               type="number" 
-              id="aiQuantity" 
-              value="${data.suggestedQty || 15}" 
+              id="aiCompetitivePrice" 
+              value="${Math.round((data.suggestedPrice || 195) * 0.92)}" 
               class="form-input font-num" 
-              style="height: 44px; font-size: 1.15rem; font-weight: 900; color: #0F172A; border-color: #0066FF; background: #FFFFFF;"
+              placeholder="سعر تنافسي مخفض"
+              style="height: 42px; font-size: 1.1rem; font-weight: 900; color: #16A34A; border: 2px solid #22C55E; background: #F0FDF4;"
             />
           </div>
         </div>
 
-        <div style="font-size: 0.74rem; color: #64748B;">
-          * السعر شامل ضريبة القيمة المضافة 15%. سيتم إيداع الأرباح في محفظتك فور تسليم الشحنة.
+        <!-- ملاحظة السعر المنافس باللون الرمادي كما طلب العميل نصاً -->
+        <div style="font-size: 0.75rem; color: #64748B; background: #FFFFFF; border: 1px dashed #CBD5E1; padding: 6px 10px; border-radius: 8px; line-height: 1.4;">
+          💡 <span style="color: #64748B;">عند وضع سعر منافس تكون الأولوية لظهور قطعك وبيعها بأسرع وقت</span>
+        </div>
+
+        <div>
+          <label style="font-size: 0.78rem; font-weight: 800; color: #0F172A; display: block; margin-bottom: 4px;">الكمية المتوفرة بالمستودع *</label>
+          <input 
+            type="number" 
+            id="aiQuantity" 
+            value="${data.suggestedQty || 15}" 
+            class="form-input font-num" 
+            style="height: 42px; font-size: 1.05rem; font-weight: 900; color: #0F172A; border-color: #0066FF; background: #FFFFFF;"
+          />
+        </div>
+
+        <div style="font-size: 0.72rem; color: #64748B;">
+          * الأسعار شاملة ضريبة القيمة المضافة 15%. سيتم إيداع الأرباح في محفظتك فور تسليم الشحنة.
         </div>
       </div>
 
@@ -470,34 +542,36 @@ const KafuAddProduct = {
   // الطريقة الأولى: الإدخال اليدوي الموسّع (Manual Detailed Mode)
   // ---------------------------------------------------------------------------
   renderManualModeHtml() {
+    const isScrap = this.isScrap();
+
     return `
       <div style="display: flex; flex-direction: column; gap: 14px;">
 
         <!-- 1. معرض الصور المتعددة للقطعة -->
         <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 14px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <strong style="font-size: 0.86rem; color: #0F172A;">معرض صور القطعة (صور متعددة):</strong>
-            <span style="font-size: 0.74rem; color: #64748B;">(الصورة الأساسية، زوايا أخرى، كرتون الوكالة)</span>
+            <strong style="font-size: 0.86rem; color: #0F172A;">${isScrap ? 'صور وفيديو حقيقي للقطعة من الرف أو التشليح (بدون كرتون):' : 'معرض صور القطعة (صور متعددة):'}</strong>
+            <span style="font-size: 0.74rem; color: #64748B;">${isScrap ? '(صور وفيديو 360° حقيقي - علامة مائية رقمية)' : '(الصورة الأساسية، زوايا أخرى، كرتون الوكالة)'}</span>
           </div>
 
           <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px;" id="manualGalleryGrid">
             
             <!-- صورة رئيسية 1 -->
-            <div style="position: relative; width: 84px; height: 84px; border-radius: 12px; border: 1.5px solid #0066FF; overflow: hidden; background: #EFF6FF; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-              <span style="font-size: 1.8rem;">📦</span>
-              <span style="position: absolute; bottom: 2px; left: 2px; right: 2px; background: rgba(0, 102, 255, 0.85); color: #FFFFFF; font-size: 0.62rem; text-align: center; border-radius: 4px; font-weight: 700;">الرئيسية</span>
+            <div style="position: relative; width: 84px; height: 84px; border-radius: 12px; border: 1.5px solid ${isScrap ? '#F59E0B' : '#0066FF'}; overflow: hidden; background: ${isScrap ? '#FEF3C7' : '#EFF6FF'}; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+              <span style="font-size: 1.8rem;">${isScrap ? '📸' : '📦'}</span>
+              <span style="position: absolute; bottom: 2px; left: 2px; right: 2px; background: ${isScrap ? 'rgba(217, 119, 6, 0.9)' : 'rgba(0, 102, 255, 0.85)'}; color: #FFFFFF; font-size: 0.62rem; text-align: center; border-radius: 4px; font-weight: 700;">الرئيسية</span>
             </div>
 
             <!-- صورة زاوية ثانية 2 -->
             <div style="position: relative; width: 84px; height: 84px; border-radius: 12px; border: 1.5px dashed #CBD5E1; overflow: hidden; background: #FFFFFF; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;" onclick="document.getElementById('manualAddImgInput').click()">
               <span style="font-size: 1.3rem; color: #0066FF;">+</span>
-              <span style="font-size: 0.68rem; color: #64748B; font-weight: 700;">جانبية</span>
+              <span style="font-size: 0.68rem; color: #64748B; font-weight: 700;">${isScrap ? 'فيديو 360°' : 'جانبية'}</span>
             </div>
 
-            <!-- صورة ملصق OEM والباركود 3 -->
+            <!-- صورة ملصق OEM أو زاوية الرف 3 -->
             <div style="position: relative; width: 84px; height: 84px; border-radius: 12px; border: 1.5px dashed #CBD5E1; overflow: hidden; background: #FFFFFF; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;" onclick="document.getElementById('manualAddImgInput').click()">
               <span style="font-size: 1.3rem; color: #0066FF;">+</span>
-              <span style="font-size: 0.68rem; color: #64748B; font-weight: 700;">ملصق OEM</span>
+              <span style="font-size: 0.68rem; color: #64748B; font-weight: 700;">${isScrap ? 'من الرف/المركبة' : 'ملصق OEM'}</span>
             </div>
 
             <!-- زر إضافة صورة إضافية -->
@@ -508,7 +582,7 @@ const KafuAddProduct = {
 
           </div>
 
-          <input type="file" id="manualAddImgInput" accept="image/*" style="display: none;" onchange="KafuApp.showToast('تمت إضافة الصورة لمعرض القطعة');" />
+          <input type="file" id="manualAddImgInput" accept="image/*,video/*" style="display: none;" onchange="KafuApp.showToast('تمت إضافة الصورة لمعرض القطعة');" />
         </div>
 
         <!-- 2. الاسم والوصف الموسع -->
@@ -529,10 +603,18 @@ const KafuAddProduct = {
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
             
             <!-- 1. رقم القطعة الأصلي OEM -->
-            <div>
-              <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">رقم القطعة الأصلي (OEM) *</label>
-              <input type="text" id="manualPartOem" value="04465-33480" class="form-input ltr" style="text-align: right; font-family: monospace; font-weight: 800; color: #0066FF;">
-            </div>
+            ${isScrap ? `
+              <div style="background: #F1F5F9; border: 1.5px dashed #CBD5E1; border-radius: 8px; padding: 6px 10px;">
+                <label style="font-size: 0.72rem; font-weight: 700; color: #64748B; display: block;">رقم القطعة الأصلي (OEM)</label>
+                <span style="font-size: 0.76rem; font-weight: 800; color: #475569; display: block; margin-top: 2px;">🔒 محمي ومُدار في كفو</span>
+                <input type="hidden" id="manualPartOem" value="OEM-SECURED-TACHLIH">
+              </div>
+            ` : `
+              <div>
+                <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">رقم القطعة الأصلي (OEM) *</label>
+                <input type="text" id="manualPartOem" value="04465-33480" class="form-input ltr" style="text-align: right; font-family: monospace; font-weight: 800; color: #0066FF;">
+              </div>
+            `}
 
             <!-- 2. رقم الهيكل VIN -->
             <div>
@@ -555,37 +637,37 @@ const KafuAddProduct = {
               </select>
             </div>
 
-            <!-- 4. الموديل -->
+            <!-- 4. اسم المركبة (اسم السيارة) -->
             <div>
-              <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">الموديل *</label>
-              <input type="text" id="manualPartModel" value="كامري (Camry)" class="form-input">
+              <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">اسم المركبة (اسم السيارة) *</label>
+              <input type="text" id="manualPartModel" value="كامري (Camry)" class="form-input" placeholder="مثل: كامري، كورولا، باترول">
             </div>
 
-            <!-- 5. سنة الصنع -->
+            <!-- 5. الموديل (سنة الصنع) -->
             <div>
-              <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">سنة الصنع *</label>
-              <input type="text" id="manualPartYear" value="2021 – 2023" class="form-input">
+              <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">الموديل (سنة الصنع) *</label>
+              <input type="text" id="manualPartYear" value="2024" class="form-input" placeholder="مثل: 2024">
             </div>
 
-            <!-- 6. المحرك -->
+            <!-- 6. فئة السيارة (بدل الموقع بالمركبة) -->
+            <div>
+              <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">فئة السيارة (Trim / Grade) *</label>
+              <select id="manualPartTrim" class="form-input" style="width: 100%;">
+                <option selected>فل كامل (Full Option)</option>
+                <option>نص فل (Mid Option)</option>
+                <option>ستاندر (Standard)</option>
+                <option>بلاتينيوم (Platinum)</option>
+                <option>سيجنتشر (Signature)</option>
+                <option>ليمتد (Limited)</option>
+                <option>جي إل إكس (GLX)</option>
+                <option>سبورت (Sport)</option>
+              </select>
+            </div>
+
+            <!-- 7. المحرك -->
             <div>
               <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">المحرك</label>
               <input type="text" id="manualPartEngine" value="2.5 ليتر (2.5L)" class="form-input">
-            </div>
-
-            <!-- 7. الموقع في المركبة -->
-            <div>
-              <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">الموقع في المركبة *</label>
-              <select id="manualPartPosition" class="form-input" style="width: 100%;">
-                <option selected>أمامي (Front)</option>
-                <option>خلفي (Rear)</option>
-                <option>أمامي يمين (Front Right)</option>
-                <option>أمامي يسار (Front Left)</option>
-                <option>خلفي يمين (Rear Right)</option>
-                <option>خلفي يسار (Rear Left)</option>
-                <option>المحرك (Engine)</option>
-                <option>الجيربوكس (Transmission)</option>
-              </select>
             </div>
 
             <!-- 8. التوافق -->
@@ -600,40 +682,71 @@ const KafuAddProduct = {
 
           </div>
 
-          <!-- 9. حالة وتصنيف القطعة والضمان -->
+          <!-- 9. حالة وتصنيف القطعة والضمان المالي -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <div>
-              <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">تصنيف القطعة *</label>
-              <select id="manualPartCondition" class="form-input" style="width: 100%;">
-                <option selected>أصلي وكالة (Genuine OEM)</option>
-                <option>تجاري معتمد درجة أولى (Certified Tier-1)</option>
-                <option>تشليح ومستعمل مفحوص (Used Guaranteed)</option>
-              </select>
-            </div>
+            ${isScrap ? `
+              <div style="grid-column: span 2; background: #FEF3C7; border: 1.5px solid #F59E0B; border-radius: 12px; padding: 10px 12px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <strong style="font-size: 0.8rem; color: #92400E;">🤖 تصنيف القطعة للعميل (مستعمل أصلي / مستعمل تجاري):</strong>
+                  <span style="background: #D97706; color: #FFF; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">يحدده كفو AI بعد التصوير</span>
+                </div>
+                <div style="font-size: 0.72rem; color: #78350F; margin-top: 3px;">يتم الفحص وتحديد التصنيف تلقائياً للعميل دون تدخل يدوي لمنع أي احتيال أو تضارب.</div>
+                <input type="hidden" id="manualPartCondition" value="مستعمل أصلي تشليح">
+              </div>
+            ` : `
+              <div>
+                <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">تصنيف القطعة *</label>
+                <select id="manualPartCondition" class="form-input" style="width: 100%;">
+                  <option selected>أصلي وكالة (Genuine OEM)</option>
+                  <option>تجاري معتمد درجة أولى (Certified Tier-1)</option>
+                </select>
+              </div>
+            `}
 
-            <div>
-              <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">فترة الضمان</label>
-              <select id="manualPartWarranty" class="form-input" style="width: 100%;">
-                <option selected>ضمان كفو 6 أشهر</option>
-                <option>ضمان سنة كاملة</option>
-                <option>ضمان 3 أشهر</option>
-                <option>بدون ضمان</option>
-              </select>
+            <div style="${isScrap ? 'grid-column: span 2;' : ''}">
+              <label style="font-size: 0.76rem; font-weight: 700; color: #475569; display: block; margin-bottom: 2px;">الضمان المالي المعتمد</label>
+              <input type="text" value="✓ حماية مالية ودفع آمن 100% من كفو" disabled class="form-input" style="background: #F0FDF4; color: #15803D; font-weight: 700; font-size: 0.76rem;">
             </div>
           </div>
+
+          ${isScrap ? `
+            <!-- علامة مائية رقمية ومطابقة مزدوجة مع المندوب -->
+            <div style="background: #EFF6FF; border: 1.5px solid #93C5FD; border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2rem;">🛡️</span>
+                <div>
+                  <strong style="font-size: 0.8rem; color: #1E40AF; display: block;">العلامة المائية الرقمية المانعة للاحتيال (Watermark Active)</strong>
+                  <span style="font-size: 0.72rem; color: #3B82F6;">مطبوعة على صور وفيديو القطعة + مطابقة إلزامية مع تصوير مندوب التوصيل قبل الاستلام</span>
+                </div>
+              </div>
+              <span style="font-size: 0.74rem; font-weight: 800; color: #15803D; background: #DCFCE7; padding: 3px 8px; border-radius: 6px;">تطابق 99.4% ✓</span>
+            </div>
+          ` : ''}
 
         </div>
 
-        <!-- 4. التسعير والكمية المتوفرة -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <div>
-            <label style="font-size: 0.80rem; font-weight: 800; color: #0F172A; display: block; margin-bottom: 4px;">سعر البيع (ر.س) *</label>
-            <input type="number" id="manualSellingPrice" value="195" class="form-input font-num" style="font-size: 1.1rem; font-weight: 900; color: #0066FF;">
+        <!-- 4. التسعير، السعر المنافس، والكمية المتوفرة -->
+        <div style="background: #EFF6FF; border: 1.5px solid #0066FF; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label style="font-size: 0.78rem; font-weight: 800; color: #0F172A; display: block; margin-bottom: 4px;">سعر القطعة الأساسي (ر.س) *</label>
+              <input type="number" id="manualSellingPrice" value="195" class="form-input font-num" style="height: 42px; font-size: 1.1rem; font-weight: 900; color: #0066FF;">
+            </div>
+
+            <div>
+              <label style="font-size: 0.78rem; font-weight: 800; color: #15803D; display: block; margin-bottom: 4px;">السعر المنافس (ر.س) ⚡</label>
+              <input type="number" id="manualCompetitivePrice" value="180" class="form-input font-num" style="height: 42px; font-size: 1.1rem; font-weight: 900; color: #16A34A; border: 2px solid #22C55E; background: #F0FDF4;">
+            </div>
+          </div>
+
+          <!-- ملاحظة السعر المنافس باللون الرمادي -->
+          <div style="font-size: 0.75rem; color: #64748B; background: #FFFFFF; border: 1px dashed #CBD5E1; padding: 6px 10px; border-radius: 8px; line-height: 1.4;">
+            💡 <span style="color: #64748B;">عند وضع سعر منافس تكون الأولوية لظهور قطعك وبيعها بأسرع وقت</span>
           </div>
 
           <div>
-            <label style="font-size: 0.80rem; font-weight: 800; color: #0F172A; display: block; margin-bottom: 4px;">الكمية المتوفرة بالمستودع *</label>
-            <input type="number" id="manualQuantity" value="20" class="form-input font-num" style="font-size: 1.1rem; font-weight: 900; color: #0F172A;">
+            <label style="font-size: 0.78rem; font-weight: 800; color: #0F172A; display: block; margin-bottom: 4px;">الكمية المتوفرة بالمستودع *</label>
+            <input type="number" id="manualQuantity" value="20" class="form-input font-num" style="height: 40px; font-size: 1.05rem; font-weight: 900; color: #0F172A;">
           </div>
         </div>
 

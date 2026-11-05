@@ -374,15 +374,27 @@ const KafuMerchantInventory = {
 
         </div>
 
-        <!-- أزرار الإجراءات السريعة (إضافة قطعة جديدة + فتح بشاشة كاملة) -->
+        <!-- أزرار الإجراءات السريعة (إضافة قطعة جديدة + رفع إكسل + فتح بشاشة كاملة) -->
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
-          <button 
-            type="button" 
-            onclick="closeActionModal(); setTimeout(() => openAddProductPriceModal(), 180);"
-            style="padding: 7px 14px; background: linear-gradient(90deg, #0056E0 0%, #0066FF 100%); color: #FFFFFF; border: none; border-radius: 10px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);"
-          >
-            <span>${ctx.addBtnText}</span>
-          </button>
+          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+            <button 
+              type="button" 
+              onclick="closeActionModal(); setTimeout(() => openAddProductPriceModal(), 180);"
+              style="padding: 7px 14px; background: linear-gradient(90deg, #0056E0 0%, #0066FF 100%); color: #FFFFFF; border: none; border-radius: 10px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);"
+            >
+              <span>${ctx.addBtnText}</span>
+            </button>
+
+            <!-- زر رفع المخزون بملف إكسل بالكامل (Bulk XL Upload) -->
+            <button 
+              type="button" 
+              onclick="KafuMerchantInventory.openBulkExcelUploadModal()"
+              style="padding: 7px 12px; background: #0F172A; color: #FFFFFF; border: none; border-radius: 10px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.15);"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              <span>📊 رفع ملف إكسل للمخزون (Bulk XL)</span>
+            </button>
+          </div>
 
           <a 
             href="${ctx.fullPageUrl}" 
@@ -834,6 +846,157 @@ const KafuMerchantInventory = {
       </div>
     `;
     document.body.insertAdjacentHTML('beforeend', modalHtml);
+  },
+
+  // نافذة رفع المخزون بملف إكسل بالكامل (Bulk Excel Upload)
+  openBulkExcelUploadModal() {
+    const modalHtml = `
+      <div id="bulkExcelModal" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(6px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 16px;">
+        <div style="background: #FFFFFF; width: 100%; max-width: 640px; max-height: 88vh; overflow-y: auto; border-radius: 24px; padding: 22px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25); display: flex; flex-direction: column; gap: 14px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EDF2F7; padding-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.5rem;">📊</span>
+              <div>
+                <strong style="font-size: 1.1rem; color: #0A2540;">رفع المخزون بالكامل عبر ملف إكسل (Bulk XL Upload)</strong>
+                <div style="font-size: 0.74rem; color: #64748B;">استيراد مئات القطع دفعة واحدة مع السعر والسعر المنافس والأرقام البديلة</div>
+              </div>
+            </div>
+            <button onclick="document.getElementById('bulkExcelModal').remove()" style="background: none; border: none; font-size: 1.2rem; color: #64748B; cursor: pointer;">✕</button>
+          </div>
+
+          <!-- خطوة 1: تحميل القالب المعتمد -->
+          <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.2rem;">📥</span>
+              <div style="font-size: 0.82rem; color: #166534;">
+                <strong>الخطوة 1: حمّل قالب إكسل كفو المعتمد</strong>
+                <div style="font-size: 0.74rem; color: #15803D;">يحتوي على الأعمدة الإلزامية: نوع المركبة، اسم السيارة، الموديل، الفئة، OEM، السعر، السعر المنافس</div>
+              </div>
+            </div>
+            <a href="javascript:void(0)" onclick="KafuApp.showToast('جاري تنزيل قالب كفو للمخزون: kafu_inventory_template.xlsx');" style="background: #16A34A; color: #FFFFFF; padding: 6px 12px; border-radius: 8px; font-size: 0.76rem; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+              تحميل القالب (.xlsx)
+            </a>
+          </div>
+
+          <!-- خطوة 2: منطقة سحب وإفلات ملف الإكسل -->
+          <div 
+            id="excelDropzone"
+            onclick="document.getElementById('excelFileInput').click()"
+            style="background: #F8FAFC; border: 2px dashed #38BDF8; border-radius: 16px; padding: 26px 16px; text-align: center; cursor: pointer; transition: all 0.2s ease;"
+          >
+            <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" style="display: none;" onchange="KafuMerchantInventory.handleExcelFile(event)" />
+            <div style="font-size: 2.2rem; margin-bottom: 6px;">📑</div>
+            <strong style="display: block; font-size: 0.95rem; color: #0F172A; margin-bottom: 4px;">اضغط لاختيار ملف الإكسل أو اسحبه هنا</strong>
+            <span style="font-size: 0.78rem; color: #64748B;">يدعم ملفات Microsoft Excel (.xlsx, .xls) وجداول CSV</span>
+          </div>
+
+          <!-- خطوة 3: جدول معاينة البيانات المستخرجة من الإكسل -->
+          <div id="excelPreviewSection" style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="font-size: 0.84rem; color: #0A2540;">معاينة الصفوف المستخرجة من الملف (نموذج):</strong>
+              <span style="font-size: 0.74rem; background: #EFF6FF; color: #0066FF; padding: 2px 8px; border-radius: 6px; font-weight: 700;">142 صف جاهز للاستيراد</span>
+            </div>
+
+            <div style="max-height: 180px; overflow-x: auto; overflow-y: auto; border: 1.5px solid #E2E8F0; border-radius: 12px; background: #FFFFFF;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: right;">
+                <thead>
+                  <tr style="background: #F8FAFC; border-bottom: 1.5px solid #E2E8F0; color: #475569;">
+                    <th style="padding: 8px;">نوع المركبة</th>
+                    <th style="padding: 8px;">اسم السيارة</th>
+                    <th style="padding: 8px;">الموديل</th>
+                    <th style="padding: 8px;">فئة السيارة</th>
+                    <th style="padding: 8px;">اسم القطعة</th>
+                    <th style="padding: 8px;">كود OEM</th>
+                    <th style="padding: 8px;">السعر الأساسي</th>
+                    <th style="padding: 8px; color: #16A34A;">السعر المنافس ⚡</th>
+                    <th style="padding: 8px;">الكمية</th>
+                  </tr>
+                </thead>
+                <tbody id="excelPreviewTbody">
+                  <tr style="border-bottom: 1px solid #F1F5F9;">
+                    <td style="padding: 6px 8px;">تويوتا</td>
+                    <td style="padding: 6px 8px;">كامري</td>
+                    <td style="padding: 6px 8px;">2024</td>
+                    <td style="padding: 6px 8px;">فل كامل</td>
+                    <td style="padding: 6px 8px; font-weight: 700;">فحمات فرامل أمامية</td>
+                    <td style="padding: 6px 8px; font-family: monospace;">04465-33480</td>
+                    <td style="padding: 6px 8px;">195 ر.س</td>
+                    <td style="padding: 6px 8px; font-weight: 800; color: #16A34A;">180 ر.س</td>
+                    <td style="padding: 6px 8px; font-weight: 800;">25</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #F1F5F9;">
+                    <td style="padding: 6px 8px;">نيسان</td>
+                    <td style="padding: 6px 8px;">باترول</td>
+                    <td style="padding: 6px 8px;">2023</td>
+                    <td style="padding: 6px 8px;">بلاتينيوم</td>
+                    <td style="padding: 6px 8px; font-weight: 700;">شمعة ليد يمين</td>
+                    <td style="padding: 6px 8px; font-family: monospace;">26010-6GM0A</td>
+                    <td style="padding: 6px 8px;">1850 ر.س</td>
+                    <td style="padding: 6px 8px; font-weight: 800; color: #16A34A;">1720 ر.س</td>
+                    <td style="padding: 6px 8px; font-weight: 800;">6</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 8px;">مازدا</td>
+                    <td style="padding: 6px 8px;">مازدا 6</td>
+                    <td style="padding: 6px 8px;">2022</td>
+                    <td style="padding: 6px 8px;">سيجنتشر</td>
+                    <td style="padding: 6px 8px; font-weight: 700;">طقم مساعدات هيدروليك</td>
+                    <td style="padding: 6px 8px; font-family: monospace;">GHP9-34-700</td>
+                    <td style="padding: 6px 8px;">750 ر.س</td>
+                    <td style="padding: 6px 8px; font-weight: 800; color: #16A34A;">690 ر.س</td>
+                    <td style="padding: 6px 8px; font-weight: 800;">12</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- ملاحظة السعر المنافس باللون الرمادي -->
+            <div style="font-size: 0.74rem; color: #64748B; background: #F8FAFC; border: 1px dashed #CBD5E1; padding: 6px 10px; border-radius: 8px;">
+              💡 <span style="color: #64748B;">عند وضع سعر منافس تكون الأولوية لظهور قطعك وبيعها بأسرع وقت</span>
+            </div>
+          </div>
+
+          <!-- زر تأكيد الاستيراد المباشر -->
+          <div style="display: flex; gap: 8px; margin-top: 6px;">
+            <button 
+              type="button" 
+              onclick="
+                KafuMerchantInventory.confirmBulkImport();
+                document.getElementById('bulkExcelModal').remove();
+              "
+              style="flex: 1; height: 44px; background: linear-gradient(90deg, #0056E0 0%, #0066FF 100%); color: #FFFFFF; border: none; border-radius: 12px; font-size: 0.92rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 102, 255, 0.3);"
+            >
+              استيراد وتحديث المخزون بالكامل دفعة واحدة ✓
+            </button>
+            <button 
+              type="button" 
+              onclick="document.getElementById('bulkExcelModal').remove()"
+              style="width: 90px; height: 44px; background: #F1F5F9; color: #475569; border: none; border-radius: 12px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"
+            >
+              إلغاء
+            </button>
+          </div>
+
+        </div>
+      </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+  },
+
+  handleExcelFile(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    if (window.KafuApp && KafuApp.showToast) {
+      KafuApp.showToast(`📊 جاري قراءة وفحص ملف الإكسل: ${file.name}`);
+    }
+  },
+
+  confirmBulkImport() {
+    if (window.KafuApp && KafuApp.showToast) {
+      KafuApp.showToast('🎉 تم استيراد 142 قطعة إلى مخزونك بنجاح مع تطبيق الأسعار المنافسة!');
+    }
+    this.refreshModal();
   }
 };
 
