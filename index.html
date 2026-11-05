@@ -985,8 +985,8 @@
         </a>
       </div>
 
-      <div class="products-list" id="featuredProductsList">
-        <!-- يتم ملؤها ديناميكياً بواسطة جافاسكريبت -->
+      <div class="parts-masonry-grid" id="featuredProductsList">
+        <!-- يتم ملؤها ديناميكياً بواسطة جافاسكريبت بكروت شبكة عمودين متوافقة مع الهوية -->
       </div>
     </section>
 
@@ -1393,46 +1393,105 @@
       if (!container) return;
       const car = KafuStore.getSelectedCar();
 
-      let list = currentTabMode === 'foryou' ? PRODUCTS.slice(0, 4) : PRODUCTS.slice(2, 6);
-      if (list.length === 0) list = PRODUCTS.slice(0, 4);
+      let list = currentTabMode === 'foryou' ? PRODUCTS.slice(0, 6) : PRODUCTS.slice(4, 10);
+      if (list.length === 0) list = PRODUCTS.slice(0, 6);
 
       container.innerHTML = list.map(p => {
         const comp = checkCompatibility(p, car);
-        const compBadge = comp.status === 'compatible' 
-          ? `<span style="font-size:0.74rem; color:#15803D; font-weight:700;">✓ متوافق مع سيارتك</span>` 
-          : '';
+        const compClass = comp.status === 'compatible' ? 'color:#15803D;' : 'color:#B91C1C;';
+
+        let badgeBg = '#EFF6FF';
+        let badgeColor = '#1D4ED8';
+        if (p.condition === 'scrap') {
+          badgeBg = '#F3E8FF';
+          badgeColor = '#6B21A8';
+        } else if (p.condition === 'commercial') {
+          badgeBg = '#FEF3C7';
+          badgeColor = '#B45309';
+        }
 
         return `
-          <div class="product-card glass glass-card-interactive" onclick="window.location.href='product.html?id=${p.id}'">
-            <div class="product-img-box">
-              <img src="${p.image}" alt="${p.name}" loading="lazy">
+          <div class="kafu-part-card" onclick="window.location.href='product.html?id=${p.id}'">
+            <div class="kafu-part-img-box">
+              <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='assets/images/products/part_brake_pads.jpg'">
+              <span class="kafu-part-oem-tag ltr">${p.oem}</span>
+              <button 
+                type="button" 
+                class="btn-part-similar" 
+                title="قطع مشابهة" 
+                aria-label="قطع مشابهة"
+                onclick="event.stopPropagation(); openSimilarPartsSheet('${p.id}');"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>
+              </button>
             </div>
-            <div class="product-info-col">
-              <div class="product-top-row">
-                <span class="product-brand">${p.brand}</span>
-                <span class="badge-available">متوفر</span>
+            <div class="kafu-part-content">
+              <div>
+                <div class="kafu-part-top-row">
+                  <span class="kafu-part-brand">${p.brand}</span>
+                  <span class="kafu-part-cond-badge" style="background: ${badgeBg}; color: ${badgeColor};">
+                    ${p.conditionLabel || 'أصلي وكالة (OEM)'}
+                  </span>
+                </div>
+                <h3 class="kafu-part-title" title="${p.name}">${p.name}</h3>
               </div>
-              <h3 class="product-title">${p.name}</h3>
-              <div class="product-oem-row">
-                <span>رقم القطعة</span>
-                <span class="oem-code ltr">${p.oem}</span>
+              <div class="kafu-part-compat-text" style="${compClass}">
+                ${comp.status === 'compatible' ? '✓ ' : ''}${comp.text}
               </div>
-              ${compBadge}
-              <div class="product-bottom-row">
-                <span class="product-price">${KafuStore.formatPrice(p.price)}</span>
+              <div class="kafu-part-bottom-row">
+                <div class="kafu-part-price">
+                  <span>${p.price}</span>
+                  <span class="kafu-part-currency">ر.س</span>
+                </div>
                 <button 
-                  class="btn-add-cart-mini" 
+                  type="button" 
+                  class="btn-add-part-quick" 
                   title="أضف إلى السلة" 
                   aria-label="أضف إلى السلة"
-                  onclick="event.stopPropagation(); KafuStore.addToCart(PRODUCTS.find(x => x.id === '${p.id}')); KafuApp.showToast('تمت إضافة ${p.name} للسلة ✓');"
+                  onclick="event.stopPropagation(); KafuStore.addToCart(PRODUCTS.find(x => x.id === '${p.id}')); KafuApp.showToast('تمت إضافة ${p.name.slice(0, 22)} للسلة ✓');"
                 >
-                  ${KafuApp.ICONS.plus}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M12 5v14M5 12h14"/></svg>
                 </button>
               </div>
             </div>
           </div>
         `;
       }).join('');
+    }
+
+    // نافذة القطع المشابهة المنبثقة من الأسفل
+    function openSimilarPartsSheet(partId) {
+      const p = PRODUCTS.find(x => x.id === partId);
+      if (!p) return;
+
+      const sheet = document.getElementById('similarPartsBackdrop');
+      const title = document.getElementById('similarSheetTitle');
+      const grid = document.getElementById('similarPartsGrid');
+      if (!sheet || !grid) return;
+
+      title.textContent = `قطع متوافقة مع: ${p.name.slice(0, 30)}...`;
+
+      const similar = PRODUCTS.filter(x => x.id !== p.id && (x.category === p.category || x.brand === p.brand)).slice(0, 4);
+      const items = similar.length > 0 ? similar : PRODUCTS.filter(x => x.id !== p.id).slice(0, 4);
+
+      grid.innerHTML = items.map(sim => `
+        <div class="kafu-part-card" onclick="window.location.href='product.html?id=${sim.id}'">
+          <div class="kafu-part-img-box" style="height: 110px;">
+            <img src="${sim.image}" alt="${sim.name}">
+          </div>
+          <div class="kafu-part-content" style="padding: 6px;">
+            <h4 style="font-size: 0.8rem; margin: 0 0 4px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${sim.name}</h4>
+            <div style="font-size: 1rem; font-weight: 800; color: #0F172A;">${sim.price} <small style="font-size: 0.7rem; color: #64748B;">ر.س</small></div>
+          </div>
+        </div>
+      `).join('');
+
+      sheet.classList.add('show');
+    }
+
+    function closeSimilarPartsSheetDirect() {
+      const sheet = document.getElementById('similarPartsBackdrop');
+      if (sheet) sheet.classList.remove('show');
     }
 
     // -------------------------------------------------------------------------
@@ -1507,5 +1566,21 @@
       renderHomeProducts();
     });
   </script>
+
+  <!-- نافذة القطع المشابهة المنبثقة من الأسفل -->
+  <div class="similar-sheet-backdrop" id="similarPartsBackdrop" onclick="if(event.target.id==='similarPartsBackdrop') closeSimilarPartsSheetDirect()">
+    <div class="similar-sheet-modal">
+      <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid #E2E8F0; margin-bottom: 12px;">
+        <div>
+          <h3 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #0F172A;">قطع بديلة ومطابقة</h3>
+          <span style="font-size: 0.74rem; color: #64748B;" id="similarSheetTitle">قطع متوافقة بأسعار وموردين مختلفين</span>
+        </div>
+        <button type="button" onclick="closeSimilarPartsSheetDirect()" style="background: none; border: none; cursor: pointer; color: #64748B;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="parts-masonry-grid" id="similarPartsGrid" style="margin-bottom: 0;"></div>
+    </div>
+  </div>
 </body>
 </html>
