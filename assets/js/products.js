@@ -551,6 +551,56 @@ const PRODUCTS = [
     compatibleCars: [
       { make: 'تويوتا', model: 'كامري', years: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'], vinPrefixes: ['4T1B', 'JTDK'] }
     ]
+  },
+  {
+    id: 'prod-13',
+    name: 'شمعة أمامية أصلية ليد تفاعلي كامل',
+    brand: 'Koito OEM',
+    oem: '81110-06C40',
+    category: 'lighting',
+    condition: 'original',
+    conditionLabel: 'أصلي وكالة (OEM)',
+    price: 780,
+    image: 'assets/images/products/headlight_led.jpg',
+    available: true,
+    rating: 5.0,
+    reviewsCount: 21,
+    seller: 'كفو إكسبرس · الرياض',
+    description: 'شمعة أمامية أصلية ليد متكيفة مع عدسة بروجكتر وإضاءة نهارية DRL شديدة الوضوح.',
+    specs: {
+      origin: 'اليابان',
+      warranty: 'ضمان سنتين',
+      weight: '3.8 كجم',
+      material: 'بولي كربونات مقاوم للأشعة فوق البنفسجية'
+    },
+    compatibleCars: [
+      { make: 'تويوتا', model: 'كامري', years: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'], vinPrefixes: ['4T1B', 'JTDK'] }
+    ]
+  },
+  {
+    id: 'prod-14',
+    name: 'طقم كشافات ضباب ليد كري أبيض ثلجي',
+    brand: 'Denso Lighting',
+    oem: '81210-48050',
+    category: 'lighting',
+    condition: 'commercial',
+    conditionLabel: 'تجاري درجة أولى',
+    price: 240,
+    image: 'assets/images/products/headlight_led.jpg',
+    available: true,
+    rating: 4.8,
+    reviewsCount: 16,
+    seller: 'متجر كفو للقطع · جدة',
+    description: 'طقم كشافات ضباب ليد مقاومة للماء والأتربة بتوزيع ضوئي عريض ودرجة لون 6000K.',
+    specs: {
+      origin: 'اليابان / تايوان',
+      warranty: 'ضمان سنة كاملة',
+      weight: '1.2 كجم',
+      material: 'ألومنيوم مبرد وعدسات زجاجية مقواة'
+    },
+    compatibleCars: [
+      { make: 'تويوتا', model: 'كامري', years: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'], vinPrefixes: ['4T1B', 'JTDK'] }
+    ]
   }
 ];
 

@@ -462,10 +462,11 @@
         <button class="chip active" data-cat="all" onclick="filterCategory('all', this)">كل الفئات</button>
         <button class="chip" data-cat="engine" onclick="filterCategory('engine', this)">المحرك والرديتر</button>
         <button class="chip" data-cat="brakes" onclick="filterCategory('brakes', this)">الفرامل</button>
-        <button class="chip" data-cat="suspension" onclick="filterCategory('suspension', this)">المساعدات والتعليق</button>
-        <button class="chip" data-cat="body" onclick="filterCategory('body', this)">البودي والصدامات</button>
-        <button class="chip" data-cat="lighting" onclick="filterCategory('lighting', this)">الإضاءة والكهرباء</button>
+        <button class="chip" data-cat="electrical" onclick="filterCategory('electrical', this)">الكهرباء والبطارية</button>
         <button class="chip" data-cat="oils" onclick="filterCategory('oils', this)">الزيوت والفلاتر</button>
+        <button class="chip" data-cat="suspension" onclick="filterCategory('suspension', this)">المساعدات والتعليق</button>
+        <button class="chip" data-cat="lighting" onclick="filterCategory('lighting', this)">الإضاءة</button>
+        <button class="chip" data-cat="body" onclick="filterCategory('body', this)">البودي والصدامات</button>
       </div>
 
       <!-- كارت توافق السيارة المدمج -->
@@ -654,11 +655,20 @@
       const urlParams = new URLSearchParams(window.location.search);
       const q = urlParams.get('q');
       const tabParam = urlParams.get('tab');
+      const catParam = urlParams.get('category');
 
       if (tabParam) switchMainTab(tabParam);
       if (q) {
         partsInput.value = q;
         clearBtn.style.display = 'block';
+      }
+      if (catParam) {
+        activeCategory = catParam;
+        const targetChip = document.querySelector(`#partsCategoryChips .chip[data-cat="${catParam}"]`);
+        if (targetChip) {
+          document.querySelectorAll('#partsCategoryChips .chip').forEach(c => c.classList.remove('active'));
+          targetChip.classList.add('active');
+        }
       }
 
       renderParts();
