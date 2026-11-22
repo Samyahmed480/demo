@@ -204,6 +204,13 @@
       } else if (roleId === 'courier') {
         // كارت خاص بمندوب التوصيل: حالة الكابتن + أرباح اليوم
         container.innerHTML = `
+          <a href="courier-portal.html" style="display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #16A34A, #15803D); color: #FFF; padding: 12px 16px; border-radius: 14px; text-decoration: none; font-weight: 800; font-size: 0.90rem; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(22,163,74,0.25);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.15rem;">🚚</span>
+              <span>فتح منصة كابتن التوصيل (Driver User Journey)</span>
+            </div>
+            <span style="background: rgba(255,255,255,0.22); padding: 4px 12px; border-radius: 999px; font-size: 0.78rem;">دخول المنصة ↗</span>
+          </a>
           <div class="courier-status-card">
             <div class="courier-status-info">
               <div class="courier-status-dot" id="courierStatusDot"></div>
@@ -403,6 +410,14 @@
       } else if (roleId === 'courier') {
         // لوحة تحكم مندوب التوصيل
         items = [
+          {
+            title: 'منصة كابتن التوصيل (Driver User Journey)',
+            desc: 'شاشة الرادار، إثبات الاستلام بالصور، الملاحة، تسليم POD والمحفظة',
+            iconBg: 'linear-gradient(135deg, #16A34A 0%, #15803D 100%)',
+            iconColor: '#FFFFFF',
+            icon: `<rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>`,
+            action: "window.location.href='courier-portal.html'"
+          },
           {
             title: 'شحنات متاحة للاستلام الآن',
             desc: 'طلبيات جاهزة في مستودعات القطع بانتظار استلامك ونقلها',
