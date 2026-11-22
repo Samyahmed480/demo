@@ -1249,10 +1249,10 @@
         </button>
       </div>
 
-      <!-- رابط التسجيل وإنشاء حساب جديد مع قائمة الفئات والشروط -->
+      <!-- رابط التسجيل وإنشاء حساب جديد - صفحة كاملة مستقلة -->
       <div class="signup-prompt-box">
         <span>ليس لديك حساب؟</span>
-        <button type="button" class="signup-link-bold-btn" onclick="openRegisterSheet()">تسجيل جديد (اختر فئتك)</button>
+        <a href="register.html" class="signup-link-bold-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">تسجيل جديد (إنشاء حساب)</a>
       </div>
 
     </div>
@@ -1897,7 +1897,7 @@
     // دوال التسجيل باختيار الفئة والشروط
     // -------------------------------------------------------------------------
     function openRegisterSheet() {
-      document.getElementById('registerSheetBackdrop').classList.add('active');
+      window.location.href = 'register.html';
     }
     function closeRegisterSheet(e) {
       if (e.target === document.getElementById('registerSheetBackdrop')) closeRegisterSheetDirect();

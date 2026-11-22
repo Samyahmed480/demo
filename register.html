@@ -4,70 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>كفو | إنشاء حساب جديد - منظومة قطع غيار السيارات الذكية</title>
-  <meta name="description" content="إنشاء حساب جديد في منظومة كفو لقطع غيار السيارات الذكية - تاجر، مندوب مبيعات، مهندس ورشة، أو عميل.">
+  <meta name="description" content="إنشاء حساب جديد في منصة كفو لقطع غيار السيارات الذكية - تاجر، تشليح، مهندس ورشة، مندوب، أو عميل.">
   
   <!-- خطوط Google Fonts: IBM Plex Sans Arabic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="assets/css/tokens.css">
 
   <style>
     /* ==========================================================================
-       واجهة إنشاء الحساب كفو - متوافقة 100% مع كافة مقاسات الأجهزة والهواتف
+       تصميم صفحة إنشاء الحساب الكاملة - منصة كفو (Full Page Register)
        ========================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
     }
 
     :root {
       --primary-blue: #0066FF;
-      --primary-gradient: linear-gradient(90deg, #0056E0 0%, #0066FF 100%);
       --primary-hover: #0052D4;
       --navy-dark: #0A2540;
       --slate-text: #0F172A;
       --slate-sub: #64748B;
       --border-color: #E2E8F0;
       --card-bg: #FFFFFF;
-      --shadow-card: 0 10px 32px rgba(0, 102, 255, 0.08), 0 2px 8px rgba(15, 23, 42, 0.03);
-      --shadow-btn: 0 6px 20px rgba(0, 102, 255, 0.28);
+      --nafath-green: #007A3D;
     }
 
     html, body {
       width: 100%;
-      min-height: 100%;
-      background: #EBF3FC;
+      min-height: 100vh;
+      background: #F1F5F9;
       font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--slate-text);
-      overflow-x: hidden;
-      overscroll-behavior: none;
+      line-height: 1.5;
     }
 
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      position: relative;
-    }
-
-    body::-webkit-scrollbar {
-      display: none;
-      width: 0;
-      height: 0;
-    }
-    body {
-      scrollbar-width: none;
-    }
-
-    /* --------------------------------------------------------------------------
-       خلفية التموجات الانسيابية السماوية المعتمدة
-       -------------------------------------------------------------------------- */
+    /* خلفية تدرج انسيابية مريحة */
     .bg-fluid-canvas {
       position: fixed;
       inset: 0;
@@ -76,277 +53,286 @@
       pointer-events: none;
       z-index: 1;
       overflow: hidden;
-      background: linear-gradient(180deg, #DCEBFA 0%, #E8F2FD 28%, #F2F7FD 65%, #EAF3FD 100%);
+      background: linear-gradient(180deg, #E8F2FD 0%, #F1F5F9 40%, #F8FAFC 100%);
     }
 
     .fluid-wave-top-left {
       position: absolute;
-      top: -60px;
-      left: -60px;
-      width: 320px;
-      height: 280px;
-      background: radial-gradient(circle at 30% 30%, rgba(0, 102, 255, 0.42) 0%, rgba(59, 130, 246, 0.20) 50%, transparent 75%);
-      filter: blur(28px);
-      border-radius: 50% 40% 60% 40%;
+      top: -80px;
+      left: -80px;
+      width: 380px;
+      height: 340px;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 102, 255, 0.25) 0%, rgba(59, 130, 246, 0.12) 50%, transparent 75%);
+      filter: blur(35px);
+      border-radius: 50%;
       opacity: 0.85;
     }
 
     .fluid-wave-top-right {
       position: absolute;
-      top: -80px;
-      right: -60px;
-      width: 340px;
-      height: 300px;
-      background: radial-gradient(circle at 70% 30%, rgba(37, 99, 235, 0.40) 0%, rgba(96, 165, 250, 0.18) 55%, transparent 80%);
-      filter: blur(32px);
-      border-radius: 40% 60% 40% 60%;
+      top: -100px;
+      right: -80px;
+      width: 420px;
+      height: 380px;
+      background: radial-gradient(circle at 70% 30%, rgba(37, 99, 235, 0.22) 0%, rgba(16, 185, 129, 0.12) 55%, transparent 80%);
+      filter: blur(40px);
+      border-radius: 50%;
       opacity: 0.85;
     }
 
-    .svg-curved-stream {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 360px;
-      opacity: 0.40;
-      pointer-events: none;
-    }
-
-    /* --------------------------------------------------------------------------
-       شاشة العرض المركزية المتوافقة مع كافة مقاسات الأجهزة
-       -------------------------------------------------------------------------- */
-    .screen-wrapper {
+    /* الحاوية الكاملة للصفحة */
+    .register-full-page {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 412px;
-      min-height: 100%;
-      min-height: 100dvh;
+      max-width: 680px;
       margin: 0 auto;
-      padding: max(8px, env(safe-area-inset-top, 8px)) 16px max(14px, env(safe-area-inset-bottom, 14px));
+      padding: 24px 20px 48px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      box-sizing: border-box;
+      gap: 20px;
     }
 
-    /* --------------------------------------------------------------------------
-       1. الشريط العلوي: زر الرجوع وزر تغيير اللغة
-       -------------------------------------------------------------------------- */
-    .top-action-bar {
-      width: 100%;
+    @media (max-width: 640px) {
+      .register-full-page {
+        padding: 16px 14px 40px;
+        gap: 16px;
+      }
+    }
+
+    /* الشريط العلوي */
+    .register-top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: clamp(2px, 0.8vh, 6px);
-      min-height: 34px;
     }
 
     .back-btn-round {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: #FFFFFF;
-      border: 1px solid rgba(226, 232, 240, 0.95);
-      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      color: #0A2540;
-      cursor: pointer;
+      gap: 6px;
+      color: #0066FF;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1.5px solid #E2E8F0;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
       text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
       transition: all 0.2s ease;
     }
 
     .back-btn-round:hover {
-      background: #F8FAFC;
-      border-color: #CBD5E1;
-      transform: translateX(2px);
-    }
-
-    .lang-pill-btn {
-      height: 34px;
-      padding: 0 12px;
-      border-radius: 9999px;
-      background: #FFFFFF;
-      border: 1px solid rgba(226, 232, 240, 0.95);
-      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.05);
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #0A2540;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.2s ease;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    .lang-pill-btn:hover {
-      background: #F8FAFC;
-      border-color: #CBD5E1;
-      transform: translateY(-1px);
-    }
-
-    .lang-gear-icon {
-      color: var(--primary-blue);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lang-chevron-icon {
-      color: #64748B;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* --------------------------------------------------------------------------
-       2. رأس الصفحة: لوجو شركة كفو المعتمد
-       -------------------------------------------------------------------------- */
-    .brand-hero-section {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      margin-top: 0;
-      margin-bottom: clamp(4px, 1.2vh, 8px);
-      position: relative;
+      background: #EFF6FF;
+      border-color: #BFDBFE;
     }
 
     .brand-logo-pod {
-      width: clamp(52px, 14vw, 64px);
-      height: clamp(52px, 14vw, 64px);
-      border-radius: clamp(15px, 3.8vw, 18px);
-      background: #FFFFFF;
-      box-shadow: 
-        0 10px 24px rgba(0, 102, 255, 0.14),
-        0 3px 8px rgba(15, 23, 42, 0.04);
-      border: 2px solid #FFFFFF;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0056E0 0%, #0066FF 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: clamp(2px, 0.6vh, 4px);
-      position: relative;
-      z-index: 3;
-    }
-
-    .brand-logo-icon {
-      width: clamp(36px, 10vw, 44px);
-      height: clamp(36px, 10vw, 44px);
-      object-fit: contain;
-      display: block;
-    }
-
-    .brand-title {
-      font-size: clamp(1.4rem, 4.5vw, 1.75rem);
+      color: #FFFFFF;
       font-weight: 900;
-      color: var(--navy-dark);
-      line-height: 1.15;
-      margin-bottom: 2px;
-      letter-spacing: -0.3px;
+      font-size: 1.3rem;
+      box-shadow: 0 6px 16px rgba(0, 102, 255, 0.3);
     }
 
-    .brand-subtitle {
-      font-size: clamp(0.72rem, 2.1vw, 0.80rem);
-      font-weight: 700;
-      color: var(--primary-blue);
-      line-height: 1.2;
-      text-align: center;
-      letter-spacing: -0.2px;
-    }
-
-    /* --------------------------------------------------------------------------
-       3. بطاقة إنشاء الحساب البيضاء المرفوعة (Registration Card)
-       -------------------------------------------------------------------------- */
-    .main-register-card {
-      width: 100%;
-      background: var(--card-bg);
-      border-radius: clamp(20px, 4.5vw, 26px);
-      padding: clamp(12px, 2.2vh, 18px) clamp(12px, 3.5vw, 18px);
-      box-shadow: var(--shadow-card);
-      border: 1px solid rgba(226, 232, 240, 0.85);
+    /* بطاقة التسجيل الرئيسية */
+    .register-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 24px;
+      padding: 28px 24px;
+      box-shadow: 0 10px 35px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(0, 0, 0, 0.02);
       display: flex;
       flex-direction: column;
-      position: relative;
-      box-sizing: border-box;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      gap: 22px;
     }
 
-    .card-header-block {
-      text-align: center;
-      margin-bottom: clamp(8px, 1.6vh, 12px);
+    @media (max-width: 640px) {
+      .register-card {
+        padding: 20px 16px;
+        border-radius: 20px;
+        gap: 18px;
+      }
     }
 
-    .card-main-title {
-      font-size: clamp(1.28rem, 4vw, 1.45rem);
-      font-weight: 800;
-      color: var(--navy-dark);
-      line-height: 1.2;
-      margin-bottom: 2px;
-      letter-spacing: -0.3px;
+    .register-header-text h1 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #0A2540;
+      margin-bottom: 4px;
     }
 
-    .card-sub-title {
-      font-size: clamp(0.78rem, 2.4vw, 0.86rem);
+    .register-header-text p {
+      font-size: 0.86rem;
+      color: #64748B;
       font-weight: 500;
-      color: var(--slate-sub);
     }
 
-    /* --------------------------------------------------------------------------
-       4. حقول الإدخال
-       -------------------------------------------------------------------------- */
-    .inputs-form-group {
+    /* شبكة اختيار فئات الحساب */
+    .section-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #1E293B;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .role-grid-selector {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .role-grid-selector {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .role-option-card {
+      background: #F8FAFC;
+      border: 1.8px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .role-option-card:hover {
+      border-color: #93C5FD;
+      background: #F0F7FF;
+      transform: translateY(-1px);
+    }
+
+    .role-option-card.active {
+      border-color: #0066FF;
+      background: #EFF6FF;
+      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.12);
+    }
+
+    .role-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      flex-shrink: 0;
+    }
+
+    .role-option-card.active .role-icon-box {
+      background: #0066FF;
+      color: #FFFFFF;
+      border-color: #0066FF;
+    }
+
+    .role-info-text {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: clamp(6px, 1.2vh, 9px);
-      width: 100%;
-      margin-bottom: clamp(6px, 1.2vh, 8px);
+      text-align: right;
+    }
+
+    .role-title-main {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #0F172A;
+    }
+
+    .role-desc-sub {
+      font-size: 0.72rem;
+      color: #64748B;
+      margin-top: 1px;
+      line-height: 1.25;
+    }
+
+    .role-active-check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #0066FF;
+      color: #FFFFFF;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+
+    .role-option-card.active .role-active-check {
+      display: flex;
+    }
+
+    /* حقول الإدخال */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-label {
+      font-size: 0.80rem;
+      font-weight: 700;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .form-input-box {
       width: 100%;
-      height: clamp(42px, 5.5vh, 46px);
-      background: #FFFFFF;
-      border: 1.6px solid var(--border-color);
+      height: 48px;
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
       border-radius: 12px;
+      padding: 0 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 11px;
+      gap: 10px;
       transition: all 0.2s ease;
-      position: relative;
-      box-sizing: border-box;
     }
 
     .form-input-box:focus-within {
-      border-color: var(--primary-blue);
+      background: #FFFFFF;
+      border-color: #0066FF;
       box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12);
     }
 
     .form-input-box.error-state {
       border-color: #EF4444;
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+      background: #FEF2F2;
     }
 
     .input-field-right {
       display: flex;
       align-items: center;
-      gap: 9px;
+      gap: 10px;
       flex: 1;
       height: 100%;
-      min-width: 0;
     }
 
     .input-icon-blue {
-      color: var(--primary-blue);
+      color: #0066FF;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -357,452 +343,64 @@
       width: 100%;
       height: 100%;
       border: none;
-      outline: none;
       background: transparent;
+      outline: none;
       font-family: inherit;
       font-size: 0.90rem;
       font-weight: 600;
-      color: var(--slate-text);
-      text-align: right;
-      padding: 0;
+      color: #0F172A;
+      direction: rtl;
     }
 
     .native-text-input::placeholder {
       color: #94A3B8;
-      font-weight: 500;
-    }
-
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover, 
-    input:-webkit-autofill:focus, 
-    input:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 1000px #FFFFFF inset !important;
-      box-shadow: 0 0 0 1000px #FFFFFF inset !important;
-      -webkit-text-fill-color: #0F172A !important;
-      transition: background-color 5000s ease-in-out 0s;
-    }
-
-    .country-code-pill {
-      display: inline-flex;
-      flex-direction: row;
-      direction: ltr;
-      align-items: center;
-      gap: 5px;
-      background: #F1F5F9;
-      border: 1px solid #E2E8F0;
-      border-radius: 8px;
-      padding: 4px 7px;
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 0.84rem;
-      font-weight: 700;
-      color: #0F172A;
-      transition: all 0.18s ease;
-      flex-shrink: 0;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    .country-code-pill:hover {
-      background: #E2E8F0;
-      border-color: #CBD5E1;
-    }
-
-    .country-flag-icon {
-      width: 18px;
-      height: 12px;
-      border-radius: 2px;
-      object-fit: cover;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-      flex-shrink: 0;
+      font-weight: 400;
     }
 
     .toggle-pass-btn {
-      background: transparent;
+      background: none;
       border: none;
-      outline: none;
       color: #94A3B8;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 6px;
-      border-radius: 8px;
-      transition: color 0.2s ease, background 0.2s ease;
-      flex-shrink: 0;
+      padding: 4px;
+      border-radius: 6px;
     }
 
     .toggle-pass-btn:hover {
-      color: var(--primary-blue);
-      background: #F1F5F9;
+      color: #0066FF;
     }
 
-    /* اختيار نوع الحساب */
-    .role-select-box {
-      width: 100%;
-      height: clamp(42px, 5.5vh, 46px);
-      background: #FFFFFF;
-      border: 1.6px solid var(--border-color);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 11px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      position: relative;
-      box-sizing: border-box;
-    }
-
-    .role-select-box:hover {
-      border-color: var(--primary-blue);
-      background: #F8FAFC;
-    }
-
-    .role-selected-text {
-      font-size: 0.90rem;
-      font-weight: 700;
-      color: #0F172A;
-    }
-
-    /* شروط الخدمة والخصوصية */
-    .terms-agree-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 2px;
-      margin-bottom: clamp(6px, 1.2vh, 8px);
-      cursor: pointer;
-      font-size: 0.78rem;
-      color: #475569;
-    }
-
-    .terms-checkbox {
-      width: 17px;
-      height: 17px;
-      border-radius: 5px;
-      accent-color: var(--primary-blue);
-      cursor: pointer;
-    }
-
-    .terms-link {
-      color: var(--primary-blue);
-      text-decoration: underline;
-      font-weight: 700;
-    }
-
-    /* --------------------------------------------------------------------------
-       5. زر إنشاء الحساب الأساسي
-       -------------------------------------------------------------------------- */
+    /* زر التسجيل الأساسي */
     .primary-submit-btn {
       width: 100%;
-      height: clamp(44px, 6vh, 48px);
-      border-radius: 13px;
-      background: var(--primary-gradient);
-      box-shadow: var(--shadow-btn);
+      height: 52px;
+      background: linear-gradient(135deg, #0056E0 0%, #0066FF 100%);
+      color: #FFFFFF;
       border: none;
-      outline: none;
+      border-radius: 14px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      color: #FFFFFF;
-      font-family: inherit;
-      font-size: clamp(0.96rem, 2.8vw, 1.04rem);
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-      margin-top: clamp(2px, 0.6vh, 4px);
-      margin-bottom: clamp(8px, 1.4vh, 12px);
+      box-shadow: 0 6px 20px rgba(0, 102, 255, 0.28);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-top: 6px;
     }
 
     .primary-submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.40);
-      background: linear-gradient(90deg, #004ecc 0%, #005ce6 100%);
+      background: linear-gradient(135deg, #0047BA 0%, #0056E0 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.35);
     }
 
-    .primary-submit-btn:active {
-      transform: scale(0.985);
-    }
-
-    .btn-arrow-circle {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: #FFFFFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary-blue);
-      flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
-
-    .primary-submit-btn:hover .btn-arrow-circle {
-      transform: translateX(-3px);
-    }
-
-    /* --------------------------------------------------------------------------
-       6. رابط الانتقال لتسجيل الدخول
-       -------------------------------------------------------------------------- */
-    .login-prompt-box {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 8px 0 2px;
-      font-size: 0.85rem;
-      color: #64748B;
-      font-weight: 600;
-    }
-
-    .login-link-bold {
-      color: var(--primary-blue);
-      font-weight: 800;
-      text-decoration: none;
-      transition: opacity 0.2s ease;
-    }
-
-    .login-link-bold:hover {
-      text-decoration: underline;
-      opacity: 0.88;
-    }
-
-    /* --------------------------------------------------------------------------
-       7. تذييل الصفحة: سيارة كفو وعبارة الشعار
-       -------------------------------------------------------------------------- */
-    .brand-footer-section {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-top: clamp(6px, 1.4vh, 10px);
-      padding-top: 4px;
-      padding-bottom: clamp(6px, 1.2vh, 12px);
-      position: relative;
-      z-index: 5;
-    }
-
-    .footer-car-divider-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      width: 100%;
-      max-width: 260px;
-      margin-bottom: 3px;
-    }
-
-    .footer-divider-arm {
-      flex: 1;
-      height: 1.5px;
-      background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.4), transparent);
-    }
-
-    .footer-car-img {
-      height: clamp(20px, 3.2vh, 26px);
-      width: auto;
-      object-fit: contain;
-      display: block;
-      pointer-events: none;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    .footer-tagline-text {
-      font-size: clamp(0.78rem, 2.2vw, 0.85rem);
-      font-weight: 700;
-      color: var(--primary-blue);
-      letter-spacing: -0.2px;
-      text-align: center;
-    }
-
-    /* --------------------------------------------------------------------------
-       8. محاكي الديسكتوب المحكم
-       -------------------------------------------------------------------------- */
-    @media (min-width: 769px) {
-      body:not(.in-mobile-frame) {
-        background: #E8EEF5;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 16px 0;
-      }
-
-      body:not(.in-mobile-frame) .screen-wrapper {
-        max-width: 412px;
-        height: 870px;
-        min-height: 870px;
-        max-height: 94vh;
-        border-radius: 38px;
-        box-shadow: 
-          0 25px 60px -15px rgba(15, 23, 42, 0.22),
-          0 0 0 1px rgba(226, 232, 240, 0.95),
-          0 0 0 8px #0F172A;
-        overflow-x: hidden;
-        overflow-y: auto;
-        background: #EBF3FC;
-        position: relative;
-      }
-
-      body:not(.in-mobile-frame) .bg-fluid-canvas {
-        position: absolute;
-        width: 412px;
-        height: 870px;
-        max-height: 94vh;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 38px;
-        overflow: hidden;
-      }
-    }
-
-    @media (max-height: 680px) {
-      .screen-wrapper {
-        padding-top: 4px;
-        padding-bottom: 6px;
-      }
-      .brand-logo-pod {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-      }
-      .brand-logo-icon {
-        width: 30px;
-        height: 30px;
-      }
-      .brand-title {
-        font-size: 1.25rem;
-      }
-      .brand-subtitle {
-        font-size: 0.68rem;
-      }
-      .main-register-card {
-        padding: 8px 10px;
-      }
-      .form-input-box, .role-select-box {
-        height: 38px;
-      }
-      .primary-submit-btn {
-        height: 38px;
-      }
-    }
-
-    /* --------------------------------------------------------------------------
-       9. النوافذ السفلية المنبثقة (Bottom Sheets)
-       -------------------------------------------------------------------------- */
-    .bottom-sheet-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.48);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 1000;
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-    }
-
-    .bottom-sheet-backdrop.active {
-      display: flex;
-      opacity: 1;
-    }
-
-    .bottom-sheet-content {
-      width: 100%;
-      max-width: 412px;
-      background: #FFFFFF;
-      border-radius: 28px 28px 0 0;
-      padding: 20px 20px 28px;
-      box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.16);
-      transform: translateY(100%);
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      box-sizing: border-box;
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-
-    .bottom-sheet-backdrop.active .bottom-sheet-content {
-      transform: translateY(0);
-    }
-
-    .sheet-drag-handle {
-      width: 42px;
-      height: 4px;
-      border-radius: 99px;
-      background: #CBD5E1;
-      align-self: center;
-      margin-bottom: 4px;
-      flex-shrink: 0;
-    }
-
-    .sheet-title-text {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--navy-dark);
-      text-align: center;
-      margin-bottom: 2px;
-    }
-
-    .sheet-desc-text {
-      font-size: 0.82rem;
-      color: #64748B;
-      text-align: center;
-      margin-bottom: 6px;
-    }
-
-    .sheet-options-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .sheet-btn-option {
-      width: 100%;
-      padding: 13px 15px;
-      border-radius: 14px;
-      background: #F8FAFC;
-      border: 1.5px solid #E2E8F0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      font-family: inherit;
-      text-align: right;
-      transition: all 0.18s ease;
-      color: #0F172A;
-    }
-
-    .sheet-btn-option:hover {
-      background: #EFF6FF;
-      border-color: var(--primary-blue);
-      transform: translateX(-3px);
-    }
-
-    .sheet-close-btn {
-      width: 100%;
-      height: 44px;
-      border-radius: 13px;
-      background: #F1F5F9;
-      border: none;
-      color: #475569;
-      font-size: 0.9rem;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      margin-top: 4px;
-    }
-
+    /* التوست والإشعارات */
     .feedback-toast {
       position: fixed;
       top: 24px;
@@ -810,9 +408,9 @@
       transform: translateX(-50%) translateY(-100px);
       background: #0A2540;
       color: #FFFFFF;
-      padding: 12px 20px;
+      padding: 12px 22px;
       border-radius: 14px;
-      font-size: 0.9rem;
+      font-size: 0.90rem;
       font-weight: 700;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       z-index: 9999;
@@ -829,12 +427,56 @@
       opacity: 1;
     }
 
-    .feedback-toast.success {
-      background: #059669;
+    .feedback-toast.success { background: #059669; }
+    .feedback-toast.error { background: #DC2626; }
+
+    /* النوافذ السفلية (نفاذ والشروط) */
+    .bottom-sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
     }
 
-    .feedback-toast.error {
-      background: #DC2626;
+    .bottom-sheet-backdrop.active {
+      display: flex;
+    }
+
+    .bottom-sheet-content {
+      width: 100%;
+      max-width: 500px;
+      background: #FFFFFF;
+      border-radius: 28px 28px 0 0;
+      padding: 24px 20px 36px;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.25);
+      animation: sheetSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes sheetSlideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-drag-handle {
+      width: 44px;
+      height: 5px;
+      background: #CBD5E1;
+      border-radius: 999px;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes pulseCode {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     .role-loading-overlay {
@@ -854,716 +496,775 @@
     .role-loading-overlay.active {
       display: flex;
     }
-
-    .loading-spinner {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 3.5px solid rgba(0, 102, 255, 0.15);
-      border-top-color: var(--primary-blue);
-      animation: spin 0.7s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
   </style>
 </head>
 <body>
 
-  <!-- =========================================================================
-       طبقات الخلفية الانسيابية (Cyan/Blue Curved Gradient Background)
-       ========================================================================= -->
+  <!-- خلفية التموجات الانسيابية -->
   <div class="bg-fluid-canvas" aria-hidden="true">
     <div class="fluid-wave-top-left"></div>
     <div class="fluid-wave-top-right"></div>
-    <svg class="svg-curved-stream" viewBox="0 0 800 400" fill="none" preserveAspectRatio="none">
-      <path d="M-100,50 C200,180 400,-20 900,120" stroke="rgba(0, 102, 255, 0.12)" stroke-width="40" fill="none"/>
-      <path d="M-50,150 C300,260 500,40 850,220" stroke="rgba(59, 130, 246, 0.10)" stroke-width="25" fill="none"/>
-    </svg>
   </div>
 
-  <!-- =========================================================================
-       شاشة العرض المركزية (Mobile Screen Wrapper)
-       ========================================================================= -->
-  <main class="screen-wrapper">
+  <!-- التوست التفاعلي للإشعارات -->
+  <div class="feedback-toast" id="feedbackToast">
+    <span id="toastMessage">رسالة النظام</span>
+  </div>
 
-    <!-- 1. الشريط العلوي: زر الرجوع لتسجيل الدخول وزر اللغة -->
-    <header class="top-action-bar">
-      <!-- زر الرجوع إلى صفحة تسجيل الدخول -->
-      <a href="welcome.html" class="back-btn-round" title="الرجوع لتسجيل الدخول">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
+  <!-- شاشة التحميل عند الانتقال -->
+  <div class="role-loading-overlay" id="loadingOverlay">
+    <div style="width: 44px; height: 44px; border-radius: 50%; border: 3.5px solid rgba(0, 102, 255, 0.15); border-top-color: #0066FF; animation: spin 0.7s linear infinite;"></div>
+    <p id="loadingText" style="font-weight: 800; font-size: 0.96rem; color: #0A2540;">جاري تهيئة حسابك...</p>
+  </div>
+
+  <!-- الصفحة الكاملة لإنشاء الحساب -->
+  <main class="register-full-page">
+
+    <!-- 1. شريط التنقل العلوي -->
+    <header class="register-top-bar">
+      <a href="welcome.html" class="back-btn-round" title="الرجوع لصفحة تسجيل الدخول">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>تسجيل الدخول</span>
       </a>
 
-      <!-- زر اللغة -->
-      <button type="button" class="lang-pill-btn" onclick="openLangSheet()" title="تغيير لغة العرض">
-        <span class="lang-chevron-icon">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </span>
-        <span id="currentLangLabel">عربي</span>
-        <span class="lang-gear-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-        </span>
-      </button>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-weight: 900; font-size: 1.15rem; color: #0A2540;">منظومة كفو</span>
+        <div class="brand-logo-pod">ك</div>
+      </div>
     </header>
 
-    <!-- 2. رأس الصفحة: لوجو شركة كفو الرسمي المعتمد -->
-    <section class="brand-hero-section">
-      <div class="brand-logo-pod" title="شعار شركة كفو">
-        <img src="assets/images/kafu-logo.png" alt="شعار شركة كفو" class="brand-logo-icon" />
-      </div>
-      <h1 class="brand-title">كفو</h1>
-      <p class="brand-subtitle">منظومة قطع غيار السيارات الذكية</p>
-    </section>
+    <!-- 2. بطاقة النموذج الرئيسية الكاملة -->
+    <section class="register-card">
 
-    <!-- 3. بطاقة إنشاء الحساب البيضاء المرفوعة (Register Card) -->
-    <div class="main-register-card">
-      
-      <div class="card-header-block">
-        <h2 class="card-main-title">إنشاء حساب جديد</h2>
-        <p class="card-sub-title">انضم الآن إلى منظومة كفو الذكية</p>
+      <!-- ترويسة الصفحة -->
+      <div class="register-header-text">
+        <h1>إنشاء حساب جديد</h1>
+        <p>انضم الآن إلى منظومة كفو لقطع غيار السيارات والتشاليح في المملكة العربية السعودية</p>
       </div>
 
-      <!-- زر نفاذ للتحقق السريع وسحب البيانات للمنشأة والتاجر -->
-      <div style="margin-bottom: 14px;">
-        <button 
-          type="button" 
-          onclick="openRegisterNafathModal()" 
-          style="width: 100%; height: 48px; background: #007A3D; color: #FFFFFF; border: none; border-radius: 12px; font-weight: 800; font-size: 0.90rem; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,122,61,0.22); font-family: inherit; transition: transform 0.15s ease;"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-          <span>التسجيل وسحب البيانات عبر نفاذ (Nafath) 🇸🇦</span>
-        </button>
-        <div id="nafathVerifiedBadge" style="display: none; background: #DCFCE7; border: 1.5px solid #86EFAC; color: #15803D; border-radius: 10px; padding: 8px 12px; margin-top: 8px; font-size: 0.78rem; font-weight: 800; align-items: center; justify-content: center; gap: 6px;">
-          <span>✓ تم استخراج وتوثيق البيانات تلقائياً عبر نفاذ وأبشر</span>
+      <!-- اختيار فئة الحساب التفاعلي (مباشرة في الصفحة الكاملة) -->
+      <div>
+        <div class="section-title">
+          <span>1. اختر فئة حسابك للبدء:</span>
+          <span id="selectedRoleBadge" style="background: #EFF6FF; color: #0066FF; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 800;">تاجر قطع غيار جديدة</span>
         </div>
-        <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px;">
-          <div style="flex: 1; height: 1px; background: #E2E8F0;"></div>
-          <span style="font-size: 0.74rem; color: #94A3B8; font-weight: 600;">أو التعبئة اليدوية للبيانات</span>
-          <div style="flex: 1; height: 1px; background: #E2E8F0;"></div>
+
+        <div class="role-grid-selector">
+          <!-- تاجر قطع جديدة -->
+          <div class="role-option-card active" id="roleCard_merchant_new" onclick="selectFullPageRole('merchant_new', 'تاجر قطع غيار جديدة')">
+            <div class="role-icon-box">🏬</div>
+            <div class="role-info-text">
+              <span class="role-title-main">تاجر قطع جديدة</span>
+              <span class="role-desc-sub">محلات وموزعي القطع الأصلية والتجارية</span>
+            </div>
+            <span class="role-active-check">✓</span>
+          </div>
+
+          <!-- تشليح وسكراب -->
+          <div class="role-option-card" id="roleCard_merchant_scrap" onclick="selectFullPageRole('merchant_scrap', 'تشليح ومستعمل (سكراب)')">
+            <div class="role-icon-box">♻️</div>
+            <div class="role-info-text">
+              <span class="role-title-main">تشليح ومستعمل</span>
+              <span class="role-desc-sub">قطع غيار التشاليح والسيارات المصدومة</span>
+            </div>
+            <span class="role-active-check">✓</span>
+          </div>
+
+          <!-- مهندس ورشة -->
+          <div class="role-option-card" id="roleCard_workshop" onclick="selectFullPageRole('workshop', 'مهندس ورشة صيانة')">
+            <div class="role-icon-box">🛠️</div>
+            <div class="role-info-text">
+              <span class="role-title-main">مهندس ورشة صيانة</span>
+              <span class="role-desc-sub">طلب فوري للورش بخصم 15% فوري</span>
+            </div>
+            <span class="role-active-check">✓</span>
+          </div>
+
+          <!-- مندوب توصيل -->
+          <div class="role-option-card" id="roleCard_courier" onclick="selectFullPageRole('courier', 'مندوب توصيل لوجستي')">
+            <div class="role-icon-box">🚚</div>
+            <div class="role-info-text">
+              <span class="role-title-main">مندوب توصيل</span>
+              <span class="role-desc-sub">استلام ونقل الشحنات بأرباح مجزية</span>
+            </div>
+            <span class="role-active-check">✓</span>
+          </div>
+
+          <!-- مندوب مبيعات -->
+          <div class="role-option-card" id="roleCard_rep_oem" onclick="selectFullPageRole('rep_oem', 'مندوب مبيعات وتسويق')">
+            <div class="role-icon-box">💼</div>
+            <div class="role-info-text">
+              <span class="role-title-main">مندوب مبيعات</span>
+              <span class="role-desc-sub">إدارة عروض الأسعار والعمولات</span>
+            </div>
+            <span class="role-active-check">✓</span>
+          </div>
+
+          <!-- عميل / أفراد -->
+          <div class="role-option-card" id="roleCard_customer" onclick="selectFullPageRole('customer', 'عميل / أفراد')">
+            <div class="role-icon-box">👤</div>
+            <div class="role-info-text">
+              <span class="role-title-main">عميل / أفراد</span>
+              <span class="role-desc-sub">شراء قطع الغيار لسيارتي بضمان التوافق</span>
+            </div>
+            <span class="role-active-check">✓</span>
+          </div>
         </div>
       </div>
 
-      <!-- نموذج تسجيل البيانات -->
-      <form id="registerForm" onsubmit="handleRegisterSubmit(event)" novalidate>
-        <div class="inputs-form-group">
-          
-          <!-- 1. حقل الاسم الكامل -->
+      <!-- حاوية التوثيق والسحب عبر نفاذ وأبشر 🇸🇦 -->
+      <div id="fullPageNafathContainer">
+        <!-- يتم تحديثها تلقائياً حسب الفئة المحددة -->
+      </div>
+
+      <!-- نموذج إدخال البيانات -->
+      <form id="fullRegisterForm" onsubmit="handleFullPageRegister(event)" style="display: flex; flex-direction: column; gap: 14px;">
+        
+        <div class="section-title" style="margin-bottom: 2px;">
+          <span>2. البيانات الأساسية للحساب:</span>
+        </div>
+
+        <!-- الاسم أو اسم المسؤول -->
+        <div class="form-group">
+          <label class="form-label" id="fieldLabelName">الاسم الكامل / اسم المالك المسؤول:</label>
           <div class="form-input-box" id="nameBox">
             <div class="input-field-right">
               <span class="input-icon-blue">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
               </span>
-              <input 
-                type="text" 
-                id="nameInput" 
-                class="native-text-input" 
-                placeholder="الاسم الكامل أو اسم النشاط" 
-                dir="rtl"
-                autocomplete="name"
-              />
+              <input type="text" id="nameInput" class="native-text-input" placeholder="مثال: محمد بن ناصر السبيعي" required />
             </div>
           </div>
+        </div>
 
-          <!-- 2. حقل رقم الجوال مع كود الدولة -->
+        <!-- حقول إضافية ديناميكية حسب الفئة المحددة -->
+        <div id="dynamicRoleFieldsWrap">
+          <!-- يتم حقنها ديناميكياً -->
+        </div>
+
+        <!-- رقم الجوال السعودي -->
+        <div class="form-group">
+          <label class="form-label">رقم الجوال السعودي (المسجل في أبشر):</label>
           <div class="form-input-box" id="phoneBox">
             <div class="input-field-right">
               <span class="input-icon-blue">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
-                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                </svg>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
               </span>
-              <input 
-                type="tel" 
-                id="phoneInput" 
-                class="native-text-input" 
-                placeholder="رقم الجوال" 
-                dir="rtl"
-                autocomplete="tel"
-                maxlength="14"
-              />
+              <input type="tel" id="phoneInput" class="native-text-input" placeholder="50XXXXXXX" maxlength="9" dir="ltr" style="text-align: right;" required />
             </div>
-            
-            <button type="button" class="country-code-pill" onclick="openCountrySheet()" title="اختر رمز الدولة">
-              <svg class="country-flag-icon" viewBox="0 0 640 440">
-                <rect width="640" height="440" fill="#007A3D"/>
-                <path d="M160 180 Q320 160 480 180 Q320 200 160 180" fill="#FFFFFF"/>
-                <rect x="200" y="240" width="240" height="18" rx="4" fill="#FFFFFF"/>
-                <path d="M190 249 L210 235 L210 263 Z" fill="#FFFFFF"/>
-              </svg>
+            <div style="display: flex; align-items: center; gap: 4px; font-weight: 800; font-size: 0.82rem; color: #0F172A; direction: ltr; padding: 2px 6px; background: #E2E8F0; border-radius: 6px;">
+              <span>🇸🇦</span>
               <span>+966</span>
-              <span class="lang-chevron-icon">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </span>
-            </button>
-          </div>
-
-          <!-- 3. حقل نوع الحساب -->
-          <div class="role-select-box" id="roleBox" onclick="openRolePickerSheet()" title="اختر نوع الحساب">
-            <div class="input-field-right">
-              <span class="input-icon-blue">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </span>
-              <span class="role-selected-text" id="selectedRoleLabel">نوع الحساب: تاجر قطع غيار</span>
             </div>
-            <span class="lang-chevron-icon">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </span>
           </div>
+        </div>
 
-          <!-- 4. حقل كلمة المرور -->
-          <div class="form-input-box" id="passwordBox">
+        <!-- المدينة / النطاق الجغرافي -->
+        <div class="form-group">
+          <label class="form-label">المدينة / المنطقة الرئيسية:</label>
+          <div class="form-input-box">
             <div class="input-field-right">
-              <span class="input-icon-blue">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
-              </span>
-              <input 
-                type="password" 
-                id="passwordInput" 
-                class="native-text-input" 
-                placeholder="كلمة المرور" 
-                dir="rtl"
-                autocomplete="new-password"
-              />
+              <span class="input-icon-blue">📍</span>
+              <select id="citySelect" class="native-text-input" style="border: none; background: transparent; width: 100%; font-family: inherit; font-size: 0.88rem; font-weight: 700; color: #0F172A; outline: none;">
+                <option value="الرياض - الصناعية القديمة">الرياض (الصناعية القديمة)</option>
+                <option value="الرياض - مجمع تشاليح الحائر">الرياض (مجمع تشاليح الحائر)</option>
+                <option value="الرياض - شمال وشرق الرياض">الرياض (كافة الأحياء)</option>
+                <option value="جدة - تشاليح بريمان">جدة (تشاليح بريمان / عسفان)</option>
+                <option value="جدة - المنطقة المركزية">جدة (الصناعية الشمالية / الجنوبية)</option>
+                <option value="الدمام وسيهات">المنطقة الشرقية (الدمام والخبر وسيهات)</option>
+                <option value="القصيم وبريدة">القصيم (بريدة وعنيزة وتشاليح خضيرة)</option>
+                <option value="مكة المكرمة والمدينة">مكة المكرمة والمدينة المنورة</option>
+                <option value="أخرى">منطقة أخرى بالمملكة</option>
+              </select>
             </div>
-            <button type="button" class="toggle-pass-btn" onclick="togglePasswordVisibility('passwordInput', 'eyeIcon1')" title="إظهار / إخفاء كلمة المرور">
-              <svg id="eyeIcon1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </button>
+          </div>
+        </div>
+
+        <!-- كلمة المرور وتأكيدها -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">كلمة المرور:</label>
+            <div class="form-input-box" id="passwordBox">
+              <div class="input-field-right">
+                <span class="input-icon-blue">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </span>
+                <input type="password" id="passwordInput" class="native-text-input" placeholder="••••••••" required />
+              </div>
+              <button type="button" class="toggle-pass-btn" onclick="togglePass('passwordInput')">👁️</button>
+            </div>
           </div>
 
-          <!-- 5. حقل تأكيد كلمة المرور -->
-          <div class="form-input-box" id="confirmPasswordBox">
-            <div class="input-field-right">
-              <span class="input-icon-blue">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-              </span>
-              <input 
-                type="password" 
-                id="confirmPasswordInput" 
-                class="native-text-input" 
-                placeholder="تأكيد كلمة المرور" 
-                dir="rtl"
-                autocomplete="new-password"
-              />
+          <div class="form-group">
+            <label class="form-label">تأكيد كلمة المرور:</label>
+            <div class="form-input-box" id="confirmPasswordBox">
+              <div class="input-field-right">
+                <span class="input-icon-blue">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </span>
+                <input type="password" id="confirmPasswordInput" class="native-text-input" placeholder="••••••••" required />
+              </div>
+              <button type="button" class="toggle-pass-btn" onclick="togglePass('confirmPasswordInput')">👁️</button>
             </div>
-            <button type="button" class="toggle-pass-btn" onclick="togglePasswordVisibility('confirmPasswordInput', 'eyeIcon2')" title="إظهار / إخفاء كلمة المرور">
-              <svg id="eyeIcon2" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </button>
           </div>
-
         </div>
 
         <!-- الموافقة على الشروط -->
-        <label class="terms-agree-row">
-          <input type="checkbox" id="termsCheckbox" class="terms-checkbox" checked />
-          <span>أوافق على <a href="#" class="terms-link" onclick="event.preventDefault(); showToast('شروط الخدمة والخصوصية معتمدة وفق الأنظمة السعودية');">شروط الخدمة وسياسة الخصوصية</a></span>
+        <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 0.78rem; color: #475569; margin: 4px 0; cursor: pointer;">
+          <input type="checkbox" id="termsCheckbox" checked style="width: 17px; height: 17px; accent-color: #0066FF; margin-top: 2px;" />
+          <span>أوافق على <a href="#" onclick="event.preventDefault(); showToast('شروط الخدمة والخصوصية معتمدة وفق لوائح التجارة السعودية');" style="color: #0066FF; font-weight: 700; text-decoration: none;">شروط الاستخدام وسياسة الخصوصية</a> لمنظومة كفو الذكية</span>
         </label>
 
         <!-- زر إنشاء الحساب الأساسي -->
         <button type="submit" class="primary-submit-btn" id="submitBtn">
-          <span class="btn-arrow-circle">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="13 6 19 12 13 18"></polyline>
-            </svg>
-          </span>
-          <span>إنشاء الحساب</span>
+          <span>إنشاء وتفعيل الحساب الآن 🚀</span>
         </button>
+
       </form>
 
-      <!-- رابط العودة لتسجيل الدخول -->
-      <div class="login-prompt-box">
-        <span>لديك حساب بالفعل؟</span>
-        <a href="welcome.html" class="login-link-bold">تسجيل الدخول</a>
+      <!-- تذييل البطاقة ورابط الدخول -->
+      <div style="text-align: center; font-size: 0.86rem; color: #64748B; border-top: 1px solid #E2E8F0; padding-top: 16px;">
+        <span>لديك حساب بالفعل في كفو؟</span>
+        <a href="welcome.html" style="color: #0066FF; font-weight: 800; text-decoration: none; margin-right: 4px;">تسجيل الدخول</a>
       </div>
 
-    </div>
-
-    <!-- 4. تذييل الصفحة: سيارة كفو وعبارة الشعار المعتمدة -->
-    <footer class="brand-footer-section">
-      <div class="footer-car-divider-row">
-        <div class="footer-divider-arm"></div>
-        <img src="assets/images/kafu-footer-car.png" alt="كفو" class="footer-car-img" />
-        <div class="footer-divider-arm"></div>
-      </div>
-      <p class="footer-tagline-text">مع كفو... كل قطعة في مكانها</p>
-    </footer>
+    </section>
 
   </main>
 
-  <!-- =========================================================================
-       نافذة اختيار نوع الحساب (Role Selection Sheet)
-       ========================================================================= -->
-  <div class="bottom-sheet-backdrop" id="roleSheetBackdrop" onclick="closeRolePickerSheet(event)">
-    <div class="bottom-sheet-content">
-      <div class="sheet-drag-handle"></div>
-      <h3 class="sheet-title-text">اختر نوع حسابك في كفو</h3>
-      <p class="sheet-desc-text">حدد صفتك لتهيئة حسابك ولوحة التحكم المناسبة</p>
-
-      <div class="sheet-options-stack">
-        <button type="button" class="sheet-btn-option" onclick="setAccountRole('merchant_new', 'تاجر قطع غيار جديدة')">
-          <div style="display:flex; flex-direction:column; gap:2px;">
-            <strong style="color: #0F172A;">تاجر قطع غيار جديدة</strong>
-            <span style="font-size:0.78rem; color:#64748B;">متجر ومورد لقطع الغيار الأصلية والوكالات</span>
-          </div>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-
-        <button type="button" class="sheet-btn-option" onclick="setAccountRole('merchant_scrap', 'تاجر تشاليح ومستعمل')">
-          <div style="display:flex; flex-direction:column; gap:2px;">
-            <strong style="color: #0F172A;">تاجر تشاليح ومستعمل</strong>
-            <span style="font-size:0.78rem; color:#64748B;">بيع قطع التشاليح والسيارات المفككة</span>
-          </div>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-
-        <button type="button" class="sheet-btn-option" onclick="setAccountRole('rep_oem', 'مندوب مبيعات (جديد)')">
-          <div style="display:flex; flex-direction:column; gap:2px;">
-            <strong style="color: #0F172A;">مندوب مبيعات</strong>
-            <span style="font-size:0.78rem; color:#64748B;">متابعة عروض الأسعار والمبيعات الميدانية</span>
-          </div>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-
-        <button type="button" class="sheet-btn-option" onclick="setAccountRole('workshop', 'مهندس ورشة صيانة')">
-          <div style="display:flex; flex-direction:column; gap:2px;">
-            <strong style="color: #0F172A;">مهندس ورشة صيانة</strong>
-            <span style="font-size:0.78rem; color:#64748B;">طلب القطع الفورية ومتابعة الصيانة</span>
-          </div>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-
-        <button type="button" class="sheet-btn-option" onclick="setAccountRole('courier', 'مندوب توصيل لوجستي')">
-          <div style="display:flex; flex-direction:column; gap:2px;">
-            <strong style="color: #0F172A;">مندوب توصيل</strong>
-            <span style="font-size:0.78rem; color:#64748B;">توصيل واستلام شحنات قطع الغيار</span>
-          </div>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-
-        <button type="button" class="sheet-btn-option" onclick="setAccountRole('customer', 'عميل / زائر')">
-          <div style="display:flex; flex-direction:column; gap:2px;">
-            <strong style="color: #0F172A;">عميل عادي (مشتري)</strong>
-            <span style="font-size:0.78rem; color:#64748B;">شراء وتصفح قطع الغيار لسيارتي</span>
-          </div>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-      </div>
-
-      <button type="button" class="sheet-close-btn" onclick="closeRolePickerSheetDirect()">إغلاق</button>
-    </div>
-  </div>
-
-  <!-- =========================================================================
-       نافذة اختيار رمز الدولة (Country Code Sheet)
-       ========================================================================= -->
-  <div class="bottom-sheet-backdrop" id="countrySheetBackdrop" onclick="closeCountrySheet(event)">
-    <div class="bottom-sheet-content">
-      <div class="sheet-drag-handle"></div>
-      <h3 class="sheet-title-text">اختر رمز الدولة</h3>
-      <p class="sheet-desc-text">حدد كود الدولة لرقم هاتفك المحمول</p>
-
-      <div class="sheet-options-stack">
-        <button type="button" class="sheet-btn-option" onclick="setCountry('+966', '🇸🇦')">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.3rem;">🇸🇦</span>
-            <strong style="font-size: 0.94rem;">المملكة العربية السعودية</strong>
-          </div>
-          <span style="font-weight: 700; color: #0066FF; direction: ltr;">+966</span>
-        </button>
-
-        <button type="button" class="sheet-btn-option" onclick="setCountry('+971', '🇦🇪')">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.3rem;">🇦🇪</span>
-            <strong style="font-size: 0.94rem;">الإمارات العربية المتحدة</strong>
-          </div>
-          <span style="font-weight: 700; color: #64748B; direction: ltr;">+971</span>
-        </button>
-
-        <button type="button" class="sheet-btn-option" onclick="setCountry('+965', '🇰🇼')">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.3rem;">🇰🇼</span>
-            <strong style="font-size: 0.94rem;">الكويت</strong>
-          </div>
-          <span style="font-weight: 700; color: #64748B; direction: ltr;">+965</span>
-        </button>
-
-        <button type="button" class="sheet-btn-option" onclick="setCountry('+973', '🇧🇭')">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.3rem;">🇧🇭</span>
-            <strong style="font-size: 0.94rem;">البحرين</strong>
-          </div>
-          <span style="font-weight: 700; color: #64748B; direction: ltr;">+973</span>
-        </button>
-
-        <button type="button" class="sheet-btn-option" onclick="setCountry('+968', '🇴🇲')">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.3rem;">🇴🇲</span>
-            <strong style="font-size: 0.94rem;">سلطنة عُمان</strong>
-          </div>
-          <span style="font-weight: 700; color: #64748B; direction: ltr;">+968</span>
-        </button>
-
-        <button type="button" class="sheet-btn-option" onclick="setCountry('+974', '🇶🇦')">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.3rem;">🇶🇦</span>
-            <strong style="font-size: 0.94rem;">قطر</strong>
-          </div>
-          <span style="font-weight: 700; color: #64748B; direction: ltr;">+974</span>
-        </button>
-      </div>
-
-      <button type="button" class="sheet-close-btn" onclick="closeCountrySheetDirect()">إغلاق</button>
-    </div>
-  </div>
-
-  <!-- =========================================================================
-       نافذة تبديل لغة التطبيق
-       ========================================================================= -->
-  <div class="bottom-sheet-backdrop" id="langSheetBackdrop" onclick="closeLangSheet(event)">
-    <div class="bottom-sheet-content">
-      <div class="sheet-drag-handle"></div>
-      <h3 class="sheet-title-text">اختر لغة التطبيق / Select Language</h3>
-      <p class="sheet-desc-text">حدد لغة العرض المناسبة لتجربتك</p>
-
-      <div class="sheet-options-stack">
-        <button type="button" class="sheet-btn-option" style="border-color: #0066FF; background: #EFF6FF;" onclick="setLanguage('ar')">
-          <strong style="color: #0066FF;">العربية (Arabic)</strong>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2.6"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        </button>
-
-        <button type="button" class="sheet-btn-option" onclick="setLanguage('en')">
-          <strong>English (الإنجليزية)</strong>
-          <span style="font-size: 0.8rem; color: #94A3B8;">قريباً</span>
-        </button>
-      </div>
-
-      <button type="button" class="sheet-close-btn" onclick="closeLangSheetDirect()">إغلاق</button>
-    </div>
-  </div>
-
-  <!-- نافذة النفاذ الوطني الموحد (Nafath Modal) -->
-  <div class="bottom-sheet-backdrop" id="registerNafathSheetBackdrop" onclick="closeRegisterNafathModal(event)">
+  <!-- نافذة نفاذ التفاعلية المنبثقة -->
+  <div class="bottom-sheet-backdrop" id="registerNafathSheetBackdrop" onclick="closeNafathModal(event)">
     <div class="bottom-sheet-content" style="text-align: center;">
       <div class="sheet-drag-handle"></div>
-      <div style="width: 54px; height: 54px; border-radius: 50%; background: #E6F4EA; color: #007A3D; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-      </div>
-      <h3 class="sheet-title-text" style="color: #007A3D;">النفاذ الوطني الموحد (نفاذ)</h3>
-      <p class="sheet-desc-text">استخراج وتوثيق بيانات المتجر والسجل التجاري / رخصة التشليح تلقائياً</p>
-
-      <div id="regNafathStepOne" style="margin: 14px 0;">
-        <input type="tel" id="regNafathIdInput" class="native-text-input" placeholder="رقم الهوية الوطنية / الإقامة (10 أرقام)" maxlength="10" value="1074829103" dir="ltr" style="text-align: center; font-size: 1.15rem; font-weight: 700; height: 48px; border: 1.8px solid #CBD5E1; border-radius: 12px; width: 100%; font-family: monospace;" />
-        <button type="button" class="btn-primary" onclick="submitRegisterNafath()" style="background: #007A3D; margin-top: 12px; width: 100%; height: 46px; border-radius: 12px; font-weight: 800; font-size: 0.94rem; color: #fff; border: none; cursor: pointer;">
-          إرسال طلب التحقق لتطبيق نفاذ
-        </button>
+      
+      <div style="width: 58px; height: 58px; border-radius: 50%; background: #E6F4EA; color: #007A3D; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; box-shadow: 0 4px 14px rgba(0, 122, 61, 0.15);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
       </div>
 
-      <div id="regNafathStepTwo" style="display: none; flex-direction: column; align-items: center; gap: 10px; margin: 14px 0;">
-        <p style="font-size: 0.88rem; color: #475569; margin: 0;">افتح تطبيق نفاذ على جوالك واختر الرقم التالي:</p>
-        <div id="regNafathCode" style="width: 80px; height: 80px; border-radius: 18px; background: #007A3D; color: #FFFFFF; font-size: 2.2rem; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,122,61,0.35); animation: pulse 1.5s infinite;">
-          42
+      <h3 id="nafathSheetTitle" style="color: #007A3D; font-weight: 900; font-size: 1.25rem; margin-bottom: 4px;">النفاذ الوطني الموحد</h3>
+      <p id="nafathSheetDesc" style="font-size: 0.82rem; color: #475569; max-width: 320px; margin: 0 auto 12px;">أدخل رقم الهوية الوطنية لمالك المنشأة للتحقق وسحب بيانات السجل التجاري من وزارة التجارة وأبشر</p>
+
+      <!-- Step 1: ID Input -->
+      <div id="regNafathStepOne">
+        <div style="margin: 12px 0 8px;">
+          <input type="tel" id="regNafathIdInput" class="native-text-input" placeholder="10 أرقام (مثال: 1010892176)" maxlength="10" dir="ltr" style="text-align: center; font-size: 1.15rem; font-weight: 800; height: 48px; border: 1.8px solid #CBD5E1; border-radius: 12px; width: 100%; letter-spacing: 2px;" />
         </div>
-        <p style="font-size: 0.78rem; color: #64748B; margin: 0;">بانتظار قبول الطلب من تطبيق نفاذ على هاتفك...</p>
-        <button type="button" onclick="confirmRegisterNafath()" style="background: #F0FDF4; border: 1.5px solid #007A3D; color: #007A3D; height: 40px; border-radius: 10px; font-weight: 800; font-size: 0.84rem; cursor: pointer; width: 100%; margin-top: 4px;">
-          تم التأكيد في تطبيق نفاذ ✓
-        </button>
+        <div style="display: flex; gap: 6px; justify-content: center; margin-bottom: 12px;">
+          <button type="button" onclick="fillTestId('1010892176')" style="background: #F1F5F9; border: 1px dashed #94A3B8; color: #334155; font-size: 0.74rem; font-weight: 700; padding: 5px 12px; border-radius: 8px; cursor: pointer; font-family: inherit;">
+            💡 هوية تجريبية للتاجر: 1010892176
+          </button>
+        </div>
       </div>
 
-      <button type="button" class="sheet-close-btn" onclick="closeRegisterNafathModalDirect()">إلغاء</button>
+      <!-- Step 2: 2-digit confirmation code -->
+      <div id="regNafathStepTwo" style="display: none;">
+        <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 14px; padding: 14px; margin: 10px 0;">
+          <p style="font-size: 0.86rem; color: #166534; font-weight: 800; margin-bottom: 6px;">افتح تطبيق نفاذ على جوالك واختر الرقم التالي:</p>
+          <div class="nafath-code-display" id="regNafathCode" style="font-size: 3.2rem; font-weight: 900; color: #007A3D; letter-spacing: 6px; padding: 6px 0; font-family: monospace; animation: pulseCode 1.5s infinite ease-in-out;">86</div>
+          <div style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #475569; font-size: 0.76rem; margin-top: 4px;">
+            <div style="width: 12px; height: 12px; border: 2px solid #CBD5E1; border-top-color: #007A3D; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+            <span>بانتظار تأكيدك واختيار الرقم في تطبيق نفاذ...</span>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="primary-submit-btn" id="btnNafathAction" onclick="submitRegisterNafath()" style="background: #007A3D; margin-top: 10px;">
+        إرسال طلب التحقق إلى تطبيق نفاذ 📲
+      </button>
+
+      <button type="button" onclick="closeNafathModalDirect()" style="width: 100%; height: 40px; background: none; border: none; color: #64748B; font-size: 0.86rem; font-weight: 700; cursor: pointer; margin-top: 6px; font-family: inherit;">إلغاء</button>
     </div>
   </div>
 
-  <!-- رسالة Toast منبثقة -->
-  <div class="feedback-toast" id="feedbackToast">
-    <span id="toastMessage">تم إنشاء الحساب بنجاح</span>
-  </div>
-
-  <!-- شاشة التحميل والانتقال السريع -->
-  <div class="role-loading-overlay" id="loadingOverlay">
-    <div class="loading-spinner"></div>
-    <span style="font-size: 0.95rem; font-weight: 700; color: #0A2540;" id="loadingText">جاري تهيئة حسابك في كفو...</span>
-  </div>
-
-  <!-- السكربتات البرمجية -->
   <script src="assets/js/products.js"></script>
   <script src="assets/js/store.js"></script>
-  <script src="assets/js/app.js"></script>
+
   <script>
-    (function initFrameCompatibility() {
-      if (window.self !== window.top) {
-        document.documentElement.classList.add('in-mobile-frame');
-        document.body.classList.add('in-mobile-frame');
-      }
-    })();
-
     let currentSelectedRole = 'merchant_new';
+    let currentSelectedRoleTitle = 'تاجر قطع غيار جديدة';
+    window.currentMerchantNafathVerified = false;
+    let nafathTimer = null;
 
-    function togglePasswordVisibility(inputId, iconId) {
-      const input = document.getElementById(inputId);
-      const icon = document.getElementById(iconId);
-      if (!input || !icon) return;
+    function togglePass(inputId) {
+      const el = document.getElementById(inputId);
+      if (el) el.type = (el.type === 'password') ? 'text' : 'password';
+    }
 
-      if (input.type === 'password') {
-        input.type = 'text';
-        icon.innerHTML = `
-          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-          <line x1="1" y1="1" x2="23" y2="23"></line>
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('feedbackToast');
+      const msgSpan = document.getElementById('toastMessage');
+      if (!toast || !msgSpan) return;
+      msgSpan.textContent = msg;
+      toast.className = `feedback-toast show ${type}`;
+      setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+
+    function selectFullPageRole(roleKey, roleTitle) {
+      currentSelectedRole = roleKey;
+      currentSelectedRoleTitle = roleTitle;
+      window.currentMerchantNafathVerified = false;
+
+      // تحديث مظهر البطاقات
+      document.querySelectorAll('.role-option-card').forEach(c => c.classList.remove('active'));
+      const activeCard = document.getElementById(`roleCard_${roleKey}`);
+      if (activeCard) activeCard.classList.add('active');
+
+      const badge = document.getElementById('selectedRoleBadge');
+      if (badge) badge.textContent = roleTitle;
+
+      updateNafathBannerForRole(roleKey);
+      updateDynamicFieldsForRole(roleKey);
+    }
+
+    function updateNafathBannerForRole(roleKey) {
+      const container = document.getElementById('fullPageNafathContainer');
+      if (!container) return;
+
+      if (roleKey === 'merchant_new' || roleKey === 'merchant_scrap') {
+        container.innerHTML = `
+          <div id="merchantNafathCalloutCard" style="background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%); border: 1.5px solid #86EFAC; border-radius: 16px; padding: 14px 16px; box-shadow: 0 4px 14px rgba(22, 101, 52, 0.08); margin-bottom: 6px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+              <div style="display: flex; align-items: center; gap: 8px; color: #166534; font-weight: 800; font-size: 0.90rem;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                <span>التوثيق الرسمي عبر نفاذ وأبشر (Nafath) 🇸🇦</span>
+              </div>
+              <span style="background: #166534; color: #FFFFFF; font-size: 0.70rem; font-weight: 800; padding: 2px 10px; border-radius: 999px;">إلزامي لاعتماد التاجر</span>
+            </div>
+            <p style="font-size: 0.78rem; color: #15803D; line-height: 1.5; margin-bottom: 12px;">
+              وفقاً لتنظيمات وزارة التجارة، يتطلب اعتماد التاجر والتشليح توثيق الهوية وسحب بيانات السجل التجاري ورخصة البلدية آلياً عبر نفاذ.
+            </p>
+            <button type="button" onclick="openRegisterNafathModal()" style="width: 100%; height: 44px; background: #007A3D; color: #FFFFFF; border: none; border-radius: 12px; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; box-shadow: 0 4px 14px rgba(0, 122, 61, 0.25); transition: all 0.2s ease;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              <span>توثيق الهوية وسحب بيانات السجل التجاري فورياً 🇸🇦</span>
+            </button>
+          </div>
         `;
       } else {
-        input.type = 'password';
-        icon.innerHTML = `
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
+        container.innerHTML = `
+          <button type="button" onclick="openRegisterNafathModal()" style="width: 100%; height: 44px; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; color: #166534; font-weight: 800; font-size: 0.84rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px; font-family: inherit;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            <span>توثيق الحساب وسحب بيانات أبشر عبر نفاذ 🇸🇦</span>
+          </button>
         `;
       }
     }
 
+    function updateDynamicFieldsForRole(roleKey) {
+      const wrap = document.getElementById('dynamicRoleFieldsWrap');
+      const nameLabel = document.getElementById('fieldLabelName');
+      const nameInput = document.getElementById('nameInput');
+      if (!wrap) return;
+
+      if (roleKey === 'merchant_new') {
+        if (nameLabel) nameLabel.textContent = 'اسم التاجر أو المالك المسؤول:';
+        if (nameInput) nameInput.placeholder = 'مثال: محمد بن ناصر السبيعي';
+        wrap.innerHTML = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label class="form-label">اسم المتجر / المحل التجاري:</label>
+              <div class="form-input-box">
+                <div class="input-field-right">
+                  <span class="input-icon-blue">🏬</span>
+                  <input type="text" id="customStoreName" class="native-text-input" placeholder="مثال: متجر كفو للقطع" required />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">رقم السجل التجاري (CR):</label>
+              <div class="form-input-box">
+                <div class="input-field-right">
+                  <span class="input-icon-blue">📄</span>
+                  <input type="text" id="customCrNum" class="native-text-input" placeholder="1010892176" required />
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (roleKey === 'merchant_scrap') {
+        if (nameLabel) nameLabel.textContent = 'اسم صاحب التشليح أو المدير المسؤول:';
+        if (nameInput) nameInput.placeholder = 'مثال: سعود بن مسفر العتيبي';
+        wrap.innerHTML = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label class="form-label">اسم التشليح التجاري:</label>
+              <div class="form-input-box">
+                <div class="input-field-right">
+                  <span class="input-icon-blue">♻️</span>
+                  <input type="text" id="customScrapName" class="native-text-input" placeholder="مثال: تشاليح الحائر الكبرى" required />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">مجمع ومنطقة التشليح:</label>
+              <div class="form-input-box">
+                <div class="input-field-right">
+                  <span class="input-icon-blue">📍</span>
+                  <select id="customScrapZone" class="native-text-input" style="border: none; background: transparent; width: 100%; font-family: inherit; font-size: 0.86rem; font-weight: 700; outline: none;">
+                    <option value="تشاليح الحائر - الرياض">تشاليح الحائر - الرياض</option>
+                    <option value="تشاليح بريمان - جدة">تشاليح بريمان - جدة</option>
+                    <option value="تشاليح خضيرة - القصيم">تشاليح خضيرة - القصيم</option>
+                    <option value="تشاليح الدمام وسيهات">تشاليح الدمام وسيهات</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (roleKey === 'workshop') {
+        if (nameLabel) nameLabel.textContent = 'اسم مهندس الورشة أو المسؤول:';
+        if (nameInput) nameInput.placeholder = 'مثال: م. سامي أحمد الشريف';
+        wrap.innerHTML = `
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group">
+                <label class="form-label">اسم مركز الصيانة / الورشة:</label>
+                <div class="form-input-box">
+                  <div class="input-field-right">
+                    <span class="input-icon-blue">🔧</span>
+                    <input type="text" id="customWorkshopName" class="native-text-input" placeholder="مثال: مركز صيانة النخبة" required />
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">تخصص أعمال الورشة:</label>
+                <div class="form-input-box">
+                  <div class="input-field-right">
+                    <span class="input-icon-blue">⚙️</span>
+                    <select id="customWorkshopSpec" class="native-text-input" style="border: none; background: transparent; width: 100%; font-family: inherit; font-size: 0.86rem; font-weight: 700; outline: none;">
+                      <option value="all">مركز صيانة متكامل (جميع التخصصات)</option>
+                      <option value="alignment">ميزان وعكوس وتربيط</option>
+                      <option value="dents">سمكرة وتعديل صاج (PDR)</option>
+                      <option value="paint">بوية ورش فرن حراري</option>
+                      <option value="mechanic">ميكانيكا وتوضيب محركات</option>
+                      <option value="electric">كهرباء وفحص كمبيوتر</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="background: #FEF3C7; color: #92400E; padding: 8px 12px; border-radius: 10px; font-size: 0.76rem; font-weight: 800;">
+              ⭐ خصم الورشة 15% فوري ومباشر على كافة قطع الغيار سيتم تفعيله في حسابك تلقائياً
+            </div>
+          </div>
+        `;
+      } else if (roleKey === 'courier') {
+        if (nameLabel) nameLabel.textContent = 'اسم كابتن التوصيل الرباعي:';
+        if (nameInput) nameInput.placeholder = 'مثال: أحمد بن خالد القحطاني';
+        wrap.innerHTML = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label class="form-label">نوع وموديل مركبة التوصيل:</label>
+              <div class="form-input-box">
+                <div class="input-field-right">
+                  <span class="input-icon-blue">🛻</span>
+                  <input type="text" id="customVehicle" class="native-text-input" placeholder="مثال: هايلوكس وانيت 2023" required />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">رقم وحروف اللوحة:</label>
+              <div class="form-input-box">
+                <div class="input-field-right">
+                  <span class="input-icon-blue">🔢</span>
+                  <input type="text" id="customPlate" class="native-text-input" placeholder="مثال: ق ح ط 7788" required />
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (roleKey === 'rep_oem') {
+        if (nameLabel) nameLabel.textContent = 'اسم مندوب المبيعات الميداني:';
+        if (nameInput) nameInput.placeholder = 'مثال: فهد بن عبدالله السبيعي';
+        wrap.innerHTML = `
+          <div class="form-group">
+            <label class="form-label">الموزع أو الوكالة التابع لها:</label>
+            <div class="form-input-box">
+              <div class="input-field-right">
+                <span class="input-icon-blue">🏢</span>
+                <input type="text" id="customSupplier" class="native-text-input" placeholder="مثال: مستودع العبيكان لقطع الغيار" required />
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        if (nameLabel) nameLabel.textContent = 'الاسم الكامل:';
+        if (nameInput) nameInput.placeholder = 'مثال: عبدالله بن فهد التميمي';
+        wrap.innerHTML = `
+          <div class="form-group">
+            <label class="form-label">نوع سيارتك الحالية (اختياري لتخصيص القطع):</label>
+            <div class="form-input-box">
+              <div class="input-field-right">
+                <span class="input-icon-blue">🚗</span>
+                <input type="text" id="customCar" class="native-text-input" placeholder="مثال: تويوتا كامري 2025" />
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // دوال نفاذ الوطني الموحد التفاعلية
     function openRegisterNafathModal() {
-      document.getElementById('regNafathStepOne').style.display = 'block';
-      document.getElementById('regNafathStepTwo').style.display = 'none';
+      const stepOne = document.getElementById('regNafathStepOne');
+      const stepTwo = document.getElementById('regNafathStepTwo');
+      const btn = document.getElementById('btnNafathAction');
+      const title = document.getElementById('nafathSheetTitle');
+      const desc = document.getElementById('nafathSheetDesc');
+      const idInput = document.getElementById('regNafathIdInput');
+
+      if (currentSelectedRole === 'merchant_scrap') {
+        title.textContent = 'نفاذ | توثيق تشليح وسحب السجل التجاري والبلدية';
+        desc.textContent = 'أدخل رقم الهوية الوطنية لمالك المنشأة للتحقق وسحب رخصة البلدية والسجل المعتمد';
+        idInput.value = '1020304050';
+      } else if (currentSelectedRole === 'merchant_new') {
+        title.textContent = 'نفاذ | توثيق التاجر وسحب السجل التجاري';
+        desc.textContent = 'أدخل رقم الهوية الوطنية لمالك المنشأة للتحقق وسحب بيانات السجل التجاري من وزارة التجارة وأبشر';
+        idInput.value = '1010892176';
+      } else {
+        title.textContent = 'النفاذ الوطني الموحد';
+        desc.textContent = 'أدخل رقم الهوية الوطنية لتسجيل وتوثيق الحساب عبر تطبيق نفاذ';
+        idInput.value = '1010892176';
+      }
+
+      stepOne.style.display = 'block';
+      stepTwo.style.display = 'none';
+      btn.textContent = 'إرسال طلب التحقق إلى تطبيق نفاذ 📲';
+      btn.style.background = '#007A3D';
+
       document.getElementById('registerNafathSheetBackdrop').classList.add('active');
     }
-    function closeRegisterNafathModal(e) {
-      if (e.target === document.getElementById('registerNafathSheetBackdrop')) closeRegisterNafathModalDirect();
+
+    function closeNafathModal(e) {
+      if (e.target === document.getElementById('registerNafathSheetBackdrop')) closeNafathModalDirect();
     }
-    function closeRegisterNafathModalDirect() {
+
+    function closeNafathModalDirect() {
+      if (nafathTimer) clearTimeout(nafathTimer);
       document.getElementById('registerNafathSheetBackdrop').classList.remove('active');
     }
+
+    function fillTestId(num) {
+      const el = document.getElementById('regNafathIdInput');
+      if (el) { el.value = num; el.focus(); }
+    }
+
     function submitRegisterNafath() {
       const idVal = document.getElementById('regNafathIdInput').value.trim();
-      if (idVal.length < 10) {
+      if (!idVal || idVal.length < 10) {
         showToast('يرجى إدخال رقم هوية وطنية صحيح (10 أرقام)', 'error');
         return;
       }
-      const randomCode = Math.floor(10 + Math.random() * 89);
-      document.getElementById('regNafathCode').textContent = randomCode;
-      document.getElementById('regNafathStepOne').style.display = 'none';
-      document.getElementById('regNafathStepTwo').style.display = 'flex';
 
-      setTimeout(() => {
-        if (document.getElementById('registerNafathSheetBackdrop').classList.contains('active')) {
-          confirmRegisterNafath();
-        }
-      }, 2400);
+      const stepOne = document.getElementById('regNafathStepOne');
+      const stepTwo = document.getElementById('regNafathStepTwo');
+      const btn = document.getElementById('btnNafathAction');
+      const codeDisplay = document.getElementById('regNafathCode');
+
+      if (stepTwo.style.display === 'none') {
+        stepOne.style.display = 'none';
+        stepTwo.style.display = 'block';
+        const randomCode = Math.floor(10 + Math.random() * 89);
+        codeDisplay.textContent = randomCode;
+        btn.textContent = 'تأكيد قبول الطلب في تطبيق نفاذ (متابعة) ✓';
+        btn.style.background = '#15803D';
+        showToast(`تم إرسال الطلب! افتح تطبيق نفاذ واختر الرقم [${randomCode}]`, 'success');
+
+        if (nafathTimer) clearTimeout(nafathTimer);
+        nafathTimer = setTimeout(() => {
+          if (document.getElementById('registerNafathSheetBackdrop').classList.contains('active')) {
+            confirmNafathSuccess();
+          }
+        }, 2400);
+
+      } else {
+        confirmNafathSuccess();
+      }
     }
-    function confirmRegisterNafath() {
-      closeRegisterNafathModalDirect();
+
+    function confirmNafathSuccess() {
+      if (nafathTimer) clearTimeout(nafathTimer);
+      closeNafathModalDirect();
 
       const nameInput = document.getElementById('nameInput');
       const phoneInput = document.getElementById('phoneInput');
       const passInput = document.getElementById('passwordInput');
       const confirmInput = document.getElementById('confirmPasswordInput');
-      const badge = document.getElementById('nafathVerifiedBadge');
+      const container = document.getElementById('fullPageNafathContainer');
+
+      let ownerName = 'محمد بن ناصر السبيعي';
+      let phoneNum = '509876543';
+      let crNum = '1010892176';
+      let storeName = 'مؤسسة متجر كفو لقطع الغيار المعتمدة';
+
+      if (currentSelectedRole === 'merchant_scrap') {
+        ownerName = 'سعود بن مسفر العتيبي';
+        phoneNum = '501089201';
+        crNum = 'SCRAP-101077412';
+        storeName = 'تشاليح الحائر الكبرى (سعود العتيبي)';
+        const s = document.getElementById('customScrapName');
+        if (s) s.value = storeName;
+      } else if (currentSelectedRole === 'merchant_new') {
+        const st = document.getElementById('customStoreName');
+        const cr = document.getElementById('customCrNum');
+        if (st) st.value = storeName;
+        if (cr) cr.value = crNum;
+      } else if (currentSelectedRole === 'workshop') {
+        ownerName = 'م. سامي أحمد الشريف';
+        phoneNum = '551234567';
+        const ws = document.getElementById('customWorkshopName');
+        if (ws) ws.value = 'مركز صيانة النخبة المتكامل';
+      } else if (currentSelectedRole === 'courier') {
+        ownerName = 'أحمد بن خالد القحطاني';
+        phoneNum = '551234567';
+        const v = document.getElementById('customVehicle');
+        const p = document.getElementById('customPlate');
+        if (v) v.value = 'تويوتا هايلوكس 2023 (وانيت)';
+        if (p) p.value = 'ق ح ط 7788';
+      }
+
+      if (nameInput) nameInput.value = ownerName;
+      if (phoneInput) phoneInput.value = phoneNum;
+      if (passInput && !passInput.value) passInput.value = 'Kafu@2026';
+      if (confirmInput && !confirmInput.value) confirmInput.value = 'Kafu@2026';
 
       window.currentMerchantNafathVerified = true;
-      if (currentSelectedRole === 'merchant_scrap') {
-        nameInput.value = 'سعود بن مسفر العتيبي';
-        phoneInput.value = '0501089201';
-        window.currentCrNumber = 'SCRAP-101077412';
-        window.currentEstablishment = 'تشاليح الحائر الكبرى (سعود العتيبي)';
-      } else if (currentSelectedRole === 'merchant_new') {
-        nameInput.value = 'محمد بن ناصر السبيعي';
-        phoneInput.value = '0509876543';
-        window.currentCrNumber = '1010892176';
-        window.currentEstablishment = 'مؤسسة متجر كفو لقطع الغيار المعتمدة';
-      } else {
-        nameInput.value = 'عبدالله بن فهد التميمي';
-        phoneInput.value = '0541122334';
-      }
 
-      if (!passInput.value) {
-        passInput.value = 'Kafu@2026';
-        confirmInput.value = 'Kafu@2026';
-      }
-
-      if (badge) {
-        badge.style.display = 'flex';
-        badge.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 16px;">✓</span>
-            <div>
-              <div style="font-weight: 800;">تم التوثيق وسحب السجل التجاري عبر نفاذ وأبشر 🇸🇦</div>
-              <div style="font-size: 0.72rem; opacity: 0.9;">سجل تجاري نشط ومعتمد لدى وزارة التجارة (رقم: ${window.currentCrNumber || '1010892176'})</div>
+      // إظهار بطاقة التوثيق المعتمدة في الصفحة الكاملة
+      if (container) {
+        container.innerHTML = `
+          <div style="background: linear-gradient(135deg, #ECFDF5 0%, #DCFCE7 100%); border: 1.5px solid #34D399; border-radius: 16px; padding: 14px 16px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15); animation: pulseCode 0.5s ease; margin-bottom: 6px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 38px; height: 38px; border-radius: 50%; background: #10B981; color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; flex-shrink: 0;">✓</div>
+                <div>
+                  <div style="font-weight: 900; color: #065F46; font-size: 0.90rem;">تم التوثيق وسحب السجل التجاري عبر نفاذ 🇸🇦</div>
+                  <div style="font-size: 0.78rem; color: #047857; margin-top: 2px;">
+                    السجل التجاري: <strong style="font-family: monospace; font-size: 0.86rem;">${crNum}</strong> (نشط ومعتمد لدى وزارة التجارة)
+                  </div>
+                  <div style="font-size: 0.74rem; color: #065F46; opacity: 0.9; margin-top: 1px;">
+                    المالك المسجل: <span>${ownerName}</span> | جوال أبشر: <span>0${phoneNum}</span>
+                  </div>
+                </div>
+              </div>
+              <span style="background: #10B981; color: white; font-size: 0.72rem; font-weight: 800; padding: 4px 10px; border-radius: 999px;">موثق أبشر ✓</span>
             </div>
           </div>
         `;
       }
 
-      showToast('تمت المصادقة وسحب بيانات السجل التجاري والاسم عبر نفاذ وأبشر بنجاح! 🇸🇦', 'success');
+      showToast('تمت المصادقة وسحب بيانات السجل والمنشأة عبر نفاذ وأبشر بنجاح! 🇸🇦', 'success');
     }
 
-    function openRolePickerSheet() {
-      document.getElementById('roleSheetBackdrop').classList.add('active');
-    }
-    function closeRolePickerSheet(e) {
-      if (e.target === document.getElementById('roleSheetBackdrop')) closeRolePickerSheetDirect();
-    }
-    function closeRolePickerSheetDirect() {
-      document.getElementById('roleSheetBackdrop').classList.remove('active');
-    }
-    function setAccountRole(roleKey, roleLabel) {
-      currentSelectedRole = roleKey;
-      document.getElementById('selectedRoleLabel').textContent = `نوع الحساب: ${roleLabel}`;
-      closeRolePickerSheetDirect();
-      showToast(`تم اختيار نوع الحساب: ${roleLabel}`, 'success');
-    }
-
-    function openCountrySheet() {
-      document.getElementById('countrySheetBackdrop').classList.add('active');
-    }
-    function closeCountrySheet(e) {
-      if (e.target === document.getElementById('countrySheetBackdrop')) closeCountrySheetDirect();
-    }
-    function closeCountrySheetDirect() {
-      document.getElementById('countrySheetBackdrop').classList.remove('active');
-    }
-    function setCountry(code, flagEmoji) {
-      const pill = document.querySelector('.country-code-pill');
-      if (pill) {
-        pill.innerHTML = `
-          <span style="font-size: 1.15rem; line-height: 1;">${flagEmoji}</span>
-          <span>${code}</span>
-          <span class="lang-chevron-icon">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </span>
-        `;
-      }
-      closeCountrySheetDirect();
-      showToast(`تم اختيار رمز الدولة: ${code}`, 'success');
-    }
-
-    function openLangSheet() {
-      document.getElementById('langSheetBackdrop').classList.add('active');
-    }
-    function closeLangSheet(e) {
-      if (e.target === document.getElementById('langSheetBackdrop')) closeLangSheetDirect();
-    }
-    function closeLangSheetDirect() {
-      document.getElementById('langSheetBackdrop').classList.remove('active');
-    }
-    function setLanguage(lang) {
-      if (lang === 'ar') {
-        document.getElementById('currentLangLabel').textContent = 'عربي';
-        closeLangSheetDirect();
-      } else {
-        alert('الدعم الكامل للغة الإنجليزية قيد التجهيز وسيتم إطلاقه قريباً.');
-        closeLangSheetDirect();
-      }
-    }
-
-    function handleRegisterSubmit(event) {
+    function handleFullPageRegister(event) {
       if (event) event.preventDefault();
 
-      const nameInput = document.getElementById('nameInput');
-      const phoneInput = document.getElementById('phoneInput');
-      const passInput = document.getElementById('passwordInput');
-      const confirmInput = document.getElementById('confirmPasswordInput');
+      const nameVal = document.getElementById('nameInput').value.trim();
+      const phoneVal = document.getElementById('phoneInput').value.trim();
+      const cityVal = document.getElementById('citySelect').value;
+      const passVal = document.getElementById('passwordInput').value;
+      const confirmVal = document.getElementById('confirmPasswordInput').value;
       const termsBox = document.getElementById('termsCheckbox');
 
-      const nameVal = nameInput.value.trim();
-      const phoneVal = phoneInput.value.trim();
-      const passVal = passInput.value.trim();
-      const confirmVal = confirmInput.value.trim();
-
-      // إعادة تعيين ألوان الخطأ
-      ['nameBox', 'phoneBox', 'passwordBox', 'confirmPasswordBox'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.remove('error-state');
-      });
-
-      // التحقق من الاسم
       if (!nameVal) {
-        document.getElementById('nameBox').classList.add('error-state');
-        showToast('يرجى إدخال الاسم الكامل أو اسم النشاط', 'error');
-        nameInput.focus();
+        showToast('يرجى إدخال الاسم الكامل أو اسم المسؤول', 'error');
         return;
       }
-
-      // التحقق من الجوال
-      if (phoneVal.length < 9) {
-        document.getElementById('phoneBox').classList.add('error-state');
-        showToast('يرجى إدخال رقم جوال صحيح (9 أرقام على الأقل)', 'error');
-        phoneInput.focus();
+      if (phoneVal.length < 8) {
+        showToast('يرجى إدخال رقم جوال سعودي صحيح', 'error');
         return;
       }
-
-      // التحقق من كلمة المرور
       if (passVal.length < 6) {
-        document.getElementById('passwordBox').classList.add('error-state');
         showToast('كلمة المرور يجب أن لا تقل عن 6 خانات', 'error');
-        passInput.focus();
         return;
       }
-
-      // التحقق من تطابق كلمتي المرور
       if (passVal !== confirmVal) {
-        document.getElementById('confirmPasswordBox').classList.add('error-state');
         showToast('كلمتا المرور غير متطابقتين', 'error');
-        confirmInput.focus();
         return;
       }
-
-      // التحقق من الموافقة على الشروط
       if (!termsBox.checked) {
-        showToast('يرجى الموافقة على شروط الخدمة والخصوصية', 'error');
+        showToast('يرجى الموافقة على شروط الاستخدام وسياسة الخصوصية', 'error');
         return;
       }
 
-      // حفظ بيانات المستخدم
-      const userData = {
+      // إذا كان تاجر جديد أو تشليح ولم يوثق عبر نفاذ
+      if ((currentSelectedRole === 'merchant_new' || currentSelectedRole === 'merchant_scrap') && !window.currentMerchantNafathVerified) {
+        openRegisterNafathModal();
+        showToast('تنبيه نظامي: يرجى استكمال التوثيق عبر نفاذ وسحب السجل التجاري لاعتماد حساب التاجر', 'error');
+        return;
+      }
+
+      // تجهيز ملف التعريف وحفظه
+      const profile = {
         name: nameVal,
-        phone: phoneVal,
+        phone: '+966' + phoneVal,
+        city: cityVal,
         role: currentSelectedRole,
+        roleTitle: currentSelectedRoleTitle,
+        isNafathVerified: true,
+        nafathVerifiedAt: new Date().toISOString(),
+        verificationBadge: 'موثق رسمياً عبر نفاذ وأبشر ✓',
         registeredAt: new Date().toISOString()
       };
 
-      localStorage.setItem('kafu_user_profile', JSON.stringify(userData));
-      if (window.KafuStore) {
-        KafuStore.setRole(currentSelectedRole);
-      } else {
-        localStorage.setItem('kafu_user_role', currentSelectedRole);
+      if (currentSelectedRole === 'merchant_new') {
+        const st = document.getElementById('customStoreName');
+        const cr = document.getElementById('customCrNum');
+        profile.storeName = st ? st.value : 'مؤسسة متجر كفو لقطع الغيار المعتمدة';
+        profile.crNumber = cr ? cr.value : '1010892176';
+        profile.crStatus = 'سجل تجاري نشط ومعتمد لدى وزارة التجارة';
+      } else if (currentSelectedRole === 'merchant_scrap') {
+        const s = document.getElementById('customScrapName');
+        const zone = document.getElementById('customScrapZone');
+        profile.scrapName = s ? s.value : 'تشاليح الحائر الكبرى (سعود العتيبي)';
+        profile.scrapZone = zone ? zone.value : 'تشاليح الحائر - الرياض';
+        profile.crNumber = 'SCRAP-101077412';
+        profile.crStatus = 'رخصة تشليح وسجل نشط ومعتمد';
+      } else if (currentSelectedRole === 'workshop') {
+        const ws = document.getElementById('customWorkshopName');
+        const spec = document.getElementById('customWorkshopSpec');
+        profile.workshopName = ws ? ws.value : 'مركز صيانة النخبة';
+        profile.specialization = spec ? spec.value : 'all';
+      } else if (currentSelectedRole === 'courier') {
+        const v = document.getElementById('customVehicle');
+        const p = document.getElementById('customPlate');
+        profile.vehicle = v ? v.value : 'تويوتا هايلوكس 2023';
+        profile.plate = p ? p.value : 'ق ح ط 7788';
+      } else if (currentSelectedRole === 'rep_oem') {
+        const sup = document.getElementById('customSupplier');
+        profile.supplier = sup ? sup.value : 'مستودع العبيكان لقطع الغيار';
       }
+
+      localStorage.setItem('kafu_user_profile', JSON.stringify(profile));
+      localStorage.setItem('kafu_user_role', currentSelectedRole);
       sessionStorage.setItem('kafu_splash_passed', 'true');
 
-      // رسالة نجاح والانتقال للتطبيق
-      showToast('تم إنشاء الحساب بنجاح! أهلاً بك في كفو', 'success');
+      if (window.KafuStore && KafuStore.setRole) {
+        KafuStore.setRole(currentSelectedRole);
+      }
+
+      // مزامنة حالة التوثيق مع نظام مستندات التاجر
+      try {
+        if (window.KafuMerchantVerification && KafuMerchantVerification.loadStoredDocs) {
+          const docs = KafuMerchantVerification.loadStoredDocs();
+          if (docs.cr) {
+            docs.cr.status = 'verified';
+            docs.cr.statusText = 'موثق نفاذ ✓';
+            docs.cr.number = profile.crNumber || '1010892176';
+          }
+          if (docs.national_id) {
+            docs.national_id.status = 'verified';
+            docs.national_id.statusText = 'موثق أبشر ✓';
+          }
+          KafuMerchantVerification.saveDocs(docs);
+        }
+      } catch(e) {}
+
+      showToast(`تم إنشاء وتوثيق حسابك بنجاح! مرحباً بك يا ${nameVal}`, 'success');
 
       const overlay = document.getElementById('loadingOverlay');
       const text = document.getElementById('loadingText');
       if (overlay && text) {
-        text.textContent = `مرحباً بك ${nameVal}، جاري تهيئة حسابك...`;
+        text.textContent = `مرحباً بك ${nameVal}، جاري نقلك إلى لوحة التحكم...`;
         overlay.classList.add('active');
       }
 
@@ -1580,18 +1281,25 @@
       }, 600);
     }
 
-    function showToast(msg, type = 'success') {
-      const toast = document.getElementById('feedbackToast');
-      const msgSpan = document.getElementById('toastMessage');
-      if (!toast || !msgSpan) return;
-
-      msgSpan.textContent = msg;
-      toast.className = `feedback-toast show ${type}`;
-
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2800);
-    }
+    // تهيئة الصفحة عند التحميل
+    document.addEventListener('DOMContentLoaded', () => {
+      // قراءة الفئة المطلوبة من معلمات الرابط إن وجدت (مثال: register.html?role=workshop)
+      const urlParams = new URLSearchParams(window.location.search);
+      const reqRole = urlParams.get('role');
+      if (reqRole && ['customer', 'merchant_new', 'merchant_scrap', 'workshop', 'courier', 'rep_oem'].includes(reqRole)) {
+        const titles = {
+          customer: 'عميل / أفراد',
+          merchant_new: 'تاجر قطع غيار جديدة',
+          merchant_scrap: 'تشليح ومستعمل (سكراب)',
+          workshop: 'مهندس ورشة صيانة',
+          courier: 'مندوب توصيل لوجستي',
+          rep_oem: 'مندوب مبيعات وتسويق'
+        };
+        selectFullPageRole(reqRole, titles[reqRole]);
+      } else {
+        selectFullPageRole('merchant_new', 'تاجر قطع غيار جديدة');
+      }
+    });
   </script>
 </body>
 </html>
