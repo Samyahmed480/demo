@@ -172,9 +172,13 @@
         </div>
       </div>
 
-      <div style="display: flex; align-items: center; gap: 6px;">
-        <span style="font-size: 0.76rem; background: #DCFCE7; color: #15803D; padding: 4px 10px; border-radius: 999px; font-weight: 700;">
-          متجرك متاح للطلبات ✓
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <a href="merchant-verification.html" id="merchantVerifiedHeaderBadge" style="text-decoration: none; font-size: 0.74rem; background: #E6F4EA; color: #007A3D; border: 1.5px solid #86EFAC; padding: 4px 12px; border-radius: 999px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(0, 122, 61, 0.1);">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          <span id="merchantVerifiedHeaderStatus">موثق نفاذ وأبشر ✓</span>
+        </a>
+        <span style="font-size: 0.76rem; background: #EFF6FF; color: #0066FF; border: 1px solid #BFDBFE; padding: 4px 10px; border-radius: 999px; font-weight: 700;">
+          متجرك نشط ⚡
         </span>
       </div>
     </header>
@@ -237,6 +241,22 @@
       if (window.KafuMerchantOrders && KafuMerchantOrders.startCountdownTimers) {
         KafuMerchantOrders.startCountdownTimers();
       }
+      
+      // قراءة بروفايل التاجر وتحديث العناوين وحالة نفاذ
+      try {
+        const stored = localStorage.getItem('kafu_user_profile');
+        if (stored) {
+          const profile = JSON.parse(stored);
+          const titleEl = document.querySelector('.orders-top-header h1');
+          const descEl = document.querySelector('.orders-top-header p');
+          if (profile.storeName || profile.scrapName) {
+            if (titleEl) titleEl.textContent = profile.storeName || profile.scrapName;
+          }
+          if (profile.crNumber && descEl) {
+            descEl.innerHTML = `سجل تجاري: <strong style="font-family: monospace;">${profile.crNumber}</strong> (معتمد) • متابعة الطلبات والتسليم`;
+          }
+        }
+      } catch(e) {}
     });
   </script>
 </body>

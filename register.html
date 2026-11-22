@@ -1385,27 +1385,41 @@
       const confirmInput = document.getElementById('confirmPasswordInput');
       const badge = document.getElementById('nafathVerifiedBadge');
 
+      window.currentMerchantNafathVerified = true;
       if (currentSelectedRole === 'merchant_scrap') {
-        nameInput.value = 'مؤسسة تشاليح الحائر الكبرى (سعود العتيبي)';
-        phoneInput.value = '0559281042';
-      } else if (currentSelectedRole === 'merchant_new') {
-        nameInput.value = 'مؤسسة متجر كفو لقطع الغيار (محمد السبيعي)';
+        nameInput.value = 'سعود بن مسفر العتيبي';
         phoneInput.value = '0501089201';
+        window.currentCrNumber = 'SCRAP-101077412';
+        window.currentEstablishment = 'تشاليح الحائر الكبرى (سعود العتيبي)';
+      } else if (currentSelectedRole === 'merchant_new') {
+        nameInput.value = 'محمد بن ناصر السبيعي';
+        phoneInput.value = '0509876543';
+        window.currentCrNumber = '1010892176';
+        window.currentEstablishment = 'مؤسسة متجر كفو لقطع الغيار المعتمدة';
       } else {
         nameInput.value = 'عبدالله بن فهد التميمي';
         phoneInput.value = '0541122334';
       }
 
       if (!passInput.value) {
-        passInput.value = 'Kafu@2025';
-        confirmInput.value = 'Kafu@2025';
+        passInput.value = 'Kafu@2026';
+        confirmInput.value = 'Kafu@2026';
       }
 
       if (badge) {
         badge.style.display = 'flex';
+        badge.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 16px;">✓</span>
+            <div>
+              <div style="font-weight: 800;">تم التوثيق وسحب السجل التجاري عبر نفاذ وأبشر 🇸🇦</div>
+              <div style="font-size: 0.72rem; opacity: 0.9;">سجل تجاري نشط ومعتمد لدى وزارة التجارة (رقم: ${window.currentCrNumber || '1010892176'})</div>
+            </div>
+          </div>
+        `;
       }
 
-      showToast('تمت المصادقة وسحب بيانات السجل والاسم عبر نفاذ وأبشر بنجاح! 🇸🇦', 'success');
+      showToast('تمت المصادقة وسحب بيانات السجل التجاري والاسم عبر نفاذ وأبشر بنجاح! 🇸🇦', 'success');
     }
 
     function openRolePickerSheet() {
@@ -1554,7 +1568,15 @@
       }
 
       setTimeout(() => {
-        window.location.href = 'index.html';
+        if (currentSelectedRole === 'merchant_new' || currentSelectedRole === 'merchant_scrap') {
+          window.location.href = 'merchant-orders.html';
+        } else if (currentSelectedRole === 'workshop') {
+          window.location.href = 'workshop-portal.html';
+        } else if (currentSelectedRole === 'courier') {
+          window.location.href = 'courier-portal.html';
+        } else {
+          window.location.href = 'index.html';
+        }
       }, 600);
     }
 

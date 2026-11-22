@@ -1396,11 +1396,13 @@
       <h3 class="sheet-title-text" style="margin-bottom: 2px;">إنشاء حساب جديد في كفو</h3>
       <p class="sheet-desc-text" id="regSheetSubtitle" style="margin-bottom: 12px;">أدخل بياناتك لإنشاء حسابك وتفعيله فورياً في كفو</p>
 
-      <!-- زر المصادقة التلقائية السريعة عبر نفاذ -->
-      <button type="button" onclick="prefillFromNafathInRegister()" style="width: 100%; height: 42px; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; color: #166534; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px; font-family: inherit;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-        <span>سحب البيانات وتوثيق الحساب عبر نفاذ 🇸🇦</span>
-      </button>
+      <!-- حاوية التوثيق الرسمي عبر نفاذ وأبشر (تتغير تلقائياً حسب الفئة تاجر/تشليح/أفراد) -->
+      <div id="regNafathActionContainer" style="margin-bottom: 12px;">
+        <button type="button" onclick="startMerchantNafathFlow()" style="width: 100%; height: 44px; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; color: #166534; font-weight: 800; font-size: 0.84rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 0; font-family: inherit; box-shadow: 0 2px 6px rgba(22, 101, 52, 0.08);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          <span id="regNafathBtnText">التسجيل والتوثيق الرسمي عبر نفاذ (سحب السجل والبيانات) 🇸🇦</span>
+        </button>
+      </div>
 
       <form id="registerDataForm" onsubmit="handleRegisterDataSubmit(event)" style="display: flex; flex-direction: column; gap: 10px;">
         
@@ -1507,29 +1509,62 @@
        2. نافذة الدخول عبر نفاذ (Nafath Modal)
        ========================================================================= -->
   <div class="bottom-sheet-backdrop" id="nafathSheetBackdrop" onclick="closeNafathModal(event)">
-    <div class="bottom-sheet-content" style="text-align: center;">
+    <div class="bottom-sheet-content" style="text-align: center; max-height: 92vh; overflow-y: auto;">
       <div class="sheet-drag-handle"></div>
-      <div style="width: 54px; height: 54px; border-radius: 50%; background: #E6F4EA; color: #007A3D; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+      
+      <!-- شعار نفاذ والأيقونة الرسمية -->
+      <div style="width: 58px; height: 58px; border-radius: 50%; background: #E6F4EA; color: #007A3D; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; box-shadow: 0 4px 14px rgba(0, 122, 61, 0.15);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
       </div>
-      <h3 class="sheet-title-text" style="color: #007A3D;">النفاذ الوطني الموحد</h3>
-      <p class="sheet-desc-text">أدخل رقم الهوية الوطنية أو الإقامة لتسجيل الدخول السريع عبر تطبيق نفاذ</p>
+      <h3 class="sheet-title-text" style="color: #007A3D;" id="nafathSheetTitle">النفاذ الوطني الموحد</h3>
+      <p class="sheet-desc-text" id="nafathSheetDesc" style="font-size: 0.82rem; color: #475569; max-width: 320px; margin: 0 auto 10px;">
+        أدخل رقم الهوية الوطنية لمالك المنشأة للتحقق وسحب بيانات السجل التجاري من وزارة التجارة وأبشر
+      </p>
 
-      <div style="margin: 14px 0;">
-        <input type="tel" id="nafathIdInput" class="native-text-input" placeholder="رقم الهوية الوطنية / الإقامة (10 أرقام)" maxlength="10" dir="ltr" style="text-align: center; font-size: 1.15rem; font-weight: 700; height: 48px; border: 1.8px solid #CBD5E1; border-radius: 12px; width: 100%;" />
+      <!-- الخطوة 1: إدخال رقم الهوية -->
+      <div id="nafathStepOne">
+        <div style="margin: 12px 0 8px 0;">
+          <label style="font-size: 0.76rem; font-weight: 700; color: #334155; display: block; text-align: right; margin-bottom: 4px;">رقم الهوية الوطنية / الإقامة:</label>
+          <input type="tel" id="nafathIdInput" class="native-text-input" placeholder="10 أرقام (مثال: 1010892176)" maxlength="10" dir="ltr" style="text-align: center; font-size: 1.15rem; font-weight: 800; height: 48px; border: 1.8px solid #CBD5E1; border-radius: 12px; width: 100%; letter-spacing: 2px;" />
+        </div>
+        <div id="nafathQuickFillRow" style="display: flex; gap: 6px; justify-content: center; margin-bottom: 12px;">
+          <button type="button" onclick="fillTestNafathId('1010892176')" style="background: #F1F5F9; border: 1px dashed #94A3B8; color: #334155; font-size: 0.74rem; font-weight: 700; padding: 5px 12px; border-radius: 8px; cursor: pointer; font-family: inherit;">
+            💡 هوية تجريبية للتاجر: 1010892176
+          </button>
+        </div>
       </div>
 
+      <!-- الخطوة 2: رمز التحقق ثنائي الأرقام (تطبيق نفاذ) -->
       <div id="nafathStepTwo" style="display: none;">
-        <p style="font-size: 0.88rem; color: #475569; margin-bottom: 6px;">افتح تطبيق نفاذ على جوالك واختر الرقم التالي:</p>
-        <div class="nafath-code-display" id="nafathRandomCode">47</div>
-        <p style="font-size: 0.78rem; color: #64748B;">بانتظار قبول الطلب من تطبيق نفاذ...</p>
+        <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 14px; padding: 14px; margin: 10px 0;">
+          <p style="font-size: 0.86rem; color: #166534; font-weight: 800; margin-bottom: 6px;">افتح تطبيق نفاذ على جوالك واختر الرقم التالي:</p>
+          <div class="nafath-code-display" id="nafathRandomCode" style="font-size: 3.2rem; font-weight: 900; color: #007A3D; letter-spacing: 6px; padding: 6px 0; font-family: monospace; animation: pulseCode 1.5s infinite ease-in-out;">86</div>
+          <div style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #475569; font-size: 0.76rem; margin-top: 4px;">
+            <div style="width: 12px; height: 12px; border: 2px solid #CBD5E1; border-top-color: #007A3D; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+            <span id="nafathWaitingStatus">بانتظار تأكيدك واختيار الرقم في تطبيق نفاذ...</span>
+          </div>
+        </div>
       </div>
 
-      <button type="button" class="btn-primary" id="btnNafathAction" onclick="submitNafathRequest()" style="background: #007A3D; margin-top: 10px; width: 100%;">
-        إرسال طلب المصادقة
+      <!-- الخطوة 3: ملخص بيانات السجل التجاري والمنشأة المسترجعة -->
+      <div id="nafathStepThree" style="display: none; background: #FFFFFF; border: 1.5px solid #86EFAC; border-radius: 14px; padding: 12px 14px; margin: 10px 0; text-align: right;">
+        <div style="display: flex; align-items: center; gap: 6px; color: #166534; font-weight: 800; font-size: 0.86rem; margin-bottom: 8px; border-bottom: 1px solid #DCFCE7; padding-bottom: 6px;">
+          <span>✅</span>
+          <span>تمت المصادقة وسحب بيانات السجل التجاري المعتمدة بنجاح</span>
+        </div>
+        <div style="font-size: 0.76rem; display: flex; flex-direction: column; gap: 6px; color: #334155;">
+          <div>🏛️ المنشأة: <strong id="retrievedStoreName" style="color: #0F172A;">مؤسسة متجر كفو لقطع الغيار المعتمدة</strong></div>
+          <div>📄 السجل التجاري: <strong id="retrievedCrNum" style="color: #0066FF; font-family: monospace;">1010892176</strong> <span style="background: #DCFCE7; color: #15803D; font-size: 0.68rem; padding: 1px 6px; border-radius: 4px; font-weight: 700;">ساري المفعول</span></div>
+          <div>👤 المالك / المفوض: <strong id="retrievedOwnerName" style="color: #0F172A;">محمد بن ناصر السبيعي</strong></div>
+          <div>📱 جوال أبشر: <strong id="retrievedPhone" style="color: #0F172A; font-family: monospace;">0509876543</strong></div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" id="btnNafathAction" onclick="submitNafathRequest()" style="background: #007A3D; margin-top: 10px; width: 100%; height: 46px; font-size: 0.90rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        إرسال طلب التحقق إلى تطبيق نفاذ 📲
       </button>
 
-      <button type="button" class="sheet-close-btn" onclick="closeNafathModalDirect()">إلغاء</button>
+      <button type="button" class="sheet-close-btn" onclick="closeNafathModalDirect()" style="margin-top: 6px;">إلغاء</button>
     </div>
   </div>
 
@@ -1890,11 +1925,16 @@
     }
 
     function openRegisterDataSheet(roleId, title) {
+      window.currentRegisterRoleId = roleId;
+      window.currentRegisterRoleTitle = title;
+      window.currentMerchantNafathVerified = false;
+
       const badge = document.getElementById('regSheetRoleBadge');
       const subtitle = document.getElementById('regSheetSubtitle');
       const nameLabel = document.getElementById('regNameLabel');
       const nameInput = document.getElementById('regFullNameInput');
       const customWrap = document.getElementById('regRoleCustomFieldWrap');
+      const nafathContainer = document.getElementById('regNafathActionContainer');
 
       // تحديد الشارة والأيقونة
       const roleIcons = {
@@ -1912,6 +1952,37 @@
 
       if (subtitle) {
         subtitle.textContent = `أدخل بياناتك لإنشاء وتفعيل حساب [${title}] في منصة كفو`;
+      }
+
+      // تحديث حاوية نفاذ حسب الفئة
+      if (nafathContainer) {
+        if (roleId === 'merchant_new' || roleId === 'merchant_scrap') {
+          nafathContainer.innerHTML = `
+            <div id="merchantNafathCalloutCard" style="background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%); border: 1.5px solid #86EFAC; border-radius: 14px; padding: 12px 14px; box-shadow: 0 3px 10px rgba(22, 101, 52, 0.08);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                <div style="display: flex; align-items: center; gap: 7px; color: #166534; font-weight: 800; font-size: 0.88rem;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                  <span>التوثيق الرسمي عبر نفاذ وأبشر (Nafath) 🇸🇦</span>
+                </div>
+                <span style="background: #166534; color: #FFFFFF; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">إلزامي لاعتماد التاجر</span>
+              </div>
+              <p style="font-size: 0.74rem; color: #15803D; line-height: 1.45; margin-bottom: 10px;">
+                وفقاً للأنظمة واللوائح السعودية، يتطلب اعتماد التاجر والتشليح توثيق الهوية وسحب بيانات السجل التجاري ورخصة البلدية آلياً عبر نفاذ.
+              </p>
+              <button type="button" onclick="startMerchantNafathFlow()" id="btnStartMerchantNafath" style="width: 100%; height: 42px; background: #007A3D; color: #FFFFFF; border: none; border-radius: 10px; font-weight: 800; font-size: 0.84rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; box-shadow: 0 4px 12px rgba(0, 122, 61, 0.25); transition: all 0.2s ease;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                <span>سحب السجل التجاري والبيانات عبر نفاذ 🇸🇦</span>
+              </button>
+            </div>
+          `;
+        } else {
+          nafathContainer.innerHTML = `
+            <button type="button" onclick="startMerchantNafathFlow()" style="width: 100%; height: 42px; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; color: #166534; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              <span>توثيق الهوية وسحب البيانات المعتمدة عبر نفاذ 🇸🇦</span>
+            </button>
+          `;
+        }
       }
 
       // تخصيص الحقول والعناوين حسب الفئة
@@ -1968,11 +2039,11 @@
                 </div>
               </div>
               <div>
-                <label style="font-size: 0.76rem; font-weight: 700; color: #334155; display: block; margin-bottom: 3px;">رقم السجل التجاري / وثيقة العمل الحر:</label>
+                <label style="font-size: 0.76rem; font-weight: 700; color: #334155; display: block; margin-bottom: 3px;">رقم السجل التجاري (CR):</label>
                 <div class="form-input-box" style="margin-bottom: 0;">
                   <div class="input-field-right">
                     <span class="input-icon-blue">📄</span>
-                    <input type="text" id="regCustomCrNum" class="native-text-input" placeholder="مثال: 1010XXXXXX" required />
+                    <input type="text" id="regCustomCrNum" class="native-text-input" placeholder="مثال: 1010892176" required />
                   </div>
                 </div>
               </div>
@@ -1980,7 +2051,7 @@
           `;
         }
       } else if (roleId === 'merchant_scrap') {
-        if (nameLabel) nameLabel.textContent = 'اسم مالك التشليح أو المدير المسؤول:';
+        if (nameLabel) nameLabel.textContent = 'اسم صاحب التشليح أو المدير المسؤول:';
         if (nameInput) nameInput.placeholder = 'مثال: سعود بن مسفر العتيبي';
         if (customWrap) {
           customWrap.innerHTML = `
@@ -2043,27 +2114,24 @@
         if (nameInput) nameInput.placeholder = 'مثال: فهد بن عبدالله السبيعي';
         if (customWrap) {
           customWrap.innerHTML = `
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-              <div>
-                <label style="font-size: 0.76rem; font-weight: 700; color: #334155; display: block; margin-bottom: 3px;">الموزع أو الوكالة التابع لها:</label>
-                <div class="form-input-box" style="margin-bottom: 0;">
-                  <div class="input-field-right">
-                    <span class="input-icon-blue">💼</span>
-                    <input type="text" id="regCustomSupplier" class="native-text-input" placeholder="مثال: مستودع العبيكان لقطع الغيار والمحركات" required />
-                  </div>
+            <div>
+              <label style="font-size: 0.76rem; font-weight: 700; color: #334155; display: block; margin-bottom: 3px;">الموزع أو الوكالة التابع لها:</label>
+              <div class="form-input-box" style="margin-bottom: 0;">
+                <div class="input-field-right">
+                  <span class="input-icon-blue">🏢</span>
+                  <input type="text" id="regCustomSupplier" class="native-text-input" placeholder="مثال: مستودع العبيكان لقطع الغيار" required />
                 </div>
               </div>
             </div>
           `;
         }
       } else {
-        // عميل عادي
-        if (nameLabel) nameLabel.textContent = 'الاسم الكريم:';
+        if (nameLabel) nameLabel.textContent = 'الاسم الكامل:';
         if (nameInput) nameInput.placeholder = 'مثال: عبدالله بن فهد التميمي';
         if (customWrap) {
           customWrap.innerHTML = `
             <div>
-              <label style="font-size: 0.76rem; font-weight: 700; color: #334155; display: block; margin-bottom: 3px;">سيارتك الحالية (لضمان توافق القطع):</label>
+              <label style="font-size: 0.76rem; font-weight: 700; color: #334155; display: block; margin-bottom: 3px;">نوع سيارتك الحالية (اختياري):</label>
               <div class="form-input-box" style="margin-bottom: 0;">
                 <div class="input-field-right">
                   <span class="input-icon-blue">🚗</span>
@@ -2075,12 +2143,9 @@
         }
       }
 
+      // إغلاق قائمة اختيار الفئات وفتح نموذج إدخال البيانات
+      closeRegisterSheetDirect();
       document.getElementById('registerDataSheetBackdrop').classList.add('active');
-    }
-
-    function backToCategorySelection() {
-      closeRegisterDataSheetDirect();
-      openRegisterSheet();
     }
 
     function closeRegisterDataSheet(e) {
@@ -2091,63 +2156,219 @@
       document.getElementById('registerDataSheetBackdrop').classList.remove('active');
     }
 
-    function toggleRegPassword(inputId, iconId) {
+    function backToCategorySelection() {
+      closeRegisterDataSheetDirect();
+      openRegisterSheet();
+    }
+
+    function toggleRegisterPassword(inputId) {
       const input = document.getElementById(inputId);
       if (!input) return;
-      if (input.type === 'password') {
-        input.type = 'text';
-      } else {
-        input.type = 'password';
+      input.type = (input.type === 'password') ? 'text' : 'password';
+    }
+
+    // دوال نفاذ الوطني الموحد الشاملة
+    window.currentMerchantNafathVerified = false;
+    window.nafathContext = 'login'; // 'login' or 'merchant_register'
+    let nafathAutoTimer = null;
+
+    function fillTestNafathId(idNum) {
+      const input = document.getElementById('nafathIdInput');
+      if (input) {
+        input.value = idNum;
+        input.focus();
       }
     }
 
-    function prefillFromNafathInRegister() {
-      const role = window.currentRegisterRoleId;
-      const nameInput = document.getElementById('regFullNameInput');
-      const phoneInput = document.getElementById('regPhoneInput');
-      const passInput = document.getElementById('regPassInput');
-      const confirmInput = document.getElementById('regConfirmPassInput');
+    function startMerchantNafathFlow() {
+      window.nafathContext = 'merchant_register';
+      const role = window.currentRegisterRoleId || 'merchant_new';
+      
+      const title = document.getElementById('nafathSheetTitle');
+      const desc = document.getElementById('nafathSheetDesc');
+      const stepOne = document.getElementById('nafathStepOne');
+      const stepTwo = document.getElementById('nafathStepTwo');
+      const stepThree = document.getElementById('nafathStepThree');
+      const btnAction = document.getElementById('btnNafathAction');
+      const idInput = document.getElementById('nafathIdInput');
+      const quickFill = document.getElementById('nafathQuickFillRow');
 
-      if (role === 'workshop') {
-        nameInput.value = 'م. سامي أحمد الشريف';
-        phoneInput.value = '551234567';
-        const ws = document.getElementById('regCustomWorkshopName');
-        if (ws) ws.value = 'مركز صيانة النخبة المتكامل';
-      } else if (role === 'courier') {
-        nameInput.value = 'أحمد بن خالد القحطاني';
-        phoneInput.value = '551234567';
-        const v = document.getElementById('regCustomVehicle');
-        const p = document.getElementById('regCustomPlate');
-        if (v) v.value = 'تويوتا هايلوكس 2023 (وانيت)';
-        if (p) p.value = 'ق ح ط 7788';
-      } else if (role === 'merchant_scrap') {
-        nameInput.value = 'سعود بن مسفر العتيبي';
-        phoneInput.value = '501089201';
-        const s = document.getElementById('regCustomScrapName');
-        if (s) s.value = 'تشاليح الحائر الكبرى (سعود العتيبي)';
-      } else if (role === 'merchant_new') {
-        nameInput.value = 'محمد بن ناصر السبيعي';
-        phoneInput.value = '509876543';
-        const st = document.getElementById('regCustomStoreName');
-        const cr = document.getElementById('regCustomCrNum');
-        if (st) st.value = 'مؤسسة متجر كفو لقطع الغيار';
-        if (cr) cr.value = '1010892176';
-      } else if (role === 'rep_oem') {
-        nameInput.value = 'فهد بن عبدالله السبيعي';
-        phoneInput.value = '553322110';
-        const sup = document.getElementById('regCustomSupplier');
-        if (sup) sup.value = 'مستودع العبيكان لقطع الغيار';
-      } else {
-        nameInput.value = 'عبدالله بن فهد التميمي';
-        phoneInput.value = '541122334';
-        const car = document.getElementById('regCustomCar');
-        if (car) car.value = 'تويوتا كامري 2025';
+      if (title) title.textContent = (role === 'merchant_scrap') ? 'نفاذ | توثيق تشليح وسحب السجل التجاري والبلدية' : 'نفاذ | توثيق التاجر وسحب السجل التجاري';
+      if (desc) desc.textContent = 'أدخل رقم الهوية الوطنية لمالك المنشأة للتحقق وسحب بيانات السجل التجاري المعتمد من وزارة التجارة وأبشر';
+      if (stepOne) stepOne.style.display = 'block';
+      if (stepTwo) stepTwo.style.display = 'none';
+      if (stepThree) stepThree.style.display = 'none';
+      if (quickFill) quickFill.style.display = 'flex';
+      if (idInput) {
+        idInput.value = (role === 'merchant_scrap') ? '1020304050' : '1010892176';
+      }
+      if (btnAction) {
+        btnAction.textContent = 'إرسال طلب التحقق إلى تطبيق نفاذ 📲';
+        btnAction.style.background = '#007A3D';
       }
 
-      passInput.value = 'Kafu@2026';
-      confirmInput.value = 'Kafu@2026';
+      document.getElementById('nafathSheetBackdrop').classList.add('active');
+    }
 
-      showToast('تمت المصادقة وسحب بياناتك المعتمدة عبر نفاذ وأبشر بنجاح! 🇸🇦', 'success');
+    function prefillFromNafathInRegister() {
+      startMerchantNafathFlow();
+    }
+
+    function openNafathModal() {
+      window.nafathContext = 'login';
+      const title = document.getElementById('nafathSheetTitle');
+      const desc = document.getElementById('nafathSheetDesc');
+      const stepOne = document.getElementById('nafathStepOne');
+      const stepTwo = document.getElementById('nafathStepTwo');
+      const stepThree = document.getElementById('nafathStepThree');
+      const btnAction = document.getElementById('btnNafathAction');
+      const idInput = document.getElementById('nafathIdInput');
+      const quickFill = document.getElementById('nafathQuickFillRow');
+
+      if (title) title.textContent = 'النفاذ الوطني الموحد';
+      if (desc) desc.textContent = 'أدخل رقم الهوية الوطنية أو الإقامة لتسجيل الدخول السريع عبر تطبيق نفاذ';
+      if (stepOne) stepOne.style.display = 'block';
+      if (stepTwo) stepTwo.style.display = 'none';
+      if (stepThree) stepThree.style.display = 'none';
+      if (quickFill) quickFill.style.display = 'none';
+      if (idInput) idInput.value = '';
+      if (btnAction) {
+        btnAction.textContent = 'إرسال طلب المصادقة';
+        btnAction.style.background = '#007A3D';
+      }
+
+      document.getElementById('nafathSheetBackdrop').classList.add('active');
+    }
+
+    function closeNafathModal(e) {
+      if (e.target === document.getElementById('nafathSheetBackdrop')) closeNafathModalDirect();
+    }
+
+    function closeNafathModalDirect() {
+      if (nafathAutoTimer) clearTimeout(nafathAutoTimer);
+      document.getElementById('nafathSheetBackdrop').classList.remove('active');
+    }
+
+    function submitNafathRequest() {
+      const idVal = document.getElementById('nafathIdInput').value.trim();
+      if (!idVal || idVal.length < 10) {
+        showToast('يرجى إدخال رقم الهوية الوطنية / الإقامة (10 أرقام)', 'error');
+        return;
+      }
+
+      const stepOne = document.getElementById('nafathStepOne');
+      const stepTwo = document.getElementById('nafathStepTwo');
+      const stepThree = document.getElementById('nafathStepThree');
+      const btnAction = document.getElementById('btnNafathAction');
+      const codeDisplay = document.getElementById('nafathRandomCode');
+
+      if (stepTwo.style.display === 'none') {
+        // الانتقال للخطوة 2: توليد الرقم ثنائي الأرقام ومحاكاة التحقق من نفاذ
+        if (stepOne) stepOne.style.display = 'none';
+        stepTwo.style.display = 'block';
+        const randomNum = Math.floor(10 + Math.random() * 89);
+        if (codeDisplay) codeDisplay.textContent = randomNum;
+        if (btnAction) {
+          btnAction.textContent = 'تأكيد قبول الطلب في تطبيق نفاذ (متابعة) ✓';
+          btnAction.style.background = '#15803D';
+        }
+        showToast(`تم إرسال الطلب! افتح تطبيق نفاذ واختر الرقم [${randomNum}]`, 'success');
+
+        // محاكاة قبول تلقائي وسريع بعد 2.4 ثانية لتجربة مستخدم سلسة
+        if (nafathAutoTimer) clearTimeout(nafathAutoTimer);
+        nafathAutoTimer = setTimeout(() => {
+          if (document.getElementById('nafathSheetBackdrop').classList.contains('active')) {
+            completeNafathVerification(idVal);
+          }
+        }, 2400);
+
+      } else {
+        // عند الضغط اليدوي على تأكيد القبول
+        completeNafathVerification(idVal);
+      }
+    }
+
+    function completeNafathVerification(idVal) {
+      if (nafathAutoTimer) clearTimeout(nafathAutoTimer);
+
+      if (window.nafathContext === 'merchant_register') {
+        const role = window.currentRegisterRoleId || 'merchant_new';
+        const nameInput = document.getElementById('regFullNameInput');
+        const phoneInput = document.getElementById('regPhoneInput');
+        const passInput = document.getElementById('regPassInput');
+        const confirmInput = document.getElementById('regConfirmPassInput');
+        const nafathContainer = document.getElementById('regNafathActionContainer');
+
+        let verifiedOwner = 'محمد بن ناصر السبيعي';
+        let verifiedPhone = '509876543';
+        let verifiedCR = '1010892176';
+        let verifiedStore = 'مؤسسة متجر كفو لقطع الغيار المعتمدة';
+
+        if (role === 'merchant_scrap') {
+          verifiedOwner = 'سعود بن مسفر العتيبي';
+          verifiedPhone = '501089201';
+          verifiedCR = 'SCRAP-101077412';
+          verifiedStore = 'تشاليح الحائر الكبرى (سعود العتيبي)';
+          const s = document.getElementById('regCustomScrapName');
+          if (s) s.value = verifiedStore;
+        } else if (role === 'merchant_new') {
+          const st = document.getElementById('regCustomStoreName');
+          const cr = document.getElementById('regCustomCrNum');
+          if (st) st.value = verifiedStore;
+          if (cr) cr.value = verifiedCR;
+        } else if (role === 'workshop') {
+          verifiedOwner = 'م. سامي أحمد الشريف';
+          verifiedPhone = '551234567';
+          const ws = document.getElementById('regCustomWorkshopName');
+          if (ws) ws.value = 'مركز صيانة النخبة المتكامل';
+        } else if (role === 'courier') {
+          verifiedOwner = 'أحمد بن خالد القحطاني';
+          verifiedPhone = '551234567';
+          const v = document.getElementById('regCustomVehicle');
+          const p = document.getElementById('regCustomPlate');
+          if (v) v.value = 'تويوتا هايلوكس 2023 (وانيت)';
+          if (p) p.value = 'ق ح ط 7788';
+        }
+
+        if (nameInput) nameInput.value = verifiedOwner;
+        if (phoneInput) phoneInput.value = verifiedPhone;
+        if (passInput && !passInput.value) passInput.value = 'Kafu@2026';
+        if (confirmInput && !confirmInput.value) confirmInput.value = 'Kafu@2026';
+
+        window.currentMerchantNafathVerified = true;
+
+        // عرض بطاقة التوثيق الأخضر الفوري في النموذج
+        if (nafathContainer) {
+          nafathContainer.innerHTML = `
+            <div id="merchantNafathSuccessCard" style="background: linear-gradient(135deg, #ECFDF5 0%, #DCFCE7 100%); border: 1.5px solid #34D399; border-radius: 14px; padding: 12px 14px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15); animation: pulseCode 0.5s ease;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div style="width: 36px; height: 36px; border-radius: 50%; background: #10B981; color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; flex-shrink: 0;">✓</div>
+                  <div>
+                    <div style="font-weight: 900; color: #065F46; font-size: 0.88rem;">تم التوثيق وسحب السجل التجاري عبر نفاذ 🇸🇦</div>
+                    <div style="font-size: 0.76rem; color: #047857; margin-top: 2px;">
+                      السجل التجاري: <strong style="font-family: monospace; font-size: 0.84rem;">${verifiedCR}</strong> (نشط ومعتمد لدى وزارة التجارة)
+                    </div>
+                    <div style="font-size: 0.72rem; color: #065F46; opacity: 0.9; margin-top: 1px;">
+                      المالك المسجل: <span>${verifiedOwner}</span> | جوال: <span>0${verifiedPhone}</span>
+                    </div>
+                  </div>
+                </div>
+                <span style="background: #10B981; color: white; font-size: 0.70rem; font-weight: 800; padding: 3px 9px; border-radius: 999px;">موثق أبشر ✓</span>
+              </div>
+            </div>
+          `;
+        }
+
+        closeNafathModalDirect();
+        showToast('تمت المصادقة وسحب بيانات السجل التجاري والمنشأة عبر نفاذ وأبشر بنجاح! 🇸🇦', 'success');
+
+      } else {
+        // سياق تسجيل الدخول
+        closeNafathModalDirect();
+        showToast('تم التحقق بنجاح عبر نفاذ! مرحباً بك', 'success');
+        proceedToApp('customer');
+      }
     }
 
     function handleRegisterDataSubmit(e) {
@@ -2178,6 +2399,14 @@
         return;
       }
 
+      // إذا كان الحساب تاجر جديد أو تشليح ولم يوثق عبر نفاذ، نوجهه للتوثيق
+      if ((roleId === 'merchant_new' || roleId === 'merchant_scrap') && !window.currentMerchantNafathVerified) {
+        // استدعاء فوري لنفاذ
+        startMerchantNafathFlow();
+        showToast('تنبيه نظامي: يرجى استكمال التحقق وسحب السجل عبر نفاذ لاعتماد التاجر', 'error');
+        return;
+      }
+
       // تجهيز وحفظ بروفايل المستخدم الجديد
       const profile = {
         name: nameVal,
@@ -2185,6 +2414,9 @@
         city: cityVal,
         role: roleId,
         roleTitle: roleTitle,
+        isNafathVerified: true,
+        nafathVerifiedAt: new Date().toISOString(),
+        verificationBadge: 'موثق رسمياً عبر نفاذ وأبشر ✓',
         registeredAt: new Date().toISOString()
       };
 
@@ -2200,10 +2432,17 @@
         profile.plate = p ? p.value : 'ق ح ط 7788';
       } else if (roleId === 'merchant_scrap') {
         const s = document.getElementById('regCustomScrapName');
-        profile.scrapName = s ? s.value : 'تشاليح الحائر';
+        const zone = document.getElementById('regCustomScrapZone');
+        profile.scrapName = s ? s.value : 'تشاليح الحائر الكبرى';
+        profile.scrapZone = zone ? zone.value : 'تشاليح الحائر - الرياض';
+        profile.crNumber = 'SCRAP-101077412';
+        profile.crStatus = 'رخصة تشليح وسجل نشط ومعتمد';
       } else if (roleId === 'merchant_new') {
         const st = document.getElementById('regCustomStoreName');
-        profile.storeName = st ? st.value : 'متجر قطع جديد';
+        const cr = document.getElementById('regCustomCrNum');
+        profile.storeName = st ? st.value : 'مؤسسة متجر كفو لقطع الغيار';
+        profile.crNumber = cr ? cr.value : '1010892176';
+        profile.crStatus = 'سجل تجاري نشط ومعتمد لدى وزارة التجارة';
       }
 
       localStorage.setItem('kafu_user_profile', JSON.stringify(profile));
@@ -2214,8 +2453,27 @@
         KafuStore.setRole(roleId);
       }
 
+      // مزامنة حالة التوثيق مع نظام مستندات التاجر إن وجد
+      try {
+        if (window.KafuMerchantVerification && KafuMerchantVerification.loadStoredDocs) {
+          const docs = KafuMerchantVerification.loadStoredDocs();
+          if (docs.cr) {
+            docs.cr.status = 'verified';
+            docs.cr.statusText = 'موثق نفاذ ✓';
+            docs.cr.number = profile.crNumber || '1010892176';
+          }
+          if (docs.national_id) {
+            docs.national_id.status = 'verified';
+            docs.national_id.statusText = 'موثق أبشر ✓';
+          }
+          KafuMerchantVerification.saveDocs(docs);
+        }
+      } catch (err) {
+        console.warn('Sync merchant verification err:', err);
+      }
+
       closeRegisterDataSheetDirect();
-      showToast(`تم إنشاء حسابك وتأكيد بياناتك بنجاح! مرحباً بك يا ${nameVal}`, 'success');
+      showToast(`تم إنشاء حسابك وتوثيقه رسمياً بنجاح! مرحباً بك يا ${nameVal}`, 'success');
 
       // توجيه تلقائي للصفحة المناسبة حسب الدور
       setTimeout(() => {
@@ -2223,42 +2481,6 @@
       }, 700);
     }
 
-    // -------------------------------------------------------------------------
-    // دوال نفاذ الوطني الموحد
-    // -------------------------------------------------------------------------
-    function openNafathModal() {
-      document.getElementById('nafathStepTwo').style.display = 'none';
-      document.getElementById('btnNafathAction').textContent = 'إرسال طلب المصادقة';
-      document.getElementById('nafathIdInput').value = '';
-      document.getElementById('nafathSheetBackdrop').classList.add('active');
-    }
-    function closeNafathModal(e) {
-      if (e.target === document.getElementById('nafathSheetBackdrop')) closeNafathModalDirect();
-    }
-    function closeNafathModalDirect() {
-      document.getElementById('nafathSheetBackdrop').classList.remove('active');
-    }
-    function submitNafathRequest() {
-      const idVal = document.getElementById('nafathIdInput').value.trim();
-      if (!idVal || idVal.length < 10) {
-        showToast('يرجى إدخال رقم الهوية الوطنية / الإقامة (10 أرقام)', 'error');
-        return;
-      }
-      const stepTwo = document.getElementById('nafathStepTwo');
-      if (stepTwo.style.display === 'none') {
-        stepTwo.style.display = 'block';
-        const randomNum = Math.floor(10 + Math.random() * 89);
-        document.getElementById('nafathRandomCode').textContent = randomNum;
-        document.getElementById('btnNafathAction').textContent = 'تأكيد قبول الطلب في نفاذ';
-        showToast(`تم إرسال الطلب! افتح نفاذ واختر الرقم ${randomNum}`, 'success');
-      } else {
-        closeNafathModalDirect();
-        showToast('تم التحقق بنجاح عبر نفاذ! مرحباً بك', 'success');
-        proceedToApp('customer');
-      }
-    }
-
-    // -------------------------------------------------------------------------
     // دوال الدخول السريع برمز OTP
     // -------------------------------------------------------------------------
     function openQuickOtpModal() {
@@ -2470,8 +2692,16 @@
       sessionStorage.setItem('kafu_splash_passed', 'true');
 
       setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 350);
+        if (roleId === 'merchant_new' || roleId === 'merchant_scrap' || roleId === 'merchant') {
+          window.location.href = 'merchant-orders.html';
+        } else if (roleId === 'workshop') {
+          window.location.href = 'workshop-portal.html';
+        } else if (roleId === 'courier') {
+          window.location.href = 'courier-portal.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      }, 400);
     }
   </script>
 </body>
