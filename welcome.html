@@ -1380,8 +1380,8 @@
   <!-- =========================================================================
        1.1 نافذة إدخال بيانات إنشاء الحساب (Register Data Entry Sheet - Step 2)
        ========================================================================= -->
-  <div class="bottom-sheet-backdrop" id="registerDataSheetBackdrop" onclick="closeRegisterDataSheet(event)">
-    <div class="bottom-sheet-content" style="max-height: 90vh; overflow-y: auto;">
+  <div class="bottom-sheet-backdrop" id="registerDataSheetBackdrop" style="background:#F8FAFC; align-items:flex-start; padding:0; border-radius:0;" onclick="closeRegisterDataSheet(event)">
+    <div class="bottom-sheet-content" style="width:100%; max-width:820px; min-height:100vh; height:100%; border-radius:0; box-shadow:none; padding:20px; overflow-y:auto; margin:0 auto; background:#F8FAFC;">
       <div class="sheet-drag-handle"></div>
       
       <!-- شريط التنقل العلوي للنموذج مع زر العودة لاختيار الفئة -->
@@ -1900,10 +1900,10 @@
       window.location.href = 'register.html';
     }
     function closeRegisterSheet(e) {
-      if (e.target === document.getElementById('registerSheetBackdrop')) closeRegisterSheetDirect();
+      window.location.href = 'register.html';
     }
     function closeRegisterSheetDirect() {
-      document.getElementById('registerSheetBackdrop').classList.remove('active');
+      window.location.href = 'register.html';
     }
     // متغيرات إنشاء الحساب والفئة المختارة
     window.currentRegisterRoleId = 'customer';
@@ -1925,6 +1925,8 @@
     }
 
     function openRegisterDataSheet(roleId, title) {
+      window.location.href = 'register.html?role=' + encodeURIComponent(roleId);
+      return;
       window.currentRegisterRoleId = roleId;
       window.currentRegisterRoleTitle = title;
       window.currentMerchantNafathVerified = false;
@@ -2017,9 +2019,7 @@
                   </div>
                 </div>
               </div>
-              <div style="background: #FEF3C7; color: #92400E; padding: 6px 10px; border-radius: 8px; font-size: 0.72rem; font-weight: 800;">
-                ⭐ خصم الورشة 15% فوري على كافة القطع سيتم تفعيله في حسابك تلقائياً
-              </div>
+
             </div>
           `;
         }

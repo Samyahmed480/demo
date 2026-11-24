@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>كفو | إنشاء حساب جديد - منظومة قطع غيار السيارات الذكية</title>
-  <meta name="description" content="إنشاء حساب جديد في منصة كفو لقطع غيار السيارات الذكية - تاجر، تشليح، مهندس ورشة، مندوب، أو عميل.">
+  <meta name="description" content="إنشاء حساب جديد في منصة كفو لقطع غيار السيارات والتشاليح - تاجر، مهندس ورشة، كابتن توصيل، أو عميل.">
   
   <!-- خطوط Google Fonts: IBM Plex Sans Arabic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,7 @@
 
   <style>
     /* ==========================================================================
-       تصميم صفحة إنشاء الحساب الكاملة - منصة كفو (Full Page Register)
+       تخطيط صفحة إنشاء الحساب الكاملة (Full-Screen Page Layout) - منصة كفو
        ========================================================================== */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -25,67 +25,140 @@
     }
 
     :root {
-      --primary-blue: #0066FF;
-      --primary-hover: #0052D4;
-      --navy-dark: #0A2540;
-      --slate-text: #0F172A;
-      --slate-sub: #64748B;
-      --border-color: #E2E8F0;
+      /* نظام الألوان الاحترافي العصري المعتمد */
+      --primary: #1E40AF;
+      --primary-hover: #1D4ED8;
+      --primary-focus-ring: rgba(30, 64, 175, 0.14);
+      --page-bg: #F8FAFC;
       --card-bg: #FFFFFF;
-      --nafath-green: #007A3D;
+      --input-bg: #F1F5F9;
+      --input-border: #E2E8F0;
+      --text-main: #0F172A;
+      --text-sub: #64748B;
+      --nafath-green: #059669;
+      --nafath-bg: #ECFDF5;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
     }
 
     html, body {
       width: 100%;
       min-height: 100vh;
-      background: #F1F5F9;
+      margin: 0;
+      padding: 0;
+      background: var(--page-bg);
       font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--slate-text);
+      color: var(--text-main);
       line-height: 1.5;
     }
 
-    /* خلفية تدرج انسيابية مريحة */
-    .bg-fluid-canvas {
-      position: fixed;
-      inset: 0;
+    /* الحاوية الرئيسية الكاملة للشاشة */
+    .full-screen-register-wrapper {
       width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-      overflow: hidden;
-      background: linear-gradient(180deg, #E8F2FD 0%, #F1F5F9 40%, #F8FAFC 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--page-bg);
     }
 
-    .fluid-wave-top-left {
-      position: absolute;
-      top: -80px;
-      left: -80px;
-      width: 380px;
-      height: 340px;
-      background: radial-gradient(circle at 30% 30%, rgba(0, 102, 255, 0.25) 0%, rgba(59, 130, 246, 0.12) 50%, transparent 75%);
-      filter: blur(35px);
-      border-radius: 50%;
-      opacity: 0.85;
-    }
-
-    .fluid-wave-top-right {
-      position: absolute;
-      top: -100px;
-      right: -80px;
-      width: 420px;
-      height: 380px;
-      background: radial-gradient(circle at 70% 30%, rgba(37, 99, 235, 0.22) 0%, rgba(16, 185, 129, 0.12) 55%, transparent 80%);
-      filter: blur(40px);
-      border-radius: 50%;
-      opacity: 0.85;
-    }
-
-    /* الحاوية الكاملة للصفحة */
-    .register-full-page {
-      position: relative;
-      z-index: 10;
+    /* --------------------------------------------------------------------------
+       الهيدر العلوي النظيف (Clean Header) مع زر تغيير الفئة وشارة الفئة
+       -------------------------------------------------------------------------- */
+    .register-sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
       width: 100%;
-      max-width: 680px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--input-border);
+      padding: 12px 20px;
+    }
+
+    .header-inner-row {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .header-left-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-sub);
+      background: #FFFFFF;
+      border: 1px solid var(--input-border);
+      padding: 7px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .header-back-link:hover {
+      background: #F1F5F9;
+      color: var(--text-main);
+      border-color: #CBD5E1;
+    }
+
+    /* زر "تغيير الفئة" */
+    .btn-change-category {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      color: var(--primary);
+      padding: 7px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    .btn-change-category:hover {
+      background: #EFF6FF;
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    /* شارة فئة الحساب */
+    .header-role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.80rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    /* --------------------------------------------------------------------------
+       جسم المحتوى ونموذج التسجيل
+       -------------------------------------------------------------------------- */
+    .register-content-body {
+      flex: 1;
+      width: 100%;
+      max-width: 820px;
       margin: 0 auto;
       padding: 24px 20px 48px;
       display: flex;
@@ -94,216 +167,157 @@
     }
 
     @media (max-width: 640px) {
-      .register-full-page {
+      .register-sticky-header {
+        padding: 10px 14px;
+      }
+      .register-content-body {
         padding: 16px 14px 40px;
         gap: 16px;
       }
     }
 
-    /* الشريط العلوي */
-    .register-top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .back-btn-round {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: #0066FF;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1.5px solid #E2E8F0;
-      padding: 8px 16px;
-      border-radius: 999px;
-      font-size: 0.86rem;
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-      transition: all 0.2s ease;
-    }
-
-    .back-btn-round:hover {
-      background: #EFF6FF;
-      border-color: #BFDBFE;
-    }
-
-    .brand-logo-pod {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #0056E0 0%, #0066FF 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #FFFFFF;
-      font-weight: 900;
-      font-size: 1.3rem;
-      box-shadow: 0 6px 16px rgba(0, 102, 255, 0.3);
-    }
-
-    /* بطاقة التسجيل الرئيسية */
-    .register-card {
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: 24px;
-      padding: 28px 24px;
-      box-shadow: 0 10px 35px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(0, 0, 0, 0.02);
+    /* ترويسة العنوان والترحيب */
+    .register-title-section {
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 4px;
+    }
+
+    .register-title-section h1 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: var(--text-main);
+    }
+
+    .register-title-section p {
+      font-size: 0.86rem;
+      color: var(--text-sub);
+    }
+
+    /* البطاقة البيضاء الحاوية للحقول */
+    .register-card-container {
+      background: var(--card-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
     }
 
     @media (max-width: 640px) {
-      .register-card {
-        padding: 20px 16px;
-        border-radius: 20px;
-        gap: 18px;
+      .register-card-container {
+        padding: 18px 14px;
+        border-radius: var(--radius-md);
       }
     }
 
-    .register-header-text h1 {
-      font-size: 1.45rem;
-      font-weight: 900;
-      color: #0A2540;
-      margin-bottom: 4px;
+    /* --------------------------------------------------------------------------
+       حاوية نفاذ وأبشر (Nafath Callout & Verified Status)
+       -------------------------------------------------------------------------- */
+    .nafath-official-banner {
+      background: var(--nafath-bg);
+      border: 1.5px solid var(--nafath-green);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.06);
     }
 
-    .register-header-text p {
-      font-size: 0.86rem;
-      color: #64748B;
-      font-weight: 500;
-    }
-
-    /* شبكة اختيار فئات الحساب */
-    .section-title {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: #1E293B;
+    .nafath-banner-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 10px;
     }
 
-    .role-grid-selector {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+    .nafath-banner-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.90rem;
+      font-weight: 800;
+      color: #065F46;
     }
 
-    @media (max-width: 480px) {
-      .role-grid-selector {
-        grid-template-columns: 1fr;
-      }
+    .nafath-banner-badge {
+      background: var(--nafath-green);
+      color: #FFFFFF;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 999px;
     }
 
-    .role-option-card {
-      background: #F8FAFC;
-      border: 1.8px solid #E2E8F0;
-      border-radius: 14px;
-      padding: 12px 14px;
+    .nafath-banner-desc {
+      font-size: 0.76rem;
+      color: #047857;
+      line-height: 1.5;
+    }
+
+    /* زر توثيق نفاذ المحسن بالألوان الهادئة المعتمدة */
+    .btn-nafath-verify {
+      width: 100%;
+      height: 42px;
+      background: var(--nafath-bg);
+      border: 1.5px solid var(--nafath-green);
+      color: var(--nafath-green);
+      border-radius: var(--radius-md);
+      font-weight: 800;
+      font-size: 0.86rem;
       cursor: pointer;
       display: flex;
       align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nafath-verify:hover {
+      background: #DCFCE7;
+      box-shadow: 0 3px 10px rgba(5, 150, 105, 0.15);
+    }
+
+    /* بطاقة نجاح التوثيق بنفاذ */
+    .nafath-success-banner {
+      background: #ECFDF5;
+      border: 1.5px solid #34D399;
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 12px;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
+      animation: pulseSoft 0.4s ease;
     }
 
-    .role-option-card:hover {
-      border-color: #93C5FD;
-      background: #F0F7FF;
-      transform: translateY(-1px);
-    }
-
-    .role-option-card.active {
-      border-color: #0066FF;
-      background: #EFF6FF;
-      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.12);
-    }
-
-    .role-icon-box {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      flex-shrink: 0;
-    }
-
-    .role-option-card.active .role-icon-box {
-      background: #0066FF;
-      color: #FFFFFF;
-      border-color: #0066FF;
-    }
-
-    .role-info-text {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      text-align: right;
-    }
-
-    .role-title-main {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: #0F172A;
-    }
-
-    .role-desc-sub {
-      font-size: 0.72rem;
-      color: #64748B;
-      margin-top: 1px;
-      line-height: 1.25;
-    }
-
-    .role-active-check {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: #0066FF;
-      color: #FFFFFF;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 900;
-      position: absolute;
-      top: 10px;
-      left: 10px;
-    }
-
-    .role-option-card.active .role-active-check {
-      display: flex;
-    }
-
-    /* حقول الإدخال */
-    .form-group {
+    /* --------------------------------------------------------------------------
+       حقول النموذج (Form Inputs & Spacing)
+       -------------------------------------------------------------------------- */
+    .form-group-item {
       display: flex;
       flex-direction: column;
       gap: 5px;
     }
 
-    .form-label {
+    .form-field-label {
       font-size: 0.80rem;
       font-weight: 700;
       color: #334155;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
 
-    .form-input-box {
+    .form-input-container {
       width: 100%;
       height: 48px;
-      background: #F8FAFC;
-      border: 1.5px solid #E2E8F0;
-      border-radius: 12px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: var(--radius-md);
       padding: 0 14px;
       display: flex;
       align-items: center;
@@ -312,34 +326,21 @@
       transition: all 0.2s ease;
     }
 
-    .form-input-box:focus-within {
+    .form-input-container:focus-within {
       background: #FFFFFF;
-      border-color: #0066FF;
-      box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-focus-ring);
     }
 
-    .form-input-box.error-state {
-      border-color: #EF4444;
-      background: #FEF2F2;
-    }
-
-    .input-field-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex: 1;
-      height: 100%;
-    }
-
-    .input-icon-blue {
-      color: #0066FF;
+    .input-icon-slot {
+      color: var(--primary);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
 
-    .native-text-input {
+    .form-native-input {
       width: 100%;
       height: 100%;
       border: none;
@@ -348,40 +349,116 @@
       font-family: inherit;
       font-size: 0.90rem;
       font-weight: 600;
-      color: #0F172A;
+      color: var(--text-main);
       direction: rtl;
     }
 
-    .native-text-input::placeholder {
+    .form-native-input::placeholder {
       color: #94A3B8;
       font-weight: 400;
     }
 
-    .toggle-pass-btn {
-      background: none;
-      border: none;
-      color: #94A3B8;
+    .grid-fields-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 580px) {
+      .grid-fields-2col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       حقول رفع المستندات العصرية (Modern Dashed Upload Zone)
+       -------------------------------------------------------------------------- */
+    .modern-file-upload-box {
+      width: 100%;
+      border: 1.8px dashed #CBD5E1;
+      border-radius: var(--radius-md);
+      background: #F8FAFC;
+      padding: 12px 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .modern-file-upload-box:hover {
+      border-color: var(--primary);
+      background: #EFF6FF;
+    }
+
+    .modern-file-upload-box.has-file {
+      border-style: solid;
+      border-color: var(--nafath-green);
+      background: #ECFDF5;
+    }
+
+    .upload-icon-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
       justify-content: center;
-      padding: 4px;
-      border-radius: 6px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
     }
 
-    .toggle-pass-btn:hover {
-      color: #0066FF;
+    .modern-file-upload-box.has-file .upload-icon-circle {
+      background: var(--nafath-green);
+      color: #FFFFFF;
+      border-color: var(--nafath-green);
     }
 
-    /* زر التسجيل الأساسي */
-    .primary-submit-btn {
+    .upload-meta-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      text-align: right;
+    }
+
+    .upload-prompt-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .upload-prompt-hint {
+      font-size: 0.70rem;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    .upload-btn-pill {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      color: var(--text-main);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.74rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* --------------------------------------------------------------------------
+       زر إنشاء الحساب الأساسي
+       -------------------------------------------------------------------------- */
+    .btn-register-submit {
       width: 100%;
       height: 52px;
-      background: linear-gradient(135deg, #0056E0 0%, #0066FF 100%);
+      background: var(--primary);
       color: #FFFFFF;
       border: none;
-      border-radius: 14px;
-      font-size: 0.98rem;
+      border-radius: var(--radius-md);
+      font-size: 0.96rem;
       font-weight: 800;
       font-family: inherit;
       cursor: pointer;
@@ -389,28 +466,171 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      box-shadow: 0 6px 20px rgba(0, 102, 255, 0.28);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 14px rgba(30, 64, 175, 0.24);
+      transition: all 0.2s ease;
       margin-top: 6px;
     }
 
-    .primary-submit-btn:hover {
-      background: linear-gradient(135deg, #0047BA 0%, #0056E0 100%);
+    .btn-register-submit:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 6px 18px rgba(30, 64, 175, 0.32);
       transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.35);
     }
 
-    /* التوست والإشعارات */
-    .feedback-toast {
+    /* --------------------------------------------------------------------------
+       شاشة اختيار الفئة الكاملة (Full-Screen Category Selector View)
+       -------------------------------------------------------------------------- */
+    .category-selection-fullscreen {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #F8FAFC;
+      z-index: 500;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .category-selection-fullscreen.active {
+      display: flex;
+    }
+
+    .category-inner-container {
+      width: 100%;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 24px 20px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .category-grid-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 580px) {
+      .category-grid-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .category-role-card {
+      background: #FFFFFF;
+      border: 1.8px solid var(--input-border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .category-role-card:hover {
+      border-color: var(--primary);
+      background: #F8FAFC;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(30, 64, 175, 0.08);
+    }
+
+    .category-role-card.active-selected {
+      border-color: var(--primary);
+      background: #EFF6FF;
+      box-shadow: 0 4px 14px rgba(30, 64, 175, 0.12);
+    }
+
+    .cat-icon-circle {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: #F1F5F9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .category-role-card.active-selected .cat-icon-circle {
+      background: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .cat-text-wrap {
+      display: flex;
+      flex-direction: column;
+      text-align: right;
+    }
+
+    .cat-main-title {
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .cat-sub-desc {
+      font-size: 0.76rem;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    /* --------------------------------------------------------------------------
+       النافذة المنبثقة لنفاذ (Nafath OTP Sheet)
+       -------------------------------------------------------------------------- */
+    .nafath-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.60);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .nafath-modal-backdrop.active {
+      display: flex;
+    }
+
+    .nafath-modal-box {
+      width: 100%;
+      max-width: 440px;
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes pulseSoft {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    /* التوست */
+    .feedback-toast-msg {
       position: fixed;
       top: 24px;
       left: 50%;
       transform: translateX(-50%) translateY(-100px);
       background: #0A2540;
       color: #FFFFFF;
-      padding: 12px 22px;
-      border-radius: 14px;
-      font-size: 0.90rem;
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
       font-weight: 700;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       z-index: 9999;
@@ -422,255 +642,110 @@
       pointer-events: none;
     }
 
-    .feedback-toast.show {
+    .feedback-toast-msg.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
 
-    .feedback-toast.success { background: #059669; }
-    .feedback-toast.error { background: #DC2626; }
-
-    /* النوافذ السفلية (نفاذ والشروط) */
-    .bottom-sheet-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 1000;
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
-    }
-
-    .bottom-sheet-backdrop.active {
-      display: flex;
-    }
-
-    .bottom-sheet-content {
-      width: 100%;
-      max-width: 500px;
-      background: #FFFFFF;
-      border-radius: 28px 28px 0 0;
-      padding: 24px 20px 36px;
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.25);
-      animation: sheetSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes sheetSlideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
-
-    .sheet-drag-handle {
-      width: 44px;
-      height: 5px;
-      background: #CBD5E1;
-      border-radius: 999px;
-      margin: 0 auto 16px;
-    }
-
-    @keyframes pulseCode {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.9; }
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .role-loading-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 9999;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .role-loading-overlay.active {
-      display: flex;
-    }
+    .feedback-toast-msg.success { background: #059669; }
+    .feedback-toast-msg.error { background: #DC2626; }
   </style>
 </head>
 <body>
 
-  <!-- خلفية التموجات الانسيابية -->
-  <div class="bg-fluid-canvas" aria-hidden="true">
-    <div class="fluid-wave-top-left"></div>
-    <div class="fluid-wave-top-right"></div>
+  <!-- رسائل الإشعار التفاعلية -->
+  <div class="feedback-toast-msg" id="feedbackToast">
+    <span id="toastMsgText">تمت العملية بنجاح</span>
   </div>
 
-  <!-- التوست التفاعلي للإشعارات -->
-  <div class="feedback-toast" id="feedbackToast">
-    <span id="toastMessage">رسالة النظام</span>
-  </div>
+  <!-- الحاوية الكاملة لشاشة إنشاء الحساب (Full Page 100% Width & Height) -->
+  <div class="full-screen-register-wrapper">
 
-  <!-- شاشة التحميل عند الانتقال -->
-  <div class="role-loading-overlay" id="loadingOverlay">
-    <div style="width: 44px; height: 44px; border-radius: 50%; border: 3.5px solid rgba(0, 102, 255, 0.15); border-top-color: #0066FF; animation: spin 0.7s linear infinite;"></div>
-    <p id="loadingText" style="font-weight: 800; font-size: 0.96rem; color: #0A2540;">جاري تهيئة حسابك...</p>
-  </div>
+    <!-- 1. الهيدر العلوي النظيف يحتوي على زر "تغيير الفئة" وشارة فئة الحساب -->
+    <header class="register-sticky-header">
+      <div class="header-inner-row">
+        <!-- أزرار الإجراءات يميناً -->
+        <div class="header-left-actions">
+          <a href="welcome.html" class="header-back-link" title="الرجوع إلى تسجيل الدخول">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <span>دخول</span>
+          </a>
 
-  <!-- الصفحة الكاملة لإنشاء الحساب -->
-  <main class="register-full-page">
+          <!-- زر تغيير الفئة البارز -->
+          <button type="button" class="btn-change-category" onclick="toggleCategoryPicker(true)" title="تغيير فئة الحساب">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>تغيير الفئة</span>
+          </button>
+        </div>
 
-    <!-- 1. شريط التنقل العلوي -->
-    <header class="register-top-bar">
-      <a href="welcome.html" class="back-btn-round" title="الرجوع لصفحة تسجيل الدخول">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        <span>تسجيل الدخول</span>
-      </a>
-
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="font-weight: 900; font-size: 1.15rem; color: #0A2540;">منظومة كفو</span>
-        <div class="brand-logo-pod">ك</div>
+        <!-- شارة فئة الحساب يساراً -->
+        <div>
+          <span class="header-role-badge" id="headerRoleBadge">
+            <span id="headerRoleIcon">🏬</span>
+            <span id="headerRoleTitle">تاجر قطع غيار جديدة</span>
+          </span>
+        </div>
       </div>
     </header>
 
-    <!-- 2. بطاقة النموذج الرئيسية الكاملة -->
-    <section class="register-card">
+    <!-- 2. جسم المحتوى لنموذج التسجيل الكامل -->
+    <main class="register-content-body">
 
-      <!-- ترويسة الصفحة -->
-      <div class="register-header-text">
-        <h1>إنشاء حساب جديد</h1>
-        <p>انضم الآن إلى منظومة كفو لقطع غيار السيارات والتشاليح في المملكة العربية السعودية</p>
+      <!-- ترويسة العنوان -->
+      <div class="register-title-section">
+        <h1 id="pageMainHeading">إنشاء حساب جديد</h1>
+        <p id="pageMainSubtitle">أدخل بيانات اعتماد حسابك وتوثيقه فورياً في منظومة كفو الذكية بالمملكة</p>
       </div>
 
-      <!-- اختيار فئة الحساب التفاعلي (مباشرة في الصفحة الكاملة) -->
-      <div>
-        <div class="section-title">
-          <span>1. اختر فئة حسابك للبدء:</span>
-          <span id="selectedRoleBadge" style="background: #EFF6FF; color: #0066FF; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 800;">تاجر قطع غيار جديدة</span>
-        </div>
+      <!-- البطاقة البيضاء الكاملة للنموذج -->
+      <section class="register-card-container">
 
-        <div class="role-grid-selector">
-          <!-- تاجر قطع جديدة -->
-          <div class="role-option-card active" id="roleCard_merchant_new" onclick="selectFullPageRole('merchant_new', 'تاجر قطع غيار جديدة')">
-            <div class="role-icon-box">🏬</div>
-            <div class="role-info-text">
-              <span class="role-title-main">تاجر قطع جديدة</span>
-              <span class="role-desc-sub">محلات وموزعي القطع الأصلية والتجارية</span>
-            </div>
-            <span class="role-active-check">✓</span>
-          </div>
+        <!-- حاوية التوثيق عبر نفاذ وأبشر (تتغير حسب الفئة) -->
+        <div id="nafathSectionWrapper"></div>
 
-          <!-- تشليح وسكراب -->
-          <div class="role-option-card" id="roleCard_merchant_scrap" onclick="selectFullPageRole('merchant_scrap', 'تشليح ومستعمل (سكراب)')">
-            <div class="role-icon-box">♻️</div>
-            <div class="role-info-text">
-              <span class="role-title-main">تشليح ومستعمل</span>
-              <span class="role-desc-sub">قطع غيار التشاليح والسيارات المصدومة</span>
-            </div>
-            <span class="role-active-check">✓</span>
-          </div>
+        <!-- نموذج تسجيل البيانات الرئيسي -->
+        <form id="mainRegisterForm" onsubmit="handleRegistrationSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
 
-          <!-- مهندس ورشة -->
-          <div class="role-option-card" id="roleCard_workshop" onclick="selectFullPageRole('workshop', 'مهندس ورشة صيانة')">
-            <div class="role-icon-box">🛠️</div>
-            <div class="role-info-text">
-              <span class="role-title-main">مهندس ورشة صيانة</span>
-              <span class="role-desc-sub">طلب فوري للورش بخصم 15% فوري</span>
-            </div>
-            <span class="role-active-check">✓</span>
-          </div>
-
-          <!-- مندوب توصيل -->
-          <div class="role-option-card" id="roleCard_courier" onclick="selectFullPageRole('courier', 'مندوب توصيل لوجستي')">
-            <div class="role-icon-box">🚚</div>
-            <div class="role-info-text">
-              <span class="role-title-main">مندوب توصيل</span>
-              <span class="role-desc-sub">استلام ونقل الشحنات بأرباح مجزية</span>
-            </div>
-            <span class="role-active-check">✓</span>
-          </div>
-
-          <!-- مندوب مبيعات -->
-          <div class="role-option-card" id="roleCard_rep_oem" onclick="selectFullPageRole('rep_oem', 'مندوب مبيعات وتسويق')">
-            <div class="role-icon-box">💼</div>
-            <div class="role-info-text">
-              <span class="role-title-main">مندوب مبيعات</span>
-              <span class="role-desc-sub">إدارة عروض الأسعار والعمولات</span>
-            </div>
-            <span class="role-active-check">✓</span>
-          </div>
-
-          <!-- عميل / أفراد -->
-          <div class="role-option-card" id="roleCard_customer" onclick="selectFullPageRole('customer', 'عميل / أفراد')">
-            <div class="role-icon-box">👤</div>
-            <div class="role-info-text">
-              <span class="role-title-main">عميل / أفراد</span>
-              <span class="role-desc-sub">شراء قطع الغيار لسيارتي بضمان التوافق</span>
-            </div>
-            <span class="role-active-check">✓</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- حاوية التوثيق والسحب عبر نفاذ وأبشر 🇸🇦 -->
-      <div id="fullPageNafathContainer">
-        <!-- يتم تحديثها تلقائياً حسب الفئة المحددة -->
-      </div>
-
-      <!-- نموذج إدخال البيانات -->
-      <form id="fullRegisterForm" onsubmit="handleFullPageRegister(event)" style="display: flex; flex-direction: column; gap: 14px;">
-        
-        <div class="section-title" style="margin-bottom: 2px;">
-          <span>2. البيانات الأساسية للحساب:</span>
-        </div>
-
-        <!-- الاسم أو اسم المسؤول -->
-        <div class="form-group">
-          <label class="form-label" id="fieldLabelName">الاسم الكامل / اسم المالك المسؤول:</label>
-          <div class="form-input-box" id="nameBox">
-            <div class="input-field-right">
-              <span class="input-icon-blue">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <!-- الاسم الكامل / اسم المسؤول -->
+          <div class="form-group-item">
+            <label class="form-field-label" id="labelFullName">الاسم الكامل / اسم المسؤول:</label>
+            <div class="form-input-container">
+              <span class="input-icon-slot">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
               </span>
-              <input type="text" id="nameInput" class="native-text-input" placeholder="مثال: محمد بن ناصر السبيعي" required />
+              <input type="text" id="inputFullName" class="form-native-input" placeholder="مثال: محمد بن ناصر السبيعي" required />
             </div>
           </div>
-        </div>
 
-        <!-- حقول إضافية ديناميكية حسب الفئة المحددة -->
-        <div id="dynamicRoleFieldsWrap">
-          <!-- يتم حقنها ديناميكياً -->
-        </div>
+          <!-- الحقول الديناميكية المخصصة لكل فئة (تاجر، ورشة، كابتن...) -->
+          <div id="roleCustomFieldsContainer" style="display: flex; flex-direction: column; gap: 14px;"></div>
 
-        <!-- رقم الجوال السعودي -->
-        <div class="form-group">
-          <label class="form-label">رقم الجوال السعودي (المسجل في أبشر):</label>
-          <div class="form-input-box" id="phoneBox">
-            <div class="input-field-right">
-              <span class="input-icon-blue">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+          <!-- رقم الجوال السعودي المعتمد -->
+          <div class="form-group-item">
+            <label class="form-field-label">رقم الجوال السعودي (المسجل في أبشر):</label>
+            <div class="form-input-container">
+              <span class="input-icon-slot">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
               </span>
-              <input type="tel" id="phoneInput" class="native-text-input" placeholder="50XXXXXXX" maxlength="9" dir="ltr" style="text-align: right;" required />
-            </div>
-            <div style="display: flex; align-items: center; gap: 4px; font-weight: 800; font-size: 0.82rem; color: #0F172A; direction: ltr; padding: 2px 6px; background: #E2E8F0; border-radius: 6px;">
-              <span>🇸🇦</span>
-              <span>+966</span>
+              <input type="tel" id="inputPhone" class="form-native-input" placeholder="50XXXXXXX" maxlength="9" dir="ltr" style="text-align: right;" required />
+              <div style="display: flex; align-items: center; gap: 4px; font-weight: 800; font-size: 0.82rem; color: #0F172A; direction: ltr; padding: 2px 6px; background: #E2E8F0; border-radius: 6px;">
+                <span>🇸🇦</span>
+                <span>+966</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- المدينة / النطاق الجغرافي -->
-        <div class="form-group">
-          <label class="form-label">المدينة / المنطقة الرئيسية:</label>
-          <div class="form-input-box">
-            <div class="input-field-right">
-              <span class="input-icon-blue">📍</span>
-              <select id="citySelect" class="native-text-input" style="border: none; background: transparent; width: 100%; font-family: inherit; font-size: 0.88rem; font-weight: 700; color: #0F172A; outline: none;">
+          <!-- المدينة والموقع الجغرافي -->
+          <div class="form-group-item">
+            <label class="form-field-label">المدينة والموقع الرئيسي:</label>
+            <div class="form-input-container">
+              <span class="input-icon-slot">📍</span>
+              <select id="selectCity" class="form-native-input" style="outline: none;">
                 <option value="الرياض - الصناعية القديمة">الرياض (الصناعية القديمة)</option>
                 <option value="الرياض - مجمع تشاليح الحائر">الرياض (مجمع تشاليح الحائر)</option>
-                <option value="الرياض - شمال وشرق الرياض">الرياض (كافة الأحياء)</option>
+                <option value="الرياض - كافة الأحياء">الرياض (كافة الأحياء)</option>
                 <option value="جدة - تشاليح بريمان">جدة (تشاليح بريمان / عسفان)</option>
-                <option value="جدة - المنطقة المركزية">جدة (الصناعية الشمالية / الجنوبية)</option>
+                <option value="جدة - المنطقة الصناعية">جدة (الصناعية الشمالية / الجنوبية)</option>
                 <option value="الدمام وسيهات">المنطقة الشرقية (الدمام والخبر وسيهات)</option>
                 <option value="القصيم وبريدة">القصيم (بريدة وعنيزة وتشاليح خضيرة)</option>
                 <option value="مكة المكرمة والمدينة">مكة المكرمة والمدينة المنورة</option>
@@ -678,101 +753,174 @@
               </select>
             </div>
           </div>
-        </div>
 
-        <!-- كلمة المرور وتأكيدها -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <div class="form-group">
-            <label class="form-label">كلمة المرور:</label>
-            <div class="form-input-box" id="passwordBox">
-              <div class="input-field-right">
-                <span class="input-icon-blue">
+          <!-- كلمة المرور وتأكيدها -->
+          <div class="grid-fields-2col">
+            <div class="form-group-item">
+              <label class="form-field-label">كلمة المرور:</label>
+              <div class="form-input-container">
+                <span class="input-icon-slot">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 </span>
-                <input type="password" id="passwordInput" class="native-text-input" placeholder="••••••••" required />
+                <input type="password" id="inputPassword" class="form-native-input" placeholder="••••••••" required />
+                <button type="button" onclick="togglePassVisibility('inputPassword')" style="background:none; border:none; cursor:pointer; color:#94A3B8;">👁️</button>
               </div>
-              <button type="button" class="toggle-pass-btn" onclick="togglePass('passwordInput')">👁️</button>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label class="form-label">تأكيد كلمة المرور:</label>
-            <div class="form-input-box" id="confirmPasswordBox">
-              <div class="input-field-right">
-                <span class="input-icon-blue">
+            <div class="form-group-item">
+              <label class="form-field-label">تأكيد كلمة المرور:</label>
+              <div class="form-input-container">
+                <span class="input-icon-slot">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                 </span>
-                <input type="password" id="confirmPasswordInput" class="native-text-input" placeholder="••••••••" required />
+                <input type="password" id="inputConfirmPassword" class="form-native-input" placeholder="••••••••" required />
+                <button type="button" onclick="togglePassVisibility('inputConfirmPassword')" style="background:none; border:none; cursor:pointer; color:#94A3B8;">👁️</button>
               </div>
-              <button type="button" class="toggle-pass-btn" onclick="togglePass('confirmPasswordInput')">👁️</button>
             </div>
+          </div>
+
+          <!-- شروط الخدمة -->
+          <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 0.78rem; color: #475569; margin: 4px 0; cursor: pointer;">
+            <input type="checkbox" id="checkTerms" checked style="width: 17px; height: 17px; accent-color: var(--primary); margin-top: 2px;" />
+            <span>أوافق على <a href="#" onclick="event.preventDefault(); triggerToast('شروط الخدمة والخصوصية معتمدة وفق لوائح التجارة السعودية');" style="color: var(--primary); font-weight: 700; text-decoration: none;">شروط الاستخدام وسياسة الخصوصية</a> لمنظومة كفو</span>
+          </label>
+
+          <!-- زر إنشاء الحساب الأساسي -->
+          <button type="submit" class="btn-register-submit" id="btnSubmitRegister">
+            <span>إنشاء وتفعيل الحساب الآن 🚀</span>
+          </button>
+        </form>
+
+        <!-- تذييل الدخول -->
+        <div style="text-align: center; font-size: 0.86rem; color: var(--text-sub); border-top: 1px solid var(--input-border); padding-top: 16px;">
+          <span>لديك حساب بالفعل في كفو؟</span>
+          <a href="welcome.html" style="color: var(--primary); font-weight: 800; text-decoration: none; margin-right: 4px;">تسجيل الدخول</a>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- =========================================================================
+       شاشة اختيار الفئة الكاملة (Full-Screen Category Selection View)
+       ========================================================================= -->
+  <div class="category-selection-fullscreen" id="categorySelectionScreen">
+    <header class="register-sticky-header">
+      <div class="header-inner-row">
+        <button type="button" class="btn-change-category" onclick="toggleCategoryPicker(false)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          <span>إلغاء والعودة للنموذج</span>
+        </button>
+
+        <span style="font-size: 0.88rem; font-weight: 800; color: var(--text-main);">اختر فئة الحساب</span>
+      </div>
+    </header>
+
+    <div class="category-inner-container">
+      <div class="register-title-section">
+        <h1>فئات الحساب في كفو</h1>
+        <p>اختر الفئة المناسبة لنشاطك التجاري أو المهني لتخصيص التجربة والامتيازات الممنوحة لك:</p>
+      </div>
+
+      <div class="category-grid-cards">
+        <!-- 1. تاجر قطع غيار جديدة -->
+        <div class="category-role-card" id="catCard_merchant_new" onclick="chooseCategoryAndClose('merchant_new', 'تاجر قطع غيار جديدة', '🏬')">
+          <div class="cat-icon-circle">🏬</div>
+          <div class="cat-text-wrap">
+            <span class="cat-main-title">تاجر قطع غيار جديدة</span>
+            <span class="cat-sub-desc">محلات وموزعي القطع الأصلية والتجارية المعتمدة</span>
           </div>
         </div>
 
-        <!-- الموافقة على الشروط -->
-        <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 0.78rem; color: #475569; margin: 4px 0; cursor: pointer;">
-          <input type="checkbox" id="termsCheckbox" checked style="width: 17px; height: 17px; accent-color: #0066FF; margin-top: 2px;" />
-          <span>أوافق على <a href="#" onclick="event.preventDefault(); showToast('شروط الخدمة والخصوصية معتمدة وفق لوائح التجارة السعودية');" style="color: #0066FF; font-weight: 700; text-decoration: none;">شروط الاستخدام وسياسة الخصوصية</a> لمنظومة كفو الذكية</span>
-        </label>
-
-        <!-- زر إنشاء الحساب الأساسي -->
-        <button type="submit" class="primary-submit-btn" id="submitBtn">
-          <span>إنشاء وتفعيل الحساب الآن 🚀</span>
-        </button>
-
-      </form>
-
-      <!-- تذييل البطاقة ورابط الدخول -->
-      <div style="text-align: center; font-size: 0.86rem; color: #64748B; border-top: 1px solid #E2E8F0; padding-top: 16px;">
-        <span>لديك حساب بالفعل في كفو؟</span>
-        <a href="welcome.html" style="color: #0066FF; font-weight: 800; text-decoration: none; margin-right: 4px;">تسجيل الدخول</a>
-      </div>
-
-    </section>
-
-  </main>
-
-  <!-- نافذة نفاذ التفاعلية المنبثقة -->
-  <div class="bottom-sheet-backdrop" id="registerNafathSheetBackdrop" onclick="closeNafathModal(event)">
-    <div class="bottom-sheet-content" style="text-align: center;">
-      <div class="sheet-drag-handle"></div>
-      
-      <div style="width: 58px; height: 58px; border-radius: 50%; background: #E6F4EA; color: #007A3D; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; box-shadow: 0 4px 14px rgba(0, 122, 61, 0.15);">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-      </div>
-
-      <h3 id="nafathSheetTitle" style="color: #007A3D; font-weight: 900; font-size: 1.25rem; margin-bottom: 4px;">النفاذ الوطني الموحد</h3>
-      <p id="nafathSheetDesc" style="font-size: 0.82rem; color: #475569; max-width: 320px; margin: 0 auto 12px;">أدخل رقم الهوية الوطنية لمالك المنشأة للتحقق وسحب بيانات السجل التجاري من وزارة التجارة وأبشر</p>
-
-      <!-- Step 1: ID Input -->
-      <div id="regNafathStepOne">
-        <div style="margin: 12px 0 8px;">
-          <input type="tel" id="regNafathIdInput" class="native-text-input" placeholder="10 أرقام (مثال: 1010892176)" maxlength="10" dir="ltr" style="text-align: center; font-size: 1.15rem; font-weight: 800; height: 48px; border: 1.8px solid #CBD5E1; border-radius: 12px; width: 100%; letter-spacing: 2px;" />
+        <!-- 2. تشليح ومستعمل (سكراب) -->
+        <div class="category-role-card" id="catCard_merchant_scrap" onclick="chooseCategoryAndClose('merchant_scrap', 'تشليح ومستعمل (سكراب)', '♻️')">
+          <div class="cat-icon-circle">♻️</div>
+          <div class="cat-text-wrap">
+            <span class="cat-main-title">تشليح ومستعمل (سكراب)</span>
+            <span class="cat-sub-desc">بيع وشراء قطع غيار التشاليح والسيارات المصدومة</span>
+          </div>
         </div>
-        <div style="display: flex; gap: 6px; justify-content: center; margin-bottom: 12px;">
-          <button type="button" onclick="fillTestId('1010892176')" style="background: #F1F5F9; border: 1px dashed #94A3B8; color: #334155; font-size: 0.74rem; font-weight: 700; padding: 5px 12px; border-radius: 8px; cursor: pointer; font-family: inherit;">
+
+        <!-- 3. مهندس ورشة صيانة -->
+        <div class="category-role-card" id="catCard_workshop" onclick="chooseCategoryAndClose('workshop', 'مهندس ورشة صيانة', '🛠️')">
+          <div class="cat-icon-circle">🛠️</div>
+          <div class="cat-text-wrap">
+            <span class="cat-main-title">مهندس ورشة صيانة</span>
+            <span class="cat-sub-desc">طلب القطع الفوري للصيانة ومتابعة الإصلاحات</span>
+          </div>
+        </div>
+
+        <!-- 4. كابتن توصيل لوجستي -->
+        <div class="category-role-card" id="catCard_courier" onclick="chooseCategoryAndClose('courier', 'كابتن توصيل لوجستي', '🚚')">
+          <div class="cat-icon-circle">🚚</div>
+          <div class="cat-text-wrap">
+            <span class="cat-main-title">كابتن توصيل لوجستي</span>
+            <span class="cat-sub-desc">استلام وتوصيل طلبات القطع للعملاء والورش</span>
+          </div>
+        </div>
+
+        <!-- 5. مندوب مبيعات وتسويق -->
+        <div class="category-role-card" id="catCard_rep_oem" onclick="chooseCategoryAndClose('rep_oem', 'مندوب مبيعات وتسويق', '💼')">
+          <div class="cat-icon-circle">💼</div>
+          <div class="cat-text-wrap">
+            <span class="cat-main-title">مندوب مبيعات وتسويق</span>
+            <span class="cat-sub-desc">إدارة عروض الأسعار والطلبات الميدانية والعمولات</span>
+          </div>
+        </div>
+
+        <!-- 6. عميل / أفراد -->
+        <div class="category-role-card" id="catCard_customer" onclick="chooseCategoryAndClose('customer', 'عميل / أفراد', '👤')">
+          <div class="cat-icon-circle">👤</div>
+          <div class="cat-text-wrap">
+            <span class="cat-main-title">عميل / أفراد</span>
+            <span class="cat-sub-desc">تصفح وشراء قطع الغيار لسيارتي بضمان التوافق</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       نافذة التوثيق عبر نفاذ وأبشر (Nafath Verification Modal)
+       ========================================================================= -->
+  <div class="nafath-modal-backdrop" id="nafathModalBackdrop" onclick="closeNafathModalOnBackdrop(event)">
+    <div class="nafath-modal-box">
+      <div style="width: 54px; height: 54px; border-radius: 50%; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+      </div>
+
+      <h3 id="nafathModalTitle" style="color: #065F46; font-size: 1.15rem; font-weight: 900; margin-bottom: 4px;">النفاذ الوطني الموحد</h3>
+      <p id="nafathModalDesc" style="font-size: 0.80rem; color: #64748B; margin-bottom: 12px;">أدخل رقم الهوية الوطنية لمالك المنشأة للتحقق وسحب السجل التجاري من وزارة التجارة وأبشر</p>
+
+      <!-- الخطوة 1: إدخال رقم الهوية -->
+      <div id="nafathStep1Box">
+        <div class="form-input-container" style="margin-bottom: 8px;">
+          <input type="tel" id="inputNafathNationalId" class="form-native-input" placeholder="10 أرقام (مثال: 1010892176)" maxlength="10" dir="ltr" style="text-align: center; font-size: 1.1rem; letter-spacing: 2px;" />
+        </div>
+        <div style="display: flex; justify-content: center; margin-bottom: 12px;">
+          <button type="button" onclick="fillTestNationalId('1010892176')" style="background: #F1F5F9; border: 1px dashed #CBD5E1; color: var(--text-main); font-size: 0.74rem; font-weight: 700; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-family: inherit;">
             💡 هوية تجريبية للتاجر: 1010892176
           </button>
         </div>
       </div>
 
-      <!-- Step 2: 2-digit confirmation code -->
-      <div id="regNafathStepTwo" style="display: none;">
-        <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 14px; padding: 14px; margin: 10px 0;">
-          <p style="font-size: 0.86rem; color: #166534; font-weight: 800; margin-bottom: 6px;">افتح تطبيق نفاذ على جوالك واختر الرقم التالي:</p>
-          <div class="nafath-code-display" id="regNafathCode" style="font-size: 3.2rem; font-weight: 900; color: #007A3D; letter-spacing: 6px; padding: 6px 0; font-family: monospace; animation: pulseCode 1.5s infinite ease-in-out;">86</div>
-          <div style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #475569; font-size: 0.76rem; margin-top: 4px;">
-            <div style="width: 12px; height: 12px; border: 2px solid #CBD5E1; border-top-color: #007A3D; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-            <span>بانتظار تأكيدك واختيار الرقم في تطبيق نفاذ...</span>
-          </div>
+      <!-- الخطوة 2: كود التأكيد ثنائي الأرقام -->
+      <div id="nafathStep2Box" style="display: none; margin-bottom: 12px;">
+        <div style="background: #ECFDF5; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 12px;">
+          <p style="font-size: 0.84rem; color: #166534; font-weight: 800; margin-bottom: 6px;">افتح تطبيق نفاذ على جوالك واختر الرقم التالي:</p>
+          <div id="nafathTwoDigitDisplay" style="font-size: 3rem; font-weight: 900; color: #059669; font-family: monospace; letter-spacing: 6px; padding: 4px 0;">86</div>
+          <p style="font-size: 0.74rem; color: #64748B;">بانتظار تأكيدك وقبول الطلب في تطبيق نفاذ...</p>
         </div>
       </div>
 
-      <button type="button" class="primary-submit-btn" id="btnNafathAction" onclick="submitRegisterNafath()" style="background: #007A3D; margin-top: 10px;">
+      <button type="button" class="btn-nafath-verify" id="btnNafathModalAction" onclick="submitNafathProcess()" style="background: var(--nafath-green); color: #FFFFFF; height: 44px; margin-bottom: 8px;">
         إرسال طلب التحقق إلى تطبيق نفاذ 📲
       </button>
 
-      <button type="button" onclick="closeNafathModalDirect()" style="width: 100%; height: 40px; background: none; border: none; color: #64748B; font-size: 0.86rem; font-weight: 700; cursor: pointer; margin-top: 6px; font-family: inherit;">إلغاء</button>
+      <button type="button" onclick="closeNafathModal()" style="background: none; border: none; color: var(--text-sub); font-size: 0.84rem; font-weight: 700; cursor: pointer; font-family: inherit;">
+        إلغاء
+      </button>
     </div>
   </div>
 
@@ -780,524 +928,618 @@
   <script src="assets/js/store.js"></script>
 
   <script>
-    let currentSelectedRole = 'merchant_new';
-    let currentSelectedRoleTitle = 'تاجر قطع غيار جديدة';
-    window.currentMerchantNafathVerified = false;
-    let nafathTimer = null;
+    // -------------------------------------------------------------------------
+    // حالة التسجيل والفئة الحالية
+    // -------------------------------------------------------------------------
+    let currentRole = 'merchant_new';
+    let currentRoleTitle = 'تاجر قطع غيار جديدة';
+    let currentRoleIcon = '🏬';
+    window.isNafathVerified = false;
+    let nafathAutoTimer = null;
 
-    function togglePass(inputId) {
+    // كائن تخزين أسماء الملفات المرفوعة
+    const uploadedDocs = {
+      crFile: null,
+      taxFile: null,
+      licenseFile: null
+    };
+
+    function triggerToast(msg, type = 'success') {
+      const toast = document.getElementById('feedbackToast');
+      const text = document.getElementById('toastMsgText');
+      if (!toast || !text) return;
+      text.textContent = msg;
+      toast.className = `feedback-toast-msg show ${type}`;
+      setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+
+    function togglePassVisibility(inputId) {
       const el = document.getElementById(inputId);
       if (el) el.type = (el.type === 'password') ? 'text' : 'password';
     }
 
-    function showToast(msg, type = 'success') {
-      const toast = document.getElementById('feedbackToast');
-      const msgSpan = document.getElementById('toastMessage');
-      if (!toast || !msgSpan) return;
-      msgSpan.textContent = msg;
-      toast.className = `feedback-toast show ${type}`;
-      setTimeout(() => { toast.classList.remove('show'); }, 3000);
-    }
-
-    function selectFullPageRole(roleKey, roleTitle) {
-      currentSelectedRole = roleKey;
-      currentSelectedRoleTitle = roleTitle;
-      window.currentMerchantNafathVerified = false;
-
-      // تحديث مظهر البطاقات
-      document.querySelectorAll('.role-option-card').forEach(c => c.classList.remove('active'));
-      const activeCard = document.getElementById(`roleCard_${roleKey}`);
-      if (activeCard) activeCard.classList.add('active');
-
-      const badge = document.getElementById('selectedRoleBadge');
-      if (badge) badge.textContent = roleTitle;
-
-      updateNafathBannerForRole(roleKey);
-      updateDynamicFieldsForRole(roleKey);
-    }
-
-    function updateNafathBannerForRole(roleKey) {
-      const container = document.getElementById('fullPageNafathContainer');
-      if (!container) return;
-
-      if (roleKey === 'merchant_new' || roleKey === 'merchant_scrap') {
-        container.innerHTML = `
-          <div id="merchantNafathCalloutCard" style="background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%); border: 1.5px solid #86EFAC; border-radius: 16px; padding: 14px 16px; box-shadow: 0 4px 14px rgba(22, 101, 52, 0.08); margin-bottom: 6px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-              <div style="display: flex; align-items: center; gap: 8px; color: #166534; font-weight: 800; font-size: 0.90rem;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-                <span>التوثيق الرسمي عبر نفاذ وأبشر (Nafath) 🇸🇦</span>
-              </div>
-              <span style="background: #166534; color: #FFFFFF; font-size: 0.70rem; font-weight: 800; padding: 2px 10px; border-radius: 999px;">إلزامي لاعتماد التاجر</span>
-            </div>
-            <p style="font-size: 0.78rem; color: #15803D; line-height: 1.5; margin-bottom: 12px;">
-              وفقاً لتنظيمات وزارة التجارة، يتطلب اعتماد التاجر والتشليح توثيق الهوية وسحب بيانات السجل التجاري ورخصة البلدية آلياً عبر نفاذ.
-            </p>
-            <button type="button" onclick="openRegisterNafathModal()" style="width: 100%; height: 44px; background: #007A3D; color: #FFFFFF; border: none; border-radius: 12px; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; box-shadow: 0 4px 14px rgba(0, 122, 61, 0.25); transition: all 0.2s ease;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-              <span>توثيق الهوية وسحب بيانات السجل التجاري فورياً 🇸🇦</span>
-            </button>
-          </div>
-        `;
-      } else {
-        container.innerHTML = `
-          <button type="button" onclick="openRegisterNafathModal()" style="width: 100%; height: 44px; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; color: #166534; font-weight: 800; font-size: 0.84rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px; font-family: inherit;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-            <span>توثيق الحساب وسحب بيانات أبشر عبر نفاذ 🇸🇦</span>
-          </button>
-        `;
+    // -------------------------------------------------------------------------
+    // التحكم في شاشة اختيار الفئة الكاملة
+    // -------------------------------------------------------------------------
+    function toggleCategoryPicker(show) {
+      const screen = document.getElementById('categorySelectionScreen');
+      if (screen) {
+        if (show) {
+          screen.classList.add('active');
+          // تمييز البطاقة الحالية
+          document.querySelectorAll('.category-role-card').forEach(c => c.classList.remove('active-selected'));
+          const cur = document.getElementById(`catCard_${currentRole}`);
+          if (cur) cur.classList.add('active-selected');
+        } else {
+          screen.classList.remove('active');
+        }
       }
     }
 
-    function updateDynamicFieldsForRole(roleKey) {
-      const wrap = document.getElementById('dynamicRoleFieldsWrap');
-      const nameLabel = document.getElementById('fieldLabelName');
-      const nameInput = document.getElementById('nameInput');
-      if (!wrap) return;
+    function chooseCategoryAndClose(roleKey, roleTitle, roleIcon) {
+      currentRole = roleKey;
+      currentRoleTitle = roleTitle;
+      currentRoleIcon = roleIcon;
+      window.isNafathVerified = false;
 
+      // تحديث الهيدر وشارة الفئة
+      const badgeIcon = document.getElementById('headerRoleIcon');
+      const badgeText = document.getElementById('headerRoleTitle');
+      if (badgeIcon) badgeIcon.textContent = roleIcon;
+      if (badgeText) badgeText.textContent = roleTitle;
+
+      // تحديث العناوين ونموذج الحقول
+      renderRoleForms(roleKey);
+      toggleCategoryPicker(false);
+      triggerToast(`تم اختيار الفئة: ${roleTitle}`);
+    }
+
+    // -------------------------------------------------------------------------
+    // بناء وتحديث نموذج الحقول حسب الفئة بدقة
+    // -------------------------------------------------------------------------
+    function renderRoleForms(roleKey) {
+      const customWrap = document.getElementById('roleCustomFieldsContainer');
+      const nafathWrap = document.getElementById('nafathSectionWrapper');
+      const nameLabel = document.getElementById('labelFullName');
+      const nameInput = document.getElementById('inputFullName');
+      const pageHeading = document.getElementById('pageMainHeading');
+      const pageSub = document.getElementById('pageMainSubtitle');
+
+      if (pageHeading) pageHeading.textContent = `إنشاء حساب ${currentRoleTitle}`;
+      if (pageSub) pageSub.textContent = `أدخل بيانات اعتماد ${currentRoleTitle} وتوثيقها رسمياً في منصة كفو`;
+
+      // 1. حاوية نفاذ المعتمدة
+      if (nafathWrap) {
+        if (roleKey === 'merchant_new' || roleKey === 'merchant_scrap') {
+          nafathWrap.innerHTML = `
+            <div class="nafath-official-banner" id="nafathActiveBanner">
+              <div class="nafath-banner-header">
+                <div class="nafath-banner-title">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                  <span>التوثيق الرسمي عبر نفاذ وأبشر (Nafath) 🇸🇦</span>
+                </div>
+                <span class="nafath-banner-badge">إلزامي لاعتماد التاجر</span>
+              </div>
+              <p class="nafath-banner-desc">
+                بموجب تنظيمات وزارة التجارة، يتطلب اعتماد التاجر والتشليح توثيق الهوية وسحب بيانات السجل التجاري ورخصة البلدية آلياً عبر نفاذ.
+              </p>
+              <button type="button" class="btn-nafath-verify" onclick="openNafathModal()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                <span>توثيق الحساب وسحب السجل التجاري فورياً عبر نفاذ 🇸🇦</span>
+              </button>
+            </div>
+          `;
+        } else {
+          nafathWrap.innerHTML = `
+            <button type="button" class="btn-nafath-verify" onclick="openNafathModal()" style="margin-bottom: 4px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              <span>توثيق الحساب وسحب بيانات الهوية عبر نفاذ 🇸🇦</span>
+            </button>
+          `;
+        }
+      }
+
+      // 2. تخصيص الحقول حسب الفئة
       if (roleKey === 'merchant_new') {
         if (nameLabel) nameLabel.textContent = 'اسم التاجر أو المالك المسؤول:';
         if (nameInput) nameInput.placeholder = 'مثال: محمد بن ناصر السبيعي';
-        wrap.innerHTML = `
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-            <div class="form-group">
-              <label class="form-label">اسم المتجر / المحل التجاري:</label>
-              <div class="form-input-box">
-                <div class="input-field-right">
-                  <span class="input-icon-blue">🏬</span>
-                  <input type="text" id="customStoreName" class="native-text-input" placeholder="مثال: متجر كفو للقطع" required />
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">رقم السجل التجاري (CR):</label>
-              <div class="form-input-box">
-                <div class="input-field-right">
-                  <span class="input-icon-blue">📄</span>
-                  <input type="text" id="customCrNum" class="native-text-input" placeholder="1010892176" required />
-                </div>
-              </div>
+
+        customWrap.innerHTML = `
+          <!-- اسم المتجر / المحل -->
+          <div class="form-group-item">
+            <label class="form-field-label">اسم المتجر / المحل التجاري:</label>
+            <div class="form-input-container">
+              <span class="input-icon-slot">🏬</span>
+              <input type="text" id="customStoreName" class="form-native-input" placeholder="مثال: مؤسسة متجر كفو لقطع الغيار" required />
             </div>
           </div>
-        `;
-      } else if (roleKey === 'merchant_scrap') {
-        if (nameLabel) nameLabel.textContent = 'اسم صاحب التشليح أو المدير المسؤول:';
-        if (nameInput) nameInput.placeholder = 'مثال: سعود بن مسفر العتيبي';
-        wrap.innerHTML = `
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-            <div class="form-group">
-              <label class="form-label">اسم التشليح التجاري:</label>
-              <div class="form-input-box">
-                <div class="input-field-right">
-                  <span class="input-icon-blue">♻️</span>
-                  <input type="text" id="customScrapName" class="native-text-input" placeholder="مثال: تشاليح الحائر الكبرى" required />
-                </div>
-              </div>
+
+          <!-- رقم السجل التجاري CR -->
+          <div class="form-group-item">
+            <label class="form-field-label">رقم السجل التجاري (CR):</label>
+            <div class="form-input-container">
+              <span class="input-icon-slot">📄</span>
+              <input type="text" id="customCrNum" class="form-native-input" placeholder="مثال: 1010892176 (10 أرقام)" maxlength="10" required />
             </div>
-            <div class="form-group">
-              <label class="form-label">مجمع ومنطقة التشليح:</label>
-              <div class="form-input-box">
-                <div class="input-field-right">
-                  <span class="input-icon-blue">📍</span>
-                  <select id="customScrapZone" class="native-text-input" style="border: none; background: transparent; width: 100%; font-family: inherit; font-size: 0.86rem; font-weight: 700; outline: none;">
-                    <option value="تشاليح الحائر - الرياض">تشاليح الحائر - الرياض</option>
-                    <option value="تشاليح بريمان - جدة">تشاليح بريمان - جدة</option>
-                    <option value="تشاليح خضيرة - القصيم">تشاليح خضيرة - القصيم</option>
-                    <option value="تشاليح الدمام وسيهات">تشاليح الدمام وسيهات</option>
-                  </select>
-                </div>
+          </div>
+
+          <!-- حقل رفع صورة السجل التجاري / وثيقة العمل الحر أسفل رقم السجل مباشرة -->
+          <div class="form-group-item">
+            <label class="form-field-label">مرفق صورة السجل التجاري / وثيقة العمل الحر:</label>
+            <div class="modern-file-upload-box" id="boxCrUpload" onclick="document.getElementById('fileCrInput').click()">
+              <input type="file" id="fileCrInput" accept="image/*,.pdf" style="display:none;" onchange="handleModernFileSelect(event, 'boxCrUpload', 'crFile')" />
+              <div class="upload-icon-circle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
               </div>
+              <div class="upload-meta-info">
+                <span class="upload-prompt-title" id="title_boxCrUpload">إرفاق صورة السجل التجاري (PDF أو صورة)</span>
+                <span class="upload-prompt-hint" id="hint_boxCrUpload">اضغط للاختيار من جهازك أو اسحب الملف هنا (أقصى حجم 5 ميجابايت)</span>
+              </div>
+              <span class="upload-btn-pill">اختيار ملف</span>
+            </div>
+          </div>
+
+          <!-- حقل رقم البطاقة الضريبية -->
+          <div class="form-group-item">
+            <label class="form-field-label">رقم البطاقة الضريبية (الرقم الضريبي - VAT Number):</label>
+            <div class="form-input-container">
+              <span class="input-icon-slot">🔢</span>
+              <input type="text" id="customTaxNum" class="form-native-input" placeholder="مثال: 300123456700003 (15 رقماً)" maxlength="15" />
+            </div>
+          </div>
+
+          <!-- حقل رفع صورة البطاقة الضريبية أسفل رقم البطاقة الضريبية مباشرة -->
+          <div class="form-group-item">
+            <label class="form-field-label">مرفق صورة البطاقة الضريبية / شهادة ضريبة القيمة المضافة:</label>
+            <div class="modern-file-upload-box" id="boxTaxUpload" onclick="document.getElementById('fileTaxInput').click()">
+              <input type="file" id="fileTaxInput" accept="image/*,.pdf" style="display:none;" onchange="handleModernFileSelect(event, 'boxTaxUpload', 'taxFile')" />
+              <div class="upload-icon-circle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </div>
+              <div class="upload-meta-info">
+                <span class="upload-prompt-title" id="title_boxTaxUpload">إرفاق صورة شهادة البطاقة الضريبية</span>
+                <span class="upload-prompt-hint" id="hint_boxTaxUpload">شهادة الزكاة والضريبة والجمارك ZATCA (PDF أو صورة)</span>
+              </div>
+              <span class="upload-btn-pill">اختيار ملف</span>
             </div>
           </div>
         `;
       } else if (roleKey === 'workshop') {
         if (nameLabel) nameLabel.textContent = 'اسم مهندس الورشة أو المسؤول:';
         if (nameInput) nameInput.placeholder = 'مثال: م. سامي أحمد الشريف';
-        wrap.innerHTML = `
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-              <div class="form-group">
-                <label class="form-label">اسم مركز الصيانة / الورشة:</label>
-                <div class="form-input-box">
-                  <div class="input-field-right">
-                    <span class="input-icon-blue">🔧</span>
-                    <input type="text" id="customWorkshopName" class="native-text-input" placeholder="مثال: مركز صيانة النخبة" required />
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">تخصص أعمال الورشة:</label>
-                <div class="form-input-box">
-                  <div class="input-field-right">
-                    <span class="input-icon-blue">⚙️</span>
-                    <select id="customWorkshopSpec" class="native-text-input" style="border: none; background: transparent; width: 100%; font-family: inherit; font-size: 0.86rem; font-weight: 700; outline: none;">
-                      <option value="all">مركز صيانة متكامل (جميع التخصصات)</option>
-                      <option value="alignment">ميزان وعكوس وتربيط</option>
-                      <option value="dents">سمكرة وتعديل صاج (PDR)</option>
-                      <option value="paint">بوية ورش فرن حراري</option>
-                      <option value="mechanic">ميكانيكا وتوضيب محركات</option>
-                      <option value="electric">كهرباء وفحص كمبيوتر</option>
-                    </select>
-                  </div>
-                </div>
+
+        // مهندس ورشة صيانة: حذف صندوق التنبيه الأصفر الخاص بخصم الورشة 15% بالكامل!
+        customWrap.innerHTML = `
+          <div class="grid-fields-2col">
+            <div class="form-group-item">
+              <label class="form-field-label">اسم مركز الصيانة / الورشة:</label>
+              <div class="form-input-container">
+                <span class="input-icon-slot">🔧</span>
+                <input type="text" id="customWorkshopName" class="form-native-input" placeholder="مثال: مركز صيانة النخبة المتكامل" required />
               </div>
             </div>
-            <div style="background: #FEF3C7; color: #92400E; padding: 8px 12px; border-radius: 10px; font-size: 0.76rem; font-weight: 800;">
-              ⭐ خصم الورشة 15% فوري ومباشر على كافة قطع الغيار سيتم تفعيله في حسابك تلقائياً
+
+            <div class="form-group-item">
+              <label class="form-field-label">تخصص أعمال الورشة:</label>
+              <div class="form-input-container">
+                <span class="input-icon-slot">⚙️</span>
+                <select id="customWorkshopSpec" class="form-native-input" style="outline: none;">
+                  <option value="all">مركز صيانة متكامل (جميع التخصصات)</option>
+                  <option value="alignment">ميزان وعكوس وتربيط وهيدروليك</option>
+                  <option value="dents">سمكرة وتعديل صاج (PDR على البارد)</option>
+                  <option value="paint">بوية ورش فرن حراري</option>
+                  <option value="mechanic">ميكانيكا وتوضيب محركات وجيربوكس</option>
+                  <option value="electric">كهرباء وفحص كمبيوتر وبرمجة</option>
+                </select>
+              </div>
             </div>
           </div>
         `;
       } else if (roleKey === 'courier') {
         if (nameLabel) nameLabel.textContent = 'اسم كابتن التوصيل الرباعي:';
         if (nameInput) nameInput.placeholder = 'مثال: أحمد بن خالد القحطاني';
-        wrap.innerHTML = `
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-            <div class="form-group">
-              <label class="form-label">نوع وموديل مركبة التوصيل:</label>
-              <div class="form-input-box">
-                <div class="input-field-right">
-                  <span class="input-icon-blue">🛻</span>
-                  <input type="text" id="customVehicle" class="native-text-input" placeholder="مثال: هايلوكس وانيت 2023" required />
-                </div>
+
+        // كابتن التوصيل: إضافة حقل رفع صورة رخصة القيادة أسفل رقم وحروف اللوحة مباشرة
+        customWrap.innerHTML = `
+          <div class="grid-fields-2col">
+            <div class="form-group-item">
+              <label class="form-field-label">نوع وموديل مركبة التوصيل:</label>
+              <div class="form-input-container">
+                <span class="input-icon-slot">🛻</span>
+                <input type="text" id="customVehicle" class="form-native-input" placeholder="مثال: تويوتا هايلوكس 2023 (وانيت)" required />
               </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">رقم وحروف اللوحة:</label>
-              <div class="form-input-box">
-                <div class="input-field-right">
-                  <span class="input-icon-blue">🔢</span>
-                  <input type="text" id="customPlate" class="native-text-input" placeholder="مثال: ق ح ط 7788" required />
-                </div>
+
+            <div class="form-group-item">
+              <label class="form-field-label">رقم وحروف لوحة المركبة:</label>
+              <div class="form-input-container">
+                <span class="input-icon-slot">🔢</span>
+                <input type="text" id="customPlate" class="form-native-input" placeholder="مثال: ق ح ط 7788" required />
               </div>
+            </div>
+          </div>
+
+          <!-- حقل رفع صورة رخصة القيادة أسفل رقم وحروف اللوحة مباشرة -->
+          <div class="form-group-item">
+            <label class="form-field-label">مرفق صورة رخصة القيادة (سارية المفعول):</label>
+            <div class="modern-file-upload-box" id="boxLicenseUpload" onclick="document.getElementById('fileLicenseInput').click()">
+              <input type="file" id="fileLicenseInput" accept="image/*,.pdf" style="display:none;" onchange="handleModernFileSelect(event, 'boxLicenseUpload', 'licenseFile')" />
+              <div class="upload-icon-circle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><line x1="15" y1="8" x2="17" y2="8"/><line x1="15" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="17" y2="16"/></svg>
+              </div>
+              <div class="upload-meta-info">
+                <span class="upload-prompt-title" id="title_boxLicenseUpload">إرفاق صورة رخصة القيادة للكابتن</span>
+                <span class="upload-prompt-hint" id="hint_boxLicenseUpload">صورة واضحة للرخصة من الجهة الأمامية (JPG أو PNG أو PDF)</span>
+              </div>
+              <span class="upload-btn-pill">اختيار ملف</span>
+            </div>
+          </div>
+        `;
+      } else if (roleKey === 'merchant_scrap') {
+        if (nameLabel) nameLabel.textContent = 'اسم صاحب التشليح أو المدير المسؤول:';
+        if (nameInput) nameInput.placeholder = 'مثال: سعود بن مسفر العتيبي';
+
+        customWrap.innerHTML = `
+          <div class="grid-fields-2col">
+            <div class="form-group-item">
+              <label class="form-field-label">اسم التشليح التجاري:</label>
+              <div class="form-input-container">
+                <span class="input-icon-slot">♻️</span>
+                <input type="text" id="customScrapName" class="form-native-input" placeholder="مثال: تشاليح الحائر الكبرى" required />
+              </div>
+            </div>
+
+            <div class="form-group-item">
+              <label class="form-field-label">مجمع ومنطقة التشليح:</label>
+              <div class="form-input-container">
+                <span class="input-icon-slot">📍</span>
+                <select id="customScrapZone" class="form-native-input" style="outline: none;">
+                  <option value="تشاليح الحائر - الرياض">تشاليح الحائر - الرياض</option>
+                  <option value="تشاليح بريمان - جدة">تشاليح بريمان - جدة</option>
+                  <option value="تشاليح خضيرة - القصيم">تشاليح خضيرة - القصيم</option>
+                  <option value="تشاليح الدمام وسيهات">تشاليح الدمام وسيهات</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group-item">
+            <label class="form-field-label">مرفق صورة رخصة البلدية / السجل التجاري للتشليح:</label>
+            <div class="modern-file-upload-box" id="boxScrapUpload" onclick="document.getElementById('fileScrapInput').click()">
+              <input type="file" id="fileScrapInput" accept="image/*,.pdf" style="display:none;" onchange="handleModernFileSelect(event, 'boxScrapUpload', 'scrapFile')" />
+              <div class="upload-icon-circle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              </div>
+              <div class="upload-meta-info">
+                <span class="upload-prompt-title" id="title_boxScrapUpload">إرفاق رخصة البلدية أو السجل</span>
+                <span class="upload-prompt-hint" id="hint_boxScrapUpload">وثيقة رخصة مجمع التشليح المعتمدة (PDF أو صورة)</span>
+              </div>
+              <span class="upload-btn-pill">اختيار ملف</span>
             </div>
           </div>
         `;
       } else if (roleKey === 'rep_oem') {
         if (nameLabel) nameLabel.textContent = 'اسم مندوب المبيعات الميداني:';
         if (nameInput) nameInput.placeholder = 'مثال: فهد بن عبدالله السبيعي';
-        wrap.innerHTML = `
-          <div class="form-group">
-            <label class="form-label">الموزع أو الوكالة التابع لها:</label>
-            <div class="form-input-box">
-              <div class="input-field-right">
-                <span class="input-icon-blue">🏢</span>
-                <input type="text" id="customSupplier" class="native-text-input" placeholder="مثال: مستودع العبيكان لقطع الغيار" required />
-              </div>
+        customWrap.innerHTML = `
+          <div class="form-group-item">
+            <label class="form-field-label">الموزع أو الوكالة التابع لها:</label>
+            <div class="form-input-container">
+              <span class="input-icon-slot">🏢</span>
+              <input type="text" id="customSupplier" class="form-native-input" placeholder="مثال: مستودع العبيكان لقطع الغيار" required />
             </div>
           </div>
         `;
       } else {
         if (nameLabel) nameLabel.textContent = 'الاسم الكامل:';
         if (nameInput) nameInput.placeholder = 'مثال: عبدالله بن فهد التميمي';
-        wrap.innerHTML = `
-          <div class="form-group">
-            <label class="form-label">نوع سيارتك الحالية (اختياري لتخصيص القطع):</label>
-            <div class="form-input-box">
-              <div class="input-field-right">
-                <span class="input-icon-blue">🚗</span>
-                <input type="text" id="customCar" class="native-text-input" placeholder="مثال: تويوتا كامري 2025" />
-              </div>
+        customWrap.innerHTML = `
+          <div class="form-group-item">
+            <label class="form-field-label">نوع سيارتك الحالية (اختياري لتخصيص قطع الغيار):</label>
+            <div class="form-input-container">
+              <span class="input-icon-slot">🚗</span>
+              <input type="text" id="customCar" class="form-native-input" placeholder="مثال: تويوتا كامري 2025" />
             </div>
           </div>
         `;
       }
     }
 
-    // دوال نفاذ الوطني الموحد التفاعلية
-    function openRegisterNafathModal() {
-      const stepOne = document.getElementById('regNafathStepOne');
-      const stepTwo = document.getElementById('regNafathStepTwo');
-      const btn = document.getElementById('btnNafathAction');
-      const title = document.getElementById('nafathSheetTitle');
-      const desc = document.getElementById('nafathSheetDesc');
-      const idInput = document.getElementById('regNafathIdInput');
+    // -------------------------------------------------------------------------
+    // معالجة اختيار الملفات وعرض المعاينة الأنيقة
+    // -------------------------------------------------------------------------
+    function handleModernFileSelect(event, boxId, docKey) {
+      const file = event.target.files[0];
+      if (!file) return;
 
-      if (currentSelectedRole === 'merchant_scrap') {
-        title.textContent = 'نفاذ | توثيق تشليح وسحب السجل التجاري والبلدية';
-        desc.textContent = 'أدخل رقم الهوية الوطنية لمالك المنشأة للتحقق وسحب رخصة البلدية والسجل المعتمد';
+      uploadedDocs[docKey] = file.name;
+
+      const box = document.getElementById(boxId);
+      const titleEl = document.getElementById(`title_${boxId}`);
+      const hintEl = document.getElementById(`hint_${boxId}`);
+
+      if (box) box.classList.add('has-file');
+      if (titleEl) {
+        titleEl.innerHTML = `<span style="color:#059669; font-weight:800;">✓ تم إرفاق: ${file.name}</span>`;
+      }
+      if (hintEl) {
+        const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+        hintEl.textContent = `حجم الملف: ${sizeMb} MB • جاهز للرفع والاعتماد`;
+      }
+
+      triggerToast(`تم اختيار الملف: ${file.name}`, 'success');
+    }
+
+    // -------------------------------------------------------------------------
+    // منطق النفاذ الوطني الموحد التفاعلي
+    // -------------------------------------------------------------------------
+    function openNafathModal() {
+      const step1 = document.getElementById('nafathStep1Box');
+      const step2 = document.getElementById('nafathStep2Box');
+      const btn = document.getElementById('btnNafathModalAction');
+      const idInput = document.getElementById('inputNafathNationalId');
+
+      if (currentRole === 'merchant_scrap') {
         idInput.value = '1020304050';
-      } else if (currentSelectedRole === 'merchant_new') {
-        title.textContent = 'نفاذ | توثيق التاجر وسحب السجل التجاري';
-        desc.textContent = 'أدخل رقم الهوية الوطنية لمالك المنشأة للتحقق وسحب بيانات السجل التجاري من وزارة التجارة وأبشر';
-        idInput.value = '1010892176';
       } else {
-        title.textContent = 'النفاذ الوطني الموحد';
-        desc.textContent = 'أدخل رقم الهوية الوطنية لتسجيل وتوثيق الحساب عبر تطبيق نفاذ';
         idInput.value = '1010892176';
       }
 
-      stepOne.style.display = 'block';
-      stepTwo.style.display = 'none';
-      btn.textContent = 'إرسال طلب التحقق إلى تطبيق نفاذ 📲';
-      btn.style.background = '#007A3D';
+      if (step1) step1.style.display = 'block';
+      if (step2) step2.style.display = 'none';
+      if (btn) {
+        btn.textContent = 'إرسال طلب التحقق إلى تطبيق نفاذ 📲';
+        btn.style.background = '#059669';
+      }
 
-      document.getElementById('registerNafathSheetBackdrop').classList.add('active');
+      document.getElementById('nafathModalBackdrop').classList.add('active');
     }
 
-    function closeNafathModal(e) {
-      if (e.target === document.getElementById('registerNafathSheetBackdrop')) closeNafathModalDirect();
+    function closeNafathModal() {
+      if (nafathAutoTimer) clearTimeout(nafathAutoTimer);
+      document.getElementById('nafathModalBackdrop').classList.remove('active');
     }
 
-    function closeNafathModalDirect() {
-      if (nafathTimer) clearTimeout(nafathTimer);
-      document.getElementById('registerNafathSheetBackdrop').classList.remove('active');
+    function closeNafathModalOnBackdrop(e) {
+      if (e.target === document.getElementById('nafathModalBackdrop')) closeNafathModal();
     }
 
-    function fillTestId(num) {
-      const el = document.getElementById('regNafathIdInput');
-      if (el) { el.value = num; el.focus(); }
+    function fillTestNationalId(idNum) {
+      const el = document.getElementById('inputNafathNationalId');
+      if (el) { el.value = idNum; el.focus(); }
     }
 
-    function submitRegisterNafath() {
-      const idVal = document.getElementById('regNafathIdInput').value.trim();
+    function submitNafathProcess() {
+      const idVal = document.getElementById('inputNafathNationalId').value.trim();
       if (!idVal || idVal.length < 10) {
-        showToast('يرجى إدخال رقم هوية وطنية صحيح (10 أرقام)', 'error');
+        triggerToast('يرجى إدخال رقم هوية وطنية صحيح (10 أرقام)', 'error');
         return;
       }
 
-      const stepOne = document.getElementById('regNafathStepOne');
-      const stepTwo = document.getElementById('regNafathStepTwo');
-      const btn = document.getElementById('btnNafathAction');
-      const codeDisplay = document.getElementById('regNafathCode');
+      const step1 = document.getElementById('nafathStep1Box');
+      const step2 = document.getElementById('nafathStep2Box');
+      const btn = document.getElementById('btnNafathModalAction');
+      const codeEl = document.getElementById('nafathTwoDigitDisplay');
 
-      if (stepTwo.style.display === 'none') {
-        stepOne.style.display = 'none';
-        stepTwo.style.display = 'block';
-        const randomCode = Math.floor(10 + Math.random() * 89);
-        codeDisplay.textContent = randomCode;
+      if (step2.style.display === 'none') {
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+        const randomPin = Math.floor(10 + Math.random() * 89);
+        codeEl.textContent = randomPin;
         btn.textContent = 'تأكيد قبول الطلب في تطبيق نفاذ (متابعة) ✓';
         btn.style.background = '#15803D';
-        showToast(`تم إرسال الطلب! افتح تطبيق نفاذ واختر الرقم [${randomCode}]`, 'success');
+        triggerToast(`تم إرسال الطلب! افتح تطبيق نفاذ واختر الرقم [${randomPin}]`, 'success');
 
-        if (nafathTimer) clearTimeout(nafathTimer);
-        nafathTimer = setTimeout(() => {
-          if (document.getElementById('registerNafathSheetBackdrop').classList.contains('active')) {
-            confirmNafathSuccess();
+        if (nafathAutoTimer) clearTimeout(nafathAutoTimer);
+        nafathAutoTimer = setTimeout(() => {
+          if (document.getElementById('nafathModalBackdrop').classList.contains('active')) {
+            finalizeNafathAuth();
           }
         }, 2400);
 
       } else {
-        confirmNafathSuccess();
+        finalizeNafathAuth();
       }
     }
 
-    function confirmNafathSuccess() {
-      if (nafathTimer) clearTimeout(nafathTimer);
-      closeNafathModalDirect();
+    function finalizeNafathAuth() {
+      if (nafathAutoTimer) clearTimeout(nafathAutoTimer);
+      closeNafathModal();
 
-      const nameInput = document.getElementById('nameInput');
-      const phoneInput = document.getElementById('phoneInput');
-      const passInput = document.getElementById('passwordInput');
-      const confirmInput = document.getElementById('confirmPasswordInput');
-      const container = document.getElementById('fullPageNafathContainer');
+      const nameInput = document.getElementById('inputFullName');
+      const phoneInput = document.getElementById('inputPhone');
+      const passInput = document.getElementById('inputPassword');
+      const confirmInput = document.getElementById('inputConfirmPassword');
+      const nafathWrap = document.getElementById('nafathSectionWrapper');
 
-      let ownerName = 'محمد بن ناصر السبيعي';
-      let phoneNum = '509876543';
-      let crNum = '1010892176';
-      let storeName = 'مؤسسة متجر كفو لقطع الغيار المعتمدة';
+      let owner = 'محمد بن ناصر السبيعي';
+      let phone = '509876543';
+      let cr = '1010892176';
+      let store = 'مؤسسة متجر كفو لقطع الغيار المعتمدة';
 
-      if (currentSelectedRole === 'merchant_scrap') {
-        ownerName = 'سعود بن مسفر العتيبي';
-        phoneNum = '501089201';
-        crNum = 'SCRAP-101077412';
-        storeName = 'تشاليح الحائر الكبرى (سعود العتيبي)';
+      if (currentRole === 'merchant_scrap') {
+        owner = 'سعود بن مسفر العتيبي';
+        phone = '501089201';
+        cr = 'SCRAP-101077412';
+        store = 'تشاليح الحائر الكبرى (سعود العتيبي)';
         const s = document.getElementById('customScrapName');
-        if (s) s.value = storeName;
-      } else if (currentSelectedRole === 'merchant_new') {
+        if (s) s.value = store;
+      } else if (currentRole === 'merchant_new') {
         const st = document.getElementById('customStoreName');
-        const cr = document.getElementById('customCrNum');
-        if (st) st.value = storeName;
-        if (cr) cr.value = crNum;
-      } else if (currentSelectedRole === 'workshop') {
-        ownerName = 'م. سامي أحمد الشريف';
-        phoneNum = '551234567';
+        const c = document.getElementById('customCrNum');
+        const tax = document.getElementById('customTaxNum');
+        if (st) st.value = store;
+        if (c) c.value = cr;
+        if (tax) tax.value = '300123456700003';
+      } else if (currentRole === 'workshop') {
+        owner = 'م. سامي أحمد الشريف';
+        phone = '551234567';
         const ws = document.getElementById('customWorkshopName');
         if (ws) ws.value = 'مركز صيانة النخبة المتكامل';
-      } else if (currentSelectedRole === 'courier') {
-        ownerName = 'أحمد بن خالد القحطاني';
-        phoneNum = '551234567';
+      } else if (currentRole === 'courier') {
+        owner = 'أحمد بن خالد القحطاني';
+        phone = '551234567';
         const v = document.getElementById('customVehicle');
         const p = document.getElementById('customPlate');
         if (v) v.value = 'تويوتا هايلوكس 2023 (وانيت)';
         if (p) p.value = 'ق ح ط 7788';
       }
 
-      if (nameInput) nameInput.value = ownerName;
-      if (phoneInput) phoneInput.value = phoneNum;
+      if (nameInput) nameInput.value = owner;
+      if (phoneInput) phoneInput.value = phone;
       if (passInput && !passInput.value) passInput.value = 'Kafu@2026';
       if (confirmInput && !confirmInput.value) confirmInput.value = 'Kafu@2026';
 
-      window.currentMerchantNafathVerified = true;
+      window.isNafathVerified = true;
 
-      // إظهار بطاقة التوثيق المعتمدة في الصفحة الكاملة
-      if (container) {
-        container.innerHTML = `
-          <div style="background: linear-gradient(135deg, #ECFDF5 0%, #DCFCE7 100%); border: 1.5px solid #34D399; border-radius: 16px; padding: 14px 16px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15); animation: pulseCode 0.5s ease; margin-bottom: 6px;">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 38px; height: 38px; border-radius: 50%; background: #10B981; color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; flex-shrink: 0;">✓</div>
-                <div>
-                  <div style="font-weight: 900; color: #065F46; font-size: 0.90rem;">تم التوثيق وسحب السجل التجاري عبر نفاذ 🇸🇦</div>
-                  <div style="font-size: 0.78rem; color: #047857; margin-top: 2px;">
-                    السجل التجاري: <strong style="font-family: monospace; font-size: 0.86rem;">${crNum}</strong> (نشط ومعتمد لدى وزارة التجارة)
-                  </div>
-                  <div style="font-size: 0.74rem; color: #065F46; opacity: 0.9; margin-top: 1px;">
-                    المالك المسجل: <span>${ownerName}</span> | جوال أبشر: <span>0${phoneNum}</span>
-                  </div>
+      // تحديث شارة نفاذ الخضراء الهادئة في الصفحة
+      if (nafathWrap) {
+        nafathWrap.innerHTML = `
+          <div class="nafath-success-banner">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 36px; height: 36px; border-radius: 50%; background: #059669; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; flex-shrink: 0;">✓</div>
+              <div>
+                <div style="font-weight: 900; color: #065F46; font-size: 0.88rem;">تم التوثيق وسحب السجل التجاري عبر نفاذ 🇸🇦</div>
+                <div style="font-size: 0.74rem; color: #047857; margin-top: 1px;">
+                  السجل التجاري: <strong style="font-family: monospace;">${cr}</strong> (سجل نشط ومعتمد لدى وزارة التجارة)
                 </div>
               </div>
-              <span style="background: #10B981; color: white; font-size: 0.72rem; font-weight: 800; padding: 4px 10px; border-radius: 999px;">موثق أبشر ✓</span>
             </div>
+            <span style="background: #059669; color: #FFFFFF; font-size: 0.70rem; font-weight: 800; padding: 4px 10px; border-radius: 999px;">موثق أبشر ✓</span>
           </div>
         `;
       }
 
-      showToast('تمت المصادقة وسحب بيانات السجل والمنشأة عبر نفاذ وأبشر بنجاح! 🇸🇦', 'success');
+      triggerToast('تمت المصادقة وسحب بيانات السجل والمنشأة عبر نفاذ وأبشر بنجاح! 🇸🇦', 'success');
     }
 
-    function handleFullPageRegister(event) {
+    // -------------------------------------------------------------------------
+    // إرسال النموذج وحفظ الملف التعريفي
+    // -------------------------------------------------------------------------
+    function handleRegistrationSubmit(event) {
       if (event) event.preventDefault();
 
-      const nameVal = document.getElementById('nameInput').value.trim();
-      const phoneVal = document.getElementById('phoneInput').value.trim();
-      const cityVal = document.getElementById('citySelect').value;
-      const passVal = document.getElementById('passwordInput').value;
-      const confirmVal = document.getElementById('confirmPasswordInput').value;
-      const termsBox = document.getElementById('termsCheckbox');
+      const nameVal = document.getElementById('inputFullName').value.trim();
+      const phoneVal = document.getElementById('inputPhone').value.trim();
+      const cityVal = document.getElementById('selectCity').value;
+      const passVal = document.getElementById('inputPassword').value;
+      const confirmVal = document.getElementById('inputConfirmPassword').value;
+      const termsBox = document.getElementById('checkTerms');
 
       if (!nameVal) {
-        showToast('يرجى إدخال الاسم الكامل أو اسم المسؤول', 'error');
+        triggerToast('يرجى إدخال الاسم الكامل أو اسم المسؤول', 'error');
         return;
       }
       if (phoneVal.length < 8) {
-        showToast('يرجى إدخال رقم جوال سعودي صحيح', 'error');
+        triggerToast('يرجى إدخال رقم جوال سعودي صحيح', 'error');
         return;
       }
       if (passVal.length < 6) {
-        showToast('كلمة المرور يجب أن لا تقل عن 6 خانات', 'error');
+        triggerToast('كلمة المرور يجب أن لا تقل عن 6 خانات', 'error');
         return;
       }
       if (passVal !== confirmVal) {
-        showToast('كلمتا المرور غير متطابقتين', 'error');
+        triggerToast('كلمتا المرور غير متطابقتين', 'error');
         return;
       }
       if (!termsBox.checked) {
-        showToast('يرجى الموافقة على شروط الاستخدام وسياسة الخصوصية', 'error');
+        triggerToast('يرجى الموافقة على شروط الاستخدام وسياسة الخصوصية', 'error');
         return;
       }
 
-      // إذا كان تاجر جديد أو تشليح ولم يوثق عبر نفاذ
-      if ((currentSelectedRole === 'merchant_new' || currentSelectedRole === 'merchant_scrap') && !window.currentMerchantNafathVerified) {
-        openRegisterNafathModal();
-        showToast('تنبيه نظامي: يرجى استكمال التوثيق عبر نفاذ وسحب السجل التجاري لاعتماد حساب التاجر', 'error');
+      // إذا كان تاجر جديد أو تشليح ولم يوثق عبر نفاذ، نوجهه للتوثيق أولاً
+      if ((currentRole === 'merchant_new' || currentRole === 'merchant_scrap') && !window.isNafathVerified) {
+        openNafathModal();
+        triggerToast('تنبيه نظامي: يرجى استكمال التوثيق عبر نفاذ وسحب السجل التجاري لاعتماد التاجر', 'error');
         return;
       }
 
-      // تجهيز ملف التعريف وحفظه
+      // تجهيز كائن البروفايل
       const profile = {
         name: nameVal,
         phone: '+966' + phoneVal,
         city: cityVal,
-        role: currentSelectedRole,
-        roleTitle: currentSelectedRoleTitle,
+        role: currentRole,
+        roleTitle: currentRoleTitle,
         isNafathVerified: true,
         nafathVerifiedAt: new Date().toISOString(),
         verificationBadge: 'موثق رسمياً عبر نفاذ وأبشر ✓',
-        registeredAt: new Date().toISOString()
+        registeredAt: new Date().toISOString(),
+        uploadedDocuments: uploadedDocs
       };
 
-      if (currentSelectedRole === 'merchant_new') {
+      if (currentRole === 'merchant_new') {
         const st = document.getElementById('customStoreName');
         const cr = document.getElementById('customCrNum');
+        const tax = document.getElementById('customTaxNum');
         profile.storeName = st ? st.value : 'مؤسسة متجر كفو لقطع الغيار المعتمدة';
         profile.crNumber = cr ? cr.value : '1010892176';
+        profile.taxNumber = tax ? tax.value : '300123456700003';
         profile.crStatus = 'سجل تجاري نشط ومعتمد لدى وزارة التجارة';
-      } else if (currentSelectedRole === 'merchant_scrap') {
+      } else if (currentRole === 'merchant_scrap') {
         const s = document.getElementById('customScrapName');
         const zone = document.getElementById('customScrapZone');
-        profile.scrapName = s ? s.value : 'تشاليح الحائر الكبرى (سعود العتيبي)';
+        profile.scrapName = s ? s.value : 'تشاليح الحائر الكبرى';
         profile.scrapZone = zone ? zone.value : 'تشاليح الحائر - الرياض';
         profile.crNumber = 'SCRAP-101077412';
         profile.crStatus = 'رخصة تشليح وسجل نشط ومعتمد';
-      } else if (currentSelectedRole === 'workshop') {
+      } else if (currentRole === 'workshop') {
         const ws = document.getElementById('customWorkshopName');
         const spec = document.getElementById('customWorkshopSpec');
         profile.workshopName = ws ? ws.value : 'مركز صيانة النخبة';
         profile.specialization = spec ? spec.value : 'all';
-      } else if (currentSelectedRole === 'courier') {
+      } else if (currentRole === 'courier') {
         const v = document.getElementById('customVehicle');
         const p = document.getElementById('customPlate');
         profile.vehicle = v ? v.value : 'تويوتا هايلوكس 2023';
         profile.plate = p ? p.value : 'ق ح ط 7788';
-      } else if (currentSelectedRole === 'rep_oem') {
+      } else if (currentRole === 'rep_oem') {
         const sup = document.getElementById('customSupplier');
         profile.supplier = sup ? sup.value : 'مستودع العبيكان لقطع الغيار';
       }
 
       localStorage.setItem('kafu_user_profile', JSON.stringify(profile));
-      localStorage.setItem('kafu_user_role', currentSelectedRole);
+      localStorage.setItem('kafu_user_role', currentRole);
       sessionStorage.setItem('kafu_splash_passed', 'true');
 
       if (window.KafuStore && KafuStore.setRole) {
-        KafuStore.setRole(currentSelectedRole);
+        KafuStore.setRole(currentRole);
       }
 
-      // مزامنة حالة التوثيق مع نظام مستندات التاجر
-      try {
-        if (window.KafuMerchantVerification && KafuMerchantVerification.loadStoredDocs) {
-          const docs = KafuMerchantVerification.loadStoredDocs();
-          if (docs.cr) {
-            docs.cr.status = 'verified';
-            docs.cr.statusText = 'موثق نفاذ ✓';
-            docs.cr.number = profile.crNumber || '1010892176';
-          }
-          if (docs.national_id) {
-            docs.national_id.status = 'verified';
-            docs.national_id.statusText = 'موثق أبشر ✓';
-          }
-          KafuMerchantVerification.saveDocs(docs);
-        }
-      } catch(e) {}
-
-      showToast(`تم إنشاء وتوثيق حسابك بنجاح! مرحباً بك يا ${nameVal}`, 'success');
-
-      const overlay = document.getElementById('loadingOverlay');
-      const text = document.getElementById('loadingText');
-      if (overlay && text) {
-        text.textContent = `مرحباً بك ${nameVal}، جاري نقلك إلى لوحة التحكم...`;
-        overlay.classList.add('active');
-      }
+      triggerToast(`تم إنشاء وتوثيق حسابك بنجاح! مرحباً بك يا ${nameVal}`, 'success');
 
       setTimeout(() => {
-        if (currentSelectedRole === 'merchant_new' || currentSelectedRole === 'merchant_scrap') {
+        if (currentRole === 'merchant_new' || currentRole === 'merchant_scrap') {
           window.location.href = 'merchant-orders.html';
-        } else if (currentSelectedRole === 'workshop') {
+        } else if (currentRole === 'workshop') {
           window.location.href = 'workshop-portal.html';
-        } else if (currentSelectedRole === 'courier') {
+        } else if (currentRole === 'courier') {
           window.location.href = 'courier-portal.html';
         } else {
           window.location.href = 'index.html';
         }
-      }, 600);
+      }, 700);
     }
 
-    // تهيئة الصفحة عند التحميل
+    // -------------------------------------------------------------------------
+    // تهيئة الصفحة وقراءة معلمات الرابط عند التحميل
+    // -------------------------------------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
-      // قراءة الفئة المطلوبة من معلمات الرابط إن وجدت (مثال: register.html?role=workshop)
       const urlParams = new URLSearchParams(window.location.search);
       const reqRole = urlParams.get('role');
-      if (reqRole && ['customer', 'merchant_new', 'merchant_scrap', 'workshop', 'courier', 'rep_oem'].includes(reqRole)) {
-        const titles = {
-          customer: 'عميل / أفراد',
-          merchant_new: 'تاجر قطع غيار جديدة',
-          merchant_scrap: 'تشليح ومستعمل (سكراب)',
-          workshop: 'مهندس ورشة صيانة',
-          courier: 'مندوب توصيل لوجستي',
-          rep_oem: 'مندوب مبيعات وتسويق'
-        };
-        selectFullPageRole(reqRole, titles[reqRole]);
+      const roleMap = {
+        merchant_new: { title: 'تاجر قطع غيار جديدة', icon: '🏬' },
+        workshop: { title: 'مهندس ورشة صيانة', icon: '🛠️' },
+        courier: { title: 'كابتن توصيل لوجستي', icon: '🚚' },
+        merchant_scrap: { title: 'تشليح ومستعمل (سكراب)', icon: '♻️' },
+        rep_oem: { title: 'مندوب مبيعات وتسويق', icon: '💼' },
+        customer: { title: 'عميل / أفراد', icon: '👤' }
+      };
+
+      if (reqRole && roleMap[reqRole]) {
+        chooseCategoryAndClose(reqRole, roleMap[reqRole].title, roleMap[reqRole].icon);
       } else {
-        selectFullPageRole('merchant_new', 'تاجر قطع غيار جديدة');
+        chooseCategoryAndClose('merchant_new', 'تاجر قطع غيار جديدة', '🏬');
       }
     });
   </script>
